@@ -2,11 +2,23 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  label, input, button{
+    @apply block
+  }
+}
+
 @layer components {
   .add-new-step-index-active {
     @apply w-8 h-8 text-center leading-8 bg-black text-white rounded-full
   }
   .add-new-step-index {
     @apply w-8 h-8 text-center leading-8 bg-gray-400 text-gray-600 rounded-full
+  }
+  .add-new-input {
+    @apply border border-black rounded-lg px-4 py-3;
+  }
+  .add-new-input-block {
+    @apply flex-1 flex flex-col gap-2;
   }
 }
