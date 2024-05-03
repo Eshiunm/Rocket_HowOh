@@ -21,4 +21,7 @@
   .add-new-input-block {
     @apply flex-1 flex flex-col gap-2;
   }
+  .add-new-input-unit {
+    @apply relative after:w-auto after:h-auto after:absolute after:right-3 after:bottom-3 after:z-10;
+  }
 }
