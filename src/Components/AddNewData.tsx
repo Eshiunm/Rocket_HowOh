@@ -1,5 +1,6 @@
 import { useForm } from "react-hook-form";
 import cities from "../constants/locations/cities";
+import houseTypes from "../constants/houseTypes";
 
 export default function AddNewData() {
   const { register, handleSubmit, formState: {errors}, watch } = useForm();
@@ -58,11 +59,25 @@ export default function AddNewData() {
             </div>
             <div className="add-new-input-block">
               <label htmlFor="houseFloor" className="text-sm">樓層</label>
-              <input type="text" id="houseFloor" className="add-new-input" placeholder="23" {...register("houseFloor")} />
+              <input type="number" id="houseFloor" className="add-new-input" placeholder="23" {...register("houseFloor", { min: 1})} />
             </div>
             <div className="add-new-input-block">
               <label htmlFor="houseTotalFloors" className="text-sm">總樓數</label>
-              <input type="text" id="houseTotalFloors" className="add-new-input" placeholder="23" {...register("houseTotalFloors")} />
+              <input type="number" id="houseTotalFloors" className="add-new-input" placeholder="23" {...register("houseTotalFloors", { min: 1})} />
+            </div>
+          </div>
+          <div className="flex gap-6">
+            <div className="add-new-input-block">
+              <label htmlFor="houseType" className="text-sm">類型</label>
+              <select id="houseType" className="add-new-input" {...register("houseType", { required: true })}>
+                {
+                  houseTypes.map((type) => <option value={type} key={type} >{type}</option>)
+                }
+              </select>
+            </div>
+            <div className="add-new-input-block after:content-['坪'] add-new-input-unit">
+              <label htmlFor="houseArea" className="text-sm">承租坪數</label>
+              <input type="number" id="houseArea" className="add-new-input" placeholder="承租坪數" {...register("houseArea", { required: true, min: 1 })} />
             </div>
           </div>
           <button type="submit" className="self-start px-4 py-2 bg-slate-700 rounded-3xl text-white">下一步</button>
