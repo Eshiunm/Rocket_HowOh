@@ -2,7 +2,8 @@ import { useForm } from "react-hook-form";
 import cities from "../constants/locations/cities";
 
 export default function AddNewData() {
-  const { register, handleSubmit, formState: {errors} } = useForm();
+  const { register, handleSubmit, formState: {errors}, watch } = useForm();
+  const houseLoate = watch("houseLoate");
   const onSubmit = (data) => console.log(data);
 
   return (
@@ -16,10 +17,9 @@ export default function AddNewData() {
           </div>
           <div className="flex gap-6">
             <div className="add-new-input-block">
-              <label htmlFor="houseCity" className="text-sm">縣市</label>
-              <select id="houseCity" className="add-new-input" {...register("houseCity", { required: true })}>
+              <label htmlFor="houseLoate" className="text-sm">縣市</label>
+              <select id="houseLoate" className="add-new-input" {...register("houseLoate", { required: true })}>
                 {
-
                   cities.map(({city}) => {
                     let isSelected;
                     if (city === "高雄市") {
@@ -32,7 +32,12 @@ export default function AddNewData() {
             </div>
             <div className="add-new-input-block">
               <label htmlFor="houseDistrict" className="text-sm">區域</label>
-              <input type="text" id="houseDistrict" className="add-new-input" placeholder="新興區" {...register("houseDistrict", { required: true })} />
+              {/* <input type="text" id="houseDistrict" className="add-new-input" placeholder="新興區" {...register("houseDistrict", { required: true })} /> */}
+              <select id="houseDistrict" className="add-new-input" {...register("houseDistrict", { required: true })}>
+                {
+                  cities.filter(({city}) => city === "高雄市")[0].districts.map((district) => <option value={district} key={district} >{district}</option>)
+                }
+              </select>
             </div>
             <div className="add-new-input-block">
               <label htmlFor="houseStreet" className="text-sm">路街</label>
