@@ -80,6 +80,46 @@ export default function AddNewData() {
               <input type="number" id="houseArea" className="add-new-input" placeholder="承租坪數" {...register("houseArea", { required: true, min: 1 })} />
             </div>
           </div>
+          <div className="add-new-input-block">
+            <label htmlFor="houseLayout" className="text-sm">格局</label>
+            <div id="houseLayout" className="flex gap-6">
+              <div className="w-full after:content-['房'] add-new-input-unit after:right-11">
+                <select id="houseRoom" className="w-full add-new-input" {...register("houseRoom", { required: true })}>
+                {
+                  [1,2,3,4,5].map((amount) => <option value={amount} key={amount} >{amount}</option>)
+                }
+                </select>
+              </div>
+              <div className="w-full after:content-['廳'] add-new-input-unit after:right-11">
+                <select id="houseRoom" className="w-full add-new-input" {...register("houseRoom", { required: true })}>
+                {
+                  [1,2,3,4,5].map((amount) => <option value={amount} key={amount} >{amount}</option>)
+                }
+                </select>
+              </div>
+              <div className="w-full after:content-['衛浴'] add-new-input-unit after:right-11">
+                <select id="houseRoom" className="w-full add-new-input" {...register("houseRoom", { required: true })}>
+                {
+                  [1,2,3,4,5].map((amount) => <option value={amount} key={amount} >{amount}</option>)
+                }
+                </select>
+              </div>
+              <div className="w-full after:content-['陽台'] add-new-input-unit after:right-11">
+                <select id="houseRoom" className="w-full add-new-input" {...register("houseRoom", { required: true })}>
+                {
+                  [1,2,3,4,5].map((amount) => <option value={amount} key={amount} >{amount}</option>)
+                }
+                </select>
+              </div>
+              <div className="w-full after:content-['車位'] add-new-input-unit after:right-11">
+                <select id="houseRoom" className="w-full add-new-input" {...register("houseRoom", { required: true })}>
+                {
+                  [1,2,3,4,5].map((amount) => <option value={amount} key={amount} >{amount}</option>)
+                }
+                </select>
+              </div>
+            </div>
+          </div>
           <button type="submit" className="self-start px-4 py-2 bg-slate-700 rounded-3xl text-white">下一步</button>
         </form>
         {
