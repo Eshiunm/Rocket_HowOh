@@ -1,9 +1,8 @@
 import { createContext, useState } from "react";
 import AddNewData from "../Components/AddNewData";
 import AddNewProcedure from "../Components/AddNewProcedure";
-{/* <Route path="/landlord-management-add-new" element={<LandlordManagementAddNew />}></Route> */}
 
-export const ProcedureContext = createContext();
+export const ProcedureContext = createContext({});
 
 export default function LandlordManagementAddNew() {
   const procedureList = [
@@ -67,12 +66,24 @@ export default function LandlordManagementAddNew() {
     setProcedure(newProcedure);
   }
 
+  const handleProcedureDone = (num: number) => {
+    const newProcedure = [...procedure];
+    newProcedure[num].isDone = true;
+    setProcedure(newProcedure);
+  };
+
+  const contextValue = {
+    procedure,
+    handleProcedureDone,
+    handleProcedureClick,
+  }
+
   return (
-    <ProcedureContext.Provider value={handleProcedureClick}>
+    <ProcedureContext.Provider value={contextValue}>
     <div className="container max-w-5xl mx-auto">
       <div className="flex">
-        <AddNewProcedure procedure={procedure} />
-        <AddNewData procedure={procedure} />
+        <AddNewProcedure />
+        <AddNewData />
       </div>
     </div>
     </ProcedureContext.Provider>

@@ -1,3 +1,5 @@
+import { useContext } from "react";
+import { ProcedureContext } from "../Pages/LandlordManagementAddNew";
 import BasicInformation from "./Posts/BasicInformation";
 import Photos from "./Posts/Photos";
 import Features from "./Posts/Features";
@@ -7,9 +9,10 @@ import DepositAndRent from "./Posts/DepositAndRent";
 import Introduction from "./Posts/Introduction";
 import Restrictions from "./Posts/Restrictions";
 
-export default function AddNewData({procedure}) {
+export default function AddNewData() {
+  const { procedure } = useContext(ProcedureContext);
   const { title } = procedure.filter( (item) => item.isActive)[0];
-  console.log(title)
+
   return (
     <main className="p-6 grow">
       <div className="p-6">
@@ -36,25 +39,7 @@ export default function AddNewData({procedure}) {
         }
         {
           title === "租客限制" && <Restrictions />
-        }
-        {/* <BasicInformation />
-        <Photos />
-        <Features />
-        <Equipments />
-        <OtherExpenses />
-        <DepositAndRent />
-        <Introduction />
-        <Restrictions /> */}
-        {
-          // switch === step1 &&  <基本資料的form/>
-          // switch === step1 &&  <基本資料的form/>
-          // switch === step1 &&  <基本資料的form/>
-          // switch === step1 &&  <基本資料的form/>
-          // switch === step1 &&  <基本資料的form/>
-          // switch === step1 &&  <基本資料的form/>
-          // switch === step1 &&  <基本資料的form/>
-        }
-        
+        }        
       </div>
     </main>
   );

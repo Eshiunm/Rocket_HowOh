@@ -27,4 +27,7 @@
   .add-new-btn {
     @apply self-start mt-12 px-4 py-2 bg-slate-700 rounded-3xl text-white;
   }
+  .add-new-title {
+    @apply text-3xl mb-6;
+  }
 }

@@ -7,14 +7,15 @@ import { ProcedureContext } from "../../Pages/LandlordManagementAddNew";
 export default function BasicInformation() {
   const { register, handleSubmit, formState: {errors}, watch } = useForm();
   // const houseLoate = watch("houseLoate");
-  const handleProcedure = useContext(ProcedureContext);
+  const { handleProcedureClick, handleProcedureDone } = useContext(ProcedureContext);
   const onSubmit = (data) => {
-    handleProcedure("房源照片")
+    handleProcedureDone(0);
+    handleProcedureClick("房源照片")
   };
 
   return (
     <form className="flex flex-col gap-6" onSubmit={handleSubmit(onSubmit)}>
-      <h3 className="text-3xl mb-6">基本資訊</h3>
+      <h3 className="add-new-title">基本資訊</h3>
       <div className="add-new-input-block">
         <label htmlFor="houseTitle" className="text-sm">名稱</label>
         <input type="text" id="houseTitle" className="add-new-input" placeholder="信義國小套房 捷運3分鐘" {...register("houseTitle", { required: true })} />
