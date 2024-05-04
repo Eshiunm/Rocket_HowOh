@@ -1,7 +1,31 @@
+import { useContext } from "react";
+import { useForm } from "react-hook-form";
+import { ProcedureContext } from "../../Pages/LandlordManagementAddNew";
+
 export default function Photos() {
+  const { register, handleSubmit, formState: {errors}, watch } = useForm();
+  const { handleProcedureClick } = useContext(ProcedureContext);
+  const onSubmit = (data) => {
+    handleProcedureClick("特色")
+  };
+
   return (
-    <div>
-      <h3>房源照片</h3>
-    </div>
+    <form className="flex flex-col items-start gap-6" onSubmit={handleSubmit(onSubmit)}>
+      <button type="submit" className="add-new-back-btn">上一步</button>
+      <h3 className="add-new-title">房源照片</h3>
+      <button className="border border-black w-80 h-80 flex flex-col justify-center items-center gap-6">
+        <h4>上傳圖片</h4>
+        <div className="add-new-btn">瀏覽檔案</div>
+      </button>
+      <div className="flex flex-wrap gap-3">
+        <div className="w-80 h-80 border-8 border-gray-500"></div>
+        <div className="w-80 h-80 border-8 border-gray-500"></div>
+        <div className="w-80 h-80 border-8 border-gray-500"></div>
+        <div className="w-80 h-80 border-8 border-gray-500"></div>
+        <div className="w-80 h-80 border-8 border-gray-500"></div>
+        <div className="w-80 h-80 border-8 border-gray-500"></div>
+      </div>
+      <button type="submit" className="add-new-btn add-new-next-btn">下一步</button>
+    </form>
   );
 }

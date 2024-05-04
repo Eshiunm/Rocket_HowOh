@@ -124,7 +124,7 @@ export default function BasicInformation() {
           </div>
         </div>
       </div>
-      <button type="submit" className="add-new-btn">下一步</button>
+      <button type="submit" className="add-new-btn add-new-next-btn">下一步</button>
     </form>
   );
 }

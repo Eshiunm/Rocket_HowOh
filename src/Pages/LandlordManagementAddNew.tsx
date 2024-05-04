@@ -80,7 +80,7 @@ export default function LandlordManagementAddNew() {
 
   return (
     <ProcedureContext.Provider value={contextValue}>
-    <div className="container max-w-5xl mx-auto">
+    <div className="container mx-auto">
       <div className="flex">
         <AddNewProcedure />
         <AddNewData />
