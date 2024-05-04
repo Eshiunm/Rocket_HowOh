@@ -72,7 +72,7 @@ export default function LandlordManagementAddNew() {
     <div className="container max-w-5xl mx-auto">
       <div className="flex">
         <AddNewProcedure procedure={procedure} />
-        <AddNewData />
+        <AddNewData procedure={procedure} />
       </div>
     </div>
     </ProcedureContext.Provider>

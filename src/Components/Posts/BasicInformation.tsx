@@ -1,15 +1,16 @@
+import { useContext } from "react";
 import { useForm } from "react-hook-form";
 import cities from "../../constants/locations/cities";
 import houseTypes from "../../constants/houseTypes";
-import { useContext } from "react";
 import { ProcedureContext } from "../../Pages/LandlordManagementAddNew";
 
 export default function BasicInformation() {
   const { register, handleSubmit, formState: {errors}, watch } = useForm();
-  const houseLoate = watch("houseLoate");
-  const onSubmit = (data) => console.log(data);
-
+  // const houseLoate = watch("houseLoate");
   const handleProcedure = useContext(ProcedureContext);
+  const onSubmit = (data) => {
+    handleProcedure("房源照片")
+  };
 
   return (
     <form className="flex flex-col gap-6" onSubmit={handleSubmit(onSubmit)}>
@@ -122,11 +123,7 @@ export default function BasicInformation() {
           </div>
         </div>
       </div>
-      <button type="submit" className="add-new-btn" onClick={() => handleProcedure("房源照片")}>下一步</button>
+      <button type="submit" className="add-new-btn">下一步</button>
     </form>
-    // <main className="p-6 grow">
-    //   <div className="p-6">
-    //   </div>
-    // </main>
   );
 }
