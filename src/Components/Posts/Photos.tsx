@@ -4,8 +4,9 @@ import { ProcedureContext } from "../../Pages/LandlordManagementAddNew";
 
 export default function Photos() {
   const { register, handleSubmit, formState: {errors}, watch } = useForm();
-  const { handleProcedureClick } = useContext(ProcedureContext);
+  const { handleProcedureClick, handleProcedureDone } = useContext(ProcedureContext);
   const onSubmit = (data) => {
+    handleProcedureDone(1);
     handleProcedureClick("特色")
   };
 
