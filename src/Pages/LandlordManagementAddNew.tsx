@@ -1,7 +1,9 @@
-import { useState } from "react";
+import { createContext, useState } from "react";
 import AddNewData from "../Components/AddNewData";
 import AddNewProcedure from "../Components/AddNewProcedure";
 {/* <Route path="/landlord-management-add-new" element={<LandlordManagementAddNew />}></Route> */}
+
+export const ProcedureContext = createContext();
 
 export default function LandlordManagementAddNew() {
   const procedureList = [
@@ -48,12 +50,31 @@ export default function LandlordManagementAddNew() {
   ];
   const [procedure, setProcedure] = useState(procedureList);
 
+  const handleProcedureClick = (title: string) => {
+    const newProcedure = procedure.map((item) => {
+      if (item.title === title) {
+        return {
+          ...item,
+          isActive: true,
+        };
+      } else {
+        return {
+          ...item,
+          isActive: false,
+        };
+      }
+    });
+    setProcedure(newProcedure);
+  }
+
   return (
+    <ProcedureContext.Provider value={handleProcedureClick}>
     <div className="container max-w-5xl mx-auto">
       <div className="flex">
-        <AddNewProcedure procedure={procedure} setProcedure={setProcedure} />
+        <AddNewProcedure procedure={procedure} />
         <AddNewData />
       </div>
     </div>
+    </ProcedureContext.Provider>
   );
 }
