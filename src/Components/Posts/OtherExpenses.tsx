@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { useForm } from "react-hook-form";
 import { ProcedureContext } from "../../Pages/LandlordManagementAddNew";
-import { waterBill } from "../../constants/forPay";
+import { electricBill, managementFee, waterBill } from "../../constants/forPay";
 import RadioSelect from "../RadioSelect";
 
 export default function OtherExpenses() {
@@ -17,11 +17,29 @@ export default function OtherExpenses() {
     <form className="flex flex-col gap-6" onSubmit={handleSubmit(onSubmit)}>
       <button type="button" className="self-start add-new-back-btn"  onClick={() => handleProcedureClick("設備")}>上一步</button>
       <h3 className="add-new-title">雜支</h3>
-      <div>
+      <div className="border-b pb-12 mb-12">
         <h4 className="add-new-small-title">水費</h4>
         <fieldset className="flex gap-6" >
           {
-            waterBill.map((option) => <RadioSelect option={option} register={register} key={option.id} />)
+            waterBill.map((option) => <RadioSelect option={option} register={register} key={option.id + option.type} />)
+          }
+        </fieldset>
+        {/* 還需要補特定狀況出現輸入框 */}
+      </div>
+      <div className="border-b pb-12 mb-12">
+        <h4 className="add-new-small-title">電費</h4>
+        <fieldset className="flex gap-6" >
+          {
+            electricBill.map((option) => <RadioSelect option={option} register={register} key={option.id + option.type} />)
+          }
+        </fieldset>
+        {/* 還需要補特定狀況出現輸入框 */}
+      </div>
+      <div>
+        <h4 className="add-new-small-title">管理費</h4>
+        <fieldset className="flex gap-6" >
+          {
+            managementFee.map((option) => <RadioSelect option={option} register={register} key={option.id + option.type} />)
           }
         </fieldset>
         {/* 還需要補特定狀況出現輸入框 */}
