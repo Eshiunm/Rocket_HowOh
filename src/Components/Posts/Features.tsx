@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { ProcedureContext } from "../../Pages/LandlordManagementAddNew";
 import CheckBox from "../CheckBox";
 import { houseFeatures, mainFeatures, nearByFacilities, transportations } from "../../constants/featureList";
-import CheckToShowInput from "./CheckToShowInput";
+import CheckToShowInput from "../CheckToShowInput";
 
 export default function Features() {
   const { register, handleSubmit, formState: {errors} } = useForm();
