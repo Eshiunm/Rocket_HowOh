@@ -12,7 +12,7 @@ export default {
       lg: "960px",
       xl: "1140px",
       "2xl": "1400px",
-      "3xl": "1608px",
+      "3xl": "1632px",
     },
     extend: {},
   },
