@@ -36,4 +36,10 @@
   .add-new-title {
     @apply text-3xl;
   }
+  .add-new-small-title {
+    @apply text-base font-bold mb-6;
+  }
+  .option-label {
+    @apply flex gap-2 mb-3;
+  }
 }
