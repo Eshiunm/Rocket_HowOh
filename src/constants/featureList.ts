@@ -82,4 +82,47 @@ const transportations = [
   },
 ];
 
-export { mainFeatures, nearByFacilities, houseFeatures, transportations };
+const equipments = [
+  {
+    id: "airConditioner",
+    title: "冷氣",
+  },
+  {
+    id: "washingMachine",
+    title: "洗衣機",
+  },
+  {
+    id: "refrigerator",
+    title: "冰箱",
+  },
+  {
+    id: "closet",
+    title: "衣櫃",
+  },
+  {
+    id: "chair",
+    title: "桌椅",
+  },
+  {
+    id: "waterHeater",
+    title: "熱水器",
+  },
+  {
+    id: "internet",
+    title: "網路",
+  },
+  {
+    id: "bed",
+    title: "床",
+  },
+  {
+    id: "elevator",
+    title: "電梯",
+  },
+  {
+    id: "television",
+    title: "電視",
+  },
+];
+
+export { mainFeatures, nearByFacilities, houseFeatures, transportations, equipments };
