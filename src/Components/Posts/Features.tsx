@@ -3,13 +3,14 @@ import { useForm } from "react-hook-form";
 import { ProcedureContext } from "../../Pages/LandlordManagementAddNew";
 import CheckBox from "../CheckBox";
 import { houseFeatures, mainFeatures, nearByFacilities, transportations } from "../../constants/featureList";
+import CheckToShowInput from "./CheckToShowInput";
 
 export default function Features() {
   const { register, handleSubmit, formState: {errors} } = useForm();
   const { handleProcedureClick, handleProcedureDone } = useContext(ProcedureContext);
   const onSubmit = (data) => {
-    handleProcedureDone(2);
-    handleProcedureClick("特色")
+    handleProcedureDone(3);
+    handleProcedureClick("設備");
   };
 
   return (
@@ -41,9 +42,9 @@ export default function Features() {
         </div>
         <div>
           <h4 className="add-new-small-title">交通</h4>
-          <div className="flex justify-between">
+          <div className="flex gap-6">
           {
-            transportations.map(({ id, title }) => <CheckBox id={id} title={title} register={register} key={id} />)
+            transportations.map(({ id, title }) => <CheckToShowInput id={id} title={title} register={register} key={id} />)
           }
           </div>
         </div>
