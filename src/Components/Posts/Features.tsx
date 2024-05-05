@@ -9,13 +9,13 @@ export default function Features() {
   const { register, handleSubmit, formState: {errors} } = useForm();
   const { handleProcedureClick, handleProcedureDone } = useContext(ProcedureContext);
   const onSubmit = (data) => {
-    handleProcedureDone(3);
+    handleProcedureDone(2);
     handleProcedureClick("設備");
   };
 
   return (
     <form className="flex flex-col gap-6" onSubmit={handleSubmit(onSubmit)}>
-      <button type="submit" className="self-start add-new-back-btn">上一步</button>
+      <button type="button" className="self-start add-new-back-btn"  onClick={() => handleProcedureClick("房源照片")}>上一步</button>
       <h3 className="add-new-title">重點特色</h3>
       <div>
         {

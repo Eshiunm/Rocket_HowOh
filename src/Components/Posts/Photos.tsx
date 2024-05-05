@@ -7,12 +7,12 @@ export default function Photos() {
   const { handleProcedureClick, handleProcedureDone } = useContext(ProcedureContext);
   const onSubmit = (data) => {
     handleProcedureDone(1);
-    handleProcedureClick("特色")
+    handleProcedureClick("特色");
   };
 
   return (
     <form className="flex flex-col items-start gap-6" onSubmit={handleSubmit(onSubmit)}>
-      <button type="submit" className="add-new-back-btn">上一步</button>
+      <button type="button" className="add-new-back-btn" onClick={() => handleProcedureClick("基本資訊")}>上一步</button>
       <h3 className="add-new-title">房源照片</h3>
       <button className="border border-black w-80 h-80 flex flex-col justify-center items-center gap-6">
         <h4>上傳圖片</h4>
