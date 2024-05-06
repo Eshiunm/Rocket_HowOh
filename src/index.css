@@ -9,6 +9,8 @@
     margin-left: auto;
     padding-right: 12px;
     padding-left: 12px;
+  }
+  .layout-grid {
     /*以下為網格系統必要屬性*/
     display: grid;
     grid-template-columns: repeat(12, minmax(0, 1fr));
