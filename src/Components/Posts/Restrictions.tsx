@@ -2,6 +2,7 @@ import { useContext } from "react";
 import { useForm } from "react-hook-form";
 import { ProcedureContext } from "../../Pages/LandlordManagementAddNew";
 import RadioSelect from "../RadioSelect";
+import { occupations } from "../../constants/occupations";
 
 export default function Restrictions() {
   const { register, handleSubmit, formState: {errors} } = useForm();
@@ -34,7 +35,15 @@ export default function Restrictions() {
       </div>
       <div>
         <h4 className="add-new-small-title">排除職業</h4>
-          <h5 className="mb-2 text-sm">職業1</h5>
+          <div className="mb-3">
+            <label htmlFor="occupationRestriction" className="mb-2 text-sm">職業1</label>
+            <select name="occupationRestriction" id="occupationRestriction" className="add-new-input ">
+              {
+                occupations.map((occupation) => <option key={occupation.id} value={occupation.id}>{occupation.title}</option>)
+              }
+            </select>
+          </div>
+          <button type="button" className="add-new-back-btn">新增職業</button>
       </div>
       <button type="submit" className="add-new-btn add-new-next-btn">下一步</button>
     </form>
