@@ -24,7 +24,10 @@ export default function OtherExpenses() {
             waterBill.map((option) => <RadioSelect option={option} register={register} key={option.id + option.type} />)
           }
         </fieldset>
-        {/* 還需要補特定狀況出現輸入框 */}
+        <div className="after:content-['元'] add-new-input-unit">
+          <label htmlFor="waterForEachMonth" className="py-1">每月</label>
+          <input type="number" id="waterForEachMonth" className="add-new-input" />
+        </div>
       </div>
       <div className="border-b pb-12 mb-12">
         <h4 className="add-new-small-title">電費</h4>
@@ -33,7 +36,17 @@ export default function OtherExpenses() {
             electricBill.map((option) => <RadioSelect option={option} register={register} key={option.id + option.type} />)
           }
         </fieldset>
-        {/* 還需要補特定狀況出現輸入框 */}
+        <div className="after:content-['元'] add-new-input-unit">
+          <label htmlFor="electricForEachDegree" className="py-1">每度</label>
+          <input type="number" id="electricForEachDegree" className="add-new-input" />
+        </div>
+        <div>
+          <label htmlFor="electricPay" className="py-1">繳納方式</label>
+          <fieldset id="electricPay" className="flex gap-6">
+            <RadioSelect option={{ id:"payWithRent", title:"隨房租繳納", type:"electric" }} register={register} key="electricPayWithRent" />
+            <RadioSelect option={{ id:"paySelf", title:"自行繳納", type:"electric" }} register={register} key="electricPaySelf" />
+          </fieldset>
+        </div>
       </div>
       <div>
         <h4 className="add-new-small-title">管理費</h4>
@@ -42,7 +55,10 @@ export default function OtherExpenses() {
             managementFee.map((option) => <RadioSelect option={option} register={register} key={option.id + option.type} />)
           }
         </fieldset>
-        {/* 還需要補特定狀況出現輸入框 */}
+        <div className="after:content-['元'] add-new-input-unit">
+          <p className="py-1">每月</p>
+          <input type="number" className="add-new-input" />
+        </div>
       </div>
       <button type="submit" className="add-new-btn add-new-next-btn">下一步</button>
     </form>
