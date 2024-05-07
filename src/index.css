@@ -10,9 +10,6 @@
     /*以下為網格系統必要屬性*/
     @apply grid grid-cols-12 gap-6;
   }
-}
-
-@layer base {
   label, input, button{
     @apply block
   }
