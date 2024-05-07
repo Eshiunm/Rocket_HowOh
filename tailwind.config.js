@@ -80,6 +80,103 @@ export default {
           99: "#FFFBFF",
         },
       },
+      fontSize: {
+        "dela-display1": ["64px",{
+            lineHeight: "1.5",
+            letterSpacing: "2em",
+          }],
+        "dela-display2": ["56px",{
+            lineHeight: "1.5",
+            letterSpacing: "2em",
+          }],
+        "dela-display3": ["40px",{
+            lineHeight: "1.5",
+            letterSpacing: "2em",
+          }],
+        "dela-display4": ["32px",{
+            lineHeight: "1.5",
+            letterSpacing: "2em",
+          }],
+        "sans-display1": ["64px",{
+            lineHeight: "1.2",
+            letterSpacing: "2em",
+          }],
+        "sans-display2": ["48px",{
+            lineHeight: "1.2",
+            letterSpacing: "2em",
+          }],
+        "sans-h1": ["40px",{
+            lineHeight: "1.2",
+            letterSpacing: "2em",
+          }],
+        "sans-h2": ["38px",{
+            lineHeight: "1.2",
+            letterSpacing: "2em",
+          }],
+        "sans-h3": ["32px",{
+            lineHeight: "1.2",
+            letterSpacing: "2em",
+          }],
+        "sans-h4": ["28px",{
+            lineHeight: "1.2",
+            letterSpacing: "2em",
+          }],
+        "sans-h5": ["24px",{
+            lineHeight: "1.2",
+            letterSpacing: "2em",
+          }],
+        "sans-h6": ["20px",{
+            lineHeight: "1.2",
+            letterSpacing: "2em",
+          }],
+        "sans-body1": ["16px", "1.5"],
+        "sans-body2": ["14px", "1.5"],
+        "sans-caption": ["12px", "1.5"],
+        "sans-b-display1": ["64px",{
+            lineHeight: "1.2",
+            letterSpacing: "2em",
+          }],
+        "sans-b-display2": ["48px",{
+            lineHeight: "1.2",
+            letterSpacing: "2em",
+          }],
+        "sans-b-h1": ["40px",{
+            lineHeight: "1.2",
+            letterSpacing: "2em",
+          }],
+        "sans-b-h2": ["38px",{
+            lineHeight: "1.2",
+            letterSpacing: "2em",
+          }],
+        "sans-b-h3": ["32px",{
+            lineHeight: "1.2",
+            letterSpacing: "2em",
+          }],
+        "sans-b-h4": ["28px",{
+            lineHeight: "1.2",
+            letterSpacing: "2em",
+          }],
+        "sans-b-h5": ["24px",{
+            lineHeight: "1.2",
+            letterSpacing: "2em",
+          }],
+        "sans-b-h6": ["20px",{
+            lineHeight: "1.2",
+            letterSpacing: "2em",
+          }],
+        "sans-b-body1": ["16px", {
+            lineHeight: "1.5",
+            letterSpacing: "2em",
+          }],
+        "sans-b-body2": ["14px", {
+            lineHeight: "1.5",
+            letterSpacing: "2em",
+          }],
+        "sans-b-caption": ["12px", {
+            lineHeight: "1.5",
+            letterSpacing: "2em",
+          }],
+      },
     },
   },
   plugins: [flow_bite.plugin()],
