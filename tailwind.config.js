@@ -14,6 +14,7 @@ export default {
     },
     fontFamily: {
       "Dela-Gothic-One": ["Dela Gothic One", "sans-serif"],
+      "Noto-Sans-TC": ["Noto Sans TC", "sans-serif"],
     },
     extend: {
       colors: {
@@ -84,101 +85,171 @@ export default {
         },
       },
       fontSize: {
-        "dela-display1": ["64px",{
+        "dela-display1": [
+          "64px",
+          {
             lineHeight: "1.5",
             letterSpacing: "2em",
-          }],
-        "dela-display2": ["56px",{
+          },
+        ],
+        "dela-display2": [
+          "56px",
+          {
             lineHeight: "1.5",
             letterSpacing: "2em",
-          }],
-        "dela-display3": ["40px",{
+          },
+        ],
+        "dela-display3": [
+          "40px",
+          {
             lineHeight: "1.5",
             letterSpacing: "2em",
-          }],
-        "dela-display4": ["32px",{
+          },
+        ],
+        "dela-display4": [
+          "32px",
+          {
             lineHeight: "1.5",
             letterSpacing: "0.04em",
-          }],
-        "sans-display1": ["64px",{
+          },
+        ],
+        "sans-display1": [
+          "64px",
+          {
             lineHeight: "1.2",
             letterSpacing: "2em",
-          }],
-        "sans-display2": ["48px",{
+          },
+        ],
+        "sans-display2": [
+          "48px",
+          {
             lineHeight: "1.2",
             letterSpacing: "2em",
-          }],
-        "sans-h1": ["40px",{
+          },
+        ],
+        "sans-h1": [
+          "40px",
+          {
             lineHeight: "1.2",
             letterSpacing: "2em",
-          }],
-        "sans-h2": ["38px",{
+          },
+        ],
+        "sans-h2": [
+          "38px",
+          {
             lineHeight: "1.2",
             letterSpacing: "2em",
-          }],
-        "sans-h3": ["32px",{
+          },
+        ],
+        "sans-h3": [
+          "32px",
+          {
             lineHeight: "1.2",
             letterSpacing: "2em",
-          }],
-        "sans-h4": ["28px",{
+          },
+        ],
+        "sans-h4": [
+          "28px",
+          {
             lineHeight: "1.2",
             letterSpacing: "2em",
-          }],
-        "sans-h5": ["24px",{
+          },
+        ],
+        "sans-h5": [
+          "24px",
+          {
             lineHeight: "1.2",
             letterSpacing: "2em",
-          }],
-        "sans-h6": ["20px",{
+          },
+        ],
+        "sans-h6": [
+          "20px",
+          {
             lineHeight: "1.2",
             letterSpacing: "2em",
-          }],
+          },
+        ],
         "sans-body1": ["16px", "1.5"],
         "sans-body2": ["14px", "1.5"],
         "sans-caption": ["12px", "1.5"],
-        "sans-b-display1": ["64px",{
+        "sans-b-display1": [
+          "64px",
+          {
             lineHeight: "1.2",
             letterSpacing: "2em",
-          }],
-        "sans-b-display2": ["48px",{
+          },
+        ],
+        "sans-b-display2": [
+          "48px",
+          {
             lineHeight: "1.2",
             letterSpacing: "2em",
-          }],
-        "sans-b-h1": ["40px",{
+          },
+        ],
+        "sans-b-h1": [
+          "40px",
+          {
             lineHeight: "1.2",
             letterSpacing: "2em",
-          }],
-        "sans-b-h2": ["38px",{
+          },
+        ],
+        "sans-b-h2": [
+          "38px",
+          {
             lineHeight: "1.2",
             letterSpacing: "2em",
-          }],
-        "sans-b-h3": ["32px",{
+          },
+        ],
+        "sans-b-h3": [
+          "32px",
+          {
             lineHeight: "1.2",
             letterSpacing: "2em",
-          }],
-        "sans-b-h4": ["28px",{
+          },
+        ],
+        "sans-b-h4": [
+          "28px",
+          {
             lineHeight: "1.2",
             letterSpacing: "2em",
-          }],
-        "sans-b-h5": ["24px",{
+          },
+        ],
+        "sans-b-h5": [
+          "24px",
+          {
             lineHeight: "1.2",
             letterSpacing: "2em",
-          }],
-        "sans-b-h6": ["20px",{
+          },
+        ],
+        "sans-b-h6": [
+          "20px",
+          {
             lineHeight: "1.2",
             letterSpacing: "2em",
-          }],
-        "sans-b-body1": ["16px", {
+          },
+        ],
+        "sans-b-body1": [
+          "16px",
+          {
+            lineHeight: "1.5",
+            letterSpacing: "0.04em",
+            fontWeight: "700",
+          },
+        ],
+        "sans-b-body2": [
+          "14px",
+          {
             lineHeight: "1.5",
             letterSpacing: "2em",
-          }],
-        "sans-b-body2": ["14px", {
+          },
+        ],
+        "sans-b-caption": [
+          "12px",
+          {
             lineHeight: "1.5",
             letterSpacing: "2em",
-          }],
-        "sans-b-caption": ["12px", {
-            lineHeight: "1.5",
-            letterSpacing: "2em",
-          }],
+          },
+        ],
       },
     },
   },
