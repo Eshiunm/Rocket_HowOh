@@ -2,19 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer utilities {
+@layer base {
   .container {
-    width: 100%;
-    margin-right: auto;
-    margin-left: auto;
-    padding-right: 12px;
-    padding-left: 12px;
+    @apply w-full mr-auto ml-auto pr-3 pl-3;
   }
   .layout-grid {
     /*以下為網格系統必要屬性*/
-    display: grid;
-    grid-template-columns: repeat(12, minmax(0, 1fr));
-    gap: 1.5rem /* 24px */;
+    @apply grid grid-cols-12 gap-6;
   }
 }
 
