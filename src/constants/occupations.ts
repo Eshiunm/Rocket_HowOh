@@ -91,4 +91,6 @@ const occupations = [
     id: "occupation21",
     title: "運動人員",
   },
-]
+];
+
+export {occupations};
