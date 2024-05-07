@@ -3,6 +3,9 @@
 @tailwind utilities;
 
 @layer base {
+  html {
+    font-family: "Noto Sans TC", sans-serif;
+  }
   .container {
     @apply w-full mr-auto ml-auto pr-3 pl-3;
   }
@@ -10,17 +13,19 @@
     /*以下為網格系統必要屬性*/
     @apply grid grid-cols-12 gap-6;
   }
-  label, input, button{
-    @apply block
+  label,
+  input,
+  button {
+    @apply block;
   }
 }
 
 @layer components {
   .add-new-step-index-active {
-    @apply w-8 h-8 text-center leading-8 bg-black text-white rounded-full
+    @apply w-8 h-8 text-center leading-8 bg-black text-white rounded-full;
   }
   .add-new-step-index {
-    @apply w-8 h-8 text-center leading-8 bg-gray-400 text-gray-600 rounded-full
+    @apply w-8 h-8 text-center leading-8 bg-gray-400 text-gray-600 rounded-full;
   }
   .add-new-input {
     @apply w-full border border-black rounded-lg px-4 py-3;
@@ -35,7 +40,7 @@
     @apply px-4 py-2 bg-slate-700 rounded-3xl text-white;
   }
   .add-new-back-btn {
-    @apply text-base font-bold border-b-2 border-black
+    @apply text-base font-bold border-b-2 border-black;
   }
   .add-new-next-btn {
     @apply self-start mt-12;
