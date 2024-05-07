@@ -1,9 +1,12 @@
-import { Link, NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
+import NavigationDefault from "./NavigationDefault";
+import NavigationLogin from "./NavigationLogin";
 
 function Header() {
+  const isLogin = false;
   return (
     <>
-      <div className="container py-2">
+      <div className="container flex justify-between items-center py-2">
         <Link to="/" className="flex items-center">
           <img
             src="../public/imgs/howohLogo.svg"
@@ -12,6 +15,7 @@ function Header() {
           />
           <h1 className="logo font-Dela-Gothic-One text-dela-display4">好窩</h1>
         </Link>
+        {isLogin ? <NavigationLogin /> : <NavigationDefault />}
       </div>
     </>
   );

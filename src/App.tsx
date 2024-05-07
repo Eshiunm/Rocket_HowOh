@@ -9,7 +9,7 @@ import {
   useParams,
   BrowserRouter,
 } from "react-router-dom";
-import Header from "./Components/Header";
+import Header from "./Components/Header/Header";
 import LandlordManagementAddNew from "./Pages/LandlordManagementAddNew";
 
 function App() {
