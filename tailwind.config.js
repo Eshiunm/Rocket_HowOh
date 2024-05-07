@@ -12,6 +12,9 @@ export default {
       xl: "1140px",
       "2xl": "1344px",
     },
+    fontFamily: {
+      "Dela-Gothic-One": ["Dela Gothic One", "sans-serif"],
+    },
     extend: {
       colors: {
         Brand: {
@@ -95,7 +98,7 @@ export default {
           }],
         "dela-display4": ["32px",{
             lineHeight: "1.5",
-            letterSpacing: "2em",
+            letterSpacing: "0.04em",
           }],
         "sans-display1": ["64px",{
             lineHeight: "1.2",
