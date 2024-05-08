@@ -3,9 +3,9 @@ import { useForm } from "react-hook-form";
 import { ProcedureContext } from "../../Pages/LandlordManagementAddNew";
 
 export default function Photos() {
-  const { register, handleSubmit, formState: {errors}, watch } = useForm();
+  const {  handleSubmit } = useForm();
   const { handleProcedureClick, handleProcedureDone } = useContext(ProcedureContext);
-  const onSubmit = (data) => {
+  const onSubmit = () => {
     handleProcedureDone(1);
     handleProcedureClick("特色");
   };
