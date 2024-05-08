@@ -1,16 +1,11 @@
 import {
-  useLocation,
-  HashRouter,
-  NavLink,
   Routes,
   Route,
-  useNavigate,
-  Outlet,
-  useParams,
   BrowserRouter,
 } from "react-router-dom";
 import Header from "./Components/Header/Header";
 import LandlordManagementAddNew from "./Pages/LandlordManagementAddNew";
+import LandlordManagement from "./Pages/LandlordManagement";
 
 function App() {
   return (
@@ -22,6 +17,7 @@ function App() {
           <Route path="/login" element={<h1>你在登入頁</h1>}></Route>
           <Route path="/signup" element={<h1>你在註冊頁</h1>}></Route>
           <Route path="/post" element={<LandlordManagementAddNew />}></Route>
+          <Route path="/landlord-management" element={<LandlordManagement />}></Route>
         </Routes>
       </BrowserRouter>
     </>
