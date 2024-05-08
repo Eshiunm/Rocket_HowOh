@@ -3,10 +3,9 @@ import { useForm } from "react-hook-form";
 import { ProcedureContext } from "../../Pages/LandlordManagementAddNew";
 
 export default function Introduction() {
-  const { register, handleSubmit, formState: {errors} } = useForm();
+  const { register, handleSubmit } = useForm();
   const { handleProcedureClick, handleProcedureDone } = useContext(ProcedureContext);
-  const onSubmit = (data) => {
-    console.log(data);
+  const onSubmit = () => {
     handleProcedureDone(6);
     handleProcedureClick("租客限制");
   };
