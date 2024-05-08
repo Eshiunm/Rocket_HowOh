@@ -1,8 +1,8 @@
-import { UseFormRegister } from 'react-hook-form';
+import { FieldValues, UseFormRegister } from 'react-hook-form';
 interface CheckBoxProps {
   id: string;
   title: string;
-  register: UseFormRegister<HTMLInputElement>; 
+  register: UseFormRegister<FieldValues>; 
 }
 export default function CheckBox({ id, title, register }: CheckBoxProps) {
   return (
