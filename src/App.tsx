@@ -1,14 +1,4 @@
-import {
-  useLocation,
-  HashRouter,
-  NavLink,
-  Routes,
-  Route,
-  useNavigate,
-  Outlet,
-  useParams,
-  BrowserRouter,
-} from "react-router-dom";
+import { Routes, Route, BrowserRouter } from "react-router-dom";
 import Header from "./Components/Header/Header";
 import LandlordManagementAddNew from "./Pages/LandlordManagementAddNew";
 
