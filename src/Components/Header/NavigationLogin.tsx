@@ -5,11 +5,11 @@ function NavigationLogin() {
   return (
     <>
       <ul className="flex gap-6 items-center">
-        <li>
+        {/* <li>
           <Link to="/" className="text-sans-b-body1 p-2">
             {identity === "tenant" ? "我是房客" : "我是房東"}
           </Link>
-        </li>
+        </li> */}
         <li>
           <div className="flex gap-1 bg-Tenant-90 py-1 ps-1 pr-3 rounded-full">
             {/* 如果要放圖片，可以再參考一下 flowbite react ui component */}
