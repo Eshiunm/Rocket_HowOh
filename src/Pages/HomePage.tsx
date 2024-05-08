@@ -1,4 +1,11 @@
+import { useForm } from "react-hook-form";
+
 function HomePage() {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
   return (
     <>
       <section className="section-search bg-homeSearchImg bg-center bg-cover  h-[842px]">
@@ -11,9 +18,9 @@ function HomePage() {
             ,好窩！
           </h2>
         </div>
-        {/* Filter */}
+        {/* Filter form */}
         <div className="container layout-grid">
-          <div className="col-start-2 col-span-10">YAAAAAAA</div>
+          <div className="col-start-2 col-span-10"></div>
         </div>
       </section>
     </>
