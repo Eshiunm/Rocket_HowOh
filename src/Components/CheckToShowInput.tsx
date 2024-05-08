@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { UseFormRegister } from 'react-hook-form';
+import { FieldValues, UseFormRegister } from 'react-hook-form';
 interface CheckToShowInputProps {
   id: string;
   title: string;
-  register: UseFormRegister<HTMLInputElement>; 
+  register: UseFormRegister<FieldValues>; 
 }
 export default function CheckToShowInput({ id, title, register }:CheckToShowInputProps) {
   const [showInput, setShowInput] = useState(false);
