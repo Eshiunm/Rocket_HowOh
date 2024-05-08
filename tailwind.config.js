@@ -261,6 +261,9 @@ export default {
           },
         ],
       },
+      backgroundImage: {
+        homeSearchImg: "url('./public/imgs/home/home_search_backgroundImg.png')",
+      },
     },
   },
   plugins: [flow_bite.plugin()],
