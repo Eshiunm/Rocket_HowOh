@@ -6,21 +6,19 @@ function Header() {
   const isLogin = true;
   return (
     <>
-      <nav className="h-16 bg-white">
-        <div className="container">
-          <div className="container flex justify-between items-center py-2 bg-white fixed z-20">
-            <Link to="/" className="flex items-center">
-              <img
-                src="../public/imgs/howohLogo.svg"
-                alt="howoh logo"
-                className="mr-3"
-              />
-              <h1 className="logo font-Dela-Gothic-One text-dela-display4">
-                好窩
-              </h1>
-            </Link>
-            {isLogin ? <NavigationLogin /> : <NavigationDefault />}
-          </div>
+      <nav className="bg-white sticky top-0">
+        <div className="container flex justify-between items-center py-2 bg-white z-20">
+          <Link to="/" className="flex items-center">
+            <img
+              src="../public/imgs/howohLogo.svg"
+              alt="howoh logo"
+              className="mr-3"
+            />
+            <h1 className="logo font-Dela-Gothic-One text-dela-display4">
+              好窩
+            </h1>
+          </Link>
+          {isLogin ? <NavigationLogin /> : <NavigationDefault />}
         </div>
       </nav>
     </>
