@@ -12,6 +12,10 @@ export default {
       xl: "1140px",
       "2xl": "1344px",
     },
+    fontFamily: {
+      "Dela-Gothic-One": ["Dela Gothic One", "sans-serif"],
+      "Noto-Sans-TC": ["Noto Sans TC", "sans-serif"],
+    },
     extend: {
       colors: {
         Brand: {
@@ -81,7 +85,9 @@ export default {
         },
       },
       fontSize: {
-        "dela-display1": ["64px",{
+        "dela-display1": [
+          "64px",
+          {
             lineHeight: "1.5",
             letterSpacing: "0.08em",
           }],
@@ -132,7 +138,9 @@ export default {
         "sans-body1": ["16px", "1.5"],
         "sans-body2": ["14px", "1.5"],
         "sans-caption": ["12px", "1.5"],
-        "sans-b-display1": ["64px",{
+        "sans-b-display1": [
+          "64px",
+          {
             lineHeight: "1.2",
             letterSpacing: "0.04em",
           }],
