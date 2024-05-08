@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 @layer base {
-  html {
+  body {
     font-family: "Noto Sans TC", sans-serif;
   }
   .container {
