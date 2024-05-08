@@ -5,10 +5,9 @@ import { electricBill, managementFee, waterBill } from "../../constants/forPay";
 import RadioSelect from "../RadioSelect";
 
 export default function OtherExpenses() {
-  const { register, handleSubmit, formState: {errors} } = useForm();
+  const { register, handleSubmit } = useForm();
   const { handleProcedureClick, handleProcedureDone } = useContext(ProcedureContext);
-  const onSubmit = (data) => {
-    console.log(data);
+  const onSubmit = () => {
     handleProcedureDone(4);
     handleProcedureClick("訂金與租金");
   };
