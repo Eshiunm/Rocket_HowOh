@@ -1,4 +1,4 @@
-function Home() {
+function HomePage() {
   return (
     <>
       <section className="section-search bg-homeSearchImg bg-center bg-cover  h-[842px]">
@@ -20,4 +20,4 @@ function Home() {
   );
 }
 
-export default Home;
+export default HomePage;
