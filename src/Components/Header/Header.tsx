@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import NavigationDefault from "./NavigationDefault";
 import NavigationLogin from "./NavigationLogin";
+import logo from "../../assets/imgs/howohLogo.svg";
 
 function Header() {
   const isLogin = false;
@@ -10,7 +11,7 @@ function Header() {
         <div className="container flex justify-between items-center py-2 bg-white z-20">
           <Link to="/" className="flex items-center">
             <img
-              src="../public/imgs/howohLogo.svg"
+              src={logo}
               alt="howoh logo"
               className="mr-3"
             />

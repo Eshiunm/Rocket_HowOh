@@ -262,7 +262,7 @@ export default {
         ],
       },
       backgroundImage: {
-        homeSearchImg: "url('./public/imgs/home/home_search_backgroundImg.png')",
+        homeSearchImg: "url('./src/assets/imgs/home/home_search_backgroundImg.png')",
       },
     },
   },
