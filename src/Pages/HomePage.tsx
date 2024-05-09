@@ -1,7 +1,10 @@
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import dropdownIcon from "../assets/imgs/icons/dropdownIcon.svg";
 import searchIcon from "../assets/imgs/icons/searchIcon.svg";
-import { useState } from "react";
+import kaohsiungDistricts from "../constants/locations/districts/kaohsiungDistricts";
+import houseTypes from "../constants/houseTypes";
+import rentRange from "../constants/rentRange";
 
 function HomePage() {
   const [isInputFocused, setIsInputFocused] = useState(false);
@@ -29,7 +32,8 @@ function HomePage() {
               onSubmit={handleSubmit(onSubmit)}
               className="bg-white rounded-[20px] p-8"
             >
-              <div className="flex gap-6">
+              {/* form header */}
+              <div className="flex gap-6 mb-6">
                 {/* dropdown component */}
                 <div className="relative w-60">
                   <span className="absolute text-sans-caption text-black top-[-10px] z-1 bg-white px-[2px] start-3">
@@ -47,6 +51,7 @@ function HomePage() {
                     />
                   </div>
                 </div>
+
                 {/* search component */}
                 <div
                   tabIndex={0}
@@ -71,7 +76,156 @@ function HomePage() {
                   <img src={searchIcon} alt="searchIcon" />
                 </div>
               </div>
-              <input type="submit" value="搜尋" />
+
+              {/* filter form body */}
+              <div>
+                <ul>
+                  {/* 區域篩選 */}
+                  <li className="border-b border-Neutral-80 pb-6 mb-6">
+                    <div className="flex">
+                      <h3 className="whitespace-nowrap text-sans-b-body1 text-Brand-40 pr-[15px] mr-6 ">
+                        區域
+                      </h3>
+                      <div className="whitespace-nowrap self-start flex items-center cursor-pointer mr-8">
+                        <input
+                          className="w-5 h-5 text-black focus:ring-transparent rounded-sm border-2 border-black cursor-pointer"
+                          type="checkbox"
+                          name="regionNoLimit"
+                          id="regionNoLimit"
+                        />
+                        <label
+                          htmlFor="regionNoLimit"
+                          className="pl-2 cursor-pointer"
+                        >
+                          不限
+                        </label>
+                      </div>
+                      <div className="flex gap-x-[22px] gap-y-3 flex-wrap ">
+                        {kaohsiungDistricts.map((item, index) => {
+                          return (
+                            <div
+                              key={index}
+                              className="flex items-center cursor-pointer"
+                            >
+                              <input
+                                className="w-5 h-5 text-black focus:ring-transparent rounded-sm border-2 border-black cursor-pointer"
+                                type="checkbox"
+                                name={item}
+                                id={item}
+                              />
+                              <label
+                                htmlFor={item}
+                                className="pl-2 cursor-pointer"
+                              >
+                                {item}
+                              </label>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  </li>
+                  {/* 類型篩選 */}
+                  <li className="border-b border-Neutral-80 pb-6 mb-6">
+                    <div className="flex">
+                      {/* 篩選區域 */}
+                      <h3 className="whitespace-nowrap text-sans-b-body1 text-Brand-40 pr-[15px] mr-6 ">
+                        類型
+                      </h3>
+                      {/* 篩選類型 */}
+                      <div className="whitespace-nowrap self-start flex items-center cursor-pointer mr-8">
+                        <input
+                          className="w-5 h-5 text-black focus:ring-transparent rounded-sm border-2 border-black cursor-pointer"
+                          type="checkbox"
+                          name="typeNoLimit"
+                          id="typeNoLimit"
+                        />
+                        <label
+                          htmlFor="typeNoLimit"
+                          className="pl-2 cursor-pointer"
+                        >
+                          不限
+                        </label>
+                      </div>
+                      {/* 篩選租金 */}
+                      <div className="flex gap-x-[22px] gap-y-3 flex-wrap ">
+                        {houseTypes.map((item, index) => {
+                          return (
+                            <div
+                              key={index}
+                              className="flex items-center cursor-pointer"
+                            >
+                              <input
+                                className="w-5 h-5 text-black focus:ring-transparent rounded-sm border-2 border-black cursor-pointer"
+                                type="checkbox"
+                                name={item}
+                                id={item}
+                              />
+                              <label
+                                htmlFor={item}
+                                className="pl-2 cursor-pointer"
+                              >
+                                {item}
+                              </label>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  </li>
+                  {/* 租金篩選 */}
+                  <li className="border-b border-Neutral-80 pb-6 mb-6">
+                    <div className="flex">
+                      <h3 className="whitespace-nowrap text-sans-b-body1 text-Brand-40 pr-[15px] mr-6 ">
+                        租金
+                      </h3>
+                      <div className="whitespace-nowrap self-start flex items-center cursor-pointer mr-8">
+                        <input
+                          className="w-5 h-5 text-black focus:ring-transparent rounded-sm border-2 border-black cursor-pointer"
+                          type="checkbox"
+                          name="regionNoLimit"
+                          id="rentNoLimit"
+                        />
+                        <label
+                          htmlFor="rentNoLimit"
+                          className="pl-2 cursor-pointer"
+                        >
+                          不限
+                        </label>
+                      </div>
+                      <div className="flex gap-x-[22px] gap-y-3 flex-wrap ">
+                        {rentRange.map((item, index) => {
+                          return (
+                            <div
+                              key={index}
+                              className="flex items-center cursor-pointer"
+                            >
+                              <input
+                                className="w-5 h-5 text-black focus:ring-transparent rounded-sm border-2 border-black cursor-pointer"
+                                type="checkbox"
+                                name={item.content}
+                                id={item.content}
+                              />
+                              <label
+                                htmlFor={item.content}
+                                className="pl-2 cursor-pointer"
+                              >
+                                {item.content}
+                              </label>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+              <button
+                type="submit"
+                className="w-[520px] mx-auto bg-black text-white rounded-lg py-3"
+              >
+                搜尋
+              </button>
             </form>
           </div>
         </div>
