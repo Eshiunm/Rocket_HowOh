@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useForm } from "react-hook-form";
 import dropdownIcon from "../assets/imgs/icons/dropdownIcon.svg";
 import searchIcon from "../assets/imgs/icons/searchIcon.svg";
@@ -7,8 +7,22 @@ import houseTypes from "../constants/houseTypes";
 import rentRange from "../constants/rentRange";
 
 function HomePage() {
-  const [isInputFocused, setIsInputFocused] = useState(false);
+  const [isSearchInputFocused, setIsSearchInputFocused] = useState(false);
+  const regionNoLimitInputRef = useRef(null);
+  const houseTypeNoLimitInputRef = useRef(null);
+  const rentNoLimitInputRef = useRef(null);
   const { handleSubmit } = useForm();
+
+  const handleRegionNoLimitChangeStatus = e => {
+    regionNoLimitInputRef.current.checked = false;
+  };
+  const handleHouseTypeNoLimitChangeStatus = e => {
+    houseTypeNoLimitInputRef.current.checked = false;
+  };
+  const handleRentNoLimitChangeStatus = e => {
+    rentNoLimitInputRef.current.checked = false;
+  };
+
 
   const onSubmit = data => {
     console.log(data);
@@ -32,7 +46,7 @@ function HomePage() {
               onSubmit={handleSubmit(onSubmit)}
               className="bg-white rounded-[20px] p-8"
             >
-              {/* form header */}
+              {/* drowdown & search */}
               <div className="flex gap-6 mb-6">
                 {/* dropdown component */}
                 <div className="relative w-60">
@@ -56,7 +70,7 @@ function HomePage() {
                 <div
                   tabIndex={0}
                   className={`relative flex w-full border p-3  rounded-[4px] ${
-                    isInputFocused ? "border-Brand-30 " : "border-black"
+                    isSearchInputFocused ? "border-Brand-30 " : "border-black"
                   }`}
                 >
                   <input
@@ -64,8 +78,8 @@ function HomePage() {
                     id="floating_outlined"
                     className="block w-full p-0 pl-1 text-black bg-transparent border-none appearance-none focus:ring-0 peer"
                     placeholder=""
-                    onFocus={() => setIsInputFocused(true)}
-                    onBlur={() => setIsInputFocused(false)}
+                    onFocus={() => setIsSearchInputFocused(true)}
+                    onBlur={() => setIsSearchInputFocused(false)}
                   />
                   <label
                     htmlFor="floating_outlined"
@@ -77,7 +91,7 @@ function HomePage() {
                 </div>
               </div>
 
-              {/* filter form body */}
+              {/* filter */}
               <div>
                 <ul>
                   {/* 區域篩選 */}
@@ -92,6 +106,8 @@ function HomePage() {
                           type="checkbox"
                           name="regionNoLimit"
                           id="regionNoLimit"
+                          checked
+                          ref={regionNoLimitInputRef}
                         />
                         <label
                           htmlFor="regionNoLimit"
@@ -112,6 +128,7 @@ function HomePage() {
                                 type="checkbox"
                                 name={item}
                                 id={item}
+                                onChange={handleRegionNoLimitChangeStatus}
                               />
                               <label
                                 htmlFor={item}
@@ -128,17 +145,17 @@ function HomePage() {
                   {/* 類型篩選 */}
                   <li className="border-b border-Neutral-80 pb-6 mb-6">
                     <div className="flex">
-                      {/* 篩選區域 */}
                       <h3 className="whitespace-nowrap text-sans-b-body1 text-Brand-40 pr-[15px] mr-6 ">
                         類型
                       </h3>
-                      {/* 篩選類型 */}
                       <div className="whitespace-nowrap self-start flex items-center cursor-pointer mr-8">
                         <input
                           className="w-5 h-5 text-black focus:ring-transparent rounded-sm border-2 border-black cursor-pointer"
                           type="checkbox"
                           name="typeNoLimit"
                           id="typeNoLimit"
+                          checked
+                          ref={houseTypeNoLimitInputRef}
                         />
                         <label
                           htmlFor="typeNoLimit"
@@ -147,7 +164,6 @@ function HomePage() {
                           不限
                         </label>
                       </div>
-                      {/* 篩選租金 */}
                       <div className="flex gap-x-[22px] gap-y-3 flex-wrap ">
                         {houseTypes.map((item, index) => {
                           return (
@@ -160,6 +176,7 @@ function HomePage() {
                                 type="checkbox"
                                 name={item}
                                 id={item}
+                                onChange={handleHouseTypeNoLimitChangeStatus}
                               />
                               <label
                                 htmlFor={item}
@@ -183,8 +200,10 @@ function HomePage() {
                         <input
                           className="w-5 h-5 text-black focus:ring-transparent rounded-sm border-2 border-black cursor-pointer"
                           type="checkbox"
-                          name="regionNoLimit"
+                          name="rentNoLimit"
                           id="rentNoLimit"
+                          checked
+                          ref={rentNoLimitInputRef}
                         />
                         <label
                           htmlFor="rentNoLimit"
@@ -205,6 +224,7 @@ function HomePage() {
                                 type="checkbox"
                                 name={item.content}
                                 id={item.content}
+                                onChange={handleRentNoLimitChangeStatus}
                               />
                               <label
                                 htmlFor={item.content}
