@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, MouseEvent } from "react";
 import { useForm } from "react-hook-form";
 import dropdownIcon from "../assets/imgs/icons/dropdownIcon.svg";
 import searchIcon from "../assets/imgs/icons/searchIcon.svg";
@@ -6,13 +6,51 @@ import kaohsiungDistricts from "../constants/locations/districts/kaohsiungDistri
 import houseTypes from "../constants/houseTypes";
 import rentRanges from "../constants/rentRange";
 
+interface FormElementsState {
+  District: {
+    noLimit: {
+      content: string;
+      checked: boolean;
+      disabled: boolean;
+    };
+    districts: {
+      content: string;
+      checked: boolean;
+    }[];
+  };
+  HouseType: {
+    noLimit: {
+      content: string;
+      checked: boolean;
+      disabled: boolean;
+    };
+    houseTypes: {
+      content: string;
+      checked: boolean;
+    }[];
+  };
+  RentRange: {
+    noLimit: {
+      content: string;
+      checked: boolean;
+      disabled: boolean;
+    };
+    rentRanges: {
+      content: string;
+      checked: boolean;
+    }[];
+  };
+}
+
 function HomePage() {
-  const [formElementsState, setFormElementsState] = useState({}); // 記錄表單內所有元素的狀態
+  const [formElementsState, setFormElementsState] = useState<FormElementsState>({} as FormElementsState); // 記錄表單內所有元素的狀態
   const [isSearchInputFocused, setIsSearchInputFocused] = useState(false); // 記錄搜尋框是否被 focused
   const { handleSubmit } = useForm();
 
-  const handleDistrictNoLimitCheckboxStateChange = e => {
-    const noLimitCheckboxDOM = e.target;
+  const handleDistrictNoLimitCheckboxStateChange = (
+    e: MouseEvent<HTMLInputElement>
+  ) => {
+    const noLimitCheckboxDOM = e.target as HTMLInputElement;
     console.log(noLimitCheckboxDOM.checked);
     const newFormElementsState = {
       ...formElementsState,
@@ -35,8 +73,10 @@ function HomePage() {
     console.log(newFormElementsState);
     setFormElementsState(newFormElementsState);
   };
-  const handleDistrictCheckboxStateChange = e => {
-    const districtCheckboxDOM = e.target;
+  const handleDistrictCheckboxStateChange = (
+    e: MouseEvent<HTMLInputElement>
+  ) => {
+    const districtCheckboxDOM = e.target as HTMLInputElement;
     // 改變某區的 checkbox 勾選狀態， true 改 false、false 改 true
     let newFormElementsState = {
       ...formElementsState,
@@ -126,6 +166,7 @@ function HomePage() {
         rentRanges: newRentRanges,
       },
     };
+    console.log(newformElementState);
     setFormElementsState(newformElementState);
   }, []);
 
