@@ -1,5 +1,7 @@
-import { useState, useEffect, MouseEvent } from "react";
+import { useState, useEffect, MouseEvent, ChangeEvent } from "react";
 import { useForm } from "react-hook-form";
+import { useDispatch,useSelector } from "react-redux";
+import { changeContent } from "../../redux/searchForm/inputSearchSlice";
 import dropdownIcon from "../assets/imgs/icons/dropdownIcon.svg";
 import searchIcon from "../assets/imgs/icons/searchIcon.svg";
 import kaohsiungDistricts from "../constants/locations/districts/kaohsiungDistricts";
@@ -43,6 +45,8 @@ interface FormElementsState {
 }
 
 function HomePage() {
+  const dispatch = useDispatch();
+  const searchContent = useSelector(store => store.inputSearch.textContent);
   const [formElementsState, setFormElementsState] = useState<FormElementsState>({} as FormElementsState); // 記錄表單內所有元素的狀態
   const [isSearchInputFocused, setIsSearchInputFocused] = useState(false); // 記錄搜尋框是否被 focused
   const { handleSubmit } = useForm();
@@ -129,6 +133,10 @@ function HomePage() {
     }
     console.log(newFormElementsState);
     setFormElementsState(newFormElementsState);
+  };
+
+  const setSearchContent = (e: ChangeEvent<HTMLInputElement>) => {
+    dispatch(changeContent(e.target.value));
   };
 
   /* 初始化表單內要用到的所有元素，整合到 formElementState 變數，並增加 checked 屬性 */
@@ -223,8 +231,10 @@ function HomePage() {
                     id="floating_outlined"
                     className="block w-full p-0 pl-1 text-black bg-transparent border-none appearance-none focus:ring-0 peer"
                     placeholder=""
+                    defaultValue={searchContent}
                     onFocus={() => setIsSearchInputFocused(true)}
                     onBlur={() => setIsSearchInputFocused(false)}
+                    onChange={setSearchContent}
                   />
                   <label
                     htmlFor="floating_outlined"
