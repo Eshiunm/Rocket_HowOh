@@ -5,10 +5,10 @@ import houseTypes from "../../../constants/houseTypes";
 import { ProcedureContext } from "../../../pages/landlordManagement/LandlordManagementAddNew";
 
 export default function BasicInformation() {
-  const { register, handleSubmit } = useForm({
+  const { register, handleSubmit, watch } = useForm({
     defaultValues: {
       name: "",
-      city: "台北市",
+      city: "高雄市",
       district: "",
       road: "",
       lane: "",
@@ -25,6 +25,7 @@ export default function BasicInformation() {
       parkingSpaceNumbers: ""
     }
   });
+  const selectedCity = watch("city");
   const { handleProcedureClick, handleProcedureDone } =
     useContext(ProcedureContext);
   const onSubmit = () => {
@@ -75,12 +76,12 @@ export default function BasicInformation() {
             {...register("district", { required: true })}
           >
             {cities
-              .filter(({ city }) => city === "高雄市")[0]
-              .districts.map(district => (
-                <option value={district} key={district}>
-                  {district}
-                </option>
-              ))}
+              .find((item) => item.city === selectedCity) 
+              ?.districts.map((district) => (
+              <option value={district} key={district}>
+                {district}
+              </option>
+            ))}
           </select>
         </div>
         <div className="add-new-input-block">
