@@ -1,6 +1,11 @@
 import { useState } from "react";
-
-export default function CheckToShowInput({ id, title, register }) {
+import { FieldValues, UseFormRegister } from 'react-hook-form';
+interface CheckToShowInputProps {
+  id: string;
+  title: string;
+  register: UseFormRegister<FieldValues>; 
+}
+export default function CheckToShowInput({ id, title, register }:CheckToShowInputProps) {
   const [showInput, setShowInput] = useState(false);
 
   const handleCheckboxChange = () => {

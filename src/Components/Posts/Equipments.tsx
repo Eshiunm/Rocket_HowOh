@@ -5,9 +5,9 @@ import CheckBox from "../CheckBox";
 import { equipments } from "../../constants/featureList";
 
 export default function Equipments() {
-  const { register, handleSubmit, formState: {errors} } = useForm();
+  const { register, handleSubmit } = useForm();
   const { handleProcedureClick, handleProcedureDone } = useContext(ProcedureContext);
-  const onSubmit = (data) => {
+  const onSubmit = () => {
     handleProcedureDone(3);
     handleProcedureClick("雜支");
   };

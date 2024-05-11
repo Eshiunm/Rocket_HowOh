@@ -1,56 +1,23 @@
 import { createContext, useState } from "react";
 import AddNewData from "../Components/AddNewData";
 import AddNewProcedure from "../Components/AddNewProcedure";
+import { procedureList } from "../constants/procedureList";
+import { procedureListType } from "../Types/procedureList";
 
-export const ProcedureContext = createContext({});
+// 定義 ProcedureContext 的型別
+interface contextValueType {
+  procedure: procedureListType[]; 
+  handleProcedureDone: (num: number) => void;
+  handleProcedureClick: (title: string) => void;
+}
+
+export const ProcedureContext = createContext<contextValueType>({} as contextValueType);
 
 export default function LandlordManagementAddNew() {
-  const procedureList = [
-    {
-      title: "基本資訊",
-      isActive: true,
-      isDone: false,
-    },
-    {
-      title: "房源照片",
-      isActive: false,
-      isDone: false,
-    },
-    {
-      title: "特色",
-      isActive: false,
-      isDone: false,
-    },
-    {
-      title: "設備",
-      isActive: false,
-      isDone: false,
-    },
-    {
-      title: "雜支",
-      isActive: false,
-      isDone: false,
-    },
-    {
-      title: "訂金與租金",
-      isActive: false,
-      isDone: false,
-    },
-    {
-      title: "房源介紹",
-      isActive: false,
-      isDone: false,
-    },
-    {
-      title: "租客限制",
-      isActive: false,
-      isDone: false,
-    }
-  ];
   const [procedure, setProcedure] = useState(procedureList);
 
   const handleProcedureClick = (title: string) => {
-    const newProcedure = procedure.map((item) => {
+    const newProcedure = procedure.map(item => {
       if (item.title === title) {
         return {
           ...item,
@@ -64,7 +31,7 @@ export default function LandlordManagementAddNew() {
       }
     });
     setProcedure(newProcedure);
-  }
+  };
 
   const handleProcedureDone = (num: number) => {
     const newProcedure = [...procedure];
@@ -76,16 +43,16 @@ export default function LandlordManagementAddNew() {
     procedure,
     handleProcedureDone,
     handleProcedureClick,
-  }
+  };
 
   return (
     <ProcedureContext.Provider value={contextValue}>
-    <div className="container mx-auto">
-      <div className="flex">
-        <AddNewProcedure />
-        <AddNewData />
+      <div className="container mx-auto">
+        <div className="flex">
+          <AddNewProcedure />
+          <AddNewData />
+        </div>
       </div>
-    </div>
     </ProcedureContext.Provider>
   );
 }

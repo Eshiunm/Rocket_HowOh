@@ -1,5 +1,6 @@
 {
-  "name": "vite-project",
+  "name": "howoh",
+  "homepage": "https://github.com/Eshiunm/Rocket_HowOh",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -14,6 +15,7 @@
     "axios": "^1.6.8",
     "flowbite": "^2.3.0",
     "flowbite-react": "^0.9.0",
+    "gh-pages": "^6.1.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-hook-form": "^7.51.3",
