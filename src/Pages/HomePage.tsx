@@ -1,7 +1,11 @@
 import { useState, useEffect, MouseEvent, ChangeEvent } from "react";
 import { useForm } from "react-hook-form";
-import { useDispatch,useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { changeContent } from "../../redux/searchForm/inputSearchSlice";
+import {
+  setDistrictNoLimitState,
+  setDistrictItemsState,
+} from "../../redux/searchForm/districtSlice";
 import dropdownIcon from "../assets/imgs/icons/dropdownIcon.svg";
 import searchIcon from "../assets/imgs/icons/searchIcon.svg";
 import kaohsiungDistricts from "../constants/locations/districts/kaohsiungDistricts";
@@ -45,94 +49,80 @@ interface FormElementsState {
 }
 
 function HomePage() {
+  const { handleSubmit } = useForm();
   const dispatch = useDispatch();
   const searchContent = useSelector(store => store.inputSearch.textContent);
-  const [formElementsState, setFormElementsState] = useState<FormElementsState>({} as FormElementsState); // 記錄表單內所有元素的狀態
+  const districtState = useSelector(store => store.district);
+  console.log(districtState);
+  const [formElementsState, setFormElementsState] = useState<FormElementsState>(
+    {} as FormElementsState
+  ); // 記錄表單內所有元素的狀態
   const [isSearchInputFocused, setIsSearchInputFocused] = useState(false); // 記錄搜尋框是否被 focused
-  const { handleSubmit } = useForm();
 
-  const handleDistrictNoLimitCheckboxStateChange = (
-    e: MouseEvent<HTMLInputElement>
-  ) => {
-    const noLimitCheckboxDOM = e.target as HTMLInputElement;
-    console.log(noLimitCheckboxDOM.checked);
-    const newFormElementsState = {
-      ...formElementsState,
-      District: {
-        ...formElementsState.District,
-        districts: formElementsState.District.districts.map(item => {
+  const handleDistrictState = (e: MouseEvent<HTMLInputElement>) => {
+    const districtCheckboxDOM = e.target as HTMLInputElement;
+    if (districtCheckboxDOM.id === "districtsNoLimit") {
+      const newDistrictState = {
+        ...districtState,
+        noLimit: {
+          ...districtState.noLimit,
+          checked: true, // 改變「不限的 checkbox」勾選狀態，false 改 true
+          disabled: true, // 將「不限的checkbox」禁用
+        },
+        districts: districtState.districts.map(item => {
           return {
             ...item,
-            checked: false,
+            checked: false, // 將所有區的 checkbox 勾選狀態設為「false」
           };
         }),
-
-        noLimit: {
-          ...formElementsState.District.noLimit,
-          checked: !formElementsState.District.noLimit.checked, // 改變不限的 checkbox 勾選狀態， true 改 false、false 改 true
-          disabled: true,
-        },
-      },
-    };
-    console.log(newFormElementsState);
-    setFormElementsState(newFormElementsState);
-  };
-  const handleDistrictCheckboxStateChange = (
-    e: MouseEvent<HTMLInputElement>
-  ) => {
-    const districtCheckboxDOM = e.target as HTMLInputElement;
-    // 改變某區的 checkbox 勾選狀態， true 改 false、false 改 true
-    let newFormElementsState = {
-      ...formElementsState,
-      District: {
-        ...formElementsState.District,
-        // 此屬性存放一個陣列
-        districts: formElementsState.District.districts.map(item => {
+      };
+      dispatch(setDistrictNoLimitState(newDistrictState.noLimit));
+      dispatch(setDistrictItemsState(newDistrictState.districts));
+    } else {
+      let newDistrictState = {
+        ...districtState,
+        districts: districtState.districts.map(item => {
           if (item.content === districtCheckboxDOM.name) {
             return {
               ...item,
-              checked: !item.checked, // 改變某區域的 checkbox 狀態， true 改 false、false 改 true
+              checked: !item.checked, // 改變剛剛按下的 checkbox 勾選狀態， true 改 false、false 改 true
             };
           } else {
             return item;
           }
         }),
-      },
-    };
-    // 只要有某區的 checkbox 勾選狀態是「true」，就將「不限的checkbox」勾選狀態設為未打勾
-    if (districtCheckboxDOM.checked === true) {
-      newFormElementsState = {
-        ...newFormElementsState,
-        District: {
-          ...newFormElementsState.District,
+      };
+
+      if (districtCheckboxDOM.checked === true) {
+        newDistrictState = {
+          ...newDistrictState,
           noLimit: {
-            ...newFormElementsState.District.noLimit,
-            checked: false, // 將「不限的checkbox」勾選狀態設為「false」
+            ...newDistrictState.noLimit,
+            checked: false, // 將「不限的 checkbox」勾選狀態設為「false」
             disabled: false, // 將「不限的checkbox」解鎖
           },
-        },
-      };
-    } else {
-      const isDistrictsAllClear = newFormElementsState.District.districts.find(
-        ({ checked }) => checked === true
-      );
-      // 如果所有區的 checkbox 勾選狀態都是「false」，就將「不限的checkbox」勾選狀態設為打勾
-      if (isDistrictsAllClear === undefined) {
-        newFormElementsState = {
-          ...newFormElementsState,
-          District: {
-            ...newFormElementsState.District,
-            noLimit: {
-              ...newFormElementsState.District.noLimit,
-              checked: true, // 將「不限 checkbox」的狀態設為「true」
-              disabled: true, // 將「不限 checkbox」鎖住
-            },
-          },
         };
+      } else {
+        const isDistrictsAllClear = newDistrictState.districts.find(
+          ({ checked }) => checked === true
+        );
+        // 如果所有區的 checkbox 勾選狀態都是「false」，就將「不限的checkbox」勾選狀態設為打勾
+        if (isDistrictsAllClear === undefined) {
+          newDistrictState = {
+            ...newDistrictState,
+            noLimit: {
+              ...newDistrictState.noLimit,
+              checked: true, // 將「不限的 checkbox」勾選狀態設為「true」
+              disabled: true, // 將「不限的checkbox」鎖定
+            },
+          };
+        }
       }
+
+      dispatch(setDistrictNoLimitState(newDistrictState.noLimit));
+      dispatch(setDistrictItemsState(newDistrictState.districts));
     }
-    console.log(newFormElementsState);
-    setFormElementsState(newFormElementsState);
+    //console.log(districtState);
   };
 
   const setSearchContent = (e: ChangeEvent<HTMLInputElement>) => {
@@ -174,7 +164,9 @@ function HomePage() {
         rentRanges: newRentRanges,
       },
     };
-    console.log(newformElementState);
+
+    dispatch(setDistrictNoLimitState(newformElementState.District.noLimit));
+    dispatch(setDistrictItemsState(newformElementState.District.districts));
     setFormElementsState(newformElementState);
   }, []);
 
@@ -218,7 +210,6 @@ function HomePage() {
                     />
                   </div>
                 </div>
-
                 {/* search component */}
                 <div
                   tabIndex={0}
@@ -260,19 +251,19 @@ function HomePage() {
                         type="checkbox"
                         name="districtsNoLimit"
                         id="districtsNoLimit"
-                        disabled={formElementsState.District?.noLimit.disabled}
-                        checked={formElementsState.District?.noLimit.checked}
-                        onClick={handleDistrictNoLimitCheckboxStateChange}
+                        disabled={districtState.noLimit.disabled}
+                        checked={districtState.noLimit.checked}
+                        onClick={handleDistrictState}
                       />
                       <label
                         htmlFor="districtsNoLimit"
                         className="pl-2 cursor-pointer"
                       >
-                        {formElementsState.District?.noLimit.content}
+                        {districtState.noLimit.content}
                       </label>
                     </div>
                     <div className="flex gap-x-[22px] gap-y-3 flex-wrap">
-                      {formElementsState.District?.districts.map(
+                      {districtState.districts.map(
                         ({ content, checked }, index) => {
                           return (
                             <div
@@ -285,7 +276,7 @@ function HomePage() {
                                 checked={checked}
                                 name={content}
                                 id={content}
-                                onClick={handleDistrictCheckboxStateChange}
+                                onClick={handleDistrictState}
                               />
                               <label
                                 htmlFor={content}
