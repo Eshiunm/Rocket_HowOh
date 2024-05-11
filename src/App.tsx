@@ -1,12 +1,8 @@
-import {
-  Routes,
-  Route,
-  BrowserRouter,
-} from "react-router-dom";
-import Header from "./Components/Header/Header";
-import HomePage from "./Pages/HomePage";
-import LandlordManagementAddNew from "./Pages/LandlordManagementAddNew";
-import LandlordManagement from "./Pages/LandlordManagement";
+import { Routes, Route, BrowserRouter } from "react-router-dom";
+import Header from "./components/header/Header";
+import HomePage from "./pages/HomePage";
+import LandlordManagementAddNew from "./pages/landlordManagement/LandlordManagementAddNew";
+import LandlordManagement from "./pages/landlordManagement/LandlordManagement";
 
 function App() {
   return (
@@ -18,7 +14,10 @@ function App() {
           <Route path="/login" element={<h1>你在登入頁</h1>}></Route>
           <Route path="/signup" element={<h1>你在註冊頁</h1>}></Route>
           <Route path="/post" element={<LandlordManagementAddNew />}></Route>
-          <Route path="/landlord-management" element={<LandlordManagement />}></Route>
+          <Route
+            path="/landlord-management"
+            element={<LandlordManagement />}
+          ></Route>
         </Routes>
       </BrowserRouter>
     </>

@@ -1,5 +1,5 @@
 import { Outlet } from "react-router-dom";
-import addIcon from "../assets/imgs/icons/add.svg";
+import addIcon from "../../assets/imgs/icons/add.svg";
 
 export default function LandlordManagement() {
   return (
