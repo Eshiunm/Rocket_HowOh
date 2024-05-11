@@ -5,10 +5,10 @@ import houseTypes from "../../constants/houseTypes";
 import { ProcedureContext } from "../../Pages/LandlordManagementAddNew";
 
 export default function BasicInformation() {
-  const { register, handleSubmit, formState: {errors}, watch } = useForm();
+  const { register, handleSubmit } = useForm();
   // const houseLoate = watch("houseLoate");
   const { handleProcedureClick, handleProcedureDone } = useContext(ProcedureContext);
-  const onSubmit = (data) => {
+  const onSubmit = () => {
     handleProcedureDone(0);
     handleProcedureClick("房源照片")
   };

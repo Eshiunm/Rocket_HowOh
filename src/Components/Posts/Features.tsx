@@ -6,9 +6,9 @@ import { houseFeatures, mainFeatures, nearByFacilities, transportations } from "
 import CheckToShowInput from "../CheckToShowInput";
 
 export default function Features() {
-  const { register, handleSubmit, formState: {errors} } = useForm();
+  const { register, handleSubmit } = useForm();
   const { handleProcedureClick, handleProcedureDone } = useContext(ProcedureContext);
-  const onSubmit = (data) => {
+  const onSubmit = () => {
     handleProcedureDone(2);
     handleProcedureClick("設備");
   };
