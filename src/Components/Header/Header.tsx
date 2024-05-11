@@ -1,27 +1,21 @@
 import { Link } from "react-router-dom";
 import NavigationDefault from "./NavigationDefault";
 import NavigationLogin from "./NavigationLogin";
-import howohLogo from "../../assets/imgs/howohLogo.svg";
+import logo from "../../assets/imgs/howohLogo.svg";
+
 
 function Header() {
-  const isLogin = true;
+  const isLogin = false;
   return (
-    <>
-      <nav className="h-16 bg-white">
-        <div className="container">
-          <div className="container flex justify-between items-center py-2 bg-white fixed z-20">
-            <Link to="/" className="flex items-center">
-              <img
-                src={howohLogo}
-                alt="howoh logo"
-                className="mr-3"
-              />
-              <h1 className="logo font-Dela-Gothic-One text-dela-display4">
-                好窩
-              </h1>
-            </Link>
-            {isLogin ? <NavigationLogin /> : <NavigationDefault />}
-          </div>
+      <nav className="bg-white sticky top-0 z-50">
+        <div className="container flex justify-between items-center py-2 bg-white">
+          <Link to="/" className="flex items-center">
+            <img src={logo} alt="howoh logo" className="mr-3" />
+            <h1 className="logo font-Dela-Gothic-One text-dela-display4">
+              好窩
+            </h1>
+          </Link>
+          {isLogin ? <NavigationLogin /> : <NavigationDefault />}
         </div>
       </nav>
     </>
