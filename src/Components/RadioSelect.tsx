@@ -1,4 +1,12 @@
-export default function RadioSelect({option, register}) {
+import { FieldValues, UseFormRegister } from "react-hook-form";
+import { optionType } from "../Types/forPay";
+
+interface RadioSelectProps {
+  option: optionType;
+  register: UseFormRegister<FieldValues>;
+}
+
+export default function RadioSelect({option, register}:RadioSelectProps) {
   const { id, title, type } = option;
 
   return (

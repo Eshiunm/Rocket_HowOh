@@ -3,10 +3,10 @@ import NavigationDefault from "./NavigationDefault";
 import NavigationLogin from "./NavigationLogin";
 import logo from "../../assets/imgs/howohLogo.svg";
 
+
 function Header() {
   const isLogin = false;
   return (
-    <>
       <nav className="bg-white sticky top-0 z-50">
         <div className="container flex justify-between items-center py-2 bg-white">
           <Link to="/" className="flex items-center">

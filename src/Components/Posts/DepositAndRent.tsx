@@ -3,10 +3,9 @@ import { useForm } from "react-hook-form";
 import { ProcedureContext } from "../../Pages/LandlordManagementAddNew";
 
 export default function DepositAndRent() {
-  const { register, handleSubmit, formState: {errors} } = useForm();
+  const { register, handleSubmit } = useForm();
   const { handleProcedureClick, handleProcedureDone } = useContext(ProcedureContext);
-  const onSubmit = (data) => {
-    console.log(data);
+  const onSubmit = () => {
     handleProcedureDone(5);
     handleProcedureClick("房源介紹");
   };
