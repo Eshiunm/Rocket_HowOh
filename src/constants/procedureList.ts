@@ -1,4 +1,4 @@
-import {procedureListType} from "../Types/procedureList";
+import {procedureListType} from "../types/procedureList";
 
 export const procedureList:procedureListType[] = [
   {

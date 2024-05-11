@@ -1,17 +1,19 @@
 import { createContext, useState } from "react";
-import AddNewData from "../Components/AddNewData";
-import AddNewProcedure from "../Components/AddNewProcedure";
-import { procedureList } from "../constants/procedureList";
-import { procedureListType } from "../Types/procedureList";
+import AddNewData from "../../components/landLordManagement/AddNewData";
+import AddNewProcedure from "../../components/landLordManagement/AddNewProcedure";
+import { procedureList } from "../../constants/procedureList";
+import { procedureListType } from "../../types/procedureList";
 
 // 定義 ProcedureContext 的型別
 interface contextValueType {
-  procedure: procedureListType[]; 
+  procedure: procedureListType[];
   handleProcedureDone: (num: number) => void;
   handleProcedureClick: (title: string) => void;
 }
 
-export const ProcedureContext = createContext<contextValueType>({} as contextValueType);
+export const ProcedureContext = createContext<contextValueType>(
+  {} as contextValueType
+);
 
 export default function LandlordManagementAddNew() {
   const [procedure, setProcedure] = useState(procedureList);
