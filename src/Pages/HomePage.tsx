@@ -1,3 +1,4 @@
+import { TypeAnimation } from "react-type-animation";
 import { useState, useEffect, MouseEvent } from "react";
 import { useForm } from "react-hook-form";
 import dropdownIcon from "../assets/imgs/icons/dropdownIcon.svg";
@@ -43,7 +44,9 @@ interface FormElementsState {
 }
 
 function HomePage() {
-  const [formElementsState, setFormElementsState] = useState<FormElementsState>({} as FormElementsState); // 記錄表單內所有元素的狀態
+  const [formElementsState, setFormElementsState] = useState<FormElementsState>(
+    {} as FormElementsState
+  ); // 記錄表單內所有元素的狀態
   const [isSearchInputFocused, setIsSearchInputFocused] = useState(false); // 記錄搜尋框是否被 focused
   const { handleSubmit } = useForm();
 
@@ -177,9 +180,30 @@ function HomePage() {
         {/* Title */}
         <div className="container pt-20 mb-8">
           <h2 className="w-[559px] mx-auto text-center bg-Neutral-10 text-white font-Dela-Gothic-One text-dela-display1 pl-8 rounded-[12px]">
-            <span className="text-Brand-90 font-Dela-Gothic-One text-dela-display1">
+            {/* <span className="text-Brand-90 font-Dela-Gothic-One text-dela-display1">
               找好房東
-            </span>
+            </span> */}
+            <TypeAnimation
+              sequence={[
+                // Same substring at the start will only be typed out once, initially
+                "找好房東",
+                1500, // wait 1s before replacing "Mice" with "Hamsters"
+                "愛在一起",
+                1500,
+                "孟母三遷",
+                1500,
+                "安居樂業",
+                1500,
+                "租屋補助",
+                1500,
+              ]}
+              wrapper="span"
+              speed={{ type: "keyStrokeDelayInMs", value: 250 }}
+              className={
+                "text-Brand-90 font-Dela-Gothic-One text-dela-display1 type-animation"
+              }
+              repeat={Infinity}
+            />
             ,好窩！
           </h2>
         </div>
@@ -228,7 +252,7 @@ function HomePage() {
                   />
                   <label
                     htmlFor="floating_outlined"
-                    className="absolute text-sans-body1 text-black duration-200 transform -translate-y-4 scale-75 top-[3px] z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-Brand-30 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-[3px] peer-focus:scale-75 peer-focus:-translate-y-4 start-3"
+                    className="caret-red-600 absolute text-sans-body1 text-black duration-200 transform -translate-y-4 scale-75 top-[3px] z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-Brand-30 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-[3px] peer-focus:scale-75 peer-focus:-translate-y-4 start-3"
                   >
                     搜尋
                   </label>
