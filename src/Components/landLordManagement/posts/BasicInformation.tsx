@@ -2,7 +2,7 @@ import { useContext } from "react";
 import { useForm } from "react-hook-form";
 import cities from "../../../constants/locations/cities";
 import houseTypes from "../../../constants/houseTypes";
-import { ProcedureContext } from "../../../pages/landlordManagement/LandlordManagementAddNew";
+import { ProcedureContext } from "../../../pages/landlordManagement/AddNew";
 
 export default function BasicInformation() {
   const { register, handleSubmit, watch } = useForm({

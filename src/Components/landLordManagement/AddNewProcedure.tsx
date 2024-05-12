@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { ProcedureContext } from "../../pages/landlordManagement/LandlordManagementAddNew";
+import { ProcedureContext } from "../../pages/landlordManagement/AddNew";
 
 export default function AddNewProcedure() {
   const { handleProcedureClick, procedure } = useContext(ProcedureContext);

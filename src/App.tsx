@@ -1,7 +1,7 @@
 import { Routes, Route, BrowserRouter } from "react-router-dom";
 import Header from "./components/header/Header";
 import HomePage from "./pages/HomePage";
-import LandlordManagementAddNew from "./pages/landlordManagement/LandlordManagementAddNew";
+import LandlordManagementAddNew from "./pages/landlordManagement/AddNew";
 import LandlordManagement from "./pages/landlordManagement/LandlordManagement";
 
 function App() {

@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { ProcedureContext } from "../../pages/landlordManagement/LandlordManagementAddNew";
+import { ProcedureContext } from "../../pages/landlordManagement/AddNew";
 import BasicInformation from "./posts/BasicInformation";
 import Photos from "./posts/Photos";
 import Features from "./posts/Features";
