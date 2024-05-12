@@ -1,4 +1,5 @@
 import { createContext, useState } from "react";
+import Post from "../../components/landLordManagement/posts/Post";
 import AddNewData from "../../components/landLordManagement/AddNewData";
 import AddNewProcedure from "../../components/landLordManagement/AddNewProcedure";
 import { procedureList } from "../../constants/procedureList";
@@ -49,12 +50,9 @@ export default function LandlordManagementAddNew() {
 
   return (
     <ProcedureContext.Provider value={contextValue}>
-      <div className="container mx-auto">
-        <div className="flex">
-          <AddNewProcedure />
-          <AddNewData />
-        </div>
-      </div>
+      <Post />
+      <AddNewProcedure />
+      <AddNewData />
     </ProcedureContext.Provider>
   );
 }
