@@ -1,8 +1,8 @@
 import { useContext } from "react";
 import { useForm } from "react-hook-form";
-import { ProcedureContext } from "../../../pages/landlordManagement/AddNew";
+import { ProcedureContext } from "../../../../pages/landlordManagement/AddNew";
 import RadioSelect from "../RadioSelect";
-import { occupations } from "../../../constants/occupations";
+import { occupations } from "../../../../constants/occupations";
 
 export default function Restrictions() {
   const {

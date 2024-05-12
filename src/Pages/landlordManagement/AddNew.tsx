@@ -1,7 +1,7 @@
 import { createContext, useState } from "react";
 import Post from "../../components/landLordManagement/posts/Post";
-import AddNewData from "../../components/landLordManagement/AddNewData";
-import AddNewProcedure from "../../components/landLordManagement/AddNewProcedure";
+import AddNewData from "../../components/landLordManagement/posts/AddNewData";
+import AddNewProcedure from "../../components/landLordManagement/posts/AddNewProcedure";
 import { procedureList } from "../../constants/procedureList";
 import { procedureListType } from "../../types/procedureList";
 
@@ -50,8 +50,12 @@ export default function LandlordManagementAddNew() {
 
   return (
     <ProcedureContext.Provider value={contextValue}>
-      <Post />
-      <AddNewProcedure />
+      <section className="bg-Landlord-99">
+        <div className="container layout-grid py-6">
+          <Post />
+          <AddNewProcedure />
+        </div>
+      </section>
       <AddNewData />
     </ProcedureContext.Provider>
   );

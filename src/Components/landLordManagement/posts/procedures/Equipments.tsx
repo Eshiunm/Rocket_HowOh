@@ -1,8 +1,8 @@
 import { useContext } from "react";
 import { useForm } from "react-hook-form";
-import { ProcedureContext } from "../../../pages/landlordManagement/AddNew";
+import { ProcedureContext } from "../../../../pages/landlordManagement/AddNew";
 import CheckBox from "../CheckBox";
-import { equipments } from "../../../constants/featureList";
+import { equipments } from "../../../../constants/featureList";
 
 export default function Equipments() {
   const { register, handleSubmit } = useForm();

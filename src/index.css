@@ -24,10 +24,10 @@
 
 @layer components {
   .add-new-step-index-active {
-    @apply w-8 h-8 text-center leading-8 bg-black text-white rounded-full;
+    @apply w-8 h-8 text-center bg-Landlord-80 text-sans-body1 flex justify-center items-center text-Landlord-50 rounded-full;
   }
   .add-new-step-index {
-    @apply w-8 h-8 text-center leading-8 bg-gray-400 text-gray-600 rounded-full;
+    @apply w-8 h-8 text-center bg-Neutral-80 text-sans-body1 flex justify-center items-center text-Neutral-50 rounded-full;
   }
   .add-new-input {
     @apply w-full border border-black rounded-lg px-4 py-3;

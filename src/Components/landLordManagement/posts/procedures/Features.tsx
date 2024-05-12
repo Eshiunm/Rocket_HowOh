@@ -1,13 +1,13 @@
 import { useContext } from "react";
 import { useForm } from "react-hook-form";
-import { ProcedureContext } from "../../../pages/landlordManagement/AddNew";
+import { ProcedureContext } from "../../../../pages/landlordManagement/AddNew";
 import CheckBox from "../CheckBox";
 import {
   houseFeatures,
   mainFeatures,
   nearByFacilities,
   transportations,
-} from "../../../constants/featureList";
+} from "../../../../constants/featureList";
 import CheckToShowInput from "../CheckToShowInput";
 
 export default function Features() {

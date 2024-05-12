@@ -1,13 +1,13 @@
 import { useContext } from "react";
-import { ProcedureContext } from "../../pages/landlordManagement/AddNew";
-import BasicInformation from "./posts/BasicInformation";
-import Photos from "./posts/Photos";
-import Features from "./posts/Features";
-import Equipments from "./posts/Equipments";
-import OtherExpenses from "./posts/OtherExpenses";
-import DepositAndRent from "./posts/DepositAndRent";
-import Introduction from "./posts/Introduction";
-import Restrictions from "./posts/Restrictions";
+import { ProcedureContext } from "../../../pages/landlordManagement/AddNew";
+import BasicInformation from "./procedures/BasicInformation";
+import Photos from "./procedures/Photos";
+import Features from "./procedures/Features";
+import Equipments from "./procedures/Equipments";
+import OtherExpenses from "./procedures/OtherExpenses";
+import DepositAndRent from "./procedures/DepositAndRent";
+import Introduction from "./procedures/Introduction";
+import Restrictions from "./procedures/Restrictions";
 
 export default function AddNewData() {
   const { procedure } = useContext(ProcedureContext);

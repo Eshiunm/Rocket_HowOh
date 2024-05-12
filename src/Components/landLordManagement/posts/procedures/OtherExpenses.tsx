@@ -1,11 +1,11 @@
 import { useContext } from "react";
 import { useForm } from "react-hook-form";
-import { ProcedureContext } from "../../../pages/landlordManagement/AddNew";
+import { ProcedureContext } from "../../../../pages/landlordManagement/AddNew";
 import {
   electricBill,
   managementFee,
   waterBill,
-} from "../../../constants/forPay";
+} from "../../../../constants/forPay";
 import RadioSelect from "../RadioSelect";
 
 export default function OtherExpenses() {
