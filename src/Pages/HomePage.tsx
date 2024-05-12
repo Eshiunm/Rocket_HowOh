@@ -6,6 +6,10 @@ import {
   setDistrictNoLimitState,
   setDistrictItemsState,
 } from "../../redux/searchForm/districtSlice";
+import {
+  setHouseTypeNoLimitState,
+  setHouseTypeItemsState,
+} from "../../redux/searchForm/houseTypeSlice";
 import dropdownIcon from "../assets/imgs/icons/dropdownIcon.svg";
 import searchIcon from "../assets/imgs/icons/searchIcon.svg";
 import kaohsiungDistricts from "../constants/locations/districts/kaohsiungDistricts";
@@ -53,13 +57,18 @@ function HomePage() {
   const dispatch = useDispatch();
   const searchContent = useSelector(store => store.inputSearch.textContent);
   const districtState = useSelector(store => store.district);
-  console.log(districtState);
+  const houseTypeState = useSelector(store => store.houseType);
+  console.log(houseTypeState);
   const [formElementsState, setFormElementsState] = useState<FormElementsState>(
     {} as FormElementsState
   ); // 記錄表單內所有元素的狀態
   const [isSearchInputFocused, setIsSearchInputFocused] = useState(false); // 記錄搜尋框是否被 focused
 
-  const handleDistrictState = (e: MouseEvent<HTMLInputElement>) => {
+  const setSearchContent = (e: ChangeEvent<HTMLInputElement>) => {
+    dispatch(changeContent(e.target.value));
+  };
+
+  const handleDistrictState = (e: ChangeEvent<HTMLInputElement>) => {
     const districtCheckboxDOM = e.target as HTMLInputElement;
     if (districtCheckboxDOM.id === "districtsNoLimit") {
       const newDistrictState = {
@@ -122,14 +131,72 @@ function HomePage() {
       dispatch(setDistrictNoLimitState(newDistrictState.noLimit));
       dispatch(setDistrictItemsState(newDistrictState.districts));
     }
-    //console.log(districtState);
   };
+  const handleHouseTypeState = (e: ChangeEvent<HTMLInputElement>) => {
+    const houseTypeCheckboxDOM = e.target as HTMLInputElement;
+    if (houseTypeCheckboxDOM.id === "houseTypeNoLimit") {
+      const newHouseTypeState = {
+        ...houseTypeState,
+        noLimit: {
+          ...houseTypeState.noLimit,
+          checked: true, // 改變「不限的checkbox」勾選狀態，false 改 true
+          disabled: true, // 將「不限的checkbox」禁用
+        },
+        houseTypes: houseTypeState.houseTypes.map(item => {
+          return {
+            ...item,
+            checked: false, // 將所有類型的 checkbox 勾選狀態設為「false」
+          };
+        }),
+      };
+      dispatch(setHouseTypeNoLimitState(newHouseTypeState.noLimit));
+      dispatch(setHouseTypeItemsState(newHouseTypeState.houseTypes));
+    }else {
+      let newHouseTypeState = {
+        ...houseTypeState,
+        houseTypes: houseTypeState.houseTypes.map(item => {
+          if (item.content === houseTypeCheckboxDOM.name) {
+            return {
+              ...item,
+              checked: !item.checked, // 將剛剛按下的 checkbox 勾選狀態， true 改 false、false 改 true
+            };
+          } else {
+            return item;
+          }
+        }),
+      };
 
-  const setSearchContent = (e: ChangeEvent<HTMLInputElement>) => {
-    dispatch(changeContent(e.target.value));
-  };
+      if (houseTypeCheckboxDOM.checked === true) {
+        newHouseTypeState = {
+          ...newHouseTypeState,
+          noLimit: {
+            ...newHouseTypeState.noLimit,
+            checked: false, // 將「不限的 checkbox」勾選狀態設為「false」
+            disabled: false, // 將「不限的checkbox」解鎖
+          },
+        };
+      } else {
+        const isHouseTypesAllClear = newHouseTypeState.houseTypes.find(
+          ({ checked }) => checked === true
+        );
+        // 如果所有區的 checkbox 勾選狀態都是「false」，就將「不限的checkbox」勾選狀態設為打勾
+        if (isHouseTypesAllClear === undefined) {
+          newHouseTypeState = {
+            ...newHouseTypeState,
+            noLimit: {
+              ...newHouseTypeState.noLimit,
+              checked: true, // 將「不限的 checkbox」勾選狀態設為「true」
+              disabled: true, // 將「不限的checkbox」鎖定
+            },
+          };
+        }
+      }
 
-  /* 初始化表單內要用到的所有元素，整合到 formElementState 變數，並增加 checked 屬性 */
+      dispatch(setHouseTypeNoLimitState(newHouseTypeState.noLimit));
+      dispatch(setHouseTypeItemsState(newHouseTypeState.houseTypes));
+    }
+  }
+  /* 初始化表單內所有的checkbox元素 */
   useEffect(() => {
     const newDistricts = kaohsiungDistricts.map(item => {
       return {
@@ -167,6 +234,8 @@ function HomePage() {
 
     dispatch(setDistrictNoLimitState(newformElementState.District.noLimit));
     dispatch(setDistrictItemsState(newformElementState.District.districts));
+    dispatch(setHouseTypeNoLimitState(newformElementState.HouseType.noLimit));
+    dispatch(setHouseTypeItemsState(newformElementState.HouseType.houseTypes));
     setFormElementsState(newformElementState);
   }, []);
 
@@ -251,9 +320,17 @@ function HomePage() {
                         type="checkbox"
                         name="districtsNoLimit"
                         id="districtsNoLimit"
-                        disabled={districtState.noLimit.disabled}
-                        checked={districtState.noLimit.checked}
-                        onClick={handleDistrictState}
+                        disabled={
+                          districtState.noLimit.disabled === undefined
+                            ? true
+                            : districtState.noLimit.disabled
+                        }
+                        checked={
+                          districtState.noLimit.checked === undefined
+                            ? false
+                            : districtState.noLimit.checked
+                        }
+                        onChange={handleDistrictState}
                       />
                       <label
                         htmlFor="districtsNoLimit"
@@ -276,7 +353,7 @@ function HomePage() {
                                 checked={checked}
                                 name={content}
                                 id={content}
-                                onClick={handleDistrictState}
+                                onChange={handleDistrictState}
                               />
                               <label
                                 htmlFor={content}
@@ -301,22 +378,29 @@ function HomePage() {
                       <input
                         className="w-5 h-5 text-black focus:ring-transparent rounded-sm border-2 border-black cursor-pointer"
                         type="checkbox"
-                        name="typeNoLimit"
-                        id="typeNoLimit"
-                        disabled={formElementsState.HouseType?.noLimit.disabled}
-                        defaultChecked={
-                          formElementsState.HouseType?.noLimit.checked
+                        name="houseTypeNoLimit"
+                        id="houseTypeNoLimit"
+                        disabled={
+                          houseTypeState.noLimit.disabled === undefined
+                            ? true
+                            : houseTypeState.noLimit.disabled
                         }
+                        checked={
+                          houseTypeState.noLimit.checked === undefined
+                            ? true
+                            : houseTypeState.noLimit.checked
+                        }
+                        onChange={handleHouseTypeState}
                       />
                       <label
-                        htmlFor="typeNoLimit"
+                        htmlFor="houseTypeNoLimit"
                         className="pl-2 cursor-pointer"
                       >
-                        {formElementsState.HouseType?.noLimit.content}
+                        {houseTypeState.noLimit.content}
                       </label>
                     </div>
                     <div className="flex gap-x-[22px] gap-y-3 flex-wrap ">
-                      {formElementsState.HouseType?.houseTypes.map(
+                      {houseTypeState.houseTypes.map(
                         ({ content, checked }, index) => {
                           return (
                             <div
@@ -328,7 +412,8 @@ function HomePage() {
                                 type="checkbox"
                                 name={content}
                                 id={content}
-                                defaultChecked={checked}
+                                checked={checked}
+                                onChange={handleHouseTypeState}
                               />
                               <label
                                 htmlFor={content}

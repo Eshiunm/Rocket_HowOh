@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  textContent: "信義國小",
+  textContent: "",
 };
 
 export const inputSearchSlice = createSlice({
