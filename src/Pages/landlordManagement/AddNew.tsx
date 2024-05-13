@@ -56,7 +56,11 @@ export default function AddNew() {
           <AddNewProcedure />
         </div>
       </section>
-      <AddNewData />
+      <main className="bg-Neutral-99 py-7">
+        <div className="container layout-grid">
+          <AddNewData />
+        </div>
+      </main>
     </ProcedureContext.Provider>
   );
 }
