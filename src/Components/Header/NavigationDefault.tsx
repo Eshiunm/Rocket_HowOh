@@ -15,7 +15,7 @@ function NavigationDefault() {
           </Link>
         </li>
         <li>
-          <Link to="/signup" className="text-sans-b-body1 p-2">
+          <Link to="/signUp" className="text-sans-b-body1 p-2">
             建立帳號
           </Link>
         </li>
