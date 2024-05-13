@@ -184,6 +184,7 @@ export default function BasicInformation() {
               type="number"
               id="floorTotal"
               className="add-new-input"
+              placeholder="數字"
             />
             <label htmlFor="floorTotal" className="text-sans-body1 shrink-0">
               總樓數
@@ -225,6 +226,65 @@ export default function BasicInformation() {
             </label>
           </div>
         </div>
+        <p className="text-sans-body1">格局</p>
+        <div className="col-span-12 -mt-1.5 flex gap-6">
+          <div className="add-new-input-block">
+            <input
+              type="number"
+              id="roomNumbers"
+              className="add-new-input"
+              placeholder="數字"
+            />
+            <label htmlFor="roomNumbers" className="text-sans-body1 shrink-0">
+              房
+            </label>
+          </div>
+          <div className="add-new-input-block">
+            <input
+              type="number"
+              id="livingRoomNumbers"
+              className="add-new-input"
+              placeholder="數字"
+            />
+            <label htmlFor="livingRoomNumbers" className="text-sans-body1 shrink-0">
+              廳
+            </label>
+          </div>
+          <div className="add-new-input-block">
+            <input
+              type="number"
+              id="bathRoomNumbers"
+              className="add-new-input"
+              placeholder="數字"
+            />
+            <label htmlFor="bathRoomNumbers" className="text-sans-body1 shrink-0">
+              衛浴
+            </label>
+          </div>
+          <div className="add-new-input-block">
+            <input
+              type="number"
+              id="balconyNumbers"
+              className="add-new-input placeholder:text-sans-caption"
+              placeholder="數字"
+            />
+            <label htmlFor="balconyNumbers" className="text-sans-body1 shrink-0">
+              陽台
+            </label>
+          </div>
+          <div className="add-new-input-block">
+            <input
+              type="number"
+              id="parkingSpaceNumbers"
+              className="add-new-input"
+              placeholder="數字"
+            />
+            <label htmlFor="parkingSpaceNumbers" className="text-sans-body1 shrink-0">
+              車位
+            </label>
+          </div>
+        </div>
+        
         {/* <div className="flex gap-6">
           <div className="add-new-input-block">
             <label htmlFor="city" className="text-sm">
