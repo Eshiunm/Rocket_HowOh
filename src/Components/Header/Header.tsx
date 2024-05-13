@@ -1,7 +1,8 @@
 import { Link, useLocation } from "react-router-dom";
 import NavigationDefault from "./NavigationDefault";
 import NavigationLogin from "./NavigationLogin";
-import logo from "../../assets/imgs/howohLogo.svg";
+import logo from "../../assets/imgs/howohLogo_whiteMode.svg";
+
 
 function Header() {
   const location = useLocation();
