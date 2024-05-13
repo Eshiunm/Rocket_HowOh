@@ -1,10 +1,11 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import NavigationDefault from "./NavigationDefault";
 import NavigationLogin from "./NavigationLogin";
 import logo from "../../assets/imgs/howohLogo.svg";
 
-
 function Header() {
+  const location = useLocation();
+  console.log(location.pathname);
   const isLogin = false;
   return (
     <>
@@ -16,7 +17,8 @@ function Header() {
               好窩
             </h1>
           </Link>
-          {isLogin ? <NavigationLogin /> : <NavigationDefault />}
+          { location.pathname === "/signup" ? null 
+            : isLogin ? (<NavigationLogin />) : (<NavigationDefault />)}
         </div>
       </nav>
     </>
