@@ -44,8 +44,8 @@ export default function BasicInformation() {
   return (
     <div className="p-5">
       <h3 className="add-new-title">基本資訊</h3>
-      <form className="layout-grid gap-6 pt-2.5" onSubmit={handleSubmit(onSubmit)}>
-        <div className="col-span-12">
+      <form className="layout-grid gap-6" onSubmit={handleSubmit(onSubmit)}>
+        <div className="col-span-12 mt-2.5">
           <div
             tabIndex={0}
             className={`relative flex w-full p-3 rounded-[4px] ${
@@ -68,7 +68,7 @@ export default function BasicInformation() {
           </div>
           <p className="text-sans-caption pt-1 pl-5">最多12中文字元</p>
         </div>
-        <div className="col-span-4">
+        <div className="col-span-4 mt-2.5">
           <div
             tabIndex={0}
             className={`relative flex w-full p-3 rounded-[4px] ${
@@ -90,7 +90,7 @@ export default function BasicInformation() {
             </label>
           </div>
         </div>
-        <div className="col-span-4">
+        <div className="col-span-4 mt-2.5">
           <div
             tabIndex={0}
             className={`relative flex w-full p-3 rounded-[4px] ${
@@ -112,7 +112,7 @@ export default function BasicInformation() {
             </label>
           </div>
         </div>
-        <div className="col-span-4">
+        <div className="col-span-4 mt-2.5">
           <div
             tabIndex={0}
             className={`relative flex w-full p-3 rounded-[4px] ${
@@ -131,6 +131,62 @@ export default function BasicInformation() {
               className="absolute text-sans-body1 text-Neutral-50 duration-200 transform -translate-y-4 scale-75 top-[3px] z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-black peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-[3px] peer-focus:scale-75 peer-focus:-translate-y-4 start-3"
             >
               路街
+            </label>
+          </div>
+        </div>
+        <div className="col-span-12 mt-2.5 flex gap-6">
+          <div className="add-new-input-block">
+            <input
+              type="number"
+              id="lane"
+              className="add-new-input"
+              placeholder="數字"
+            />
+            <label htmlFor="lane" className="text-sans-body1 shrink-0">
+              巷
+            </label>
+          </div>
+          <div className="add-new-input-block">
+            <input
+              type="number"
+              id="alley"
+              className="add-new-input"
+              placeholder="數字"
+            />
+            <label htmlFor="alley" className="text-sans-body1 shrink-0">
+              弄
+            </label>
+          </div>
+          <div className="add-new-input-block">
+            <input
+              type="number"
+              id="number"
+              className="add-new-input"
+              placeholder="數字"
+            />
+            <label htmlFor="number" className="text-sans-body1 shrink-0">
+              號
+            </label>
+          </div>
+          <div className="add-new-input-block">
+            <input
+              type="text"
+              id="floor"
+              className="add-new-input placeholder:text-sans-caption"
+              placeholder="地下室填B1、B2..."
+            />
+            <label htmlFor="floor" className="text-sans-body1 shrink-0">
+              樓層
+            </label>
+          </div>
+          <div className="add-new-input-block">
+            <input
+              type="number"
+              id="floorTotal"
+              className="add-new-input"
+            />
+            <label htmlFor="floorTotal" className="text-sans-body1 shrink-0">
+              總樓數
             </label>
           </div>
         </div>
