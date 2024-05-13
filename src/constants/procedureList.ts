@@ -7,38 +7,33 @@ export const procedureList:procedureListType[] = [
     isDone: false,
   },
   {
-    title: "房源照片",
+    title: "照片",
     isActive: false,
     isDone: false,
   },
   {
-    title: "特色",
+    title: "設備設施",
     isActive: false,
     isDone: false,
   },
   {
-    title: "設備",
+    title: "費用",
     isActive: false,
     isDone: false,
   },
   {
-    title: "雜支",
+    title: "介紹",
     isActive: false,
     isDone: false,
   },
   {
-    title: "訂金與租金",
+    title: "限制",
     isActive: false,
     isDone: false,
   },
   {
-    title: "房源介紹",
+    title: "完成",
     isActive: false,
     isDone: false,
-  },
-  {
-    title: "租客限制",
-    isActive: false,
-    isDone: false,
-  },
+  }
 ];

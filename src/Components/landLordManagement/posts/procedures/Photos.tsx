@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { useForm } from "react-hook-form";
-import { ProcedureContext } from "../../../pages/landlordManagement/LandlordManagementAddNew";
+import { ProcedureContext } from "../../../../pages/landlordManagement/AddNew";
 
 export default function Photos() {
   const { handleSubmit } = useForm();
@@ -8,7 +8,7 @@ export default function Photos() {
     useContext(ProcedureContext);
   const onSubmit = () => {
     handleProcedureDone(1);
-    handleProcedureClick("特色");
+    handleProcedureClick("設備設施");
   };
 
   return (
@@ -23,7 +23,7 @@ export default function Photos() {
       >
         上一步
       </button>
-      <h3 className="add-new-title">房源照片</h3>
+      <h3 className="add-new-title">照片</h3>
       <button
         type="button"
         className="border border-black w-80 h-80 flex flex-col justify-center items-center gap-6"

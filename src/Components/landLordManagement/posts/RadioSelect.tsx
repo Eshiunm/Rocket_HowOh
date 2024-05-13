@@ -1,5 +1,5 @@
 import { FieldValues, UseFormRegister } from "react-hook-form";
-import { optionType } from "../../types/forPay";
+import { optionType } from "../../../types/forPay";
 
 interface RadioSelectProps {
   option: optionType;

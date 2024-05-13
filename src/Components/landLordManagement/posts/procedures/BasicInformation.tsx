@@ -1,8 +1,8 @@
 import { useContext } from "react";
 import { useForm } from "react-hook-form";
-import cities from "../../../constants/locations/cities";
-import houseTypes from "../../../constants/houseTypes";
-import { ProcedureContext } from "../../../pages/landlordManagement/LandlordManagementAddNew";
+import cities from "../../../../constants/locations/cities";
+import houseTypes from "../../../../constants/houseTypes";
+import { ProcedureContext } from "../../../../pages/landlordManagement/AddNew";
 
 export default function BasicInformation() {
   const { register, handleSubmit, watch } = useForm({
@@ -30,7 +30,7 @@ export default function BasicInformation() {
     useContext(ProcedureContext);
   const onSubmit = () => {
     handleProcedureDone(0);
-    handleProcedureClick("房源照片");
+    handleProcedureClick("照片");
   };
 
   return (

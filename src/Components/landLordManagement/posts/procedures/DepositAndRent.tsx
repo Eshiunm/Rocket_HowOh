@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { useForm } from "react-hook-form";
-import { ProcedureContext } from "../../../pages/landlordManagement/LandlordManagementAddNew";
+import { ProcedureContext } from "../../../../pages/landlordManagement/AddNew";
 
 export default function DepositAndRent() {
   const { register, handleSubmit } = useForm();
