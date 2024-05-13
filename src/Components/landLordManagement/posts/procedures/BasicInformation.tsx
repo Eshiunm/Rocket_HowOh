@@ -6,6 +6,13 @@ import { ProcedureContext } from "../../../../pages/landlordManagement/AddNew";
 
 export default function BasicInformation() {
   const [isNameFocused, setIsNameFocused] = useState(false); 
+  const [isCityFocused, setIsCityFocused] = useState(false); 
+  const [isDistrictFocused, setIsDistrictFocused] = useState(false); 
+  const [isRoadFocused, setIsRoadFocused] = useState(false); 
+  // const [isCityFocused, setIsCityFocused] = useState(false); 
+  // const [isCityFocused, setIsCityFocused] = useState(false); 
+  // const [isCityFocused, setIsCityFocused] = useState(false); 
+  // const [isCityFocused, setIsCityFocused] = useState(false); 
   const { register, handleSubmit, watch } = useForm({
     defaultValues: {
       name: "",
@@ -38,27 +45,95 @@ export default function BasicInformation() {
     <div className="p-5">
       <h3 className="add-new-title">基本資訊</h3>
       <form className="layout-grid gap-6 pt-2.5" onSubmit={handleSubmit(onSubmit)}>
-        <div
-          tabIndex={0}
-          className={`col-span-12 relative flex w-full p-3 rounded-[4px] ${
-            isNameFocused ? "border-Brand-30 border-2" : "border-black border"
-          }`}
-        >
-          <input
-            type="text"
-            id="name"
-            className="block w-full p-0 pl-1 text-sans-body1 text-black bg-transparent border-none appearance-none focus:ring-0 peer"
-            placeholder=""
-            onFocus={() => setIsNameFocused(true)}
-          />
-          <label
-            htmlFor="name"
-            className="absolute text-sans-body1 text-Neutral-50 duration-200 transform -translate-y-4 scale-75 top-[3px] z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-black peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-[3px] peer-focus:scale-75 peer-focus:-translate-y-4 start-3"
+        <div className="col-span-12">
+          <div
+            tabIndex={0}
+            className={`relative flex w-full p-3 rounded-[4px] ${
+              isNameFocused ? "border-Brand-30 border-2" : "border-black border"
+            }`}
           >
-            房源名稱
-          </label>
+            <input
+              type="text"
+              id="name"
+              className="block w-full p-0 pl-1 text-sans-body1 text-black bg-transparent border-none appearance-none focus:ring-0 peer"
+              placeholder=""
+              onFocus={() => setIsNameFocused(true)}
+            />
+            <label
+              htmlFor="name"
+              className="absolute text-sans-body1 text-Neutral-50 duration-200 transform -translate-y-4 scale-75 top-[3px] z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-black peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-[3px] peer-focus:scale-75 peer-focus:-translate-y-4 start-3"
+            >
+              房源名稱
+            </label>
+          </div>
+          <p className="text-sans-caption pt-1 pl-5">最多12中文字元</p>
         </div>
-        
+        <div className="col-span-4">
+          <div
+            tabIndex={0}
+            className={`relative flex w-full p-3 rounded-[4px] ${
+              isCityFocused ? "border-Brand-30 border-2" : "border-black border"
+            }`}
+          >
+            <input
+              type="text"
+              id="city"
+              className="block w-full p-0 pl-1 text-sans-body1 text-black bg-transparent border-none appearance-none focus:ring-0 peer"
+              placeholder=""
+              onFocus={() => setIsCityFocused(true)}
+            />
+            <label
+              htmlFor="city"
+              className="absolute text-sans-body1 text-Neutral-50 duration-200 transform -translate-y-4 scale-75 top-[3px] z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-black peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-[3px] peer-focus:scale-75 peer-focus:-translate-y-4 start-3"
+            >
+              縣市
+            </label>
+          </div>
+        </div>
+        <div className="col-span-4">
+          <div
+            tabIndex={0}
+            className={`relative flex w-full p-3 rounded-[4px] ${
+              isDistrictFocused ? "border-Brand-30 border-2" : "border-black border"
+            }`}
+          >
+            <input
+              type="text"
+              id="district"
+              className="block w-full p-0 pl-1 text-sans-body1 text-black bg-transparent border-none appearance-none focus:ring-0 peer"
+              placeholder=""
+              onFocus={() => setIsDistrictFocused(true)}
+            />
+            <label
+              htmlFor="district"
+              className="absolute text-sans-body1 text-Neutral-50 duration-200 transform -translate-y-4 scale-75 top-[3px] z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-black peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-[3px] peer-focus:scale-75 peer-focus:-translate-y-4 start-3"
+            >
+              區域
+            </label>
+          </div>
+        </div>
+        <div className="col-span-4">
+          <div
+            tabIndex={0}
+            className={`relative flex w-full p-3 rounded-[4px] ${
+              isRoadFocused ? "border-Brand-30 border-2" : "border-black border"
+            }`}
+          >
+            <input
+              type="text"
+              id="road"
+              className="block w-full p-0 pl-1 text-sans-body1 text-black bg-transparent border-none appearance-none focus:ring-0 peer"
+              placeholder=""
+              onFocus={() => setIsRoadFocused(true)}
+            />
+            <label
+              htmlFor="road"
+              className="absolute text-sans-body1 text-Neutral-50 duration-200 transform -translate-y-4 scale-75 top-[3px] z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-black peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-[3px] peer-focus:scale-75 peer-focus:-translate-y-4 start-3"
+            >
+              路街
+            </label>
+          </div>
+        </div>
         {/* <div className="flex gap-6">
           <div className="add-new-input-block">
             <label htmlFor="city" className="text-sm">
