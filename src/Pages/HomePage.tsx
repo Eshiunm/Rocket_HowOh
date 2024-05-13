@@ -445,7 +445,7 @@ function HomePage() {
             <ul className="flex flex-wrap gap-x-6">
               <li className="md:w-[338px] w-full relative">
                 <div className="bg-aboutMeImg_1 bg-cover bg-no-repeat rounded-2xl">
-                  <div className="bg-transparent rounded-2xl z-[-10] hover:bg-black hover:opacity-40 transition delay-150 duration-300 ease-in">
+                  <div className="bg-transparent rounded-2xl z-[-10] hover:bg-black hover:bg-opacity-40 transition delay-150 duration-300 ease-in">
                     <a
                       href=""
                       className="inline-block text-white pt-5 px-5 h-[380px] rounded-2xl z-10"
