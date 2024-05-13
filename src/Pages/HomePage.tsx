@@ -86,11 +86,11 @@ function HomePage() {
         </div>
         <div className="container">
           <ul className="flex flex-wrap gap-x-3 gap-y-16">
-            <li className="p-4">
+            <li className="p-4 hover:bg-Neutral-99 hover:rounded-[20px]">
               <a href="">
                 <img
                   className="rounded-[20px] mb-4"
-                  src="./src/assets/imgs/home/recommendation_picture_2.svg"
+                  src="./src/assets/imgs/homePage/recommendation_picture_2.svg"
                   alt="recommendation_picture_1"
                 />
                 <h4 className="text-sans-b-h6 mb-3">信義國小套房 捷運3分鐘</h4>
@@ -129,11 +129,11 @@ function HomePage() {
                 </div>
               </a>
             </li>
-            <li className="p-4">
+            <li className="p-4 hover:bg-Neutral-99 hover:rounded-[20px]">
               <a href="">
                 <img
                   className="rounded-[20px] mb-4"
-                  src="./src/assets/imgs/home/recommendation_picture_2.svg"
+                  src="./src/assets/imgs/homePage/recommendation_picture_2.svg"
                   alt="recommendation_picture_1"
                 />
                 <h4 className="text-sans-b-h6 mb-3">信義國小套房 捷運3分鐘</h4>
@@ -172,11 +172,11 @@ function HomePage() {
                 </div>
               </a>
             </li>
-            <li className="p-4">
+            <li className="p-4 hover:bg-Neutral-99 hover:rounded-[20px]">
               <a href="">
                 <img
                   className="rounded-[20px] mb-4"
-                  src="./src/assets/imgs/home/recommendation_picture_2.svg"
+                  src="./src/assets/imgs/homePage/recommendation_picture_2.svg"
                   alt="recommendation_picture_1"
                 />
                 <h4 className="text-sans-b-h6 mb-3">信義國小套房 捷運3分鐘</h4>
@@ -215,11 +215,11 @@ function HomePage() {
                 </div>
               </a>
             </li>
-            <li className="p-4">
+            <li className="p-4 hover:bg-Neutral-99 hover:rounded-[20px]">
               <a href="">
                 <img
                   className="rounded-[20px] mb-4"
-                  src="./src/assets/imgs/home/recommendation_picture_2.svg"
+                  src="./src/assets/imgs/homePage/recommendation_picture_2.svg"
                   alt="recommendation_picture_1"
                 />
                 <h4 className="text-sans-b-h6 mb-3">信義國小套房 捷運3分鐘</h4>
@@ -258,11 +258,11 @@ function HomePage() {
                 </div>
               </a>
             </li>
-            <li className="p-4">
+            <li className="p-4 hover:bg-Neutral-99 hover:rounded-[20px]">
               <a href="">
                 <img
                   className="rounded-[20px] mb-4"
-                  src="./src/assets/imgs/home/recommendation_picture_2.svg"
+                  src="./src/assets/imgs/homePage/recommendation_picture_2.svg"
                   alt="recommendation_picture_1"
                 />
                 <h4 className="text-sans-b-h6 mb-3">信義國小套房 捷運3分鐘</h4>
@@ -301,11 +301,11 @@ function HomePage() {
                 </div>
               </a>
             </li>
-            <li className="p-4">
+            <li className="p-4 hover:bg-Neutral-99 hover:rounded-[20px]">
               <a href="">
                 <img
                   className="rounded-[20px] mb-4"
-                  src="./src/assets/imgs/home/recommendation_picture_2.svg"
+                  src="./src/assets/imgs/homePage/recommendation_picture_2.svg"
                   alt="recommendation_picture_1"
                 />
                 <h4 className="text-sans-b-h6 mb-3">信義國小套房 捷運3分鐘</h4>
@@ -344,11 +344,11 @@ function HomePage() {
                 </div>
               </a>
             </li>
-            <li className="p-4">
+            <li className="p-4 hover:bg-Neutral-99 hover:rounded-[20px]">
               <a href="">
                 <img
                   className="rounded-[20px] mb-4"
-                  src="./src/assets/imgs/home/recommendation_picture_2.svg"
+                  src="./src/assets/imgs/homePage/recommendation_picture_2.svg"
                   alt="recommendation_picture_1"
                 />
                 <h4 className="text-sans-b-h6 mb-3">信義國小套房 捷運3分鐘</h4>
@@ -387,11 +387,11 @@ function HomePage() {
                 </div>
               </a>
             </li>
-            <li className="p-4">
+            <li className="p-4 hover:bg-Neutral-99 hover:rounded-[20px]">
               <a href="">
                 <img
                   className="rounded-[20px] mb-4"
-                  src="./src/assets/imgs/home/recommendation_picture_2.svg"
+                  src="./src/assets/imgs/homePage/recommendation_picture_2.svg"
                   alt="recommendation_picture_1"
                 />
                 <h4 className="text-sans-b-h6 mb-3">信義國小套房 捷運3分鐘</h4>
@@ -431,6 +431,55 @@ function HomePage() {
               </a>
             </li>
           </ul>
+        </div>
+      </section>
+
+      <section className="aboutMe pt-16 pb-[88px] mb-16 bg-Neutral-99">
+        <div className="container mb-16">
+          <h3 className="text-sans-b-h4 text-center">關於好窩</h3>
+        </div>
+        <div className="container layout-grid">
+          <div className="col-start-2 col-span-10">
+            <ul className="flex flex-wrap gap-x-6">
+              <li className="md:w-[338px] w-full relative">
+                <div className="bg-aboutMeImg_1 bg-cover bg-no-repeat rounded-2xl">
+                  <div className="bg-transparent rounded-2xl z-[-10] hover:bg-black hover:opacity-40 transition delay-150 duration-300 ease-in">
+                    <a
+                      href=""
+                      className="inline-block text-white pt-5 px-5 h-[380px] rounded-2xl z-10"
+                    >
+                      <h5 className="text-sans-body2 mb-3 z-10">評價守則</h5>
+                      <p className="text-sans-b-h5 ">
+                        避免謾罵字眼，好的租賃環境需要你我守護
+                      </p>
+                    </a>
+                  </div>
+                </div>
+              </li>
+              <li className="md:w-[338px] w-full ">
+                <a
+                  href=""
+                  className="inline-block text-white pt-5 px-5 h-[380px] bg-aboutMeImg_2 bg-cover bg-no-repeat rounded-2xl"
+                >
+                  <h5 className="text-sans-body2  mb-3">評價守則隱私與安全</h5>
+                  <p className="text-sans-b-h5">
+                    你的個資交由你掌控， 平台安全交給我們
+                  </p>
+                </a>
+              </li>
+              <li className="md:w-[338px] w-full ">
+                <a
+                  href=""
+                  className="inline-block text-black pt-5 px-5 h-[380px] bg-aboutMeImg_3 bg-cover bg-no-repeat bg-center rounded-2xl"
+                >
+                  <h5 className="text-sans-body2 mb-3">透明</h5>
+                  <p className="text-sans-b-h5">
+                    避免謾罵字眼，好的租賃環境需要你我守護
+                  </p>
+                </a>
+              </li>
+            </ul>
+          </div>
         </div>
       </section>
     </>
