@@ -48,7 +48,7 @@
     @apply self-start mt-12;
   }
   .add-new-title {
-    @apply text-3xl;
+    @apply text-sans-h5 mb-6;
   }
   .add-new-small-title {
     @apply text-base font-bold mb-6;

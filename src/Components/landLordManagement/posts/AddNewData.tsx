@@ -15,15 +15,13 @@ export default function AddNewData() {
 
   return (
     <div className="col-span-10 col-start-2 bg-white p-5 rounded-2xl">
-      <div className="p-5">
-        {title === "基本資訊" && <BasicInformation />}
-        {title === "照片" && <Photos />}
-        {title === "設備設施" && <Facilities />}
-        {title === "費用" && <Expenses />}
-        {title === "介紹" && <Introduction />}
-        {title === "限制" && <Restrictions />}
-        {title === "完成" && <Equipments />}
-      </div>
+      {title === "基本資訊" && <BasicInformation />}
+      {title === "照片" && <Photos />}
+      {title === "設備設施" && <Facilities />}
+      {title === "費用" && <Expenses />}
+      {title === "介紹" && <Introduction />}
+      {title === "限制" && <Restrictions />}
+      {title === "完成" && <Equipments />}
     </div>
   );
 }
