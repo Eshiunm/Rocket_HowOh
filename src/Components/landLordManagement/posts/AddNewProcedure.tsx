@@ -27,7 +27,7 @@ export default function AddNewProcedure() {
                 </div>
                 <div
                   className={
-                    isDone || isActive ? "black text-sans-caption whitespace-nowrap -mx-2" : "text-Neutral-70 text-sans-caption whitespace-nowrap -mx-2"
+                    isDone || isActive ? "text-black text-sans-caption whitespace-nowrap -mx-2" : "text-Neutral-70 text-sans-caption whitespace-nowrap -mx-2"
                   }
                 >
                   {title}

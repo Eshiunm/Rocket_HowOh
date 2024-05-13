@@ -13,8 +13,8 @@ export default function Restrictions() {
   const { handleProcedureClick, handleProcedureDone } =
     useContext(ProcedureContext);
   const onSubmit = () => {
-    handleProcedureDone(7);
-    alert("成功刊登房源");
+    handleProcedureDone(5);
+    handleProcedureClick("完成");
   };
 
   return (
@@ -22,11 +22,11 @@ export default function Restrictions() {
       <button
         type="button"
         className="self-start add-new-back-btn"
-        onClick={() => handleProcedureClick("房源介紹")}
+        onClick={() => handleProcedureClick("介紹")}
       >
         上一步
       </button>
-      <h3 className="add-new-title">租客限制</h3>
+      <h3 className="add-new-title">限制</h3>
       <p>您若設定租客限制，不符合條件的用戶將不會得到您的聯絡資訊。</p>
       <div>
         <h4 className="add-new-small-title">是否設定條件</h4>

@@ -16,7 +16,7 @@ export const ProcedureContext = createContext<contextValueType>(
   {} as contextValueType
 );
 
-export default function LandlordManagementAddNew() {
+export default function AddNew() {
   const [procedure, setProcedure] = useState(procedureList);
 
   const handleProcedureClick = (title: string) => {

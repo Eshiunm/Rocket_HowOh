@@ -30,7 +30,7 @@ export default function BasicInformation() {
     useContext(ProcedureContext);
   const onSubmit = () => {
     handleProcedureDone(0);
-    handleProcedureClick("房源照片");
+    handleProcedureClick("照片");
   };
 
   return (

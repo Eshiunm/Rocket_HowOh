@@ -7,8 +7,8 @@ export default function Introduction() {
   const { handleProcedureClick, handleProcedureDone } =
     useContext(ProcedureContext);
   const onSubmit = () => {
-    handleProcedureDone(6);
-    handleProcedureClick("租客限制");
+    handleProcedureDone(4);
+    handleProcedureClick("限制");
   };
 
   return (
@@ -16,11 +16,11 @@ export default function Introduction() {
       <button
         type="button"
         className="self-start add-new-back-btn"
-        onClick={() => handleProcedureClick("訂金與租金")}
+        onClick={() => handleProcedureClick("費用")}
       >
         上一步
       </button>
-      <h3 className="add-new-title">房源介紹</h3>
+      <h3 className="add-new-title">介紹</h3>
       <div className="add-new-input-block">
         <label htmlFor="introduce" className="text-sm">
           請簡述您的房源

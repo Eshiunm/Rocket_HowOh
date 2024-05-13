@@ -8,13 +8,13 @@ import {
 } from "../../../../constants/forPay";
 import RadioSelect from "../RadioSelect";
 
-export default function OtherExpenses() {
+export default function Expenses() {
   const { register, handleSubmit } = useForm();
   const { handleProcedureClick, handleProcedureDone } =
     useContext(ProcedureContext);
   const onSubmit = () => {
-    handleProcedureDone(4);
-    handleProcedureClick("訂金與租金");
+    handleProcedureDone(3);
+    handleProcedureClick("介紹");
   };
 
   return (
@@ -22,11 +22,37 @@ export default function OtherExpenses() {
       <button
         type="button"
         className="self-start add-new-back-btn"
-        onClick={() => handleProcedureClick("設備")}
+        onClick={() => handleProcedureClick("設備設施")}
       >
         上一步
       </button>
-      <h3 className="add-new-title">雜支</h3>
+      <h3 className="add-new-title">費用</h3>
+      <div className="add-new-input-block">
+        <label htmlFor="rent" className="text-sm">
+          每月租金
+        </label>
+        <input
+          type="text"
+          id="rent"
+          className="add-new-input w-1/3"
+          placeholder="租金"
+          {...register("rent", { required: true })}
+        />
+      </div>
+      <div className="add-new-input-block">
+        <label htmlFor="deposit" className="text-sm">
+          押金
+        </label>
+        <select
+          id="deposit"
+          className="add-new-input w-1/3"
+          {...register("deposit", { required: true })}
+        >
+          <option value="免押金">免押金</option>
+          <option value="1個月">1個月</option>
+          <option value="2個月">2個月</option>
+        </select>
+      </div>
       <div className="border-b pb-12 mb-12">
         <h4 className="add-new-small-title">水費</h4>
         <fieldset className="flex gap-6">

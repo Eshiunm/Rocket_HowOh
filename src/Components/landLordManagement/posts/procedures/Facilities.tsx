@@ -7,16 +7,17 @@ import {
   mainFeatures,
   nearByFacilities,
   transportations,
+  equipments
 } from "../../../../constants/featureList";
 import CheckToShowInput from "../CheckToShowInput";
 
-export default function Features() {
+export default function Facilities() {
   const { register, handleSubmit } = useForm();
   const { handleProcedureClick, handleProcedureDone } =
     useContext(ProcedureContext);
   const onSubmit = () => {
     handleProcedureDone(2);
-    handleProcedureClick("設備");
+    handleProcedureClick("費用");
   };
 
   return (
@@ -24,7 +25,7 @@ export default function Features() {
       <button
         type="button"
         className="self-start add-new-back-btn"
-        onClick={() => handleProcedureClick("房源照片")}
+        onClick={() => handleProcedureClick("照片")}
       >
         上一步
       </button>
@@ -65,6 +66,12 @@ export default function Features() {
             ))}
           </div>
         </div>
+      </div>
+      <h3 className="add-new-title">設備</h3>
+      <div>
+        {equipments.map(({ id, title }) => (
+          <CheckBox id={id} title={title} register={register} key={id} />
+        ))}
       </div>
       <button type="submit" className="add-new-btn add-new-next-btn">
         下一步
