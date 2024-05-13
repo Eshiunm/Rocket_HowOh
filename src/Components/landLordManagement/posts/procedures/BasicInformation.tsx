@@ -9,7 +9,7 @@ export default function BasicInformation() {
   const [isCityFocused, setIsCityFocused] = useState(false); 
   const [isDistrictFocused, setIsDistrictFocused] = useState(false); 
   const [isRoadFocused, setIsRoadFocused] = useState(false); 
-  // const [isCityFocused, setIsCityFocused] = useState(false); 
+  const [isTypeFocused, setIsTypeFocused] = useState(false); 
   // const [isCityFocused, setIsCityFocused] = useState(false); 
   // const [isCityFocused, setIsCityFocused] = useState(false); 
   // const [isCityFocused, setIsCityFocused] = useState(false); 
@@ -187,6 +187,41 @@ export default function BasicInformation() {
             />
             <label htmlFor="floorTotal" className="text-sans-body1 shrink-0">
               總樓數
+            </label>
+          </div>
+        </div>
+        <div className="col-span-6 mt-2.5">
+        <div
+            tabIndex={0}
+            className={`relative flex w-full p-3 rounded-[4px] ${
+              isTypeFocused ? "border-Brand-30 border-2" : "border-black border"
+            }`}
+          >
+            <input
+              type="text"
+              id="type"
+              className="block w-full p-0 pl-1 text-sans-body1 text-black bg-transparent border-none appearance-none focus:ring-0 peer"
+              placeholder=""
+              onFocus={() => setIsTypeFocused(true)}
+            />
+            <label
+              htmlFor="type"
+              className="absolute text-sans-body1 text-Neutral-50 duration-200 transform -translate-y-4 scale-75 top-[3px] z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-black peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-[3px] peer-focus:scale-75 peer-focus:-translate-y-4 start-3"
+            >
+              類型
+            </label>
+          </div>
+        </div>
+        <div className="col-span-6 mt-2.5">
+          <div className="add-new-input-block">
+            <input
+              type="number"
+              id="ping"
+              className="add-new-input"
+              placeholder="數字"
+            />
+            <label htmlFor="ping" className="text-sans-body1 shrink-0">
+              可使用坪數
             </label>
           </div>
         </div>
