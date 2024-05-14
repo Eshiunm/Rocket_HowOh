@@ -10,7 +10,10 @@ export default function BasicInformation() {
   const [isDistrictFocused, setIsDistrictFocused] = useState(false); 
   const [isRoadFocused, setIsRoadFocused] = useState(false); 
   const [isTypeFocused, setIsTypeFocused] = useState(false); 
-  const { register, handleSubmit, watch } = useForm({
+  const { handleProcedureClick, handleProcedureDone } =
+    useContext(ProcedureContext);
+
+  const { register, handleSubmit,formState: { errors }, watch } = useForm({
     defaultValues: {
       name: "",
       city: "高雄市",
@@ -31,12 +34,11 @@ export default function BasicInformation() {
     }
   });
   const selectedCity = watch("city");
-  const { handleProcedureClick, handleProcedureDone } =
-    useContext(ProcedureContext);
   const onSubmit = () => {
     handleProcedureDone(0);
     handleProcedureClick("照片");
   };
+  console.log(errors);
 
   return (
     <div className="p-5">
@@ -57,6 +59,10 @@ export default function BasicInformation() {
               className="block w-full p-0 pl-1 text-sans-body1 text-black bg-transparent border-none appearance-none focus:ring-0 peer"
               placeholder=""
               maxLength={12}
+              {...register("name", {
+                required: { value: true, message: "必填欄位" },
+                maxLength: { value: 12, message: "最多12中文字元" }
+               })}
             />
             <label
               htmlFor="name"
@@ -65,7 +71,7 @@ export default function BasicInformation() {
               房源名稱
             </label>
           </div>
-          <p className="text-sans-caption pt-1 pl-5">最多12中文字元</p>
+          {errors.name ? <p className="text-sans-caption text-Alert-50 pt-1 pl-5">{`${errors.name?.message}`}</p> : <p className="text-sans-caption pt-1 pl-5">最多12中文字元</p> }
         </div>
         <div className="col-span-4 mt-2.5">
           <div
