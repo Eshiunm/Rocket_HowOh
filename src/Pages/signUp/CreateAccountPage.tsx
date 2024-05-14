@@ -1,116 +1,177 @@
-import { useEffect, useState } from "react";
-import { NavLink, Outlet, useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import doneImg from "../../assets/imgs/icons/createAccount_done.svg";
+import EnterPhoneForm from "../../components/signUp/EnterPhoneForm";
+import PhoneValidationForm from "../../components/signUp/PhoneValidationForm";
+import { setCurrentStepState } from "../../../redux/signUp/stepSlice";
 
 function CreateAccountPage() {
-  const [identity, setIdentity] = useState("");
-  const [currentStep, setCurrentStep] = useState("enterPhone");
-  const params = useParams();
-  console.log(currentStep);
-
+  const dispatch = useDispatch();
+  const currentStepState = useSelector(
+    store => store.signUpStepState.currentStepState
+  );
+  console.log(currentStepState);
   /*
-    當步驟的網址改變時，更新 currentStep 值
-    輸入手機 -> currentStep = "enterPhone"
-    手機驗證 -> currentStep = "phoneValidation"
-    基本資訊 -> currentStep = "basicInfo"
-    註冊完成 -> currentStep = "completed"
+    使用者若按到重新載入，一律回到第一步
   */
   useEffect(() => {
-    params.currentStep?.includes("enterPhone")
-      ? setCurrentStep("enterPhone")
-      : params.currentStep?.includes("phoneValidation")
-      ? setCurrentStep("phoneValidation")
-      : params.currentStep?.includes("basicInfo")
-      ? setCurrentStep("basicInfo")
-      : setCurrentStep("completed");
-  }, [params.currentStep]);
-
-  /*
-     進到註冊頁面先判斷對方想註冊的身分是租客還是房東
-     租客 -> identity = "tenant"
-     房東 -> identity = "landLord"
-  */
-  useEffect(() => {
-    params.currentStep?.includes("tenant")
-      ? setIdentity("tenant")
-      : setIdentity("landLord");
+    dispatch(setCurrentStepState(1));
   }, []);
-
   return (
     <>
-      {/* 註冊頁 nav */}
+      {/* 註冊進度條 */}
       <div className="pt-6 pb-[50px] bg-Tenant-90">
         <div className="container layout-grid">
           <div className="col-span-8 col-start-3">
-            <div className="flex justify-between items-center">
-              <NavLink
-                to={`/signUp/createAccount/${identity}-enterPhone`}
-                className="relative"
-              >
+            <ul className="flex justify-between items-center">
+              <li className="relative">
                 <div className="w-8 h-8 rounded-full bg-Brand-90 flex items-center justify-center">
-                  <span className="text-sans-body1 text-Brand-60">1</span>
+                  {currentStepState === 1 ? (
+                    <span className="text-sans-body1 text-Brand-60">1</span>
+                  ) : (
+                    <img
+                      src={doneImg}
+                      alt="domeImg"
+                      className="w-4 h-4 scale-150"
+                    />
+                  )}
+                  {/* {signUpStepState.enterPhoneStepIsDone ? (
+                    <img
+                      src={doneImg}
+                      alt="domeImg"
+                      className="w-4 h-4 scale-150"
+                    />
+                  ) : (
+                    <span className="text-sans-body1 text-Brand-60">1</span>
+                  )} */}
                 </div>
                 <span className="absolute bottom-[-100%] left-[-50%] whitespace-nowrap">
                   輸入手機
                 </span>
-              </NavLink>
+              </li>
               <div className="w-full h-[1px] bg-Neutral-80"></div>
-              <NavLink
-                to={`/signUp/createAccount/${identity}-phoneValidation`}
-                className="relative"
-              >
+              <li className="relative">
                 <div
                   className={
-                    currentStep === "phoneValidation"
+                    currentStepState >= 2
                       ? "w-8 h-8 rounded-full bg-Brand-90 flex items-center justify-center"
                       : "w-8 h-8 rounded-full bg-Neutral-80 flex items-center justify-center"
                   }
                 >
-                  <span
-                    className={
-                      currentStep === "phoneValidation"
-                        ? "text-sans-body1 text-Brand-60"
-                        : "text-sans-body1 text-Tenant-50"
-                    }
-                  >
-                    2
-                  </span>
+                  {currentStepState === 2 ? (
+                    <span className="text-sans-body1 text-Brand-60">2</span>
+                  ) : currentStepState > 2 ? (
+                    <img
+                      src={doneImg}
+                      alt="domeImg"
+                      className="w-4 h-4 scale-150"
+                    />
+                  ) : (
+                    <span className="text-sans-body1 text-Tenant-50">2</span>
+                  )}
                 </div>
+                {/* <div
+                  className={
+                    currentStep === "phoneValidation"
+                      ? "w-8 h-8 rounded-full bg-Brand-90 flex items-center justify-center"
+                      : signUpStepState.enterPhoneStepIsDone &&
+                        signUpStepState.phoneValidationIsDone
+                      ? "w-8 h-8 rounded-full bg-Brand-90 flex items-center justify-center"
+                      : "w-8 h-8 rounded-full bg-Neutral-80 flex items-center justify-center"
+                  }
+                >
+                  {signUpStepState.phoneValidationIsDone ? (
+                    <img
+                      src={doneImg}
+                      alt="domeImg"
+                      className="w-4 h-4 scale-150"
+                    />
+                  ) : (
+                    <span
+                      className={
+                        currentStep === "phoneValidation"
+                          ? "text-sans-body1 text-Brand-60"
+                          : "text-sans-body1 text-Tenant-50"
+                      }
+                    >
+                      2
+                    </span>
+                  )}
+                </div> */}
                 <span className="absolute bottom-[-100%] left-[-50%] whitespace-nowrap">
                   手機驗證
                 </span>
-              </NavLink>
+              </li>
               <div className="w-full h-[1px] bg-Neutral-80"></div>
-              <NavLink
-                to={`/signUp/createAccount/${identity}-basicInfo`}
-                className="relative"
-              >
+              <li className="relative">
                 <div
+                  className={
+                    currentStepState >= 3
+                      ? "w-8 h-8 rounded-full bg-Brand-90 flex items-center justify-center"
+                      : "w-8 h-8 rounded-full bg-Neutral-80 flex items-center justify-center"
+                  }
+                >
+                  {currentStepState === 3 ? (
+                    <span className="text-sans-body1 text-Brand-60">3</span>
+                  ) : currentStepState > 3 ? (
+                    <img
+                      src={doneImg}
+                      alt="domeImg"
+                      className="w-4 h-4 scale-150"
+                    />
+                  ) : (
+                    <span className="text-sans-body1 text-Tenant-50">3</span>
+                  )}
+                </div>
+                {/* <div
                   className={
                     currentStep === "basicInfo"
                       ? "w-8 h-8 rounded-full bg-Brand-90 flex items-center justify-center"
                       : "w-8 h-8 rounded-full bg-Neutral-80 flex items-center justify-center"
                   }
                 >
-                  <span
-                    className={
-                      currentStep === "basicInfo"
-                        ? "text-sans-body1 text-Brand-60"
-                        : "text-sans-body1 text-Tenant-50"
-                    }
-                  >
-                    3
-                  </span>
-                </div>
+                  {signUpStepState.basicInfoIsDone ? (
+                    <img
+                      src={doneImg}
+                      alt="domeImg"
+                      className="w-4 h-4 scale-150"
+                    />
+                  ) : (
+                    <span
+                      className={
+                        currentStep === "basicInfo"
+                          ? "text-sans-body1 text-Brand-60"
+                          : "text-sans-body1 text-Tenant-50"
+                      }
+                    >
+                      3
+                    </span>
+                  )}
+                </div> */}
                 <span className="absolute bottom-[-100%] left-[-50%] whitespace-nowrap">
                   基本資訊
                 </span>
-              </NavLink>
+              </li>
               <div className="w-full h-[1px] bg-Neutral-80"></div>
-              <NavLink
-                to={`/signUp/createAccount/${identity}-completed`}
-                className="relative"
-              >
+              <li className="relative">
                 <div
+                  className={
+                    currentStepState >= 4
+                      ? "w-8 h-8 rounded-full bg-Brand-90 flex items-center justify-center"
+                      : "w-8 h-8 rounded-full bg-Neutral-80 flex items-center justify-center"
+                  }
+                >
+                  {currentStepState === 4 ? (
+                    <img
+                      src={doneImg}
+                      alt="domeImg"
+                      className="w-4 h-4 scale-150"
+                    />
+                  ) : (
+                    <span className="text-sans-body1 text-Tenant-50">4</span>
+                  )}
+                </div>
+                {/* <div
                   className={
                     currentStep === "completed"
                       ? "w-8 h-8 rounded-full bg-Brand-90 flex items-center justify-center"
@@ -126,16 +187,17 @@ function CreateAccountPage() {
                   >
                     4
                   </span>
-                </div>
+                </div> */}
                 <span className="absolute bottom-[-100%] left-[-50%] whitespace-nowrap">
                   完成註冊
                 </span>
-              </NavLink>
-            </div>
+              </li>
+            </ul>
           </div>
         </div>
       </div>
-      <Outlet />
+      {currentStepState === 1 && <EnterPhoneForm />}
+      {currentStepState === 2 && <PhoneValidationForm />}
     </>
   );
 }
