@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import cities from "../../../../constants/locations/cities";
 import houseTypes from "../../../../constants/houseTypes";
@@ -40,6 +40,13 @@ export default function BasicInformation() {
     handleProcedureDone(0);
     handleProcedureClick("照片");
   };
+  useEffect(() => {
+    setIsNameFocused(false);
+    setIsCityFocused(false);
+    setIsDistrictFocused(false);
+    setIsRoadFocused(false);
+    setIsTypeFocused(false);
+  }, [selectedCity]);
 
   return (
     <div className="p-5">
@@ -58,6 +65,7 @@ export default function BasicInformation() {
               className="block w-full p-0 pl-1 text-sans-body1 text-black bg-transparent border-none appearance-none focus:ring-0 peer"
               placeholder=""
               onFocus={() => setIsNameFocused(true)}
+              onBlur={() => setIsNameFocused(false)}
             />
             <label
               htmlFor="name"
@@ -81,6 +89,7 @@ export default function BasicInformation() {
               className="block w-full p-0 pl-1 text-sans-body1 text-black bg-transparent border-none appearance-none focus:ring-0 peer"
               placeholder=""
               onFocus={() => setIsCityFocused(true)}
+              onBlur={() => setIsCityFocused(false)}
             />
             <label
               htmlFor="city"
@@ -103,6 +112,7 @@ export default function BasicInformation() {
               className="block w-full p-0 pl-1 text-sans-body1 text-black bg-transparent border-none appearance-none focus:ring-0 peer"
               placeholder=""
               onFocus={() => setIsDistrictFocused(true)}
+              onBlur={() => setIsDistrictFocused(false)}
             />
             <label
               htmlFor="district"
@@ -125,6 +135,7 @@ export default function BasicInformation() {
               className="block w-full p-0 pl-1 text-sans-body1 text-black bg-transparent border-none appearance-none focus:ring-0 peer"
               placeholder=""
               onFocus={() => setIsRoadFocused(true)}
+              onBlur={() => setIsRoadFocused(false)}
             />
             <label
               htmlFor="road"
@@ -192,7 +203,7 @@ export default function BasicInformation() {
           </div>
         </div>
         <div className="col-span-6 mt-2.5">
-        <div
+          <div
             tabIndex={0}
             className={`relative flex w-full p-3 rounded-[4px] ${
               isTypeFocused ? "border-Brand-30 border-2" : "border-black border"
@@ -204,6 +215,7 @@ export default function BasicInformation() {
               className="block w-full p-0 pl-1 text-sans-body1 text-black bg-transparent border-none appearance-none focus:ring-0 peer"
               placeholder=""
               onFocus={() => setIsTypeFocused(true)}
+              onBlur={() => setIsTypeFocused(false)}
             />
             <label
               htmlFor="type"
