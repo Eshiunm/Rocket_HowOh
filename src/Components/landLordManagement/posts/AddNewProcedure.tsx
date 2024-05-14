@@ -11,7 +11,9 @@ export default function AddNewProcedure() {
         {procedure.map((item, index: number) => {
           const { title, isActive, isDone } = item;
           return (
-            <>
+            <div key={title} className={`flex justify-between ${
+              index !== procedure.length - 1 ? "w-full" : ""
+            }`}>
               <button
                 disabled={!isDone}
                 key={title}
@@ -36,7 +38,7 @@ export default function AddNewProcedure() {
               {
                 index !== procedure.length -1 && <div className="w-full h-[1px] bg-Neutral-80 mt-4"/>
               }
-            </>
+            </div>
           )}
         )}
       </div>
