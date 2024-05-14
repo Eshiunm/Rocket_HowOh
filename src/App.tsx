@@ -16,10 +16,7 @@ function App() {
           <Route path="/" element={<HomePage />}></Route>
           <Route path="/login" element={<h1>你在登入頁</h1>}></Route>
           <Route path="/signUp" element={<SignUpSwitchIdentityPage />}></Route>
-          <Route path="/signUp/createAccount" element={<CreateAccountPage />}>
-            <Route path=":currentStep" element={<CurrentStep />}></Route>
-          </Route>
-
+          <Route path="/signUp/createAccount" element={<CreateAccountPage />}></Route>
           <Route path="/post" element={<AddNew />}></Route>
           <Route
             path="/landlord-management"

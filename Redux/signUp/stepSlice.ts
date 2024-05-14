@@ -1,21 +1,18 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  enterPhoneStepIsDone: false,
-  phoneValidationIsDone: false,
-  basicInfoIsDone:false,
-  completedIsDone: false,
+  currentStepState: 0,
 };
 
 export const stepSlice = createSlice({
   name: "step",
   initialState,
   reducers: {
-    setStepState: (state, action) => {
-      
+    setCurrentStepState: (state, action) => {
+      state.currentStepState = action.payload;
     },
   },
 });
 
-export const { setStepState } = stepSlice.actions;
+export const { setCurrentStepState } = stepSlice.actions;
 export default stepSlice.reducer;

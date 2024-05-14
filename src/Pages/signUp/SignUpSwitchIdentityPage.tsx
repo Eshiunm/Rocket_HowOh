@@ -1,19 +1,40 @@
-import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import tenant_bgImg from "../../assets/imgs/signUp/signUp_tenant_bgImg.svg";
 import lendLord_bgImg from "../../assets/imgs/signUp/signUp_lendLord_bgImg.svg";
+import { setIdentityState } from "../../../redux/signUp/identitySlice";
+import { setCurrentStepState } from "../../../redux/signUp/stepSlice";
 
 function SignUpSwitchIdentityPage() {
-  const handleSignUp = (e: React.MouseEvent) => {
-    e.preventDefault();
-    console.log("sign up");
+  const dispatch = useDispatch();
+  const identityState = useSelector(
+    store => store.signUpIdentityState.identityState
+  );
+  console.log(identityState);
+  const navigate = useNavigate();
+  const handleLogin = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    console.log("Login");
+  };
+
+  const handleTenantSignUp = () => {
+    dispatch(setIdentityState("tenant"));
+    dispatch(setCurrentStepState(1));
+    navigate("/signUp/createAccount");
+  };
+
+  const handleLendLordSignUp = () => {
+    dispatch(setIdentityState("lendLord"));
+    dispatch(setCurrentStepState(1));
+    navigate("/signUp/createAccount");
   };
 
   return (
     <div className="wrap h-screen pt-[170px] bg-Neutral-99 ">
       <div className="container layout-grid">
-        <Link
-          to="/signUp/createAccount/tenant-enterPhone"
-          className="col-span-4 col-start-3 p-8 bg-Neutral-95 rounded-2xl hover:bg-black hover:bg-opacity-10 relative"
+        <div
+          className="col-span-4 col-start-3 p-8 bg-Neutral-95 rounded-2xl hover:bg-black hover:bg-opacity-10 relative cursor-pointer"
+          onClick={handleTenantSignUp}
         >
           <h2 className="text-sans-b-h5 mb-[168px]">我是租客</h2>
           <p>
@@ -21,7 +42,7 @@ function SignUpSwitchIdentityPage() {
             <span
               className="text-sans-b-body1 hover:opacity-50"
               id="tenantSignUp"
-              onClick={handleSignUp}
+              onClick={handleLogin}
             >
               登入
             </span>
@@ -31,10 +52,10 @@ function SignUpSwitchIdentityPage() {
             alt="tenant_bgImg"
             className="absolute right-0 bottom-0"
           />
-        </Link>
-        <Link
-          to="/signUp/createAccount/landLord-enterPhone"
-          className="col-span-4 col-start-7 p-8 bg-Neutral-95 rounded-2xl hover:bg-black hover:bg-opacity-10 relative"
+        </div>
+        <div
+          className="col-span-4 col-start-7 p-8 bg-Neutral-95 rounded-2xl hover:bg-black hover:bg-opacity-10 relative cursor-pointer"
+          onClick={handleLendLordSignUp}
         >
           <h2 className="text-sans-b-h5 mb-[168px]">我是房東</h2>
           <p>
@@ -42,7 +63,7 @@ function SignUpSwitchIdentityPage() {
             <span
               className="text-sans-b-body1 hover:opacity-50"
               id="landLordSignUp"
-              onClick={handleSignUp}
+              onClick={handleLogin}
             >
               登入
             </span>
@@ -52,7 +73,7 @@ function SignUpSwitchIdentityPage() {
             alt="tentant_bgImg"
             className="absolute right-0 bottom-0"
           />
-        </Link>
+        </div>
       </div>
     </div>
   );
