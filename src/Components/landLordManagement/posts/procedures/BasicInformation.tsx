@@ -48,7 +48,9 @@ export default function BasicInformation() {
           <div
             tabIndex={0}
             className={`relative flex w-full p-3 rounded-[4px] ${
-              isNameFocused ? "border-Brand-30 border-2" : "border-black border"
+              errors.name ? "border-Alert-50 border"
+              : isNameFocused ? "border-Brand-30 border-2"
+              : "border-black border"
             }`}
             onFocus={() => setIsNameFocused(true)}
             onBlur={() => setIsNameFocused(false)}
@@ -71,13 +73,15 @@ export default function BasicInformation() {
               房源名稱
             </label>
           </div>
-          {errors.name ? <p className="text-sans-caption text-Alert-50 pt-1 pl-5">{`${errors.name?.message}`}</p> : <p className="text-sans-caption pt-1 pl-5">最多12中文字元</p> }
+          {errors.name ? <p className="post-alert">{errors.name?.message}</p> : <p className="text-sans-caption pt-1 pl-5">最多12中文字元</p> }
         </div>
         <div className="col-span-4 mt-2.5">
           <div
             tabIndex={0}
             className={`relative flex w-full p-3 rounded-[4px] ${
-              isCityFocused ? "border-Brand-30 border-2" : "border-black border"
+              errors.city ? "border-Alert-50 border"
+              : isCityFocused ? "border-Brand-30 border-2"
+              : "border-black border"
             }`}
             onFocus={() => setIsCityFocused(true)}
             onBlur={() => setIsCityFocused(false)}
@@ -85,7 +89,9 @@ export default function BasicInformation() {
             <select
               id="city"
               className="block w-full p-0 pl-1 text-sans-body1 text-black bg-transparent border-none appearance-none focus:ring-0 peer"
-              {...register("city")}
+              {...register("city", {
+                required: { value: true, message: "必填欄位" },
+               })}
             >
               {cities.map(({ city }) => (
                   <option value={city} key={city}>
@@ -101,12 +107,15 @@ export default function BasicInformation() {
               縣市
             </label>
           </div>
+          {errors.city ? <p className="post-alert">{errors.city?.message}</p> : null }
         </div>
         <div className="col-span-4 mt-2.5">
           <div
             tabIndex={0}
             className={`relative flex w-full p-3 rounded-[4px] ${
-              isDistrictFocused ? "border-Brand-30 border-2" : "border-black border"
+              errors.district ? "border-Alert-50 border"
+              : isDistrictFocused ? "border-Brand-30 border-2"
+              : "border-black border"
             }`}
             onFocus={() => setIsDistrictFocused(true)}
             onBlur={() => setIsDistrictFocused(false)}
@@ -114,6 +123,9 @@ export default function BasicInformation() {
             <select
               id="district"
               className="block w-full p-0 pl-1 text-sans-body1 text-black bg-transparent border-none appearance-none focus:ring-0 peer"
+              {...register("district", {
+                required: { value: true, message: "必填欄位" },
+              })}
             >
               {cities
                 .find((item) => item.city === selectedCity) 
@@ -130,12 +142,15 @@ export default function BasicInformation() {
               區域
             </label>
           </div>
+          {errors.district ? <p className="post-alert">{errors.district?.message}</p> : null }
         </div>
         <div className="col-span-4 mt-2.5">
           <div
             tabIndex={0}
             className={`relative flex w-full p-3 rounded-[4px] ${
-              isRoadFocused ? "border-Brand-30 border-2" : "border-black border"
+              errors.road ? "border-Alert-50 border"
+              : isRoadFocused ? "border-Brand-30 border-2"
+              : "border-black border"
             }`}
             onFocus={() => setIsRoadFocused(true)}
             onBlur={() => setIsRoadFocused(false)}
@@ -145,6 +160,9 @@ export default function BasicInformation() {
               id="road"
               className="block w-full p-0 pl-1 text-sans-body1 text-black bg-transparent border-none appearance-none focus:ring-0 peer"
               placeholder=""
+              {...register("road", {
+                required: { value: true, message: "必填欄位" },
+              })}
             />
             <label
               htmlFor="road"
@@ -153,6 +171,7 @@ export default function BasicInformation() {
               路街
             </label>
           </div>
+          {errors.road ? <p className="post-alert">{errors.road?.message}</p> : null}
         </div>
         <div className="col-span-12 mt-2.5 flex gap-6">
           <div className="add-new-input-block">
