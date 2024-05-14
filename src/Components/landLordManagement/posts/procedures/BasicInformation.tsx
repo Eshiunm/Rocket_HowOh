@@ -35,10 +35,10 @@ export default function BasicInformation() {
   });
   const selectedCity = watch("city");
   const onSubmit = () => {
+    // console.log(data)
     handleProcedureDone(0);
     handleProcedureClick("照片");
   };
-  console.log(errors);
 
   return (
     <div className="p-5">
@@ -330,68 +330,113 @@ export default function BasicInformation() {
         </div>
         <p className=" col-span-12 text-sans-body1">格局</p>
         <div className="col-span-12 -mt-1.5 flex gap-6">
-          <div className="add-new-input-block">
-            <input
-              type="number"
-              id="roomNumbers"
-              className="add-new-input"
-              placeholder="數字"
-            />
-            <label htmlFor="roomNumbers" className="text-sans-body1 shrink-0">
-              房
-            </label>
+          <div className="flex-1">
+            <div className="flex items-center gap-2">
+              <input
+                type="number"
+                id="roomNumbers"
+                className={`add-new-input ${
+                  errors.roomNumbers ? "border-Alert-50 border": ""
+                }`}
+                placeholder="數字"
+                {...register("roomNumbers", { 
+                  min: { value: 0, message:  "請輸入大於 0 的數字"}, 
+                  pattern: { value: /^[0-9]*$/, message: "請輸入數字" }, 
+                })}
+              />
+              <label htmlFor="roomNumbers" className="text-sans-body1 shrink-0">
+                房
+              </label>
+            </div>
+            {errors.roomNumbers ? <p className="post-alert">{errors.roomNumbers?.message}</p> : null}
           </div>
-          <div className="add-new-input-block">
-            <input
-              type="number"
-              id="livingRoomNumbers"
-              className="add-new-input"
-              placeholder="數字"
-            />
-            <label htmlFor="livingRoomNumbers" className="text-sans-body1 shrink-0">
-              廳
-            </label>
+          <div className="flex-1">
+            <div className="flex items-center gap-2">
+              <input
+                type="number"
+                id="livingRoomNumbers"
+                className={`add-new-input ${
+                  errors.livingRoomNumbers ? "border-Alert-50 border": ""
+                }`}
+                placeholder="數字"
+                {...register("livingRoomNumbers", { 
+                  min: { value: 0, message:  "請輸入大於 0 的數字"}, 
+                  pattern: { value: /^[0-9]*$/, message: "請輸入數字" }, 
+                })}
+              />
+              <label htmlFor="livingRoomNumbers" className="text-sans-body1 shrink-0">
+                廳
+              </label>
+            </div>
+            {errors.livingRoomNumbers ? <p className="post-alert">{errors.livingRoomNumbers?.message}</p> : null}
           </div>
-          <div className="add-new-input-block">
-            <input
-              type="number"
-              id="bathRoomNumbers"
-              className="add-new-input"
-              placeholder="數字"
-            />
-            <label htmlFor="bathRoomNumbers" className="text-sans-body1 shrink-0">
-              衛浴
-            </label>
+          <div className="flex-1">
+            <div className="flex items-center gap-2">
+              <input
+                type="number"
+                id="bathRoomNumbers"
+                className={`add-new-input ${
+                  errors.bathRoomNumbers ? "border-Alert-50 border": ""
+                }`}
+                placeholder="數字"
+                {...register("bathRoomNumbers", { 
+                  min: { value: 0, message:  "請輸入大於 0 的數字"}, 
+                  pattern: { value: /^[0-9]*$/, message: "請輸入數字" }, 
+                })}
+              />
+              <label htmlFor="bathRoomNumbers" className="text-sans-body1 shrink-0">
+                衛浴
+              </label>
+            </div>
+            {errors.bathRoomNumbers ? <p className="post-alert">{errors.bathRoomNumbers?.message}</p> : null}
           </div>
-          <div className="add-new-input-block">
-            <input
-              type="number"
-              id="balconyNumbers"
-              className="add-new-input"
-              placeholder="數字"
-            />
-            <label htmlFor="balconyNumbers" className="text-sans-body1 shrink-0">
-              陽台
-            </label>
+          <div className="flex-1">
+            <div className="flex items-center gap-2">
+              <input
+                type="number"
+                id="balconyNumbers"
+                className={`add-new-input ${
+                  errors.balconyNumbers ? "border-Alert-50 border": ""
+                }`}
+                placeholder="數字"
+                {...register("balconyNumbers", { 
+                  min: { value: 0, message:  "請輸入大於 0 的數字"}, 
+                  pattern: { value: /^[0-9]*$/, message: "請輸入數字" }, 
+                })}
+              />
+              <label htmlFor="balconyNumbers" className="text-sans-body1 shrink-0">
+                陽台
+              </label>
+            </div>
+            {errors.balconyNumbers ? <p className="post-alert">{errors.balconyNumbers?.message}</p> : null}
           </div>
-          <div className="add-new-input-block">
-            <input
-              type="number"
-              id="parkingSpaceNumbers"
-              className="add-new-input"
-              placeholder="數字"
-            />
-            <label htmlFor="parkingSpaceNumbers" className="text-sans-body1 shrink-0">
-              車位
-            </label>
+          <div className="flex-1">
+            <div className="flex items-center gap-2">
+              <input
+                type="number"
+                id="parkingSpaceNumbers"
+                className={`add-new-input ${
+                  errors.parkingSpaceNumbers ? "border-Alert-50 border": ""
+                }`}
+                placeholder="數字"
+                {...register("parkingSpaceNumbers", { 
+                  min: { value: 0, message:  "請輸入大於 0 的數字"}, 
+                  pattern: { value: /^[0-9]*$/, message: "請輸入數字" }, 
+                })}
+              />
+              <label htmlFor="parkingSpaceNumbers" className="text-sans-body1 shrink-0">
+                車位
+              </label>
+            </div>
+            {errors.parkingSpaceNumbers ? <p className="post-alert">{errors.parkingSpaceNumbers?.message}</p> : null}
           </div>
         </div>
         <div className="col-span-12 pt-10 flex justify-between">
-          <button disabled type="button" className="outline-button-m-disable pr-3">
+          <button disabled type="button" className="outline-button-m-disable pr-3 flex items-center">
             <span className="material-symbols-outlined">chevron_left</span>
             <span>上一步</span>
           </button>
-          <button type="submit" className="filled-button-m pl-3">
+          <button type="submit" className="filled-button-m pl-3 flex items-center">
             <span>下一步</span>
             <span className="material-symbols-outlined">chevron_right</span>
           </button>
