@@ -20,6 +20,11 @@
   button {
     @apply block;
   }
+  input[type=number]::-webkit-outer-spin-button,
+  input[type=number]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
 }
 
 @layer components {
@@ -30,10 +35,10 @@
     @apply w-8 h-8 text-center bg-Neutral-80 text-sans-body1 flex justify-center items-center text-Neutral-50 rounded-full;
   }
   .add-new-input {
-    @apply w-full border border-black rounded-lg px-4 py-3;
+    @apply w-full border focus:border-2 border-black focus:border-Brand-30 rounded px-5 py-3 appearance-none focus:ring-0;
   }
   .add-new-input-block {
-    @apply flex-1 flex flex-col gap-2;
+    @apply flex-1 flex items-center gap-2;
   }
   .add-new-input-unit {
     @apply relative after:absolute after:right-3 after:bottom-3 after:z-10;
@@ -48,13 +53,19 @@
     @apply self-start mt-12;
   }
   .add-new-title {
-    @apply text-3xl;
+    @apply text-sans-h5 mb-6;
   }
   .add-new-small-title {
     @apply text-base font-bold mb-6;
   }
   .option-label {
     @apply flex items-center w-full gap-2 mb-3;
+  }
+  .filled-button-m {
+    @apply text-sans-b-body1 rounded-lg p-2 flex bg-black text-white hover:bg-Neutral-40 hover:text-white;
+  }
+  .filled-button-m-disable {
+    @apply text-sans-b-body1 rounded-lg p-2 flex bg-Neutral-90 text-white;
   }
   /* 首頁 Title 的打字效果 */
   .type-animation::after {
