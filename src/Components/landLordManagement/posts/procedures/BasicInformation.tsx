@@ -47,7 +47,7 @@ export default function BasicInformation() {
         <div className="col-span-12 mt-2.5">
           <div
             tabIndex={0}
-            className={`relative flex w-full p-3 rounded-[4px] ${
+            className={`relative flex w-full p-3 rounded ${
               errors.name ? "border-Alert-50 border"
               : isNameFocused ? "border-Brand-30 border-2"
               : "border-black border"
@@ -78,7 +78,7 @@ export default function BasicInformation() {
         <div className="col-span-4 mt-2.5">
           <div
             tabIndex={0}
-            className={`relative flex w-full p-3 rounded-[4px] ${
+            className={`relative flex w-full p-3 rounded ${
               errors.city ? "border-Alert-50 border"
               : isCityFocused ? "border-Brand-30 border-2"
               : "border-black border"
@@ -112,7 +112,7 @@ export default function BasicInformation() {
         <div className="col-span-4 mt-2.5">
           <div
             tabIndex={0}
-            className={`relative flex w-full p-3 rounded-[4px] ${
+            className={`relative flex w-full p-3 rounded ${
               errors.district ? "border-Alert-50 border"
               : isDistrictFocused ? "border-Brand-30 border-2"
               : "border-black border"
@@ -147,7 +147,7 @@ export default function BasicInformation() {
         <div className="col-span-4 mt-2.5">
           <div
             tabIndex={0}
-            className={`relative flex w-full p-3 rounded-[4px] ${
+            className={`relative flex roun w-full p-3 rounded ${
               errors.road ? "border-Alert-50 border"
               : isRoadFocused ? "border-Brand-30 border-2"
               : "border-black border"
@@ -174,66 +174,110 @@ export default function BasicInformation() {
           {errors.road ? <p className="post-alert">{errors.road?.message}</p> : null}
         </div>
         <div className="col-span-12 mt-2.5 flex gap-6">
-          <div className="add-new-input-block">
-            <input
-              type="number"
-              id="lane"
-              className="add-new-input"
-              placeholder="數字"
-            />
-            <label htmlFor="lane" className="text-sans-body1 shrink-0">
-              巷
-            </label>
+          <div className="flex-1">
+            <div className="flex items-center gap-2">
+              <input
+                type="number"
+                id="lane"
+                className={`add-new-input ${
+                  errors.lane ? "border-Alert-50 border": ""
+                }`}
+                placeholder="數字"
+                {...register("lane", { 
+                  min: { value: 0, message:  "請輸入大於 0 的數字"}, 
+                  pattern: { value: /^[0-9]*$/, message: "請輸入數字" }, 
+                })}
+              />
+              <label htmlFor="lane" className="text-sans-body1 shrink-0">
+                巷
+              </label>
+            </div>
+            {errors.lane ? <p className="post-alert">{errors.lane?.message}</p> : null}
           </div>
-          <div className="add-new-input-block">
-            <input
-              type="number"
-              id="alley"
-              className="add-new-input"
-              placeholder="數字"
-            />
-            <label htmlFor="alley" className="text-sans-body1 shrink-0">
-              弄
-            </label>
+          <div className="flex-1">
+            <div className="flex items-center gap-2">
+              <input
+                type="number"
+                id="alley"
+                className={`add-new-input ${
+                  errors.alley ? "border-Alert-50 border": ""
+                }`}
+                placeholder="數字"
+                {...register("alley", { 
+                  min: { value: 0, message:  "請輸入大於 0 的數字"}, 
+                  pattern: { value: /^[0-9]*$/, message: "請輸入數字" }, 
+                })}
+              />
+              <label htmlFor="alley" className="text-sans-body1 shrink-0">
+                弄
+              </label>
+            </div>
+            {errors.alley ? <p className="post-alert">{errors.alley?.message}</p> : null}
           </div>
-          <div className="add-new-input-block">
-            <input
-              type="number"
-              id="number"
-              className="add-new-input"
-              placeholder="數字"
-            />
-            <label htmlFor="number" className="text-sans-body1 shrink-0">
-              號
-            </label>
+          <div className="flex-1">
+            <div className="flex items-center gap-2">
+              <input
+                type="number"
+                id="number"
+                className={`add-new-input ${
+                  errors.number ? "border-Alert-50 border": ""
+                }`}
+                placeholder="數字"
+                {...register("number", { 
+                  min: { value: 0, message:  "請輸入大於 0 的數字"}, 
+                  pattern: { value: /^[0-9]*$/, message: "請輸入數字" }, 
+                })}
+              />
+              <label htmlFor="number" className="text-sans-body1 shrink-0">
+                號
+              </label>
+            </div>
+            {errors.number ? <p className="post-alert">{errors.number?.message}</p> : null}
           </div>
-          <div className="add-new-input-block">
-            <input
-              type="text"
-              id="floor"
-              className="add-new-input"
-              placeholder="2、1、B1 ..."
-            />
-            <label htmlFor="floor" className="text-sans-body1 shrink-0">
-              樓層
-            </label>
+          <div className="flex-1">
+            <div className="flex items-center gap-2">
+              <input
+                type="text"
+                id="floor"
+                className={`add-new-input ${
+                  errors.floor ? "border-Alert-50 border": ""
+                }`}
+                placeholder="2、1、B1 ..."
+                {...register("floor", { 
+                  pattern: { value: /^[0-9a-zA-Z]*$/, message: "請輸入數字或英文" }, 
+                })}
+              />
+              <label htmlFor="floor" className="text-sans-body1 shrink-0">
+                樓層
+              </label>
+            </div>
+            {errors.floor ? <p className="post-alert">{errors.floor?.message}</p> : <p className="text-sans-caption pt-1 pl-5">地下樓層請填B1、B2...</p>}
           </div>
-          <div className="add-new-input-block">
-            <input
-              type="number"
-              id="floorTotal"
-              className="add-new-input"
-              placeholder="數字"
-            />
-            <label htmlFor="floorTotal" className="text-sans-body1 shrink-0">
-              總樓數
-            </label>
+          <div className="flex-1">
+            <div className="flex items-center gap-2">
+              <input
+                type="number"
+                id="floorTotal"
+                className={`add-new-input ${
+                  errors.floorTotal ? "border-Alert-50 border": ""
+                }`}
+                placeholder="數字"
+                {...register("floorTotal", { 
+                  min: { value: 0, message:  "請輸入大於 0 的數字"}, 
+                  pattern: { value: /^[0-9]*$/, message: "請輸入數字" }, 
+                })}
+              />
+              <label htmlFor="floorTotal" className="text-sans-body1 shrink-0">
+                總樓數
+              </label>
+            </div>
+            {errors.floorTotal ? <p className="post-alert">{errors.floorTotal?.message}</p> : null}
           </div>
         </div>
         <div className="col-span-6 mt-2.5">
           <div
             tabIndex={0}
-            className={`relative flex w-full p-3 rounded-[4px] ${
+            className={`relative flex w-full p-3 rounded ${
               isTypeFocused ? "border-Brand-30 border-2" : "border-black border"
             }`}
             onFocus={() => setIsTypeFocused(true)}
