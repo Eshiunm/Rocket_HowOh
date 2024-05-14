@@ -304,7 +304,7 @@ export default function BasicInformation() {
           </div>
         </div>
         <div className="col-span-12 pt-10 flex justify-between">
-          <button disabled type="button" className="filled-button-m-disable pr-3">
+          <button disabled type="button" className="outline-button-m-disable pr-3">
             <span className="material-symbols-outlined">chevron_left</span>
             <span>上一步</span>
           </button>
