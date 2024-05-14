@@ -4,7 +4,6 @@ import done from "../../../assets/imgs/icons/done.svg";
 
 export default function AddNewProcedure() {
   const { handleProcedureClick, procedure } = useContext(ProcedureContext);
-
   return (
     <div className="col-span-10 col-start-2">
       <div className="flex justify-between px-2">
