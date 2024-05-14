@@ -61,6 +61,12 @@
   .option-label {
     @apply flex items-center w-full gap-2 mb-3;
   }
+  .filled-button-m {
+    @apply text-sans-b-body1 rounded-lg p-2 flex bg-black text-white hover:bg-Neutral-40 hover:text-white;
+  }
+  .filled-button-m-disable {
+    @apply text-sans-b-body1 rounded-lg p-2 flex bg-Neutral-90 text-white;
+  }
   /* 首頁 Title 的打字效果 */
   .type-animation::after {
     content: "";

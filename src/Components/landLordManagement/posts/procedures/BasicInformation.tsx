@@ -265,7 +265,7 @@ export default function BasicInformation() {
             <input
               type="number"
               id="balconyNumbers"
-              className="add-new-input placeholder:text-sans-caption"
+              className="add-new-input"
               placeholder="數字"
             />
             <label htmlFor="balconyNumbers" className="text-sans-body1 shrink-0">
@@ -284,7 +284,16 @@ export default function BasicInformation() {
             </label>
           </div>
         </div>
-        
+        <div className="col-span-12 pt-10 flex justify-between">
+          <button disabled type="button" className="filled-button-m-disable pr-3">
+            <span className="material-symbols-outlined">chevron_left</span>
+            <span>上一步</span>
+          </button>
+          <button type="button" className="filled-button-m pl-3">
+            <span>下一步</span>
+            <span className="material-symbols-outlined">chevron_right</span>
+          </button>
+        </div>
         {/* <div className="flex gap-6">
           <div className="add-new-input-block">
             <label htmlFor="city" className="text-sm">
