@@ -17,7 +17,7 @@ export const ProcedureContext = createContext<contextValueType>(
 );
 
 export default function AddNew() {
-  const [procedure, setProcedure] = useState(procedureList);
+  const [procedure, setProcedure] = useState<procedureListType[]>(procedureList as procedureListType[]);
 
   const handleProcedureClick = (title: string) => {
     const newProcedure = procedure.map(item => {
@@ -52,7 +52,7 @@ export default function AddNew() {
     <ProcedureContext.Provider value={contextValue}>
       <section className="bg-Landlord-99">
         <div className="container layout-grid py-6">
-          <Post />
+          <Post procedure={procedure} />
           <AddNewProcedure />
         </div>
       </section>
