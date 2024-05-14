@@ -24,7 +24,7 @@ export default function BasicInformation() {
       number: "",
       floor: "",
       floorTotal: "",
-      type: "",
+      type: "整層住家",
       ping: "",
       roomNumbers: "",
       livingRoomNumbers: "",
@@ -251,7 +251,7 @@ export default function BasicInformation() {
                 樓層
               </label>
             </div>
-            {errors.floor ? <p className="post-alert">{errors.floor?.message}</p> : <p className="text-sans-caption pt-1 pl-5">地下樓層請填B1、B2...</p>}
+            {errors.floor ? <p className="post-alert">{errors.floor?.message}</p> : <p className="text-sans-caption pt-1 pl-5">地下樓層填B1、B2...</p>}
           </div>
           <div className="flex-1">
             <div className="flex items-center gap-2">
@@ -277,8 +277,10 @@ export default function BasicInformation() {
         <div className="col-span-6 mt-2.5">
           <div
             tabIndex={0}
-            className={`relative flex w-full p-3 rounded ${
-              isTypeFocused ? "border-Brand-30 border-2" : "border-black border"
+            className={`relative flex roun w-full p-3 rounded ${
+              errors.type ? "border-Alert-50 border"
+              : isTypeFocused ? "border-Brand-30 border-2"
+              : "border-black border"
             }`}
             onFocus={() => setIsTypeFocused(true)}
             onBlur={() => setIsTypeFocused(false)}
@@ -286,6 +288,9 @@ export default function BasicInformation() {
             <select
               id="type"
               className="block w-full p-0 pl-1 text-sans-body1 text-black bg-transparent border-none appearance-none focus:ring-0 peer"
+              {...register("type", {
+                required: { value: true, message: "必填欄位" },
+               })}
             >
               {houseTypes.map(type => (
                 <option value={type} key={type}>
@@ -300,19 +305,28 @@ export default function BasicInformation() {
               類型
             </label>
           </div>
+          {errors.type ? <p className="post-alert">{errors.type?.message}</p> : null }
         </div>
         <div className="col-span-6 mt-2.5">
           <div className="add-new-input-block">
             <input
               type="number"
               id="ping"
-              className="add-new-input"
+              className={`add-new-input ${
+                errors.ping ? "border-Alert-50 border": ""
+              }`}
               placeholder="數字"
+              {...register("ping", { 
+                required: { value: true, message: "必填欄位" },
+                min: { value: 0, message:  "請輸入大於 0 的數字"}, 
+                pattern: { value: /^[0-9]*$/, message: "請輸入數字" }, 
+              })}
             />
             <label htmlFor="ping" className="text-sans-body1 shrink-0">
               可使用坪數
             </label>
           </div>
+          {errors.ping ? <p className="post-alert">{errors.ping?.message}</p> : null } 
         </div>
         <p className=" col-span-12 text-sans-body1">格局</p>
         <div className="col-span-12 -mt-1.5 flex gap-6">
