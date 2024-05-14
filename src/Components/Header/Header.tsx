@@ -3,10 +3,8 @@ import NavigationDefault from "./NavigationDefault";
 import NavigationLogin from "./NavigationLogin";
 import logo from "../../assets/imgs/howohLogo_whiteMode.svg";
 
-
 function Header() {
   const location = useLocation();
-  console.log(location.pathname);
   const isLogin = false;
   return (
     <>
@@ -18,8 +16,11 @@ function Header() {
               好窩
             </h1>
           </Link>
-          { location.pathname === "/signup" ? null 
-            : isLogin ? (<NavigationLogin />) : (<NavigationDefault />)}
+          {location.pathname.includes("/signUp") ? null : isLogin ? (
+            <NavigationLogin />
+          ) : (
+            <NavigationDefault />
+          )}
         </div>
       </nav>
     </>
