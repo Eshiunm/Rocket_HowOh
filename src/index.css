@@ -35,7 +35,7 @@
     @apply w-8 h-8 text-center bg-Neutral-80 text-sans-body1 flex justify-center items-center text-Neutral-50 rounded-full;
   }
   .add-new-input {
-    @apply w-full border focus:border-2 border-black focus:border-Brand-30 rounded px-5 py-3 appearance-none focus:ring-0;
+    @apply w-full border focus:border-2 focus:-m-[1px] border-black focus:border-Brand-30 rounded px-5 py-3 appearance-none focus:ring-0;
   }
   .add-new-input-block {
     @apply flex-1 flex items-center gap-2;
