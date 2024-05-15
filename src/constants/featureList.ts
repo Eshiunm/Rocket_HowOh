@@ -23,28 +23,28 @@ const mainFeatures = [
 
 const nearByFacilities = [
   {
-    id: "departmentStore",
+    id: "isNearByDepartmentStore",
     title: "百貨商場",
   },
   {
-    id: "school",
-    title: "學校",
-  },
-  {
-    id: "produceMarket",
+    id: "isNearByMorningMarket",
     title: "早市",
   },
   {
-    id: "nightMarket",
+    id: "isNearByNightMarket",
     title: "夜市",
   },
   {
-    id: "convenienceStore",
-    title: "超商",
+    id: "isNearByPark",
+    title: "公園綠地",
   },
   {
-    id: "park",
-    title: "公園綠地",
+    id: "isNearBySchool",
+    title: "學校",
+  },
+  {
+    id: "isNearByConvenientStore",
+    title: "超商",
   },
 ];
 

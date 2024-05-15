@@ -60,8 +60,25 @@ export default function Facilities() {
         </div>
         <div className="mb-10">
           <h4 className="text-sans-b-h6 mb-6">其他特色</h4>
-          <div>
-
+          <div className="layout-grid">
+            <h5 className="col-span-12 text-sans-b-body1 -mb-3">附近機能</h5>
+            {
+              nearByFacilities.map(({id, title}) => (
+                <label
+                  key={id} 
+                  htmlFor={id}
+                  className="col-span-3 text-sans-body1 flex items-center cursor-pointer gap-2"
+                >
+                  <input
+                    type="checkbox"
+                    id={id}
+                    className="w-5 h-5 text-black focus:ring-transparent rounded-sm border-2 border-black cursor-pointer"
+                  />
+                  {title}
+                </label>
+              ))
+            }
+            
           </div>
         </div>
       </form>
