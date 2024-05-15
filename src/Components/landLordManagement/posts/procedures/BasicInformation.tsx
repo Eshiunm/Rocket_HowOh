@@ -3,8 +3,12 @@ import { useForm } from "react-hook-form";
 import cities from "../../../../constants/locations/cities";
 import houseTypes from "../../../../constants/houseTypes";
 import { ProcedureContext } from "../../../../pages/landlordManagement/AddNew";
+import { useSelector, useDispatch } from "react-redux";
+import { setFormData } from "../../../../../redux/post/basicInformationSlice";
 
 export default function BasicInformation() {
+  const dispatch = useDispatch();
+  const content = useSelector(store => store.basicInformationContent);
   const [isNameFocused, setIsNameFocused] = useState(false); 
   const [isCityFocused, setIsCityFocused] = useState(false); 
   const [isDistrictFocused, setIsDistrictFocused] = useState(false); 
@@ -34,8 +38,10 @@ export default function BasicInformation() {
     }
   });
   const selectedCity = watch("city");
-  const onSubmit = () => {
+  const onSubmit = (data) => {
     // console.log(data)
+    dispatch(setFormData(data));
+    // 當全部設定完成時，再將content的內容打API存到後端
     handleProcedureDone(0);
     handleProcedureClick("照片");
   };
