@@ -50,15 +50,15 @@ const nearByFacilities = [
 
 const houseFeatures = [
   {
-    id: "garbage",
+    id: "hasGarbageDisposal",
     title: "垃圾集中處理",
   },
   {
-    id: "bathroomWindow",
+    id: "hasWindowInBathroom",
     title: "浴室開窗",
   },
   {
-    id: "elevator",
+    id: "hasElevator",
     title: "有電梯",
   }
 ];
