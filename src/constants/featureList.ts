@@ -1,19 +1,23 @@
 const mainFeatures = [
   {
-    id: "canRentSubsidy",
+    id: "isRentSubsidy",
     title: "可申請租屋補助",
+    icon: "savings"
   },
   {
-    id: "canPet",
-    title: "寵物友善",
+    id: "isCookAllowed",
+    title: "可開火",
+    icon: "skillet"
   },
   {
-    id: "canCook",
-    title: "可開伙",
+    id: "isPetAllowed",
+    title: "可養寵",
+    icon: "pet_supplies"
   },
   {
-    id: "canShortRent",
+    id: "isSTRAllowed",
     title: "可短租",
+    icon: "event"
   },
 ];
 

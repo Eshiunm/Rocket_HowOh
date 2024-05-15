@@ -100,6 +100,12 @@
   .post-alert {
     @apply text-sans-caption text-Alert-50 pt-1 pl-5;
   }
+  .tab-button-m {
+    @apply px-4 py-2 bg-transparent text-black border border-Landlord-50 rounded-3xl hover:border-2 hover:-m-[1px];
+  }
+  .tab-button-m-select {
+    @apply px-4 py-2 bg-Landlord-50 text-white border border-Landlord-50 rounded-3xl;
+  }
   /* 首頁 Title 的打字效果 */
   .type-animation::after {
     content: "";
