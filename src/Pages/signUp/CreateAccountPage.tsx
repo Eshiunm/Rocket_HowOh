@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import doneImg from "../../assets/imgs/icons/createAccount_done.svg";
 import EnterPhoneForm from "../../components/signUp/EnterPhoneForm";
 import PhoneValidationForm from "../../components/signUp/PhoneValidationForm";
+import BasicInfoForm from "../../components/signUp/BasicInfoForm";
 import { setCurrentStepState } from "../../../redux/signUp/stepSlice";
 
 function CreateAccountPage() {
@@ -198,6 +199,7 @@ function CreateAccountPage() {
       </div>
       {currentStepState === 1 && <EnterPhoneForm />}
       {currentStepState === 2 && <PhoneValidationForm />}
+      {currentStepState === 3 && <BasicInfoForm />}
     </>
   );
 }
