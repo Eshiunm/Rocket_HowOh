@@ -55,7 +55,7 @@ export default function BasicInformation() {
             tabIndex={0}
             className={`relative flex w-full p-3 rounded ${
               errors.name ? "border-Alert-50 border"
-              : isNameFocused ? "border-Brand-30 border-2"
+              : isNameFocused ? "border-Brand-30 border-2 -m-[1px]"
               : "border-black border"
             }`}
             onFocus={() => setIsNameFocused(true)}
@@ -86,7 +86,7 @@ export default function BasicInformation() {
             tabIndex={0}
             className={`relative flex w-full p-3 rounded ${
               errors.city ? "border-Alert-50 border"
-              : isCityFocused ? "border-Brand-30 border-2"
+              : isCityFocused ? "border-Brand-30 border-2 -m-[1px]"
               : "border-black border"
             }`}
             onFocus={() => setIsCityFocused(true)}
@@ -120,7 +120,7 @@ export default function BasicInformation() {
             tabIndex={0}
             className={`relative flex w-full p-3 rounded ${
               errors.district ? "border-Alert-50 border"
-              : isDistrictFocused ? "border-Brand-30 border-2"
+              : isDistrictFocused ? "border-Brand-30 border-2 -m-[1px]"
               : "border-black border"
             }`}
             onFocus={() => setIsDistrictFocused(true)}
@@ -155,7 +155,7 @@ export default function BasicInformation() {
             tabIndex={0}
             className={`relative flex roun w-full p-3 rounded ${
               errors.road ? "border-Alert-50 border"
-              : isRoadFocused ? "border-Brand-30 border-2"
+              : isRoadFocused ? "border-Brand-30 border-2 -m-[1px]"
               : "border-black border"
             }`}
             onFocus={() => setIsRoadFocused(true)}
@@ -285,7 +285,7 @@ export default function BasicInformation() {
             tabIndex={0}
             className={`relative flex roun w-full p-3 rounded ${
               errors.type ? "border-Alert-50 border"
-              : isTypeFocused ? "border-Brand-30 border-2"
+              : isTypeFocused ? "border-Brand-30 border-2 -m-[1px]"
               : "border-black border"
             }`}
             onFocus={() => setIsTypeFocused(true)}
