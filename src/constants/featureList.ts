@@ -88,35 +88,35 @@ const transportations = [
 
 const equipments = [
   {
-    id: "airConditioner",
+    id: "hasAirConditioner",
     title: "冷氣",
   },
   {
-    id: "washingMachine",
+    id: "hasWashingMachine",
     title: "洗衣機",
   },
   {
-    id: "refrigerator",
+    id: "hasRefrigerator",
     title: "冰箱",
   },
   {
-    id: "closet",
+    id: "hasCloset",
     title: "衣櫃",
   },
   {
-    id: "chair",
+    id: "hasTableAndChair",
     title: "桌椅",
   },
   {
-    id: "waterHeater",
+    id: "hasWaterHeater",
     title: "熱水器",
   },
   {
-    id: "internet",
+    id: "hasInternet",
     title: "網路",
   },
   {
-    id: "bed",
+    id: "hasBed",
     title: "床",
   },
   {
@@ -124,7 +124,7 @@ const equipments = [
     title: "電梯",
   },
   {
-    id: "television",
+    id: "hasTV",
     title: "電視",
   },
 ];
