@@ -2,19 +2,20 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import tenant_bgImg from "../../assets/imgs/signUp/signUp_tenant_bgImg.svg";
 import lendLord_bgImg from "../../assets/imgs/signUp/signUp_lendLord_bgImg.svg";
-import { setIdentityState } from "../../../redux/signUp/identitySlice";
+import { setIdentityState } from "../../../redux/common/identitySlice";
 import { setCurrentStepState } from "../../../redux/signUp/stepSlice";
 
 function SignUpSwitchIdentityPage() {
   const dispatch = useDispatch();
-  const identityState = useSelector(
-    store => store.signUpIdentityState.identityState
-  );
+  const identityState = useSelector(store => store.identityState.identity);
   console.log(identityState);
   const navigate = useNavigate();
   const handleLogin = (e: React.MouseEvent) => {
     e.stopPropagation();
-    console.log("Login");
+    e.target?.id.includes("tenant")
+      ? dispatch(setIdentityState("tenant"))
+      : dispatch(setIdentityState("landLord"));
+    navigate("/login");
   };
 
   const handleTenantSignUp = () => {

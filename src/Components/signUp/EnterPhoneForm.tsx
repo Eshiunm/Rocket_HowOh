@@ -14,6 +14,7 @@ function EnterPhoneForm() {
   const currentStepState = useSelector(
     store => store.signUpStepState.currentStepState
   );
+  const identityState = useSelector(store => store.identityState.identity);
 
   const cancelSignUp = () => {
     dispatch(setCurrentStepState(0));
@@ -32,7 +33,9 @@ function EnterPhoneForm() {
             className="bg-white rounded-2xl p-10"
             onSubmit={handleSubmit(onSubmit)}
           >
-            <h2 className="text-sans-h5 mb-[50px]">建立帳號</h2>
+            <h2 className="text-sans-h5 mb-[50px]">
+              {identityState === "tenant" ? "建立租客帳號" : "建立房東帳號"}
+            </h2>
             <input
               type="text"
               placeholder="請以手機建立帳號"

@@ -4,7 +4,7 @@ import districtSlice from "./searchForm/districtSlice";
 import houseTypeSlice from "./searchForm/houseTypeSlice";
 import rentRangeSlice from "./searchForm/rentRangeSlice";
 import stepSlice from "./signUp/stepSlice";
-import identityState from "./signUp/identitySlice";
+import identityState from "./common/identitySlice";
 
 const store = configureStore({
   reducer: {
@@ -13,7 +13,7 @@ const store = configureStore({
     houseType: houseTypeSlice,
     rentRange: rentRangeSlice,
     signUpStepState: stepSlice,
-    signUpIdentityState: identityState,
+    identityState: identityState,
   },
 });
 

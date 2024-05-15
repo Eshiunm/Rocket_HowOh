@@ -267,6 +267,8 @@ export default {
         aboutMeImg_1: "url('./src/assets/imgs/homePage/aboutMe_bgImg_1.jpg')",
         aboutMeImg_2: "url('./src/assets/imgs/homePage/aboutMe_bgImg_2.jpg')",
         aboutMeImg_3: "url('./src/assets/imgs/homePage/aboutMe_bgImg_3.jpg')",
+        tenantLoginImg: "url('./src/assets/imgs/login/tenantLoginImg.svg')",
+        landLordLoginImg: "url('./src/assets/imgs/login/landLordLoginImg.svg')",
       },
     },
   },
