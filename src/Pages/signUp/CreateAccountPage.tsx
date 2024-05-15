@@ -12,7 +12,9 @@ function CreateAccountPage() {
   const currentStepState = useSelector(
     store => store.signUpStepState.currentStepState
   );
+  const identityState = useSelector(store => store.identityState.identity);
   console.log(currentStepState);
+  console.log(identityState);
   /*
     使用者若按到重新載入，一律回到第一步
   */

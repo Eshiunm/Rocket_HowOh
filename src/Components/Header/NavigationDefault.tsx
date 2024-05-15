@@ -1,23 +1,47 @@
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setIdentityState } from "../../../redux/common/identitySlice";
 
 function NavigationDefault() {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const directToLandLordLogin = () => {
+    navigate("/login");
+    dispatch(setIdentityState("landLord"));
+  };
+  const directToTenantLogin = () => {
+    navigate("/login");
+    dispatch(setIdentityState("tenant"));
+  };
+  const directToCreateAccount = () => {
+    navigate("/signUp");
+  };
   return (
     <>
       <ul className="flex gap-6">
         <li>
-          <Link to="/" className="text-sans-b-body1 p-2">
+          <button
+            className="text-sans-b-body1 p-2"
+            onClick={directToLandLordLogin}
+          >
             我是房東
-          </Link>
+          </button>
         </li>
         <li>
-          <Link to="/" className="text-sans-b-body1 p-2">
-            我是房客
-          </Link>
+          <button
+            className="text-sans-b-body1 p-2"
+            onClick={directToTenantLogin}
+          >
+            我是租客
+          </button>
         </li>
         <li>
-          <Link to="/signUp" className="text-sans-b-body1 p-2">
+          <button
+            className="text-sans-b-body1 p-2"
+            onClick={directToCreateAccount}
+          >
             建立帳號
-          </Link>
+          </button>
         </li>
       </ul>
     </>

@@ -16,7 +16,8 @@ function Header() {
               好窩
             </h1>
           </Link>
-          {location.pathname.includes("/signUp") ? null : isLogin ? (
+          {location.pathname.includes("/signUp") ||
+          location.pathname.includes("/login") ? null : isLogin ? (
             <NavigationLogin />
           ) : (
             <NavigationDefault />

@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  identityState: null,
+  identity: null,
 };
 
 export const identitySlice = createSlice({
@@ -9,7 +9,7 @@ export const identitySlice = createSlice({
   initialState,
   reducers: {
     setIdentityState: (state, action) => {
-      state.identityState = action.payload;
+      state.identity = action.payload;
     },
   },
 });
