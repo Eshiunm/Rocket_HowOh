@@ -2,7 +2,6 @@ import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { setCurrentStepState } from "../../../redux/signUp/stepSlice";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
 
 interface formDataType {
   phone: string;
@@ -24,7 +23,7 @@ function BasicInfoForm() {
   const onSubmit = () => {
     dispatch(setCurrentStepState(currentStepState + 1));
   };
-  const [isSearchInputFocused, setIsSearchInputFocused] = useState(false); // 記錄搜尋框是否被 focused
+
   return (
     <div className="wrap h-screen bg-Neutral-99 pt-[60px]">
       <div className="container layout-grid">

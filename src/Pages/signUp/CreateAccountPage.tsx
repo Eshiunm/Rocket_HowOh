@@ -1,10 +1,11 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
+import { setCurrentStepState } from "../../../redux/signUp/stepSlice";
 import doneImg from "../../assets/imgs/icons/createAccount_done.svg";
 import EnterPhoneForm from "../../components/signUp/EnterPhoneForm";
 import PhoneValidationForm from "../../components/signUp/PhoneValidationForm";
 import BasicInfoForm from "../../components/signUp/BasicInfoForm";
-import { setCurrentStepState } from "../../../redux/signUp/stepSlice";
+import CreateCompleted from "../../components/signUp/CreateCompleted";
 
 function CreateAccountPage() {
   const dispatch = useDispatch();
@@ -200,6 +201,7 @@ function CreateAccountPage() {
       {currentStepState === 1 && <EnterPhoneForm />}
       {currentStepState === 2 && <PhoneValidationForm />}
       {currentStepState === 3 && <BasicInfoForm />}
+      {currentStepState === 4 && <CreateCompleted />}
     </>
   );
 }
