@@ -18,6 +18,14 @@ export default function Facilities() {
     isPetAllowed: false,
     isSTRAllowed: false,
   });
+  const [selectedTransportations, setSelectedTransportations] = useState({
+    isNearMRT: false,
+    isNearLRT: false,
+    isNearBusStation: false,
+    isNearTrainStation: false,
+    isNearHSR: false,
+  });
+  console.log(selectedTransportations);
   const { handleSubmit } = useForm();
   const { handleProcedureClick, handleProcedureDone } =
     useContext(ProcedureContext);
@@ -28,6 +36,11 @@ export default function Facilities() {
 
   const handleButtonClick = (id) => {
     setSelectedMainFeatures((prev) => {
+      return {...prev, [id]: !prev[id]}
+    });
+  };
+  const handleTransportationsClick = (id) => {
+    setSelectedTransportations((prev) => {
       return {...prev, [id]: !prev[id]}
     });
   };
@@ -118,14 +131,26 @@ export default function Facilities() {
                 <label
                   key={id} 
                   htmlFor={id}
-                  className="col-span-3 text-sans-body1 flex items-center cursor-pointer gap-2"
+                  className="col-span-3 text-sans-body1 cursor-pointer"
                 >
-                  <input
-                    type="checkbox"
-                    id={id}
-                    className="w-5 h-5 text-black focus:ring-transparent rounded-sm border-2 border-black cursor-pointer"
-                  />
-                  {title}
+                  <div className="flex items-center cursor-pointer gap-2">
+                    <input
+                      type="checkbox"
+                      id={id}
+                      className="w-5 h-5 text-black focus:ring-transparent rounded-sm border-2 border-black cursor-pointer"
+                      checked={selectedTransportations[id]}
+                      onChange={() => handleTransportationsClick(id)}
+                    />
+                    {title}
+                  </div>
+                  {
+                    selectedTransportations[id] && (
+                      <label htmlFor={id+"number"} className="flex items-center gap-2 mt-[10px]">
+                        <input type="number" id={id+"number"} className="add-new-input" />
+                        <span className="shrink-0">公尺</span>
+                      </label>
+                    )
+                  }
                 </label>
               ))
             }
