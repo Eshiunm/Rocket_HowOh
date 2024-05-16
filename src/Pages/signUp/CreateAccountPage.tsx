@@ -16,7 +16,7 @@ function CreateAccountPage() {
   console.log(currentStepState);
   console.log(identityState);
   /*
-    使用者若按到重新載入，一律回到第一步
+    使用者若按到重新載入，一律回到步驟一
   */
   useEffect(() => {
     dispatch(setCurrentStepState(1));
