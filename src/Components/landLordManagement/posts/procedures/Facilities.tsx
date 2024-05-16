@@ -17,6 +17,7 @@ export default function Facilities() {
     isCookAllowed: false,
     isPetAllowed: false,
     isSTRAllowed: false,
+    
   });
   const [selectedTransportations, setSelectedTransportations] = useState({
     isNearMRT: false,
@@ -25,7 +26,6 @@ export default function Facilities() {
     isNearTrainStation: false,
     isNearHSR: false,
   });
-  console.log(selectedTransportations);
   const { handleSubmit } = useForm();
   const { handleProcedureClick, handleProcedureDone } =
     useContext(ProcedureContext);
@@ -155,6 +155,16 @@ export default function Facilities() {
               ))
             }
           </div>
+        </div>
+        <div className="pt-10 flex justify-between">
+          <button type="button" className="outline-button-m pr-3 flex items-center">
+            <span className="material-symbols-outlined">chevron_left</span>
+            <span>上一步</span>
+          </button>
+          <button type="submit" className="filled-button-m pl-3 flex items-center">
+            <span>下一步</span>
+            <span className="material-symbols-outlined">chevron_right</span>
+          </button>
         </div>
       </form>
     </div>
