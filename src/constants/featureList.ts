@@ -1,126 +1,126 @@
 const mainFeatures = [
   {
-    id: "canRentSubsidy",
+    id: "isRentSubsidy",
     title: "可申請租屋補助",
+    icon: "savings"
   },
   {
-    id: "canPet",
-    title: "寵物友善",
+    id: "isCookAllowed",
+    title: "可開火",
+    icon: "skillet"
   },
   {
-    id: "canCook",
-    title: "可開伙",
+    id: "isPetAllowed",
+    title: "可養寵",
+    icon: "pet_supplies"
   },
   {
-    id: "canShortRent",
+    id: "isSTRAllowed",
     title: "可短租",
+    icon: "event"
   },
 ];
 
 const nearByFacilities = [
   {
-    id: "departmentStore",
+    id: "isNearByDepartmentStore",
     title: "百貨商場",
   },
   {
-    id: "school",
-    title: "學校",
-  },
-  {
-    id: "produceMarket",
+    id: "isNearByMorningMarket",
     title: "早市",
   },
   {
-    id: "nightMarket",
+    id: "isNearByNightMarket",
     title: "夜市",
   },
   {
-    id: "convenienceStore",
-    title: "超商",
+    id: "isNearByPark",
+    title: "公園綠地",
   },
   {
-    id: "park",
-    title: "公園綠地",
+    id: "isNearBySchool",
+    title: "學校",
+  },
+  {
+    id: "isNearByConvenientStore",
+    title: "超商",
   },
 ];
 
 const houseFeatures = [
   {
-    id: "garbage",
+    id: "hasGarbageDisposal",
     title: "垃圾集中處理",
   },
   {
-    id: "bathroomWindow",
+    id: "hasWindowInBathroom",
     title: "浴室開窗",
   },
   {
-    id: "elevator",
+    id: "hasElevator",
     title: "有電梯",
   }
 ];
 
 const transportations = [
   {
-    id: "MRT",
+    id: "isNearMRT",
     title: "捷運",
   },
   {
-    id: "LRT",
+    id: "isNearLRT",
     title: "輕軌",
   },
   {
-    id: "bus",
+    id: "isNearBusStation",
     title: "公車",
   },
   {
-    id: "HSR",
-    title: "高鐵",
+    id: "isNearTrainStation",
+    title: "火車",
   },
   {
-    id: "train",
-    title: "火車",
+    id: "isNearHSR",
+    title: "高鐵",
   },
 ];
 
 const equipments = [
   {
-    id: "airConditioner",
+    id: "hasAirConditioner",
     title: "冷氣",
   },
   {
-    id: "washingMachine",
+    id: "hasWashingMachine",
     title: "洗衣機",
   },
   {
-    id: "refrigerator",
+    id: "hasRefrigerator",
     title: "冰箱",
   },
   {
-    id: "closet",
+    id: "hasCloset",
     title: "衣櫃",
   },
   {
-    id: "chair",
+    id: "hasTableAndChair",
     title: "桌椅",
   },
   {
-    id: "waterHeater",
+    id: "hasWaterHeater",
     title: "熱水器",
   },
   {
-    id: "internet",
+    id: "hasInternet",
     title: "網路",
   },
   {
-    id: "bed",
+    id: "hasBed",
     title: "床",
   },
   {
-    id: "elevator",
-    title: "電梯",
-  },
-  {
-    id: "television",
+    id: "hasTV",
     title: "電視",
   },
 ];

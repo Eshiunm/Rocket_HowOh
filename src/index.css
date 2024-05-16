@@ -100,6 +100,11 @@
   .post-alert {
     @apply text-sans-caption text-Alert-50 pt-1 pl-5;
   }
+  .tab-button-m {
+    @apply px-4 py-2 bg-transparent text-black border border-Landlord-50 rounded-3xl hover:border-2 hover:-m-[1px];
+  }
+  .tab-button-m-select {
+    @apply px-4 py-2 bg-Landlord-50 text-white border border-Landlord-50 rounded-3xl;
   .shadow-elevation-1 {
     box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
     box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.3);

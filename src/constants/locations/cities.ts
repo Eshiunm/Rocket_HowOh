@@ -23,7 +23,7 @@ import yunlinDistricts from "./districts/yunlinDistricts";
 
 const cities = [
   {
-    city: "台北市",
+    city: "臺北市",
     districts: taipeiDistricts,
   },  {
     city: "新北市",
@@ -44,7 +44,7 @@ const cities = [
     city: "苗栗縣",
     districts: miaoliDistricts,
   },  {
-    city: "台中市",
+    city: "臺中市",
     districts: taichungDistricts,
   },  {
     city: "彰化縣",
@@ -62,7 +62,7 @@ const cities = [
     city: "嘉義縣",
     districts: chiayiCountyDistricts,
   },  {
-    city: "台南市",
+    city: "臺南市",
     districts: tainanDistricts,
   },  {
     city: "高雄市",
@@ -77,7 +77,7 @@ const cities = [
     city: "花蓮縣",
     districts: hualienDistricts,
   },  {
-    city: "台東縣",
+    city: "臺東縣",
     districts: taitungDistricts,
   },  {
     city: "澎湖縣",
