@@ -1,28 +1,104 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { ProcedureContext } from "../../../../pages/landlordManagement/AddNew";
-import houseImg from "../../../../assets/imgs/homePage/recommendation_picture_2.svg";
 import deleteImg from "../../../../assets/imgs/icons/deleteImg.svg"
+import axios from "axios";
 
-function UploadPhoto() {
-  return (
-    <div className="col-span-3 flex flex-col gap-3">
-      <img src={houseImg} className="rounded-xl" alt="房源圖片" />
-      <div className="flex justify-between">
-        <button type="button" className="text-sans-b-body1 px-4 py-1 rounded-3xl border border-Neutral-50 hover:border-2 hover:-m-[1px]">設為首圖</button>
-        <button type="button">
-          <img src={deleteImg} alt="delete-img" />
-        </button>
-      </div>
-    </div>
-  );
-}
 
 export default function Photos() {
+  const [images, setImages] = useState([]);
+  const [coverIndex, setCoverIndex] = useState(0); 
+
+  function UploadPhoto({photo, index}) {
+    return (
+      <li className="col-span-3 flex flex-col gap-3">
+        <img src={photo} className="rounded-xl" alt={`房源照片-${index+1}`} />
+        <div className="flex justify-between">
+          <button
+            type="button"
+            className={`text-sans-b-body1 px-4 py-1 rounded-3xl border border-Neutral-50 ${
+              coverIndex === index
+                ? " bg-Neutral-50 text-white"
+                : "hover:border-2 hover:-m-[1px]"
+              }`}
+            onClick={() => setCoverIndex(index)}
+          >
+            {
+              coverIndex === index ? "首圖" : "設為首圖"
+            }
+          </button>
+          <button type="button" onClick={() => {
+            if ( index === coverIndex ) {
+              setCoverIndex(0)
+            } 
+            const newImages = [...images];
+            newImages.splice(index, 1);
+            setImages(() => newImages);
+          }}>
+            <img src={deleteImg} alt="delete-img" />
+          </button>
+        </div>
+      </li>
+    );
+  }
+
   const { handleSubmit } = useForm();
   const { handleProcedureClick, handleProcedureDone } =
     useContext(ProcedureContext);
+
+  const uploadImage = async () => {
+    const picArray = [];
+    // 將圖片陣列逐一上傳
+    images.forEach(async (image,index) =>{
+      const data = new FormData();
+      data.append("file", image);
+      data.append(
+        "upload_preset",
+        import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET
+      );
+      data.append("cloud_name", import.meta.env.VITE_CLOUDINARY_CLOUD_NAME);
+      data.append("folder", "Howoh house photos");
+      try {
+        // 上傳data，打 Cloudinary API，上傳到自己的 Cloudinary 帳號
+        const response = await axios.post(`https://api.cloudinary.com/v1_1/${import.meta.env.VITE_CLOUDINARY_CLOUD_NAME}/image/upload`, data);
+        // picArray.push(response.data.url); // 將上傳的圖片的 url 保存起來，可以將成功上傳的照片顯示在畫面上
+        picArray.push({		
+          "path": response.data.url, //檔案路徑
+          "isCover": coverIndex === index ? true : false //是否為封面
+        })
+        console.log(picArray);
+      } catch (error) {
+        alert("圖片上傳失敗,請重新上傳");
+      }
+    })
+    // Promise.all(picArray).then((urls) => {
+    // 打 API 給後端
+    // console.log(urls)
+    // 跳轉頁面
+    // }); 
+  };
+
+  const handleImageChange = (e) => {
+    const files = [...e.target.files];
+    const selectedImages = Array.from(files);
+
+    const imagePreviews = selectedImages.map((file) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      return new Promise((resolve) => {
+        reader.onload = () => {
+          resolve(reader.result);
+        };
+      })
+    });
+
+    Promise.all(imagePreviews).then((previews) => {
+      setImages((prev)=>[...prev,...previews]);
+    })
+  };
+
   const onSubmit = () => {
+    uploadImage();
     handleProcedureDone(1);
     handleProcedureClick("設備設施");
   };
@@ -31,7 +107,7 @@ export default function Photos() {
     <div className="p-5">
       <h3 className="add-new-title">照片</h3>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <section className="flex items-center justify-center w-full mb-8">
+        <section className="w-full mb-8">
           <label htmlFor="dropzone-file" className="p-20 flex flex-col items-center justify-center w-full h-64 border-2 border-Neutral-30 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100">
             <div className="flex flex-col items-center justify-center gap-3">
               <span className="outline-button-s">瀏覽檔案</span>
@@ -43,20 +119,22 @@ export default function Photos() {
               className="hidden"
               accept="image/jpeg, image/png"
               multiple
+              onChange={handleImageChange}
             />
           </label>
-        </section> 
+          {
+            images.length < 1 && <p className="post-alert">至少上傳１張照片</p>
+          }
+        </section>
         <section>
           <h4 className="text-sans-b-h6 mb-6">上傳照片</h4>
-          <div className="layout-grid gap-6 mb-6">
-            <UploadPhoto />
-            <UploadPhoto />
-            <UploadPhoto />
-            <UploadPhoto />
-            <UploadPhoto />
-            <UploadPhoto />
-            <UploadPhoto />
-          </div>
+          <ul className="layout-grid gap-6 mb-6">
+            {
+              images && images.map((preview, index) => (
+                <UploadPhoto key={index} photo={preview} index={index} />
+              ))
+            }
+          </ul>
         </section>
         <div className="col-span-12 pt-10 flex justify-between">
           <button 
@@ -67,9 +145,20 @@ export default function Photos() {
             <span className="material-symbols-outlined">chevron_left</span>
             <span>上一步</span>
           </button>
+          {
+            images.length > 8 && (
+              <div className="flex items-center gap-3 px-3 py-2 bg-Alert-60 rounded shadow-elevation-3">
+                <p className="text-sans-body1">最多上傳８張照片</p>
+                {/* <span className="material-symbols-outlined cursor-pointer">close</span> */}
+              </div>
+            )
+          }
           <button 
             type="submit"
-            className="filled-button-m pl-3 flex items-center"
+            className={`flex items-center pl-3 ${
+              images.length < 1 || images.length > 8 ? "filled-button-m-disable" : "filled-button-m"
+            }`}
+            disabled={ images.length < 1 || images.length > 8 }
           >
             <span>下一步</span>
             <span className="material-symbols-outlined">chevron_right</span>
