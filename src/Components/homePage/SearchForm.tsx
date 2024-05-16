@@ -283,7 +283,7 @@ function SearchForm() {
             </span>
             <div
               tabIndex={0} // 新增這個屬性可獲得 focus 焦點
-              className="flex justify-between h-12 p-3 bg-transparent rounded-[4px] border-1 border border-black appearance-none focus:outline-none focus:ring-0 focus:border-Brand-30"
+              className="flex justify-between h-12 p-3 bg-transparent rounded-[4px] border border-black appearance-none focus:outline-none focus:ring-0 focus:border-Brand-30"
             >
               <span className="text-black">高雄市</span>
               <img
@@ -297,7 +297,9 @@ function SearchForm() {
           <div
             tabIndex={0}
             className={`relative flex w-full border p-3  rounded-[4px] ${
-              isSearchInputFocused ? "border-Brand-30 " : "border-black"
+              isSearchInputFocused
+                ? "border-Brand-30 border-2 m-[-1px]"
+                : "border-black"
             }`}
           >
             <input
@@ -497,7 +499,7 @@ function SearchForm() {
         </ul>
         <button
           type="submit"
-          className="w-[520px] mx-auto bg-black text-white rounded-lg py-3"
+          className="w-[520px] mx-auto filled-button-l py-3 shadow-elevation-5"
         >
           搜尋
         </button>

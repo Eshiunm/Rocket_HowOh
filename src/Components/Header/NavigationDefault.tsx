@@ -21,7 +21,7 @@ function NavigationDefault() {
       <ul className="flex gap-6">
         <li>
           <button
-            className="text-sans-b-body1 p-2"
+            className="text-sans-b-body1 p-2 hover:opacity-70"
             onClick={directToLandLordLogin}
           >
             我是房東
@@ -29,7 +29,7 @@ function NavigationDefault() {
         </li>
         <li>
           <button
-            className="text-sans-b-body1 p-2"
+            className="text-sans-b-body1 p-2 hover:opacity-70"
             onClick={directToTenantLogin}
           >
             我是租客
@@ -37,7 +37,7 @@ function NavigationDefault() {
         </li>
         <li>
           <button
-            className="text-sans-b-body1 p-2"
+            className="text-sans-b-body1 p-2 hover:opacity-70"
             onClick={directToCreateAccount}
           >
             建立帳號

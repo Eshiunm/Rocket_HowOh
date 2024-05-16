@@ -20,8 +20,8 @@
   button {
     @apply block;
   }
-  input[type=number]::-webkit-outer-spin-button,
-  input[type=number]::-webkit-inner-spin-button {
+  input[type="number"]::-webkit-outer-spin-button,
+  input[type="number"]::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0;
   }
@@ -105,6 +105,25 @@
   }
   .tab-button-m-select {
     @apply px-4 py-2 bg-Landlord-50 text-white border border-Landlord-50 rounded-3xl;
+  .shadow-elevation-1 {
+    box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
+    box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.3);
+  }
+  .shadow-elevation-2 {
+    box-shadow: 0px 2px 6px 2px rgba(0, 0, 0, 0.15);
+    box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.3);
+  }
+  .shadow-elevation-3 {
+    box-shadow: 0px 1px 3px 0px #0000004d;
+    box-shadow: 0px 4px 8px 3px #00000026;
+  }
+  .shadow-elevation-4 {
+    box-shadow: 0px 2px 3px 0px #0000004d;
+    box-shadow: 0px 6px 10px 4px #00000026;
+  }
+  .shadow-elevation-5 {
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.3);
+    box-shadow: 0px 8px 12px 6px rgba(0, 0, 0, 0.15);
   }
   /* 首頁 Title 的打字效果 */
   .type-animation::after {
@@ -116,7 +135,6 @@
     background-color: white; /* 設定游顏色 */
     animation: cursor-blink 1s infinite; /* 設定游標閃爍週期 */
   }
-
   /* 游標閃爍動畫 */
   @keyframes cursor-blink {
     0% {
