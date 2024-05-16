@@ -2,6 +2,7 @@ import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { ProcedureContext } from "../../../../pages/landlordManagement/AddNew";
 import deleteImg from "../../../../assets/imgs/icons/deleteImg.svg"
+import axios from "axios";
 
 function UploadPhoto({photo, index}) {
   return (
@@ -18,8 +19,7 @@ function UploadPhoto({photo, index}) {
 }
 
 export default function Photos() {
-  const [image, setImage] = useState([]);
-  const [previews, setPreview] = useState([]);
+  const [images, setImages] = useState([]);
 
   const { handleSubmit } = useForm();
   const { handleProcedureClick, handleProcedureDone } =
@@ -28,52 +28,47 @@ export default function Photos() {
   const uploadImage = async () => {
     const picArray = [];
     // 將圖片陣列逐一上傳
-    image.forEach(async (image) =>{
-      // console.log(image);
+    images.forEach(async (image) =>{
       const data = new FormData();
       data.append("file", image);
-      // 選擇上傳圖片的位置(cloudinary upload_preset 的 name)，其設在環境變數中
       data.append(
         "upload_preset",
         import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET
       );
-      // 選擇上傳圖片的帳號，其設在環境變數中
       data.append("cloud_name", import.meta.env.VITE_CLOUDINARY_CLOUD_NAME);
       data.append("folder", "Howoh house photos");
       try {
         // 上傳data，打 Cloudinary API，上傳到自己的 Cloudinary 帳號
-        const response = await fetch(
-          `https://api.cloudinary.com/v1_1/${import.meta.env.VITE_CLOUDINARY_CLOUD_NAME}/image/upload`,
-          {
-            method: "POST",
-            body: data,
-          }
-        );
-        const res = await response.json();
-        picArray.push(res.url); // 將上傳的圖片的 url 保存起來，可以將成功上傳的照片顯示在畫面上
+        const response = await axios.post(`https://api.cloudinary.com/v1_1/${import.meta.env.VITE_CLOUDINARY_CLOUD_NAME}/image/upload`, data);
+        picArray.push(response.data.url); // 將上傳的圖片的 url 保存起來，可以將成功上傳的照片顯示在畫面上
+        
       } catch (error) {
         alert("圖片上傳失敗,請重新上傳");
       }
     })
+    // Promise.all(picArray).then((urls) => {
+    // 打 API 給後端
+    // console.log(urls)
+    // 跳轉頁面
+    // }); 
   };
 
   const handleImageChange = (e) => {
     const files = [...e.target.files];
     const selectedImages = Array.from(files);
-    setImage(selectedImages);
 
     const imagePreviews = selectedImages.map((file) => {
       const reader = new FileReader();
       reader.readAsDataURL(file);
       return new Promise((resolve) => {
-        // 檔案成功讀取到時，先將檔案放到 preview 中，以便預覽
         reader.onload = () => {
           resolve(reader.result);
         };
       })
-    })
+    });
+
     Promise.all(imagePreviews).then((previews) => {
-      setPreview(previews);
+      setImages((prev)=>[...prev,...previews]);
     })
   };
 
@@ -110,9 +105,11 @@ export default function Photos() {
         <section>
           <h4 className="text-sans-b-h6 mb-6">上傳照片</h4>
           <ul className="layout-grid gap-6 mb-6">
-            {previews && previews.map((preview, index) => (
-              <UploadPhoto key={index} photo={preview} index={index} />
-            ))}
+            {
+              images && images.map((preview, index) => (
+                <UploadPhoto key={index} photo={preview} index={index} />
+              ))
+            }
           </ul>
         </section>
         <div className="col-span-12 pt-10 flex justify-between">
@@ -127,7 +124,7 @@ export default function Photos() {
           <button 
             type="submit"
             className="filled-button-m pl-3 flex items-center"
-            disabled={ previews.length === 0 }
+            disabled={ images.length === 0 }
           >
             <span>下一步</span>
             <span className="material-symbols-outlined">chevron_right</span>
