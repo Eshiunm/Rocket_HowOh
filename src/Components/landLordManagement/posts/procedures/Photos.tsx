@@ -7,13 +7,30 @@ import axios from "axios";
 
 export default function Photos() {
   const [images, setImages] = useState([]);
+  const [coverIndex, setCoverIndex] = useState(0); 
+
   function UploadPhoto({photo, index}) {
     return (
       <li className="col-span-3 flex flex-col gap-3">
         <img src={photo} className="rounded-xl" alt={`房源照片-${index+1}`} />
         <div className="flex justify-between">
-          <button type="button" className="text-sans-b-body1 px-4 py-1 rounded-3xl border border-Neutral-50 hover:border-2 hover:-m-[1px]">設為首圖</button>
+          <button
+            type="button"
+            className={`text-sans-b-body1 px-4 py-1 rounded-3xl border border-Neutral-50 ${
+              coverIndex === index
+                ? " bg-Neutral-50 text-white"
+                : "hover:border-2 hover:-m-[1px]"
+              }`}
+            onClick={() => setCoverIndex(index)}
+          >
+            {
+              coverIndex === index ? "首圖" : "設為首圖"
+            }
+          </button>
           <button type="button" onClick={() => {
+            if ( index === coverIndex ) {
+              setCoverIndex(0)
+            } 
             const newImages = [...images];
             newImages.splice(index, 1);
             setImages(() => newImages);
@@ -32,7 +49,7 @@ export default function Photos() {
   const uploadImage = async () => {
     const picArray = [];
     // 將圖片陣列逐一上傳
-    images.forEach(async (image) =>{
+    images.forEach(async (image,index) =>{
       const data = new FormData();
       data.append("file", image);
       data.append(
@@ -44,7 +61,11 @@ export default function Photos() {
       try {
         // 上傳data，打 Cloudinary API，上傳到自己的 Cloudinary 帳號
         const response = await axios.post(`https://api.cloudinary.com/v1_1/${import.meta.env.VITE_CLOUDINARY_CLOUD_NAME}/image/upload`, data);
-        picArray.push(response.data.url); // 將上傳的圖片的 url 保存起來，可以將成功上傳的照片顯示在畫面上
+        // picArray.push(response.data.url); // 將上傳的圖片的 url 保存起來，可以將成功上傳的照片顯示在畫面上
+        picArray.push({		
+          "path": response.data.url, //檔案路徑
+          "isCover": coverIndex === index ? true : false //是否為封面
+        })
         console.log(picArray);
       } catch (error) {
         alert("圖片上傳失敗,請重新上傳");
@@ -134,7 +155,7 @@ export default function Photos() {
           }
           <button 
             type="submit"
-            className={`flex items-center ${
+            className={`flex items-center pl-3 ${
               images.length < 1 || images.length > 8 ? "filled-button-m-disable" : "filled-button-m"
             }`}
             disabled={ images.length < 1 || images.length > 8 }
