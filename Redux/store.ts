@@ -6,6 +6,7 @@ import rentRangeSlice from "./searchForm/rentRangeSlice";
 import stepSlice from "./signUp/stepSlice"
 import identityState from "./common/identitySlice";
 import basicInformationSlice from "./post/basicInformationSlice";
+import photosSlice from "./post/photosSlice";
 
 const store = configureStore({
   reducer: {
@@ -16,6 +17,7 @@ const store = configureStore({
     signUpStepState: stepSlice,
     identityState: identityState,
     basicInformationContent: basicInformationSlice,
+    photosUpload: photosSlice
   },
 });
 
