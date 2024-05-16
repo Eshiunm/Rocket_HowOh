@@ -65,24 +65,24 @@ const houseFeatures = [
 
 const transportations = [
   {
-    id: "MRT",
+    id: "isNearMRT",
     title: "捷運",
   },
   {
-    id: "LRT",
+    id: "isNearLRT",
     title: "輕軌",
   },
   {
-    id: "bus",
+    id: "isNearBusStation",
     title: "公車",
   },
   {
-    id: "HSR",
-    title: "高鐵",
+    id: "isNearTrainStation",
+    title: "火車",
   },
   {
-    id: "train",
-    title: "火車",
+    id: "isNearHSR",
+    title: "高鐵",
   },
 ];
 
@@ -118,10 +118,6 @@ const equipments = [
   {
     id: "hasBed",
     title: "床",
-  },
-  {
-    id: "elevator",
-    title: "電梯",
   },
   {
     id: "hasTV",
