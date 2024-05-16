@@ -17,34 +17,32 @@ function NavigationDefault() {
     navigate("/signUp");
   };
   return (
-    <>
-      <ul className="flex gap-6">
-        <li>
-          <button
-            className="text-sans-b-body1 p-2 hover:opacity-70"
-            onClick={directToLandLordLogin}
-          >
-            我是房東
-          </button>
-        </li>
-        <li>
-          <button
-            className="text-sans-b-body1 p-2 hover:opacity-70"
-            onClick={directToTenantLogin}
-          >
-            我是租客
-          </button>
-        </li>
-        <li>
-          <button
-            className="text-sans-b-body1 p-2 hover:opacity-70"
-            onClick={directToCreateAccount}
-          >
-            建立帳號
-          </button>
-        </li>
-      </ul>
-    </>
+    <ul className="flex gap-6">
+      <li>
+        <button
+          className="text-sans-b-body1 p-2 hover:opacity-70"
+          onClick={directToLandLordLogin}
+        >
+          我是房東
+        </button>
+      </li>
+      <li>
+        <button
+          className="text-sans-b-body1 p-2 hover:opacity-70"
+          onClick={directToTenantLogin}
+        >
+          我是租客
+        </button>
+      </li>
+      <li>
+        <button
+          className="text-sans-b-body1 p-2 hover:opacity-70"
+          onClick={directToCreateAccount}
+        >
+          建立帳號
+        </button>
+      </li>
+    </ul>
   );
 }
 export default NavigationDefault;
