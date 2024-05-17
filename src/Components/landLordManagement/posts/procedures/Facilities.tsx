@@ -24,17 +24,18 @@ export default function Facilities() {
     isNearTrainStation: false,
     isNearHSR: false,
   });
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, formState: { errors } } = useForm();
   const { handleProcedureClick, handleProcedureDone } =
     useContext(ProcedureContext);
   const onSubmit = (data) => {
     const formData = {
       ...selectedMainFeatures,
+      ...selectedTransportations,
       ...data,
     }
     console.log(formData)
-    // handleProcedureDone(2);
-    // handleProcedureClick("費用");
+    handleProcedureDone(2);
+    handleProcedureClick("費用");
   };
 
   const handleButtonClick = (id) => {
@@ -133,31 +134,57 @@ export default function Facilities() {
             }
             <h5 className="mt-3 col-span-12 text-sans-b-body1">交通</h5>
             {
-              transportations.map(({id, title}) => (
-                <label
-                  key={id} 
-                  htmlFor={id}
-                  className="col-span-3 text-sans-body1 cursor-pointer"
-                >
-                  <div className="flex items-center cursor-pointer gap-2">
-                    <input
-                      type="checkbox"
-                      id={id}
-                      className="w-5 h-5 text-black focus:ring-transparent rounded-sm border-2 border-black cursor-pointer"
-                      checked={selectedTransportations[id]}
-                      onChange={() => handleTransportationsClick(id)}
-                    />
-                    {title}
-                  </div>
-                  {
+              transportations.map(({id, title, distance}) => (
+                <div className="col-span-3" key={id}>
+                  <label
+                    htmlFor={id}
+                    className="col-span-3 text-sans-body1 cursor-pointer"
+                  >
+                    <div className="flex items-center cursor-pointer gap-2">
+                      <input
+                        type="checkbox"
+                        id={id}
+                        className="w-5 h-5 text-black focus:ring-transparent rounded-sm border-2 border-black cursor-pointer"
+                        checked={selectedTransportations[id]}
+                        onChange={() => handleTransportationsClick(id)}
+                      />
+                      {title}
+                    </div>
+                  </label>
+                  <label htmlFor={distance} className={`mt-[10px] ${
+                    selectedTransportations[id] ? "" : "hidden"
+                    }`}>
+                    <div className="col-span-3 flex items-center gap-2">
+                      <input
+                        type="number"
+                        id={distance}
+                        className={`add-new-input ${
+                          errors[distance] && "border-Alert-50 border focus:border-Alert-50 focus:border"
+                        }`}
+                        {...register(distance,{
+                          required: { value: selectedTransportations[id], message: "必填欄位" }
+                        })}
+                      />
+                      <span className="shrink-0">公尺</span>
+                    </div>
+                    {
+                      errors[distance] && selectedTransportations[id] && (
+                        <p className="post-alert">{errors[distance]?.message}</p>
+                      )
+                    }
+                  </label>
+                  {/* {
                     selectedTransportations[id] && (
-                      <label htmlFor={id+"number"} className="flex items-center gap-2 mt-[10px]">
-                        <input type="number" id={id+"number"} className="add-new-input" />
+                      <label htmlFor={distance} className="flex items-center gap-2 mt-[10px]">
+                        <input
+                          type="number"
+                          id={distance}
+                          className="add-new-input" />
                         <span className="shrink-0">公尺</span>
                       </label>
                     )
-                  }
-                </label>
+                  } */}
+                </div>
               ))
             }
           </div>
