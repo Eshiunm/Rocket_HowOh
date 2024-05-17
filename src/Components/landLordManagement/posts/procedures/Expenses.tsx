@@ -6,10 +6,13 @@ import {
   managementFee,
   waterBill,
 } from "../../../../constants/forPay";
-import RadioSelect from "../RadioSelect";
 
 export default function Expenses() {
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit } = useForm({
+    defaultValues: {
+      paymentMethodOfWaterBill: "自訂",
+    }
+  });
   const { handleProcedureClick, handleProcedureDone } =
     useContext(ProcedureContext);
   const onSubmit = () => {
@@ -18,125 +21,136 @@ export default function Expenses() {
   };
 
   return (
-    <form className="flex flex-col gap-6" onSubmit={handleSubmit(onSubmit)}>
-      <button
-        type="button"
-        className="self-start add-new-back-btn"
-        onClick={() => handleProcedureClick("設備設施")}
-      >
-        上一步
-      </button>
-      <h3 className="add-new-title">費用</h3>
-      <div className="add-new-input-block">
-        <label htmlFor="rent" className="text-sm">
-          每月租金
-        </label>
-        <input
-          type="text"
-          id="rent"
-          className="add-new-input w-1/3"
-          placeholder="租金"
-          {...register("rent", { required: true })}
-        />
-      </div>
-      <div className="add-new-input-block">
-        <label htmlFor="deposit" className="text-sm">
-          押金
-        </label>
-        <select
-          id="deposit"
-          className="add-new-input w-1/3"
-          {...register("deposit", { required: true })}
-        >
-          <option value="免押金">免押金</option>
-          <option value="1個月">1個月</option>
-          <option value="2個月">2個月</option>
-        </select>
-      </div>
-      <div className="border-b pb-12 mb-12">
-        <h4 className="add-new-small-title">水費</h4>
-        <fieldset className="flex gap-6">
-          {waterBill.map(option => (
-            <RadioSelect
-              option={option}
-              register={register}
-              key={option.id + option.type}
+    <div className="p-5">
+      <h3 className="add-new-title mb-10">費用</h3>
+      <form onSubmit={handleSubmit(onSubmit)} >
+        <div className="layout-grid mb-10">
+          <h4 className="col-span-12 text-sans-b-h6">房租與押金</h4>
+          <label htmlFor="rent" className="col-span-6 flex items-center gap-2 pt-2">
+            <input
+              type="number"
+              className="add-new-input"
+              id="rent"
+              placeholder="房租"
             />
-          ))}
-        </fieldset>
-        <div className="after:content-['元'] add-new-input-unit">
-          <label htmlFor="waterForEachMonth" className="py-1">
-            每月
+            <span className="shrink-0">元/月</span>
           </label>
-          <input
-            type="number"
-            id="waterForEachMonth"
-            className="add-new-input"
-          />
-        </div>
-      </div>
-      <div className="border-b pb-12 mb-12">
-        <h4 className="add-new-small-title">電費</h4>
-        <fieldset className="flex gap-6">
-          {electricBill.map(option => (
-            <RadioSelect
-              option={option}
-              register={register}
-              key={option.id + option.type}
-            />
-          ))}
-        </fieldset>
-        <div className="after:content-['元'] add-new-input-unit">
-          <label htmlFor="electricForEachDegree" className="py-1">
-            每度
-          </label>
-          <input
-            type="number"
-            id="electricForEachDegree"
-            className="add-new-input"
-          />
-        </div>
-        <div>
-          <label htmlFor="electricPay" className="py-1">
-            繳納方式
-          </label>
-          <fieldset id="electricPay" className="flex gap-6">
-            <RadioSelect
-              option={{
-                id: "payWithRent",
-                title: "隨房租繳納",
-                type: "electric",
-              }}
-              register={register}
-              key="electricPayWithRent"
-            />
-            <RadioSelect
-              option={{ id: "paySelf", title: "自行繳納", type: "electric" }}
-              register={register}
-              key="electricPaySelf"
-            />
+          <h5 className="col-span-12 text-sans-b-body1 text-Landlord-40">押金</h5>
+          <fieldset className="col-span-12 layout-grid">
+            <label htmlFor="oneMonth" className="col-span-3 flex items-center gap-2">
+              <input
+                type="radio"
+                id="oneMonth"
+                name="securityDeposit"
+                value="一個月"
+                className="w-6 h-6 text-black bg-transparent border-black focus:ring-0 focus:ring-transparent"
+              />
+              <span>1個月</span>
+            </label>
+            <label htmlFor="twoMonth" className="col-span-3 flex items-center gap-2">
+              <input
+                type="radio"
+                id="twoMonth"
+                name="securityDeposit"
+                value="兩個月"
+                className="w-6 h-6 text-black bg-transparent border-black focus:ring-0 focus:ring-transparent"
+              />
+              <span>2個月</span>
+            </label>
           </fieldset>
         </div>
-      </div>
-      <div>
-        <h4 className="add-new-small-title">管理費</h4>
-        <fieldset className="flex gap-6">
-          {managementFee.map(option => (
-            <RadioSelect
-              option={option}
-              register={register}
-              key={option.id + option.type}
-            />
-          ))}
-        </fieldset>
-        <div className="after:content-['元'] add-new-input-unit">
-          <p className="py-1">每月</p>
-          <input type="number" className="add-new-input" />
+        <div className="layout-grid gap-y-3 mb-10">
+          <h4 className="col-span-12 text-sans-b-h6">雜支</h4>
+          <h5 className="col-span-12 text-sans-b-body1 text-Landlord-40">水費</h5>
+          <fieldset className="col-span-12 layout-grid">
+            {
+              waterBill.map(({type, id, title, value}) => (
+                <label htmlFor={id} className="col-span-3 flex items-center gap-2">
+                  <input
+                    type="radio"
+                    id={id}
+                    name={type}
+                    value={value}
+                    className="w-6 h-6 text-black bg-transparent border-black focus:ring-0 focus:ring-transparent"
+                  />
+                  <span className="text-sans-body1">{title}</span>
+                </label>
+              ))
+            }
+          </fieldset>
+          <h5 className="col-span-12 text-sans-b-body1 text-Landlord-40 mt-3">電費</h5>
+          <fieldset className="col-span-12 layout-grid">
+            {
+              electricBill.map(({type, id, title, value}) => (
+                <label htmlFor={id} className="col-span-3 flex items-center gap-2">
+                  <input
+                    type="radio"
+                    id={id}
+                    name={type}
+                    value={value}
+                    className="w-6 h-6 text-black bg-transparent border-black focus:ring-0 focus:ring-transparent"
+                  />
+                  <span className="text-sans-body1">{title}</span>
+                </label>
+              ))
+            }
+          </fieldset>
+          <h6 className="col-span-12 text-sans-body2">繳納方式</h6>
+          <fieldset className="col-span-12 layout-grid">
+            <label htmlFor="electricInRent" className="col-span-3 flex items-center gap-2">
+              <input
+                type="radio"
+                id="electricInRent"
+                name="paymentMethodOfElectricBill"
+                value="隨房租繳納"
+                className="w-6 h-6 text-black bg-transparent border-black focus:ring-0 focus:ring-transparent"
+              />
+              <span className="text-sans-body1">隨房租繳納</span>
+            </label>
+            <label htmlFor="electricPaySelf" className="col-span-3 flex items-center gap-2">
+              <input
+                type="radio"
+                id="electricPaySelf"
+                name="paymentMethodOfElectricBill"
+                value="自行繳納"
+                className="w-6 h-6 text-black bg-transparent border-black focus:ring-0 focus:ring-transparent"
+              />
+              <span className="text-sans-body1">自行繳納</span>
+            </label>
+          </fieldset>
+          <h5 className="col-span-12 text-sans-b-body1 text-Landlord-40 mt-3">管理費</h5>
+          <fieldset className="col-span-12 layout-grid">
+            {
+              managementFee.map(({type, id, title, value}) => (
+                <label htmlFor={id} className="col-span-3 flex items-center gap-2">
+                  <input
+                    type="radio"
+                    id={id}
+                    name={type}
+                    value={value}
+                    className="w-6 h-6 text-black bg-transparent border-black focus:ring-0 focus:ring-transparent"
+                  />
+                  <span className="text-sans-body1">{title}</span>
+                </label>
+              ))
+            }
+          </fieldset>
         </div>
-      </div>
-      <button type="submit" className="add-new-btn add-new-next-btn">
-        下一步
-      </button>
-    </form>
+        <div className="pt-10 flex justify-between">
+          <button 
+            type="button"
+            onClick={() => handleProcedureClick("設備設施")}
+            className="outline-button-m pr-3 flex items-center"
+          >
+            <span className="material-symbols-outlined">chevron_left</span>
+            <span>上一步</span>
+          </button>
+          <button type="submit" className="filled-button-m pl-3 flex items-center">
+            <span>下一步</span>
+            <span className="material-symbols-outlined">chevron_right</span>
+          </button>
+        </div>
+      </form>
+    </div>
   );
 }
