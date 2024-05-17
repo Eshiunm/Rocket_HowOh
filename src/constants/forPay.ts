@@ -18,13 +18,11 @@ const waterBill = [
 
 const electricBill = [
   {
-    type: "electricBill",
     id: "customElectric",
     title: "自訂（隨房租繳納）",
     value: "自訂",
   },
   {
-    type: "electricBill",
     id: "governmentElectric",
     title: "依台電計價",
     value: "依台電計價",
