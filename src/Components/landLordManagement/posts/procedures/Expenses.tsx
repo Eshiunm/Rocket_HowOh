@@ -16,8 +16,7 @@ export default function Expenses() {
   });
   const { handleProcedureClick, handleProcedureDone } =
     useContext(ProcedureContext);
-  const onSubmit = (data) => {
-    console.log(data)
+  const onSubmit = () => {
     handleProcedureDone(3);
     handleProcedureClick("介紹");
   };
@@ -186,10 +185,20 @@ export default function Expenses() {
             </label>
           </fieldset>
         </div>
-        <button type="submit" className="filled-button-m pl-3 flex items-center">
-          <span>下一步</span>
-          <span className="material-symbols-outlined">chevron_right</span>
-        </button>
+        <div className="pt-10 flex justify-between">
+          <button 
+            type="button"
+            onClick={() => handleProcedureClick("設備設施")}
+            className="outline-button-m pr-3 flex items-center"
+          >
+            <span className="material-symbols-outlined">chevron_left</span>
+            <span>上一步</span>
+          </button>
+          <button type="submit" className="filled-button-m pl-3 flex items-center">
+            <span>下一步</span>
+            <span className="material-symbols-outlined">chevron_right</span>
+          </button>
+        </div>
       </form>
     </div>
     // <form className="flex flex-col gap-6" onSubmit={handleSubmit(onSubmit)}>
