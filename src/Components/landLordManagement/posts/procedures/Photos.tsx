@@ -3,9 +3,14 @@ import { useForm } from "react-hook-form";
 import { ProcedureContext } from "../../../../pages/landlordManagement/AddNew";
 import deleteImg from "../../../../assets/imgs/icons/deleteImg.svg"
 import axios from "axios";
+import { useSelector, useDispatch } from "react-redux";
+import { setPhotos } from "../../../../../redux/post/photosSlice";
 
 
 export default function Photos() {
+  const dispatch = useDispatch();
+  const photosStore = useSelector(store => store.photosUpload);
+
   const [images, setImages] = useState([]);
   const [coverIndex, setCoverIndex] = useState(0); 
 
@@ -66,7 +71,8 @@ export default function Photos() {
           "path": response.data.url, //檔案路徑
           "isCover": coverIndex === index ? true : false //是否為封面
         })
-        console.log(picArray);
+        // console.log(picArray);
+        dispatch(setPhotos(picArray));
       } catch (error) {
         alert("圖片上傳失敗,請重新上傳");
       }
@@ -81,7 +87,7 @@ export default function Photos() {
   const handleImageChange = (e) => {
     const files = [...e.target.files];
     const selectedImages = Array.from(files);
-
+    
     const imagePreviews = selectedImages.map((file) => {
       const reader = new FileReader();
       reader.readAsDataURL(file);
@@ -165,6 +171,11 @@ export default function Photos() {
           </button>
         </div>
       </form>
+      {
+        // photosStore.photos.length > 0 && photosStore.photos.map((photo, index) => (
+        //   <img key={index} src={photo.path} alt="uploaded" />
+        // ))
+      }
     </div>
   );
 }
