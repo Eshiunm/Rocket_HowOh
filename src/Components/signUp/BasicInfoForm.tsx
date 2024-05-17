@@ -2,17 +2,26 @@ import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { setCurrentStepState } from "../../../redux/signUp/stepSlice";
 import { useNavigate } from "react-router-dom";
-
+import { RootState } from "../../../redux/store";
 interface formDataType {
-  phone: string;
+  lastName: string;
+  firstName: string;
+  email: string;
+  password: string;
+  passwordConfirm: string;
 }
 
 function BasicInfoForm() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { handleSubmit } = useForm<formDataType>();
+  const {
+    handleSubmit,
+    register,
+    watch,
+    formState: { errors },
+  } = useForm<formDataType>();
   const currentStepState = useSelector(
-    store => store.signUpStepState.currentStepState
+    (store: RootState) => store.signUpStepState.currentStepState
   );
 
   const cancelSignUp = () => {
@@ -20,8 +29,15 @@ function BasicInfoForm() {
     navigate("/signUp");
   };
 
-  const onSubmit = () => {
+  const passwordConfirm = (value: string) => {
+    const password = watch("password"); // 利用 watch 抓取 name="userPassword" 的 input 的 value
+    if (value !== password) {
+      return "與第一次輸入的密碼不同";
+    }
+  };
+  const onSubmit = (formData: formDataType) => {
     dispatch(setCurrentStepState(currentStepState + 1));
+    console.log(formData);
   };
 
   return (
@@ -39,7 +55,7 @@ function BasicInfoForm() {
             <span className="block text-sans-caption mb-3">性別</span>
             {/* 性別 */}
             <div className="flex items-center gap-6 mb-[34px]">
-              <div className="flex items-center">
+              <div className="flex items-center cursor-pointer">
                 <input
                   checked
                   id="male-radio"
@@ -50,12 +66,12 @@ function BasicInfoForm() {
                 />
                 <label
                   htmlFor="male-radio"
-                  className="ml-3 text-sans-body1 text-black "
+                  className="ml-3 text-sans-body1 text-black cursor-pointer"
                 >
                   男
                 </label>
               </div>
-              <div className="flex items-center">
+              <div className="flex items-center cursor-pointer">
                 <input
                   id="female-radio"
                   type="radio"
@@ -65,90 +81,210 @@ function BasicInfoForm() {
                 />
                 <label
                   htmlFor="female-radio"
-                  className="ml-3 text-sans-body1 text-black"
+                  className="ml-3 text-sans-body1 text-black cursor-pointer"
                 >
                   女
                 </label>
               </div>
             </div>
             {/* 姓名 */}
-            <div className="flex items-center gap-x-6 mb-6">
-              <div className="relative w-full">
-                <input
-                  type="text"
-                  id="floating_outlined"
-                  className="block p-3 w-full text-sans-body1 text-Neutral-50 rounded-[4px] border-1 border-black appearance-none  focus:outline-none focus:ring-0 focus:border-2 focus:border-Brand-30 peer"
-                  placeholder=""
-                />
-                <label
-                  htmlFor="floating_outlined"
-                  className="absolute text-sans-body1 text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-[3px] z-10 origin-[0] bg-white pl-3 peer-focus:px-2 peer-focus:text-Brand-30 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-[3px] peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-3"
+            <div className="flex items-center gap-x-6 mb-3">
+              <div className="w-full">
+                <div className="relative">
+                  <input
+                    type="text"
+                    id="lastName"
+                    className={`block p-3 w-full text-sans-body1 text-black rounded-[4px] border-1 appearance-none focus:outline-none focus:ring-0  ${
+                      errors.lastName
+                        ? "focus:border-Alert-50 border-Alert-50"
+                        : "focus:border-Brand-30 focus:border-2 focus:m-[-2px] border-black"
+                    } peer`}
+                    placeholder=""
+                    {...register("lastName", {
+                      required: { value: true, message: "必填" },
+                    })}
+                  />
+                  <label
+                    htmlFor="lastName"
+                    className={`absolute text-sans-body1 duration-300 transform peer-focus:text-black text-gray-500 -translate-y-4 scale-75 top-[3px] z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-[3px] peer-focus:scale-75 peer-focus:-translate-y-4 start-3`}
+                  >
+                    姓
+                  </label>
+                </div>
+                {/* 錯誤提示字 */}
+                <span
+                  className={`${
+                    errors.lastName ? "text-Alert-50" : "text-black"
+                  } inline-block pl-3 text-sans-caption`}
                 >
-                  姓
-                </label>
+                  {errors.lastName && errors.lastName.message}
+                </span>
               </div>
-              <div className="relative w-full">
-                <input
-                  type="text"
-                  id="floating_outlined"
-                  className="block p-3 w-full text-sans-body1 text-Neutral-50 rounded-[4px] border-1 border-black appearance-none focus:outline-none focus:ring-0 focus:border-2 focus:border-Brand-30 peer"
-                  placeholder=""
-                />
-                <label
-                  htmlFor="floating_outlined"
-                  className="absolute text-sans-body1 text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-[3px] z-10 origin-[0] bg-white pl-3 peer-focus:px-2 peer-focus:text-Brand-30 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-[3px] peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-3"
+              <div className="w-full">
+                <div className="relative">
+                  <input
+                    type="text"
+                    id="firstName"
+                    className={`block p-3 w-full text-sans-body1 text-black rounded-[4px] border-1 appearance-none focus:outline-none focus:ring-0  ${
+                      errors.firstName
+                        ? "focus:border-Alert-50 border-Alert-50"
+                        : "focus:border-Brand-30 focus:border-2 focus:m-[-2px] border-black"
+                    } peer`}
+                    placeholder=""
+                    {...register("firstName", {
+                      required: { value: true, message: "必填" },
+                    })}
+                  />
+                  <label
+                    htmlFor="firstName"
+                    className={`absolute text-sans-body1 duration-300 transform peer-focus:text-black text-gray-500 -translate-y-4 scale-75 top-[3px] z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-[3px] peer-focus:scale-75 peer-focus:-translate-y-4 start-3`}
+                  >
+                    名
+                  </label>
+                </div>
+                {/* 錯誤提示字 */}
+                <span
+                  className={`${
+                    errors.firstName ? "text-Alert-50" : "text-black"
+                  } inline-block pl-3 text-sans-caption`}
                 >
-                  名
-                </label>
+                  {errors.firstName ? errors.firstName.message : ""}
+                </span>
               </div>
             </div>
             {/* Email */}
-            <div className="relative w-full mb-6">
-              <input
-                type="text"
-                id="floating_outlined"
-                className="block p-3 w-full text-sans-body1 text-Neutral-50 rounded-[4px] border-1 border-black appearance-none  focus:outline-none focus:ring-0 focus:border-2 focus:border-Brand-30 peer"
-                placeholder=""
-              />
-              <label
-                htmlFor="floating_outlined"
-                className="absolute text-sans-body1 text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-[3px] z-10 origin-[0] bg-white pl-3 peer-focus:px-2 peer-focus:text-Brand-30 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-[3px] peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-3"
+            <div className="w-full mb-3">
+              <div className="relative">
+                <input
+                  type="text"
+                  id="email"
+                  className={`block p-3 w-full text-sans-body1 text-black rounded-[4px] border-1 appearance-none focus:outline-none focus:ring-0  ${
+                    errors.email
+                      ? "focus:border-Alert-50 border-Alert-50"
+                      : "focus:border-Brand-30 focus:border-2 focus:m-[-2px] border-black"
+                  } peer`}
+                  placeholder=""
+                  {...register("email", {
+                    required: { value: true, message: "必填" },
+                    pattern: {
+                      value: /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/g,
+                      message: "Email 格式不正確",
+                    },
+                  })}
+                />
+                <label
+                  htmlFor="email"
+                  className={`absolute text-sans-body1 duration-300 transform peer-focus:text-black text-gray-500 -translate-y-4 scale-75 top-[3px] z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-[3px] peer-focus:scale-75 peer-focus:-translate-y-4 start-3`}
+                >
+                  Email
+                </label>
+              </div>
+              {/* 錯誤提示字 */}
+              <span
+                className={`${
+                  errors.email ? "text-Alert-50" : "text-black"
+                } inline-block pl-3 text-sans-caption`}
               >
-                Email
-              </label>
+                {errors.email && errors.email.message}
+              </span>
             </div>
-
             {/* 密碼 */}
-            <div className="relative w-full mb-6">
-              <input
-                type="text"
-                id="floating_outlined"
-                className="block p-3 w-full text-sans-body1 text-Neutral-50 rounded-[4px] border-1 border-black appearance-none  focus:outline-none focus:ring-0 focus:border-2 focus:border-Brand-30 peer"
-                placeholder=""
-              />
-              <label
-                htmlFor="floating_outlined"
-                className="absolute text-sans-body1 text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-[3px] z-10 origin-[0] bg-white pl-3 peer-focus:px-2 peer-focus:text-Brand-30 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-[3px] peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-3"
+            <div className="w-full mb-3">
+              <div className="relative">
+                <input
+                  type="password"
+                  id="password"
+                  className={`block p-3 w-full text-sans-body1 text-black rounded-[4px] border-1 appearance-none focus:outline-none focus:ring-0  ${
+                    errors.password
+                      ? "focus:border-Alert-50 border-Alert-50"
+                      : "focus:border-Brand-30 focus:border-2 focus:m-[-2px] border-black"
+                  } peer`}
+                  placeholder=""
+                  {...register("password", {
+                    required: { value: true, message: "必填" },
+                    minLength: { value: 8, message: "密碼至少 8 碼" },
+                  })}
+                />
+                <label
+                  htmlFor="password"
+                  className={`absolute text-sans-body1 duration-300 transform peer-focus:text-black text-gray-500 -translate-y-4 scale-75 top-[3px] z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-[3px] peer-focus:scale-75 peer-focus:-translate-y-4 start-3`}
+                >
+                  密碼
+                </label>
+              </div>
+              {/* 錯誤提示字 */}
+              <span
+                className={`${
+                  errors.password ? "text-Alert-50" : "text-black"
+                } inline-block pl-3 text-sans-caption`}
               >
-                密碼
-              </label>
+                {errors.password && errors.password.message}
+              </span>
             </div>
 
             {/* 再次確認密碼 */}
-            <div className="relative w-full mb-6">
+            <div className="w-full mb-3">
+              <div className="relative">
+                <input
+                  type="password"
+                  id="passwordConfirm"
+                  className={`block p-3 w-full text-sans-body1 text-black rounded-[4px] border-1 appearance-none focus:outline-none focus:ring-0  ${
+                    errors.passwordConfirm
+                      ? "focus:border-Alert-50 border-Alert-50"
+                      : "focus:border-Brand-30 focus:border-2 focus:m-[-2px] border-black"
+                  } peer`}
+                  placeholder=""
+                  {...register("passwordConfirm", {
+                    required: { value: true, message: "必填" },
+                    minLength: { value: 8, message: "密碼至少 8 碼" },
+                    validate: passwordConfirm,
+                  })}
+                />
+                <label
+                  htmlFor="passwordConfirm"
+                  className={`absolute text-sans-body1 duration-300 transform peer-focus:text-black text-gray-500 -translate-y-4 scale-75 top-[3px] z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-[3px] peer-focus:scale-75 peer-focus:-translate-y-4 start-3`}
+                >
+                  密碼
+                </label>
+              </div>
+              {/* 錯誤提示字 */}
+              <span
+                className={`${
+                  errors.passwordConfirm ? "text-Alert-50" : "text-black"
+                } inline-block pl-3 text-sans-caption`}
+              >
+                {errors.passwordConfirm && errors.passwordConfirm.message}
+              </span>
+            </div>
+            {/* <div className="relative w-full mb-6">
               <input
-                type="text"
-                id="floating_outlined"
-                className="block p-3 w-full text-sans-body1 text-Neutral-50 rounded-[4px] border-1 border-black appearance-none  focus:outline-none focus:ring-0 focus:border-2 focus:border-Brand-30 peer"
+                type="password"
+                id="passwordConfirm"
+                className={`block p-3 w-full text-sans-body1 text-Neutral-50 rounded-[4px] border-1 appearance-none focus:outline-none focus:ring-0  ${
+                  errors.passwordConfirm
+                    ? "focus:border-Alert-50 border-Alert-50"
+                    : "focus:border-Brand-30 focus:border-2 border-black"
+                } peer`}
                 placeholder=""
+                {...register("passwordConfirm", {
+                  required: { value: true, message: "再次確認密碼必填" },
+                  minLength: { value: 8, message: "密碼至少 8 碼" },
+                  validate: passwordConfirm,
+                })}
               />
               <label
-                htmlFor="floating_outlined"
-                className="absolute text-sans-body1 text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-[3px] z-10 origin-[0] bg-white pl-3 peer-focus:px-2 peer-focus:text-Brand-30 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-[3px] peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-3"
+                htmlFor="passwordConfirm"
+                className={`absolute text-sans-body1 duration-300 transform -translate-y-4 scale-75 top-[3px] z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-[3px] peer-focus:scale-75 peer-focus:-translate-y-4 start-3 ${
+                  errors.passwordConfirm
+                    ? "peer-focus:text-Alert-50 text-Alert-50"
+                    : "peer-focus:text-Brand-30 text-gray-500"
+                }`}
               >
-                再次確認密碼
+                {errors.passwordConfirm
+                  ? errors.passwordConfirm.message
+                  : "再次確認密碼"}
               </label>
-            </div>
+            </div> */}
 
             {/* 職業 */}
             <div className="relative w-full mb-6">
@@ -173,7 +309,14 @@ function BasicInfoForm() {
               <span className="text-sans-body2">支援PNG, JPG (Max 5MB)</span>
             </div>
 
-            <button type="submit" className="filled-button-l w-full mb-3">
+            <button
+              type="submit"
+              className={`filled-button-l w-full mb-3 ${
+                Object.keys(errors).length > 0
+                  ? "bg-Neutral-90 hover:bg-Neutral-90"
+                  : ""
+              }`}
+            >
               確認
             </button>
             <button className="p-2 text-sans-b-body1" onClick={cancelSignUp}>

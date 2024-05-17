@@ -4,10 +4,13 @@ import tenant_bgImg from "../../assets/imgs/signUp/signUp_tenant_bgImg.svg";
 import lendLord_bgImg from "../../assets/imgs/signUp/signUp_lendLord_bgImg.svg";
 import { setIdentityState } from "../../../redux/common/identitySlice";
 import { setCurrentStepState } from "../../../redux/signUp/stepSlice";
+import { RootState } from "../../../redux/store";
 
-function SignUpSwitchIdentityPage() {
+function SwitchIdentityPage() {
   const dispatch = useDispatch();
-  const identityState = useSelector(store => store.identityState.identity);
+  const identityState = useSelector(
+    (store: RootState) => store.identityState.identity
+  );
   console.log(identityState);
   const navigate = useNavigate();
   const handleLogin = (e: React.MouseEvent) => {
@@ -80,4 +83,4 @@ function SignUpSwitchIdentityPage() {
   );
 }
 
-export default SignUpSwitchIdentityPage;
+export default SwitchIdentityPage;
