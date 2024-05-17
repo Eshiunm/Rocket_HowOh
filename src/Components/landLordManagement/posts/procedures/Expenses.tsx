@@ -29,25 +29,32 @@ export default function Expenses() {
         <div className="layout-grid mb-10">
           <h4 className="col-span-12 text-sans-b-h6">房租與押金</h4>
           <label htmlFor="rent" className="col-span-6 flex items-center gap-2 pt-2">
-            <input type="number" className="add-new-input" id="rent" placeholder="房租" />
+            <input
+              type="number"
+              className="add-new-input"
+              id="rent"
+              placeholder="房租"
+            />
             <span className="shrink-0">元/月</span>
           </label>
           <h5 className="col-span-12 text-sans-b-body1 text-Landlord-40">押金</h5>
           <fieldset className="col-span-12 layout-grid">
-            <label htmlFor="one" className="col-span-3 flex items-center gap-2">
+            <label htmlFor="oneMonth" className="col-span-3 flex items-center gap-2">
               <input
                 type="radio"
+                id="oneMonth"
                 name="securityDeposit"
-                id="one"
+                value="一個月"
                 className="w-6 h-6 text-black bg-transparent border-black focus:ring-0 focus:ring-transparent"
               />
               <span>1個月</span>
             </label>
-            <label htmlFor="two" className="col-span-3 flex items-center gap-2">
+            <label htmlFor="twoMonth" className="col-span-3 flex items-center gap-2">
               <input
                 type="radio"
+                id="twoMonth"
                 name="securityDeposit"
-                id="two"
+                value="兩個月"
                 className="w-6 h-6 text-black bg-transparent border-black focus:ring-0 focus:ring-transparent"
               />
               <span>2個月</span>
