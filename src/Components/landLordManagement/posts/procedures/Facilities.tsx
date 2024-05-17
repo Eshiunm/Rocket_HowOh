@@ -1,7 +1,6 @@
 import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { ProcedureContext } from "../../../../pages/landlordManagement/AddNew";
-import CheckBox from "../CheckBox";
 import {
   houseFeatures,
   mainFeatures,
@@ -9,7 +8,6 @@ import {
   transportations,
   equipments
 } from "../../../../constants/featureList";
-import CheckToShowInput from "../CheckToShowInput";
 
 export default function Facilities() {
   const [selectedMainFeatures, setSelectedMainFeatures] = useState({
@@ -26,10 +24,16 @@ export default function Facilities() {
     isNearTrainStation: false,
     isNearHSR: false,
   });
-  const { handleSubmit } = useForm();
+  const { register, handleSubmit, formState: { errors } } = useForm();
   const { handleProcedureClick, handleProcedureDone } =
     useContext(ProcedureContext);
-  const onSubmit = () => {
+  const onSubmit = (data) => {
+    const formData = {
+      ...selectedMainFeatures,
+      ...selectedTransportations,
+      ...data,
+    }
+    console.log(formData)
     handleProcedureDone(2);
     handleProcedureClick("費用");
   };
@@ -86,6 +90,7 @@ export default function Facilities() {
                     type="checkbox"
                     id={id}
                     className="w-5 h-5 text-black focus:ring-transparent rounded-sm border-2 border-black cursor-pointer"
+                    {...register(id)}
                   />
                   {title}
                 </label>
@@ -103,6 +108,7 @@ export default function Facilities() {
                     type="checkbox"
                     id={id}
                     className="w-5 h-5 text-black focus:ring-transparent rounded-sm border-2 border-black cursor-pointer"
+                    {...register(id)}
                   />
                   {title}
                 </label>
@@ -120,6 +126,7 @@ export default function Facilities() {
                     type="checkbox"
                     id={id}
                     className="w-5 h-5 text-black focus:ring-transparent rounded-sm border-2 border-black cursor-pointer"
+                    {...register(id)}
                   />
                   {title}
                 </label>
@@ -127,31 +134,57 @@ export default function Facilities() {
             }
             <h5 className="mt-3 col-span-12 text-sans-b-body1">交通</h5>
             {
-              transportations.map(({id, title}) => (
-                <label
-                  key={id} 
-                  htmlFor={id}
-                  className="col-span-3 text-sans-body1 cursor-pointer"
-                >
-                  <div className="flex items-center cursor-pointer gap-2">
-                    <input
-                      type="checkbox"
-                      id={id}
-                      className="w-5 h-5 text-black focus:ring-transparent rounded-sm border-2 border-black cursor-pointer"
-                      checked={selectedTransportations[id]}
-                      onChange={() => handleTransportationsClick(id)}
-                    />
-                    {title}
-                  </div>
-                  {
+              transportations.map(({id, title, distance}) => (
+                <div className="col-span-3" key={id}>
+                  <label
+                    htmlFor={id}
+                    className="col-span-3 text-sans-body1 cursor-pointer"
+                  >
+                    <div className="flex items-center cursor-pointer gap-2">
+                      <input
+                        type="checkbox"
+                        id={id}
+                        className="w-5 h-5 text-black focus:ring-transparent rounded-sm border-2 border-black cursor-pointer"
+                        checked={selectedTransportations[id]}
+                        onChange={() => handleTransportationsClick(id)}
+                      />
+                      {title}
+                    </div>
+                  </label>
+                  <label htmlFor={distance} className={`mt-[10px] ${
+                    selectedTransportations[id] ? "" : "hidden"
+                    }`}>
+                    <div className="col-span-3 flex items-center gap-2">
+                      <input
+                        type="number"
+                        id={distance}
+                        className={`add-new-input ${
+                          errors[distance] && "border-Alert-50 border focus:border-Alert-50 focus:border"
+                        }`}
+                        {...register(distance,{
+                          required: { value: selectedTransportations[id], message: "必填欄位" }
+                        })}
+                      />
+                      <span className="shrink-0">公尺</span>
+                    </div>
+                    {
+                      errors[distance] && selectedTransportations[id] && (
+                        <p className="post-alert">{errors[distance]?.message}</p>
+                      )
+                    }
+                  </label>
+                  {/* {
                     selectedTransportations[id] && (
-                      <label htmlFor={id+"number"} className="flex items-center gap-2 mt-[10px]">
-                        <input type="number" id={id+"number"} className="add-new-input" />
+                      <label htmlFor={distance} className="flex items-center gap-2 mt-[10px]">
+                        <input
+                          type="number"
+                          id={distance}
+                          className="add-new-input" />
                         <span className="shrink-0">公尺</span>
                       </label>
                     )
-                  }
-                </label>
+                  } */}
+                </div>
               ))
             }
           </div>
@@ -168,61 +201,5 @@ export default function Facilities() {
         </div>
       </form>
     </div>
-    // <form className="flex flex-col gap-6" onSubmit={handleSubmit(onSubmit)}>
-    //   <button
-    //     type="button"
-    //     className="self-start add-new-back-btn"
-    //     onClick={() => handleProcedureClick("照片")}
-    //   >
-    //     上一步
-    //   </button>
-    //   <h3 className="add-new-title">重點特色</h3>
-    //   <div>
-    //     {mainFeatures.map(({ id, title }) => (
-    //       <CheckBox id={id} title={title} register={register} key={id} />
-    //     ))}
-    //   </div>
-    //   <h3 className="add-new-title">其他特色</h3>
-    //   <div>
-    //     <div>
-    //       <h4 className="add-new-small-title">附近機能</h4>
-    //       <div>
-    //         {nearByFacilities.map(({ id, title }) => (
-    //           <CheckBox id={id} title={title} register={register} key={id} />
-    //         ))}
-    //       </div>
-    //     </div>
-    //     <div>
-    //       <h4 className="add-new-small-title">屋源特色</h4>
-    //       <div>
-    //         {houseFeatures.map(({ id, title }) => (
-    //           <CheckBox id={id} title={title} register={register} key={id} />
-    //         ))}
-    //       </div>
-    //     </div>
-    //     <div>
-    //       <h4 className="add-new-small-title">交通</h4>
-    //       <div className="flex gap-6">
-    //         {transportations.map(({ id, title }) => (
-    //           <CheckToShowInput
-    //             id={id}
-    //             title={title}
-    //             register={register}
-    //             key={id}
-    //           />
-    //         ))}
-    //       </div>
-    //     </div>
-    //   </div>
-    //   <h3 className="add-new-title">設備</h3>
-    //   <div>
-    //     {equipments.map(({ id, title }) => (
-    //       <CheckBox id={id} title={title} register={register} key={id} />
-    //     ))}
-    //   </div>
-    //   <button type="submit" className="add-new-btn add-new-next-btn">
-    //     下一步
-    //   </button>
-    // </form>
   );
 }

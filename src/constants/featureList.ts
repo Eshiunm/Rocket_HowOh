@@ -67,22 +67,27 @@ const transportations = [
   {
     id: "isNearMRT",
     title: "捷運",
+    distance: "kmAwayMRT"
   },
   {
     id: "isNearLRT",
     title: "輕軌",
+    distance: "kmAwayLRT"
   },
   {
     id: "isNearBusStation",
     title: "公車",
+    distance: "kmAwayBusStation"
   },
   {
     id: "isNearTrainStation",
     title: "火車",
+    distance: "kmAwayTrainStation"
   },
   {
     id: "isNearHSR",
     title: "高鐵",
+    distance: "kmAwayHSR"
   },
 ];
 
