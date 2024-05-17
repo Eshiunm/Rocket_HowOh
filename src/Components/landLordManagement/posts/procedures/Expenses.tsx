@@ -8,15 +8,17 @@ import {
 } from "../../../../constants/forPay";
 
 export default function Expenses() {
-  const { register, handleSubmit } = useForm({
+  const { register, handleSubmit, formState: { errors } } = useForm({
     defaultValues: {
+      rent: "",
       securityDeposit: "兩個月",
       paymentMethodOfWaterBill: "自訂",
     }
   });
   const { handleProcedureClick, handleProcedureDone } =
     useContext(ProcedureContext);
-  const onSubmit = () => {
+  const onSubmit = (data) => {
+    console.log(data);
     handleProcedureDone(3);
     handleProcedureClick("介紹");
   };
@@ -27,22 +29,29 @@ export default function Expenses() {
       <form onSubmit={handleSubmit(onSubmit)} >
         <div className="layout-grid mb-10">
           <h4 className="col-span-12 text-sans-b-h6">房租與押金</h4>
-          <label htmlFor="rent" className="col-span-6 flex items-center gap-2 pt-2">
-            <input
-              type="number"
-              className="add-new-input"
-              id="rent"
-              placeholder="房租"
-            />
-            <span className="shrink-0">元/月</span>
-          </label>
+          <div className="col-span-6">
+            <label htmlFor="rent" className="flex items-center gap-2 pt-2">
+              <input
+                type="number"
+                className={`add-new-input ${
+                  errors.rent ? "border-Alert-50 focus:border-Alert-50" : ""
+                }`}
+                id="rent"
+                placeholder="房租"
+                {...register("rent",{
+                  required: { value: true, message: "請輸入房租" },
+                })}
+              />
+              <span className="shrink-0">元/月</span>
+            </label>
+            { errors.rent && <p className="post-alert col-span-12">{errors.rent.message}</p> }
+          </div>
           <h5 className="col-span-12 text-sans-b-body1 text-Landlord-40">押金</h5>
           <fieldset className="col-span-12 layout-grid">
             <label htmlFor="oneMonth" className="col-span-3 flex items-center gap-2">
               <input
                 type="radio"
                 id="oneMonth"
-                // name="securityDeposit"
                 value="一個月"
                 className="w-6 h-6 text-black bg-transparent border-black focus:ring-0 focus:ring-transparent"
                 {...register("securityDeposit",{
@@ -55,7 +64,6 @@ export default function Expenses() {
               <input
                 type="radio"
                 id="twoMonth"
-                // name="securityDeposit"
                 value="兩個月"
                 className="w-6 h-6 text-black bg-transparent border-black focus:ring-0 focus:ring-transparent"
                 {...register("securityDeposit",{
