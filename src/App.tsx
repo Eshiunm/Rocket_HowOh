@@ -1,7 +1,7 @@
 import { Routes, Route, BrowserRouter } from "react-router-dom";
 import Header from "./components/header/Header";
 import HomePage from "./pages/HomePage";
-import SignUpSwitchIdentityPage from "./pages/signUp/SignUpSwitchIdentityPage";
+import SwitchIdentityPage from "./pages/signUp/SwitchIdentityPage";
 import CreateAccountPage from "./pages/signUp/CreateAccountPage";
 import LoginPage from "./pages/login/loginPage";
 import AddNew from "./pages/landlordManagement/AddNew";
@@ -14,7 +14,7 @@ function App() {
         <Header />
         <Routes>
           <Route path="/" element={<HomePage />}></Route>
-          <Route path="/signUp" element={<SignUpSwitchIdentityPage />}></Route>
+          <Route path="/signUp" element={<SwitchIdentityPage />}></Route>
           <Route path="/signUp/createAccount" element={<CreateAccountPage />}></Route>
           <Route path="/login" element={<LoginPage />}></Route>
           <Route path="/post" element={<AddNew />}></Route>
