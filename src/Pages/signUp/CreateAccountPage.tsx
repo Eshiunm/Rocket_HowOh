@@ -6,21 +6,28 @@ import EnterPhoneForm from "../../components/signUp/EnterPhoneForm";
 import PhoneValidationForm from "../../components/signUp/PhoneValidationForm";
 import BasicInfoForm from "../../components/signUp/BasicInfoForm";
 import CreateCompleted from "../../components/signUp/CreateCompleted";
+import { RootState } from "../../../redux/store";
 
 function CreateAccountPage() {
   const dispatch = useDispatch();
   const currentStepState = useSelector(
-    store => store.signUpStepState.currentStepState
+    (store: RootState) => store.signUpStepState.currentStepState
   );
-  const identityState = useSelector(store => store.identityState.identity);
-  console.log(currentStepState);
-  console.log(identityState);
+  // const identityState = useSelector(store => store.identityState.identity);
+  // console.log(currentStepState);
+  // console.log(identityState);
   /*
     使用者若按到重新載入，一律回到步驟一
   */
   useEffect(() => {
     dispatch(setCurrentStepState(1));
+    window.scrollTo(0, 0);
   }, []);
+
+  /* 當此頁面載入時，將畫面滾到最上方*/
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [dispatch, currentStepState]);
   return (
     <>
       {/* 註冊進度條 */}
