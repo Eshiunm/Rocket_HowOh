@@ -22,7 +22,7 @@ export default function Introduction() {
             rows={8}
             placeholder="房源介紹"
             maxLength={500}
-            className="resize-none w-full p-3 rounded text-sans-body1 placeholder:text-Neutral-50 focus:border-2 focus:border-Brand-30 focus:-m-[1px] focus:ring-0"
+            className="w-full p-3 rounded text-sans-body1 placeholder:text-Neutral-50 focus:border-2 focus:border-Brand-30 focus:-m-[1px] focus:ring-0"
           ></textarea>
           <p className="text-sans-caption mt-1 px-3">最多500字</p>
         </label>
