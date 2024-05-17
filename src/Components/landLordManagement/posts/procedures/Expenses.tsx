@@ -10,6 +10,7 @@ import {
 export default function Expenses() {
   const { register, handleSubmit } = useForm({
     defaultValues: {
+      securityDeposit: "兩個月",
       paymentMethodOfWaterBill: "自訂",
     }
   });
@@ -41,9 +42,12 @@ export default function Expenses() {
               <input
                 type="radio"
                 id="oneMonth"
-                name="securityDeposit"
+                // name="securityDeposit"
                 value="一個月"
                 className="w-6 h-6 text-black bg-transparent border-black focus:ring-0 focus:ring-transparent"
+                {...register("securityDeposit",{
+                  required: true
+                })}
               />
               <span>1個月</span>
             </label>
@@ -51,9 +55,12 @@ export default function Expenses() {
               <input
                 type="radio"
                 id="twoMonth"
-                name="securityDeposit"
+                // name="securityDeposit"
                 value="兩個月"
                 className="w-6 h-6 text-black bg-transparent border-black focus:ring-0 focus:ring-transparent"
+                {...register("securityDeposit",{
+                  required: true
+                })}
               />
               <span>2個月</span>
             </label>
