@@ -8,13 +8,15 @@ import {
 } from "../../../../constants/forPay";
 
 export default function Expenses() {
-  const { register, handleSubmit, formState: { errors } } = useForm({
+  const { register, handleSubmit, formState: { errors }, watch } = useForm({
     defaultValues: {
       rent: "",
       securityDeposit: "兩個月",
-      paymentMethodOfWaterBill: "自訂",
+      paymentMethodOfWaterBill: "包含於房租",
+      waterBillPerMonth: "",
     }
   });
+  const paymentMethodOfWaterBill = watch("paymentMethodOfWaterBill");
   const { handleProcedureClick, handleProcedureDone } =
     useContext(ProcedureContext);
   const onSubmit = (data) => {
@@ -79,16 +81,43 @@ export default function Expenses() {
           <h5 className="col-span-12 text-sans-b-body1 text-Landlord-40">水費</h5>
           <fieldset className="col-span-12 layout-grid">
             {
-              waterBill.map(({type, id, title, value}) => (
-                <label htmlFor={id} className="col-span-3 flex items-center gap-2">
-                  <input
-                    type="radio"
-                    id={id}
-                    name={type}
-                    value={value}
-                    className="w-6 h-6 text-black bg-transparent border-black focus:ring-0 focus:ring-transparent"
-                  />
-                  <span className="text-sans-body1">{title}</span>
+              waterBill.map(({id, title, value}) => (
+                <label key={id} htmlFor={id} className="col-span-3">
+                  <div className="flex items-center gap-2">
+                    <input
+                      type="radio"
+                      id={id}
+                      value={value}
+                      className="w-6 h-6 text-black bg-transparent border-black focus:ring-0 focus:ring-transparent"
+                      {...register("paymentMethodOfWaterBill",{
+                        required: true
+                      })}
+                    />
+                    <span className="text-sans-body1">{title}</span>
+                  </div>
+                  {
+                    paymentMethodOfWaterBill === "自訂" && id === "customWater" && (
+                      <>
+                        <div className="flex items-center gap-2 mt-3">
+                          <input
+                            type="number"
+                            className={`add-new-input ${
+                              errors.waterBillPerMonth && "border-Alert-50 border focus:border-Alert-50 focus:border"
+                            }`}
+                            {...register("waterBillPerMonth",{
+                              required: { value: true, message: "必填欄位" },
+                            })}
+                          />
+                          <span className="text-sans-body1 shrink-0">元/人</span>
+                        </div>
+                        <>
+                          {
+                            errors.waterBillPerMonth && <p className="post-alert">{errors.waterBillPerMonth.message}</p>
+                          }
+                        </>
+                      </>
+                    )
+                  }
                 </label>
               ))
             }

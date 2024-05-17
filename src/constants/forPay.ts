@@ -1,18 +1,15 @@
 const waterBill = [
   {
-    type: "paymentMethodOfWaterBill",
     id: "customWater",
     title: "自訂（隨房租繳納）",
     value: "自訂"
   },
   {
-    type: "paymentMethodOfWaterBill",
     id: "waterInRent",
     title: "包含於房租",
     value: "包含於房租",
   },
   {
-    type: "paymentMethodOfWaterBill",
     id: "governmentWater",
     title: "依台水計價",
     value: "依台水計價",
