@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { ProcedureContext } from "../../../pages/landlordManagement/AddNew";
 import BasicInformation from "./procedures/BasicInformation";
 import Photos from "./procedures/Photos";
@@ -12,6 +12,10 @@ import Restrictions from "./procedures/Restrictions";
 export default function AddNewData() {
   const { procedure } = useContext(ProcedureContext);
   const { title } = procedure.filter(item => item.isActive)[0];
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [title]);
 
   return (
     <div className="col-span-10 col-start-2 bg-white p-5 rounded-2xl">
