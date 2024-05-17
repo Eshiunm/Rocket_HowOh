@@ -1,54 +1,63 @@
 const waterBill = [
   {
-    type: "water",
-    id: "customized",
+    type: "paymentMethodOfWaterBill",
+    id: "customWater",
     title: "自訂（隨房租繳納）",
+    value: "自訂"
   },
   {
-    type: "water",
-    id: "government",
-    title: "依台水計價",
-  },
-  {
-    type: "water",
-    id: "include",
+    type: "paymentMethodOfWaterBill",
+    id: "waterInRent",
     title: "包含於房租",
-  }
+    value: "包含於房租",
+  },
+  {
+    type: "paymentMethodOfWaterBill",
+    id: "governmentWater",
+    title: "依台水計價",
+    value: "依台水計價",
+  },
 ];
 
 const electricBill = [
   {
-    type: "electric",
-    id: "customized",
+    type: "electricBill",
+    id: "customElectric",
     title: "自訂（隨房租繳納）",
+    value: "自訂",
   },
   {
-    type: "electric",
-    id: "government",
-    title: "依台水計價",
+    type: "electricBill",
+    id: "governmentElectric",
+    title: "依台電計價",
+    value: "依台電計價",
   }
 ];
 
 const managementFee = [
   {
-    type: "management",
-    id: "none",
+    type: "paymentMethodOfManagementFee",
+    id: "noManagementFee",
     title: "無管理費",
+    value: "無管理費",
   },
   {
-    type: "management",
-    id: "include",
+    type: "paymentMethodOfManagementFee",
+    id: "managementFeeInRent",
     title: "包含於租金",
+    value: "包含於租金",
   },
   {
-    type: "management",
-    id: "payWithRent",
+    type: "paymentMethodOfManagementFee",
+    id: "managementFeePayWithRent",
     title: "房客支付（隨房租繳納）",
+    value: "隨房租繳納",
   },
   {
-    type: "management",
-    id: "paySelf",
+    type: "paymentMethodOfManagementFee",
+    id: "managementFeePaySelf",
     title: "房客支付（自行繳納）",
+    value: "自行繳納",
   },
 ];
 
