@@ -7,6 +7,18 @@ import {
   waterBill,
 } from "../../../../constants/forPay";
 
+interface expensesType {
+  rent: string;
+  securityDeposit: string;
+  paymentMethodOfWaterBill: string;
+  waterBillPerMonth: string;
+  electricBill: string;
+  electricBillPerDegree: string;
+  paymentMethodOfElectricBill: string;
+  paymentMethodOfManagementFee: string;
+  managementFeePerMonth: string;
+}
+
 export default function Expenses() {
   const { register, handleSubmit, formState: { errors }, watch } = useForm({
     defaultValues: {
@@ -26,7 +38,7 @@ export default function Expenses() {
   const paymentMethodOfManagementFee = watch("paymentMethodOfManagementFee");
   const { handleProcedureClick, handleProcedureDone } =
     useContext(ProcedureContext);
-  const onSubmit = (data) => {
+  const onSubmit = (data: expensesType) => {
     if (data.electricBill === "自訂") {
       data.paymentMethodOfElectricBill = "隨房租繳納"
     }
@@ -210,22 +222,6 @@ export default function Expenses() {
             )
           }
           <h5 className="col-span-12 text-sans-b-body1 text-Landlord-40 mt-3">管理費</h5>
-          {/* <fieldset className="col-span-12 layout-grid">
-            {
-              managementFee.map(({type, id, title, value}) => (
-                <label htmlFor={id} className="col-span-3 flex items-center gap-2">
-                  <input
-                    type="radio"
-                    id={id}
-                    name={type}
-                    value={value}
-                    className="w-6 h-6 text-black bg-transparent border-black focus:ring-0 focus:ring-transparent"
-                  />
-                  <span className="text-sans-body1">{title}</span>
-                </label>
-              ))
-            }
-          </fieldset> */}
           <fieldset className="col-span-12 layout-grid">
             {
               managementFee.map(({id, title, value}) => (
