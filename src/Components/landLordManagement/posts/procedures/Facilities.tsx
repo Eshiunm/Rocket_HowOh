@@ -173,24 +173,16 @@ export default function Facilities() {
                       )
                     }
                   </label>
-                  {/* {
-                    selectedTransportations[id] && (
-                      <label htmlFor={distance} className="flex items-center gap-2 mt-[10px]">
-                        <input
-                          type="number"
-                          id={distance}
-                          className="add-new-input" />
-                        <span className="shrink-0">公尺</span>
-                      </label>
-                    )
-                  } */}
                 </div>
               ))
             }
           </div>
         </div>
         <div className="pt-10 flex justify-between">
-          <button type="button" className="outline-button-m pr-3 flex items-center">
+          <button
+            type="button"
+            onClick={() => handleProcedureClick("照片")}
+            className="outline-button-m pr-3 flex items-center">
             <span className="material-symbols-outlined">chevron_left</span>
             <span>上一步</span>
           </button>
