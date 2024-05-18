@@ -17,13 +17,19 @@ export default function Expenses() {
       electricBill: "依台電計價",
       electricBillPerDegree: "",
       paymentMethodOfElectricBill: "自行繳納",
+      paymentMethodOfManagementFee: "無管理費",
+      managementFeePerMonth: "",
     }
   });
   const paymentMethodOfWaterBill = watch("paymentMethodOfWaterBill");
   const electricBillChoose = watch("electricBill");
+  const paymentMethodOfManagementFee = watch("paymentMethodOfManagementFee");
   const { handleProcedureClick, handleProcedureDone } =
     useContext(ProcedureContext);
   const onSubmit = (data) => {
+    if (data.electricBill === "自訂") {
+      data.paymentMethodOfElectricBill = "隨房租繳納"
+    }
     console.log(data);
     handleProcedureDone(3);
     handleProcedureClick("介紹");
@@ -204,7 +210,7 @@ export default function Expenses() {
             )
           }
           <h5 className="col-span-12 text-sans-b-body1 text-Landlord-40 mt-3">管理費</h5>
-          <fieldset className="col-span-12 layout-grid">
+          {/* <fieldset className="col-span-12 layout-grid">
             {
               managementFee.map(({type, id, title, value}) => (
                 <label htmlFor={id} className="col-span-3 flex items-center gap-2">
@@ -216,6 +222,51 @@ export default function Expenses() {
                     className="w-6 h-6 text-black bg-transparent border-black focus:ring-0 focus:ring-transparent"
                   />
                   <span className="text-sans-body1">{title}</span>
+                </label>
+              ))
+            }
+          </fieldset> */}
+          <fieldset className="col-span-12 layout-grid">
+            {
+              managementFee.map(({id, title, value}) => (
+                <label key={id} htmlFor={id} className="col-span-3">
+                  <div className="flex items-center gap-2">
+                    <input
+                      type="radio"
+                      id={id}
+                      value={value}
+                      className="w-6 h-6 text-black bg-transparent border-black focus:ring-0 focus:ring-transparent"
+                      {...register("paymentMethodOfManagementFee",{
+                        required: true
+                      })}
+                    />
+                    <span className="text-sans-body1">{title}</span>
+                  </div>
+                  {
+                    (( paymentMethodOfManagementFee === "隨房租繳納"  && id === "managementFeePayWithRent" )
+                    || ( paymentMethodOfManagementFee === "自行繳納" && id === "managementFeePaySelf" ))
+                    && (
+                      <>
+                        <div className="flex items-center gap-2 mt-3">
+                          <input
+                            type="number"
+                            className={`add-new-input ${
+                              errors.managementFeePerMonth && "border-Alert-50 border focus:border-Alert-50 focus:border"
+                            }`}
+                            {...register("managementFeePerMonth",{
+                              required: { value: true, message: "必填欄位" },
+                            })}
+                          />
+                          <span className="text-sans-body1 shrink-0">元/月</span>
+                        </div>
+                        <>
+                          {
+                            errors.managementFeePerMonth && <p className="post-alert">{errors.managementFeePerMonth.message}</p>
+                          }
+                        </>
+                      </>
+                    )
+                  }
                 </label>
               ))
             }

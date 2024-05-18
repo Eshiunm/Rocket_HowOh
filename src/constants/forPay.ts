@@ -31,25 +31,21 @@ const electricBill = [
 
 const managementFee = [
   {
-    type: "paymentMethodOfManagementFee",
     id: "noManagementFee",
     title: "無管理費",
     value: "無管理費",
   },
   {
-    type: "paymentMethodOfManagementFee",
     id: "managementFeeInRent",
     title: "包含於租金",
     value: "包含於租金",
   },
   {
-    type: "paymentMethodOfManagementFee",
     id: "managementFeePayWithRent",
     title: "房客支付（隨房租繳納）",
     value: "隨房租繳納",
   },
   {
-    type: "paymentMethodOfManagementFee",
     id: "managementFeePaySelf",
     title: "房客支付（自行繳納）",
     value: "自行繳納",
