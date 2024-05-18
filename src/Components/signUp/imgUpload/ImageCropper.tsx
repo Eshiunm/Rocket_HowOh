@@ -78,55 +78,68 @@ function ImageCropper({ setAvatarUrl, closeModal }) {
       {error && <p className="text-red-400 text-xs">{error}</p>}
       {imgSrc && (
         <div className="flex flex-col items-center">
-          <ReactCrop
-            crop={crop}
-            onChange={percentCrop => setCrop(percentCrop)}
-            circularCrop
-            keepSelection
-            aspect={ASPECT_RATIO}
-            minWidth={MIN_DIMENSION}
-          >
-            <img
-              ref={imgRef}
-              src={imgSrc}
-              alt="Upload"
-              style={{ maxHeight: "70vh" }}
-              onLoad={onImageLoad}
-            />
-          </ReactCrop>
-          <button
-            className="text-white text-sans-h6 py-2 px-4 rounded-2xl mt-4 bg-black hover:opacity-70"
-            onClick={() => {
-              setCanvasPreview(
-                imgRef.current, // HTMLImageElement
-                previewCanvasRef.current, // HTMLCanvasElement
-                convertToPixelCrop(
-                  crop,
-                  imgRef.current?.width,
-                  imgRef.current?.height
-                )
-              );
-              const dataUrl = previewCanvasRef.current?.toDataURL();
-              setAvatarUrl(dataUrl);
-              closeModal();
-            }}
-          >
-            裁切圖片
-          </button>
+          <div className="flex items-center gap-x-6">
+            <ReactCrop
+              crop={crop}
+              onChange={percentCrop => setCrop(percentCrop)}
+              circularCrop
+              keepSelection
+              aspect={ASPECT_RATIO}
+              minWidth={MIN_DIMENSION}
+            >
+              <img
+                ref={imgRef}
+                src={imgSrc}
+                alt="Upload"
+                style={{ maxHeight: "70vh" }}
+                onLoad={onImageLoad}
+              />
+            </ReactCrop>
+            {crop && (
+              <canvas
+                ref={previewCanvasRef}
+                className="w-[150px] h-[150px] rounded-full border"
+              />
+            )}
+          </div>
+          <div className="flex items-center justify-center gap-x-6">
+            <button
+              className="text-white text-sans-h6 py-2 px-4 rounded-2xl mt-4 bg-black hover:opacity-70"
+              onClick={() => {
+                setCanvasPreview(
+                  imgRef.current, // HTMLImageElement
+                  previewCanvasRef.current, // HTMLCanvasElement
+                  convertToPixelCrop(
+                    crop,
+                    imgRef.current?.width,
+                    imgRef.current?.height
+                  )
+                );
+              }}
+            >
+              預覽
+            </button>
+            <button
+              className="text-white text-sans-h6 py-2 px-4 rounded-2xl mt-4 bg-black hover:opacity-70"
+              onClick={() => {
+                setCanvasPreview(
+                  imgRef.current, // HTMLImageElement
+                  previewCanvasRef.current, // HTMLCanvasElement
+                  convertToPixelCrop(
+                    crop,
+                    imgRef.current?.width,
+                    imgRef.current?.height
+                  )
+                );
+                const dataUrl = previewCanvasRef.current?.toDataURL();
+                setAvatarUrl(dataUrl);
+                closeModal();
+              }}
+            >
+              儲存
+            </button>
+          </div>
         </div>
-      )}
-      {crop && (
-        <canvas
-          ref={previewCanvasRef}
-          className="mt-4"
-          style={{
-            display: "none",
-            border: "1px solid black",
-            objectFit: "contain",
-            width: 150,
-            height: 150,
-          }}
-        />
       )}
     </>
   );
