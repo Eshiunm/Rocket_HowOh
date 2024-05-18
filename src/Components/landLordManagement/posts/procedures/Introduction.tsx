@@ -1,12 +1,18 @@
 import { useContext } from "react";
 import { useForm } from "react-hook-form";
 import { ProcedureContext } from "../../../../pages/landlordManagement/AddNew";
+import { useDispatch, useSelector } from "react-redux";
+import { setIntroduction } from "../../../../../redux/post/introductionSlice";
+import { RootState } from "../../../../../redux/store";
 
 interface descriptionType {
   description: string
 }
 
 export default function Introduction() {
+  const dispatch = useDispatch();
+  const content = useSelector( (store: RootState) => store.description);
+
   const { register, handleSubmit, formState: { errors } } = useForm({
     defaultValues : {
       description: "",
@@ -14,8 +20,8 @@ export default function Introduction() {
   });
   const { handleProcedureClick, handleProcedureDone } =
     useContext(ProcedureContext);
-  const onSubmit = (data:descriptionType) => {
-    console.log(data)
+  const onSubmit = (data: descriptionType) => {
+    dispatch(setIntroduction(data.description));
     handleProcedureDone(4);
     handleProcedureClick("限制");
   };
