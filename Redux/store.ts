@@ -8,6 +8,7 @@ import identityState from "./common/identitySlice";
 import basicInformationSlice from "./post/basicInformationSlice";
 import photosSlice from "./post/photosSlice";
 import facilitiesSlice from "./post/facilitiesSlice";
+import expensesSlice from "./post/expensesSlice";
 
 const store = configureStore({
   reducer: {
@@ -19,7 +20,8 @@ const store = configureStore({
     identityState: identityState,
     basicInformationContent: basicInformationSlice,
     photosUpload: photosSlice,
-    facilitiesContent: facilitiesSlice
+    facilitiesContent: facilitiesSlice,
+    expensesContent: expensesSlice,
   },
 });
 

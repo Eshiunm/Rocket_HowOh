@@ -6,6 +6,9 @@ import {
   managementFee,
   waterBill,
 } from "../../../../constants/forPay";
+import { useSelector, useDispatch } from "react-redux";
+import { setExpenses } from "../../../../../redux/post/expensesSlice";
+import { RootState } from "../../../../../redux/store";
 
 interface expensesType {
   rent: string;
@@ -20,6 +23,8 @@ interface expensesType {
 }
 
 export default function Expenses() {
+  const dispatch = useDispatch();
+  const content = useSelector( (store: RootState) => store.expensesContent);
   const { register, handleSubmit, formState: { errors }, watch } = useForm({
     defaultValues: {
       rent: "",
@@ -42,7 +47,7 @@ export default function Expenses() {
     if (data.electricBill === "自訂") {
       data.paymentMethodOfElectricBill = "隨房租繳納"
     }
-    console.log(data);
+    dispatch(setExpenses(data));
     handleProcedureDone(3);
     handleProcedureClick("介紹");
   };
