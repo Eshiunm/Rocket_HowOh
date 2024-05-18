@@ -97,7 +97,7 @@ export default function Photos() {
         };
       })
     });
-
+    
     Promise.all(imagePreviews).then((previews) => {
       setImages((prev)=>[...prev,...previews]);
     })

@@ -1,8 +1,9 @@
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import { setCurrentStepState } from "../../../redux/signUp/stepSlice";
+import { setCurrentStepState } from "../../../../redux/signUp/stepSlice";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { RootState } from "../../../../redux/store";
 
 interface formDataType {
   phone: string;
@@ -13,7 +14,7 @@ function PhoneValidation() {
   const dispatch = useDispatch();
   const { handleSubmit } = useForm<formDataType>();
   const currentStepState = useSelector(
-    store => store.signUpStepState.currentStepState
+    (store:RootState) => store.signUpStepState.currentStepState
   );
 
   const cancelSignUp = () => {
