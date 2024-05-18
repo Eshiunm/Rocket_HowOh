@@ -2,10 +2,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { setCurrentStepState } from "../../../redux/signUp/stepSlice";
 import doneImg from "../../assets/imgs/icons/createAccount_done.svg";
-import EnterPhoneForm from "../../components/signUp/EnterPhoneForm";
-import PhoneValidationForm from "../../components/signUp/PhoneValidationForm";
-import BasicInfoForm from "../../components/signUp/BasicInfoForm";
-import CreateCompleted from "../../components/signUp/CreateCompleted";
+import EnterPhoneForm from "../../components/signUp/step/EnterPhoneForm";
+import PhoneValidationForm from "../../components/signUp/step/PhoneValidationForm";
+import BasicInfoForm from "../../components/signUp/step/BasicInfoForm";
+import CreateCompleted from "../../components/signUp/step/CreateCompleted";
 import { RootState } from "../../../redux/store";
 
 function CreateAccountPage() {
