@@ -23,7 +23,7 @@ export default function Introduction() {
   return (
     <div className="p-5">
       <form className="layout-grid gap-y-10" onSubmit={handleSubmit(onSubmit)}>
-        <h3 className="col-span-12 add-new-title">介紹</h3>
+        <h3 className="col-span-12 add-new-title mb-0">介紹</h3>
         <label className="col-span-6" htmlFor="description">
           <textarea
             id="description"
@@ -32,7 +32,7 @@ export default function Introduction() {
             maxLength={500}
             className={`w-full p-3 rounded text-sans-body1 placeholder:text-Neutral-50 focus:border-2 focus:border-Brand-30 focus:-m-[1px] focus:ring-0 ${
               errors.description
-              ? "border-Alert-50 border"
+              ? "border-Alert-50 border focus:border-Alert-50"
               : "border-black border"
             }`}
             {...register("description", {
