@@ -45,6 +45,38 @@ export default function Restrictions() {
             </label>
           </fieldset>
         </div>
+        <div className="flex flex-col gap-3 mb-10">
+          <h5 className="text-sans-b-body1 text-Landlord-40">性別</h5>
+          <fieldset className="layout-grid">
+            <label htmlFor="maleRestriction" className="col-span-3 flex items-center gap-2 text-sans-body1">
+              <input
+                type="radio"
+                name="genderRestriction"
+                id="maleRestriction"
+                className="w-6 h-6 text-black bg-transparent border-black focus:ring-0 focus:ring-transparent"
+              />
+              男
+            </label>
+            <label htmlFor="femaleRestriction" className="col-span-3 flex items-center gap-2 text-sans-body1">
+              <input
+                type="radio"
+                name="genderRestriction"
+                id="femaleRestriction"
+                className="w-6 h-6 text-black bg-transparent border-black focus:ring-0 focus:ring-transparent"
+              />
+              女
+            </label>
+            <label htmlFor="noSexRestriction" className="col-span-3 flex items-center gap-2 text-sans-body1">
+              <input
+                type="radio"
+                name="genderRestriction"
+                id="noSexRestriction"
+                className="w-6 h-6 text-black bg-transparent border-black focus:ring-0 focus:ring-transparent"
+              />
+              不限
+            </label>
+          </fieldset>
+        </div>
       </form>
     </div>
     // <form className="flex flex-col gap-6" onSubmit={handleSubmit(onSubmit)}>
