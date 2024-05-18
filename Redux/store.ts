@@ -7,6 +7,7 @@ import stepSlice from "./signUp/stepSlice";
 import identityState from "./common/identitySlice";
 import basicInformationSlice from "./post/basicInformationSlice";
 import photosSlice from "./post/photosSlice";
+import facilitiesSlice from "./post/facilitiesSlice";
 
 const store = configureStore({
   reducer: {
@@ -17,7 +18,8 @@ const store = configureStore({
     signUpStepState: stepSlice,
     identityState: identityState,
     basicInformationContent: basicInformationSlice,
-    photosUpload: photosSlice
+    photosUpload: photosSlice,
+    facilitiesContent: facilitiesSlice
   },
 });
 
