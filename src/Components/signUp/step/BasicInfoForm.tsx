@@ -3,9 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { setCurrentStepState } from "../../../../redux/signUp/stepSlice";
 import { useNavigate } from "react-router-dom";
 import { RootState } from "../../../../redux/store";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import Modal from "../imgUpload/Modal";
-import PencilIcon from "../imgUpload/PencilIcon";
 import PlaceholderIcon from "../imgUpload/PlaceholderIcon";
 interface formDataType {
   lastName: string;
@@ -20,6 +19,8 @@ function BasicInfoForm() {
   const dispatch = useDispatch();
   // 控制 modal state
   const [modalOpen, setModalOpen] = useState(false);
+  // 刪除頭像
+  const [avatarUrl, setAvatarUrl] = useState("");
   // react hook form
   const {
     handleSubmit,
@@ -28,11 +29,10 @@ function BasicInfoForm() {
     formState: { errors },
   } = useForm<formDataType>();
   // 頭貼
-  const avatarUrl = useRef(""); //"https://avatarfiles.alphacoders.com/161/161002.jpg"
-  console.log(avatarUrl);
-  const updateAvatar = imgSrc => {
-    avatarUrl.current = imgSrc;
-  };
+  //const avatarUrl = useRef(""); //"https://avatarfiles.alphacoders.com/161/161002.jpg"
+  // const updateAvatar = imgSrc => {
+  //   avatarUrl.current = imgSrc;
+  // };
 
   const currentStepState = useSelector(
     (store: RootState) => store.signUpStepState.currentStepState
@@ -303,21 +303,29 @@ function BasicInfoForm() {
             </div>
             {/* Profile */}
             <div className="flex flex-col items-center mb-20">
-              {avatarUrl.current ? (
+              {avatarUrl ? (
                 <div className="relative">
                   <img
-                    src={avatarUrl.current}
+                    src={avatarUrl}
                     alt="Avatar"
                     className="w-[150px] h-[150px] rounded-full border-2 border-gray-400"
                   />
                   {/* 編輯按鈕 */}
                   <button
                     type="button"
-                    className="absolute bottom-10 -right-20 w-fit p-[.35rem] rounded-full bg-gray-800 hover:bg-gray-700 border border-gray-600"
+                    className="absolute text-white bottom-[37%] -right-[67%] w-[50%] p-[.35rem] rounded-full bg-gray-800 hover:bg-gray-700 border border-gray-600"
                     title="Change photo"
                     onClick={() => setModalOpen(true)}
                   >
-                    <PencilIcon />
+                    編輯
+                  </button>
+                  <button
+                    type="button"
+                    className="absolute text-white bottom-[37%] -right-[130%] w-[50%] p-[.35rem] rounded-full bg-gray-800 hover:bg-gray-700 border border-gray-600"
+                    title="Change photo"
+                    onClick={() => setAvatarUrl("")}
+                  >
+                    刪除
                   </button>
                 </div>
               ) : (
@@ -326,16 +334,21 @@ function BasicInfoForm() {
                   {/* 編輯按鈕 */}
                   <button
                     type="button"
-                    className="absolute bottom-10 -right-20 w-fit p-[.35rem] rounded-full bg-gray-800 hover:bg-gray-700 border border-gray-600"
+                    className="absolute text-white bottom-[37%] -right-[90%] w-[70%] p-[.35rem] rounded-full bg-gray-800 hover:bg-gray-700 border border-gray-600"
                     title="Edit photo"
                     onClick={() => setModalOpen(true)}
                   >
-                    <PencilIcon />
+                    新增照片
                   </button>
                 </div>
               )}
             </div>
-            {modalOpen && <Modal updateAvatar={updateAvatar} closeModal={() => setModalOpen(false)} />}
+            {modalOpen && (
+              <Modal
+                setAvatarUrl={setAvatarUrl}
+                closeModal={() => setModalOpen(false)}
+              />
+            )}
 
             {/* 確認 */}
             <button

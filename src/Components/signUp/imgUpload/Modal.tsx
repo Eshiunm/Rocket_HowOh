@@ -2,7 +2,7 @@ import CloseIcon from "./CloseIcon";
 import ImageCropper from "./ImageCropper";
 import "react-image-crop/dist/ReactCrop.css";
 
-function Modal({ updateAvatar, closeModal }) {
+function Modal({ setAvatarUrl, closeModal }) {
   return (
     <div
       className="relative z-[60]"
@@ -27,7 +27,7 @@ function Modal({ updateAvatar, closeModal }) {
                 </span>
               </button>
             </div>
-            <ImageCropper updateAvatar={updateAvatar} closeModal={closeModal} />
+            <ImageCropper setAvatarUrl={setAvatarUrl} closeModal={closeModal} />
           </div>
         </div>
       </div>

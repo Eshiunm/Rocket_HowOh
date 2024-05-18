@@ -9,7 +9,7 @@ import setCanvasPreview from "./setCanvasPreview";
 const ASPECT_RATIO = 1; // 裁減比例1:1
 const MIN_DIMENSION = 150; // 裁減的最小長寬為 150px * 150px
 
-function ImageCropper({ updateAvatar, closeModal }) {
+function ImageCropper({ setAvatarUrl, closeModal }) {
   // 處理圖片上傳的相關 Hooks
   const imgRef = useRef(null);
   const previewCanvasRef = useRef(null);
@@ -95,7 +95,7 @@ function ImageCropper({ updateAvatar, closeModal }) {
             />
           </ReactCrop>
           <button
-            className="text-white font-mono text-xs py-2 px-4 rounded-2xl mt-4 bg-sky-500 hover:bg-sky-600"
+            className="text-white text-sans-h6 py-2 px-4 rounded-2xl mt-4 bg-black hover:opacity-70"
             onClick={() => {
               setCanvasPreview(
                 imgRef.current, // HTMLImageElement
@@ -107,11 +107,11 @@ function ImageCropper({ updateAvatar, closeModal }) {
                 )
               );
               const dataUrl = previewCanvasRef.current?.toDataURL();
-              updateAvatar(dataUrl);
+              setAvatarUrl(dataUrl);
               closeModal();
             }}
           >
-            Crop Image
+            裁切圖片
           </button>
         </div>
       )}
