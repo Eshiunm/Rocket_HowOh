@@ -1,8 +1,8 @@
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import { setCurrentStepState } from "../../../redux/signUp/stepSlice";
+import { setCurrentStepState } from "../../../../redux/signUp/stepSlice";
 import { useNavigate } from "react-router-dom";
-import { RootState } from "../../../redux/store";
+import { RootState } from "../../../../redux/store";
 
 interface formDataType {
   phone: string;

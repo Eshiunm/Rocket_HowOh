@@ -1,8 +1,11 @@
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import { setCurrentStepState } from "../../../redux/signUp/stepSlice";
+import { setCurrentStepState } from "../../../../redux/signUp/stepSlice";
 import { useNavigate } from "react-router-dom";
-import { RootState } from "../../../redux/store";
+import { RootState } from "../../../../redux/store";
+import { useState } from "react";
+import Modal from "../imgUpload/Modal";
+import PlaceholderIcon from "../imgUpload/PlaceholderIcon";
 interface formDataType {
   lastName: string;
   firstName: string;
@@ -14,12 +17,23 @@ interface formDataType {
 function BasicInfoForm() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  // 控制 modal state
+  const [modalOpen, setModalOpen] = useState(false);
+  // 刪除頭像
+  const [avatarUrl, setAvatarUrl] = useState("");
+  // react hook form
   const {
     handleSubmit,
     register,
     watch,
     formState: { errors },
   } = useForm<formDataType>();
+  // 頭貼
+  //const avatarUrl = useRef(""); //"https://avatarfiles.alphacoders.com/161/161002.jpg"
+  // const updateAvatar = imgSrc => {
+  //   avatarUrl.current = imgSrc;
+  // };
+
   const currentStepState = useSelector(
     (store: RootState) => store.signUpStepState.currentStepState
   );
@@ -35,13 +49,16 @@ function BasicInfoForm() {
       return "與第一次輸入的密碼不同";
     }
   };
+
+  const uploadImage = async () => {};
   const onSubmit = (formData: formDataType) => {
-    dispatch(setCurrentStepState(currentStepState + 1));
+    //dispatch(setCurrentStepState(currentStepState + 1));
+    uploadImage();
     console.log(formData);
   };
 
   return (
-    <div className="wrap h-screen bg-Neutral-99 pt-[60px]">
+    <div className="wrap bg-Neutral-99 py-[60px]">
       <div className="container layout-grid">
         <div className="col-span-6 col-start-4 ">
           <form
@@ -221,7 +238,6 @@ function BasicInfoForm() {
                 {errors.password && errors.password.message}
               </span>
             </div>
-
             {/* 再次確認密碼 */}
             <div className="w-full mb-3">
               <div className="relative">
@@ -244,7 +260,7 @@ function BasicInfoForm() {
                   htmlFor="passwordConfirm"
                   className={`absolute text-sans-body1 duration-300 transform peer-focus:text-black text-gray-500 -translate-y-4 scale-75 top-[3px] z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-[3px] peer-focus:scale-75 peer-focus:-translate-y-4 start-3`}
                 >
-                  密碼
+                  再次確認密碼
                 </label>
               </div>
               {/* 錯誤提示字 */}
@@ -256,36 +272,6 @@ function BasicInfoForm() {
                 {errors.passwordConfirm && errors.passwordConfirm.message}
               </span>
             </div>
-            {/* <div className="relative w-full mb-6">
-              <input
-                type="password"
-                id="passwordConfirm"
-                className={`block p-3 w-full text-sans-body1 text-Neutral-50 rounded-[4px] border-1 appearance-none focus:outline-none focus:ring-0  ${
-                  errors.passwordConfirm
-                    ? "focus:border-Alert-50 border-Alert-50"
-                    : "focus:border-Brand-30 focus:border-2 border-black"
-                } peer`}
-                placeholder=""
-                {...register("passwordConfirm", {
-                  required: { value: true, message: "再次確認密碼必填" },
-                  minLength: { value: 8, message: "密碼至少 8 碼" },
-                  validate: passwordConfirm,
-                })}
-              />
-              <label
-                htmlFor="passwordConfirm"
-                className={`absolute text-sans-body1 duration-300 transform -translate-y-4 scale-75 top-[3px] z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-[3px] peer-focus:scale-75 peer-focus:-translate-y-4 start-3 ${
-                  errors.passwordConfirm
-                    ? "peer-focus:text-Alert-50 text-Alert-50"
-                    : "peer-focus:text-Brand-30 text-gray-500"
-                }`}
-              >
-                {errors.passwordConfirm
-                  ? errors.passwordConfirm.message
-                  : "再次確認密碼"}
-              </label>
-            </div> */}
-
             {/* 職業 */}
             <div className="relative w-full mb-6">
               <input
@@ -301,14 +287,70 @@ function BasicInfoForm() {
                 職業
               </label>
             </div>
-
-            {/* 上傳大頭貼 */}
+            {/* 上傳大頭貼區塊 */}
             <span className="block text-sans-caption mb-3">上傳大頭貼</span>
             <div className="flex flex-col justify-center items-center py-10 border border-dashed border-black rounded-lg mb-10">
-              <button className="outline-button-s mb-[10px]">瀏覽檔案</button>
+              {/* <input type="file" id="userProfile" onChange={onSelectFile} /> */}
+              <button
+                type="button"
+                title="Change photo"
+                className="filled-button-m mb-2"
+                onClick={() => setModalOpen(true)}
+              >
+                選擇檔案
+              </button>
               <span className="text-sans-body2">支援PNG, JPG (Max 5MB)</span>
             </div>
+            {/* Profile */}
+            <div className="flex flex-col items-center mb-20">
+              {avatarUrl ? (
+                <div className="relative">
+                  <img
+                    src={avatarUrl}
+                    alt="Avatar"
+                    className="w-[150px] h-[150px] rounded-full border-2 border-gray-400"
+                  />
+                  {/* 編輯按鈕 */}
+                  <button
+                    type="button"
+                    className="absolute text-white bottom-[37%] -right-[67%] w-[50%] p-[.35rem] rounded-full bg-gray-800 hover:bg-gray-700 border border-gray-600"
+                    title="Change photo"
+                    onClick={() => setModalOpen(true)}
+                  >
+                    編輯
+                  </button>
+                  <button
+                    type="button"
+                    className="absolute text-white bottom-[37%] -right-[130%] w-[50%] p-[.35rem] rounded-full bg-gray-800 hover:bg-gray-700 border border-gray-600"
+                    title="Change photo"
+                    onClick={() => setAvatarUrl("")}
+                  >
+                    刪除
+                  </button>
+                </div>
+              ) : (
+                <div className="relative">
+                  <PlaceholderIcon />
+                  {/* 編輯按鈕 */}
+                  <button
+                    type="button"
+                    className="absolute text-white bottom-[37%] -right-[90%] w-[70%] p-[.35rem] rounded-full bg-gray-800 hover:bg-gray-700 border border-gray-600"
+                    title="Edit photo"
+                    onClick={() => setModalOpen(true)}
+                  >
+                    新增照片
+                  </button>
+                </div>
+              )}
+            </div>
+            {modalOpen && (
+              <Modal
+                setAvatarUrl={setAvatarUrl}
+                closeModal={() => setModalOpen(false)}
+              />
+            )}
 
+            {/* 確認 */}
             <button
               type="submit"
               className={`filled-button-l w-full mb-3 ${

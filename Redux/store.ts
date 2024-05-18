@@ -8,6 +8,7 @@ import identityState from "./common/identitySlice";
 import basicInformationSlice from "./post/basicInformationSlice";
 import photosSlice from "./post/photosSlice";
 import facilitiesSlice from "./post/facilitiesSlice";
+import expensesSlice from "./post/expensesSlice";
 import introductionSlice from "./post/introductionSlice";
 
 const store = configureStore({
@@ -21,6 +22,7 @@ const store = configureStore({
     basicInformationContent: basicInformationSlice,
     photosUpload: photosSlice,
     facilitiesContent: facilitiesSlice,
+    expensesContent: expensesSlice,
     description: introductionSlice
   },
 });

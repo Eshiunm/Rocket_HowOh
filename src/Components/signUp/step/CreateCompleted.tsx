@@ -1,5 +1,5 @@
 import { useDispatch } from "react-redux";
-import { setCurrentStepState } from "../../../redux/signUp/stepSlice";
+import { setCurrentStepState } from "../../../../redux/signUp/stepSlice";
 import { useNavigate } from "react-router-dom";
 
 function CreateCompleted() {
