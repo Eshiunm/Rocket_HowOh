@@ -8,14 +8,40 @@ import {
   transportations,
   equipments
 } from "../../../../constants/featureList";
+import { useSelector, useDispatch } from "react-redux";
+import { setFacilities } from "../../../../../redux/post/facilitiesSlice";
+import { RootState } from "../../../../../redux/store";
+
+interface formDataType {
+  isNearByDepartmentStore: boolean, 
+	isNearBySchool: boolean, 
+	isNearByMorningMarket: boolean, 
+	isNearByNightMarket: boolean, 
+	isNearByConvenientStore: boolean, 
+	isNearByPark: boolean, 
+	hasGarbageDisposal: boolean, 
+	hasWindowInBathroom: boolean, 
+	hasElevator: boolean, 
+	hasAirConditioner: boolean, 
+	hasWashingMachine: boolean, 
+	hasRefrigerator: boolean, 
+	hasCloset: boolean, 
+	hasTableAndChair: boolean, 
+	hasWaterHeater: boolean, 
+	hasInternet: boolean, 
+	hasBed: boolean, 
+	hasTV: boolean, 
+}
 
 export default function Facilities() {
+  const dispatch = useDispatch();
+  const content = useSelector( (store: RootState) => store.facilitiesContent);
+  console.log(content);
   const [selectedMainFeatures, setSelectedMainFeatures] = useState({
     isRentSubsidy: false,
     isCookAllowed: false,
     isPetAllowed: false,
     isSTRAllowed: false,
-    
   });
   const [selectedTransportations, setSelectedTransportations] = useState({
     isNearMRT: false,
@@ -24,16 +50,17 @@ export default function Facilities() {
     isNearTrainStation: false,
     isNearHSR: false,
   });
-  const { register, handleSubmit, formState: { errors } } = useForm();
+
+  const { register, handleSubmit, formState: { errors } } = useForm<formDataType>();
   const { handleProcedureClick, handleProcedureDone } =
     useContext(ProcedureContext);
-  const onSubmit = (data) => {
+  const onSubmit = (data : formDataType) => {
     const formData = {
       ...selectedMainFeatures,
       ...selectedTransportations,
       ...data,
     }
-    console.log(formData)
+    dispatch(setFacilities(formData));
     handleProcedureDone(2);
     handleProcedureClick("費用");
   };
@@ -173,24 +200,16 @@ export default function Facilities() {
                       )
                     }
                   </label>
-                  {/* {
-                    selectedTransportations[id] && (
-                      <label htmlFor={distance} className="flex items-center gap-2 mt-[10px]">
-                        <input
-                          type="number"
-                          id={distance}
-                          className="add-new-input" />
-                        <span className="shrink-0">公尺</span>
-                      </label>
-                    )
-                  } */}
                 </div>
               ))
             }
           </div>
         </div>
         <div className="pt-10 flex justify-between">
-          <button type="button" className="outline-button-m pr-3 flex items-center">
+          <button
+            type="button"
+            onClick={() => handleProcedureClick("照片")}
+            className="outline-button-m pr-3 flex items-center">
             <span className="material-symbols-outlined">chevron_left</span>
             <span>上一步</span>
           </button>
