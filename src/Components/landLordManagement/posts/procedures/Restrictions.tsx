@@ -1,45 +1,59 @@
-import { useContext, useEffect, useState } from "react";
+import { ChangeEvent, useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { ProcedureContext } from "../../../../pages/landlordManagement/AddNew";
 import { occupations } from "../../../../constants/occupations";
 
-export default function Restrictions() {
-  const [jobRestrictionAmount,setJobRestrictionAmount] = useState(0)
-  const [selectedJobs, setSelectedJobs] = useState<string[]>([]);
-  console.log(selectedJobs);
+interface restrictionType {
+  hasTenantRestrictions: string;
+  genderRestriction: string;
+  jobRestriction: string | string[];
+}
 
-  const { register, handleSubmit, watch } = useForm({
+export default function Restrictions() {
+  const [jobRestrictionAmount,setJobRestrictionAmount] = useState<number>(0);
+  const [selectedJobs, setSelectedJobs] = useState<string[]>([]);
+
+  const { register, handleSubmit, watch, reset } = useForm<restrictionType>({
     defaultValues: {
       hasTenantRestrictions: "false",
       genderRestriction: "性別友善",
-      job: "noJobRestriction"
+      jobRestriction: "noJobRestriction"
     },
   });
-  const hasTenantRestrictions = watch("hasTenantRestrictions");
-  const job = watch("job");
+  const hasTenantRestrictions: string = watch("hasTenantRestrictions");
+  const jobRestriction:string|string[] = watch("jobRestriction");
   const { handleProcedureClick, handleProcedureDone } =
     useContext(ProcedureContext);
-  const onSubmit = () => {
+  const onSubmit = (data: restrictionType):void => {
+    const formData = {...data};
+    formData.jobRestriction = selectedJobs;
+    console.log(formData);
     handleProcedureDone(5);
     handleProcedureClick("完成");
   };
 
-  const handleSelectChange = (index: number, value: string) => {
+  const handleSelectChange = (index: number, value: string):void => {
     const newSelectedJobs = [...selectedJobs];
     newSelectedJobs[index] = value;
     setSelectedJobs(newSelectedJobs);
   };
 
   useEffect(() => {
-    if (job === "hasJobRestriction") {
+    if (hasTenantRestrictions === "false") {
+      reset();
+      setSelectedJobs([]);
+    }
+  }, [hasTenantRestrictions, reset]);
+
+  useEffect(() => {
+    if (jobRestriction === "hasJobRestriction") {
       setJobRestrictionAmount(1);
       setSelectedJobs(["一般職員"]);
     } else {
       setJobRestrictionAmount(0);
       setSelectedJobs([]);
     }
-    console.log("執行useEffect");
-  }, [job]);
+  }, [jobRestriction]);
 
   return (
     <div className="p-5">
@@ -115,7 +129,7 @@ export default function Restrictions() {
                     id="hasJobRestriction"
                     value="hasJobRestriction"
                     className="w-6 h-6 text-black bg-transparent border-black focus:ring-0 focus:ring-transparent"
-                    {...register("job", { required: true })}
+                    {...register("jobRestriction", { required: true })}
                   />
                   限制
                 </label>
@@ -125,13 +139,13 @@ export default function Restrictions() {
                     id="noJobRestriction"
                     value="noJobRestriction"
                     className="w-6 h-6 text-black bg-transparent border-black focus:ring-0 focus:ring-transparent"
-                    {...register("job", { required: true })}
+                    {...register("jobRestriction", { required: true })}
                   />
                   不限
                 </label>
               </fieldset>
               {
-                job === "hasJobRestriction" && (
+                jobRestriction === "hasJobRestriction" && (
                   <div className="layout-grid">
                     <div className="col-span-6">
                       {
@@ -146,7 +160,7 @@ export default function Restrictions() {
                               <select
                                 id={`occupations-${index}`}
                                 className="block w-full p-3 pl-5 text-sans-body1 text-black bg-transparent border-none appearance-none focus:ring-0"
-                                onChange={(e) => handleSelectChange(index, e.target.value)}
+                                onChange={(e:ChangeEvent<HTMLSelectElement>) => handleSelectChange(index, e.target.value)}
                               >
                                 {occupations.map(({ id, title: occupation }) => (
                                     <option value={occupation} key={index+id}>
