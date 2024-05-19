@@ -10,6 +10,7 @@ import photosSlice from "./post/photosSlice";
 import facilitiesSlice from "./post/facilitiesSlice";
 import expensesSlice from "./post/expensesSlice";
 import introductionSlice from "./post/introductionSlice";
+import restrictionsSlice from "./post/restrictionsSlice";
 
 const store = configureStore({
   reducer: {
@@ -23,7 +24,8 @@ const store = configureStore({
     photosUpload: photosSlice,
     facilitiesContent: facilitiesSlice,
     expensesContent: expensesSlice,
-    description: introductionSlice
+    description: introductionSlice,
+    restrictionsContent: restrictionsSlice,
   },
 });
 
