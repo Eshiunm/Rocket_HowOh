@@ -104,6 +104,7 @@ function ImageCropper({ setAvatarUrl, closeModal }) {
           </div>
           <div className="flex items-center justify-center gap-x-6">
             <button
+              type="button"
               className="text-white text-sans-h6 py-2 px-4 rounded-2xl mt-4 bg-black hover:opacity-70"
               onClick={() => {
                 setCanvasPreview(
@@ -120,6 +121,7 @@ function ImageCropper({ setAvatarUrl, closeModal }) {
               預覽
             </button>
             <button
+              type="button"
               className="text-white text-sans-h6 py-2 px-4 rounded-2xl mt-4 bg-black hover:opacity-70"
               onClick={() => {
                 setCanvasPreview(
