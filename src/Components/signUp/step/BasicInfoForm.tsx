@@ -257,21 +257,7 @@ function BasicInfoForm() {
                 />
                 <label
                   htmlFor="passwordConfirm"
-                  className={`
-                  absolute 
-                  text-sans-body1 text-gray-500
-                  duration-300 transform
-                  scale-75 top-[3px] z-10 origin-[0] bg-white px-2
-                  
-                  peer-focus:px-2 
-                  peer-focus:text-black 
-                  peer-placeholder-shown:scale-100 
-                  peer-placeholder-shown:-translate-y-1/2
-                  peer-placeholder-shown:top-1/2 
-                  peer-focus:top-[3px] 
-                  peer-focus:scale-75 
-                  peer-focus:-translate-y-4
-                  start-3`}
+                  className={`absolute text-sans-body1 duration-300 transform peer-focus:text-black text-gray-500 -translate-y-4 scale-75 top-[3px] z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-[3px] peer-focus:scale-75 peer-focus:-translate-y-4 start-3`}
                 >
                   再次確認密碼
                 </label>
@@ -311,8 +297,8 @@ function BasicInfoForm() {
                     // 為了讓下面 label 的 peer-[:invalid:focus] 類別起到樣式的作用，要加上這個空值選項，Select 標籤也要加上 required 屬性
                     <option value={""} selected disabled hidden></option>
                   }
-                  {occupations.map(({ id, title: occupation }) => (
-                    <option value={occupation} key={id}>
+                  {occupations.map(({ id, title: occupation },index) => (
+                    <option value={index} key={id}>
                       {occupation}
                     </option>
                   ))}
