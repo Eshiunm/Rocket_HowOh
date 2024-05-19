@@ -4,6 +4,7 @@ import { setCurrentStepState } from "../../../../redux/signUp/stepSlice";
 import { useNavigate } from "react-router-dom";
 import { RootState } from "../../../../redux/store";
 import { useState } from "react";
+import { occupations } from "../../../constants/occupations";
 import Modal from "../imgUpload/Modal";
 import PlaceholderIcon from "../imgUpload/PlaceholderIcon";
 interface formDataType {
@@ -12,14 +13,15 @@ interface formDataType {
   email: string;
   password: string;
   passwordConfirm: string;
+  career: string;
 }
 
 function BasicInfoForm() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  // 控制 modal state
+  // 控制 modal 開關
   const [modalOpen, setModalOpen] = useState(false);
-  // 刪除頭像
+  // 設定大頭貼 srcUrl
   const [avatarUrl, setAvatarUrl] = useState("");
   // react hook form
   const {
@@ -28,11 +30,8 @@ function BasicInfoForm() {
     watch,
     formState: { errors },
   } = useForm<formDataType>();
-  // 頭貼
-  //const avatarUrl = useRef(""); //"https://avatarfiles.alphacoders.com/161/161002.jpg"
-  // const updateAvatar = imgSrc => {
-  //   avatarUrl.current = imgSrc;
-  // };
+
+  const [isCareerFocused, setIsCareerFocused] = useState(false);
 
   const currentStepState = useSelector(
     (store: RootState) => store.signUpStepState.currentStepState
@@ -273,19 +272,54 @@ function BasicInfoForm() {
               </span>
             </div>
             {/* 職業 */}
-            <div className="relative w-full mb-6">
-              <input
-                type="text"
-                id="floating_outlined"
-                className="block p-3 w-full text-sans-body1 text-Neutral-50 rounded-[4px] border-1 border-black appearance-none  focus:outline-none focus:ring-0 focus:border-2 focus:border-Brand-30 peer"
-                placeholder=""
-              />
-              <label
-                htmlFor="floating_outlined"
-                className="absolute text-sans-body1 text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-[3px] z-10 origin-[0] bg-white pl-3 peer-focus:px-2 peer-focus:text-Brand-30 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-[3px] peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-3"
+            <div className="w-full mb-6">
+              <div
+                tabIndex={0}
+                className={`relative flex w-full p-3 rounded ${
+                  errors.career
+                    ? "border-Alert-50 border"
+                    : isCareerFocused
+                    ? "border-Brand-30 border-2 -m-[1px]"
+                    : "border-black border"
+                }`}
+                onFocus={() => setIsCareerFocused(true)}
+                onBlur={() => setIsCareerFocused(false)}
               >
-                職業
-              </label>
+                <select
+                  id="career"
+                  required
+                  className="cursor-pointer block w-full p-0 pl-1 text-sans-body1 text-black bg-transparent border-none appearance-none focus:ring-0 peer"
+                  {...register("career", {
+                    required: { value: true, message: "必填" },
+                  })}
+                >
+                  {
+                    // 為了讓下面 label 的 peer-[:invalid:focus] 類別起到樣式的作用，要加上這個空值選項，Select 標籤也要加上 required 屬性
+                    <option value={""} selected disabled hidden></option>
+                  }
+                  {occupations.map(({ id, title: occupation },index) => (
+                    <option value={index} key={id}>
+                      {occupation}
+                    </option>
+                  ))}
+                </select>
+                <label
+                  htmlFor="city"
+                  className="absolute text-sans-body1 text-Neutral-50 duration-300 transform -translate-y-4 scale-75 top-[3px] z-10 origin-[0] bg-white px-2 
+                  peer-focus:text-black
+                  peer-[:invalid:focus]:top-[3px] 
+                  peer-[:invalid:focus]:scale-75 
+                  peer-[:invalid:focus]:-translate-y-4 start-3
+                  peer-[:invalid]:scale-100 
+                  peer-[:invalid]:-translate-y-1/2 
+                  peer-[:invalid]:top-1/2"
+                >
+                  職業
+                </label>
+              </div>
+              {errors.career ? (
+                <p className="post-alert">{errors.career?.message}</p>
+              ) : null}
             </div>
             {/* 上傳大頭貼區塊 */}
             <span className="block text-sans-caption mb-3">上傳大頭貼</span>
