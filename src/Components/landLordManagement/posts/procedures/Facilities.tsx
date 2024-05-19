@@ -36,7 +36,7 @@ interface formDataType {
 export default function Facilities() {
   const dispatch = useDispatch();
   const content = useSelector( (store: RootState) => store.facilitiesContent);
-  console.log(content);
+
   const [selectedMainFeatures, setSelectedMainFeatures] = useState({
     isRentSubsidy: false,
     isCookAllowed: false,

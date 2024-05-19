@@ -36,7 +36,7 @@ export default function Restrictions() {
     formData.jobRestriction = selectedJobs;
     dispatch(setRestrictions(formData));
     handleProcedureDone(5);
-    handleProcedureClick("完成");
+    handleProcedureClick("確認");
   };
 
   const handleSelectChange = (index: number, value: string):void => {
