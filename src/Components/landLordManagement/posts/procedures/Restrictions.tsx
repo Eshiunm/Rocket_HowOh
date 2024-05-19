@@ -5,7 +5,10 @@ import { occupations } from "../../../../constants/occupations";
 
 export default function Restrictions() {
   const [jobRestrictionAmount,setJobRestrictionAmount] = useState(0)
-  const { register, handleSubmit, formState: { errors }, watch } = useForm({
+  const [selectedJobs, setSelectedJobs] = useState<string[]>([]);
+  console.log(selectedJobs);
+
+  const { register, handleSubmit, watch } = useForm({
     defaultValues: {
       hasTenantRestrictions: "false",
       genderRestriction: "性別友善",
@@ -21,11 +24,19 @@ export default function Restrictions() {
     handleProcedureClick("完成");
   };
 
+  const handleSelectChange = (index: number, value: string) => {
+    const newSelectedJobs = [...selectedJobs];
+    newSelectedJobs[index] = value;
+    setSelectedJobs(newSelectedJobs);
+  };
+
   useEffect(() => {
     if (job === "hasJobRestriction") {
       setJobRestrictionAmount(1);
+      setSelectedJobs(["一般職員"]);
     } else {
       setJobRestrictionAmount(0);
+      setSelectedJobs([]);
     }
     console.log("執行useEffect");
   }, [job]);
@@ -98,7 +109,7 @@ export default function Restrictions() {
               </fieldset>
               <h5 className="text-sans-b-body1 text-Landlord-40">職業</h5>
               <fieldset className="layout-grid">
-                <label htmlFor="hasJobRestriction" className="col-span-3 flex items-center gap-2 text-sans-body1">
+                <label htmlFor="hasJobRestriction" className="col-span-6 flex items-center gap-2 text-sans-body1">
                   <input
                     type="radio"
                     id="hasJobRestriction"
@@ -108,7 +119,7 @@ export default function Restrictions() {
                   />
                   限制
                 </label>
-                <label htmlFor="noJobRestriction" className="col-span-3 flex items-center gap-2 text-sans-body1">
+                <label htmlFor="noJobRestriction" className="col-span-6 flex items-center gap-2 text-sans-body1">
                   <input
                     type="radio"
                     id="noJobRestriction"
@@ -135,6 +146,7 @@ export default function Restrictions() {
                               <select
                                 id={`occupations-${index}`}
                                 className="block w-full p-3 pl-5 text-sans-body1 text-black bg-transparent border-none appearance-none focus:ring-0"
+                                onChange={(e) => handleSelectChange(index, e.target.value)}
                               >
                                 {occupations.map(({ id, title: occupation }) => (
                                     <option value={occupation} key={index+id}>
@@ -156,7 +168,10 @@ export default function Restrictions() {
                     </div>
                     <div className="col-span-12">
                       <button type="button" className="letter-button-light"
-                        onClick={() => setJobRestrictionAmount(prev => prev + 1)}
+                        onClick={() => {
+                          setJobRestrictionAmount(prev => prev + 1)
+                          setSelectedJobs(prev => [...prev, "一般職員"])
+                        }}
                       >
                         <span>新增職業</span>
                         <span className="material-symbols-outlined">add</span>
