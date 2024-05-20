@@ -12,7 +12,7 @@ export default function Confirm() {
   const { facilities } = useSelector((state: RootState) => state.facilitiesContent);
   const { expenses } = useSelector((state: RootState) => state.expensesContent);
   const description = useSelector((state: RootState) => state.description);
-  const restrictionsContent = useSelector((state: RootState) => state.restrictionsContent);
+  const { restrictions } = useSelector((state: RootState) => state.restrictionsContent);
   const { handleSubmit } = useForm();
   const { handleProcedureClick, handleProcedureDone } = useContext(ProcedureContext);
   const onSubmit = () => {
@@ -259,7 +259,7 @@ export default function Confirm() {
           <h4 className="col-span-12 text-sans-b-h6">房租與押金</h4>
           <div className="col-span-6">
             <h5 className="col-span-12 text-sans-b-body1 text-Landlord-40">房租</h5>
-            <div className="flex items-center gap-2 pt-2">
+            <div className="flex items-center gap-2">
               <p className="confirm-data flex-1">{ expenses.rent || "\u00A0" }</p>
               <span className="shrink-0">元/月</span>
             </div>
@@ -409,10 +409,125 @@ export default function Confirm() {
           </fieldset>
         </div>
       </section>
+      <section className="bg-Landlord-99 p-5 rounded-lg mb-5">
+        <h3 className="add-new-title">租客限制</h3>
+        <div className="flex flex-col gap-6 mb-6">
+          <h4 className="text-sans-b-h6">是否設定條件？</h4>
+          <fieldset className="layout-grid">
+            <label htmlFor="hasRestriction" className="col-span-3 flex items-center gap-2 text-sans-body1">
+              <input
+                disabled
+                type="radio"
+                id="hasRestriction"
+                value={"true"}
+                checked={restrictions.hasTenantRestrictions === "true"}
+                className="w-6 h-6 text-black bg-transparent border-black focus:ring-0 focus:ring-transparent"
+              />
+              是
+            </label>
+            <label htmlFor="noRestriction" className="col-span-3 flex items-center gap-2 text-sans-body1">
+              <input
+                disabled
+                type="radio"
+                id="noRestriction"
+                value={"false"}
+                checked={restrictions.hasTenantRestrictions === "false"}
+                className="w-6 h-6 text-black bg-transparent border-black focus:ring-0 focus:ring-transparent"
+              />
+              否
+            </label>
+          </fieldset>
+        </div>
+        {
+          restrictions.hasTenantRestrictions === "true" && (
+            <div className="flex flex-col gap-3">
+              <h5 className="text-sans-b-body1 text-Landlord-40">排除性別</h5>
+              <fieldset className="layout-grid">
+                <label htmlFor="maleRestriction" className="col-span-3 flex items-center gap-2 text-sans-body1">
+                  <input
+                    disabled
+                    type="radio"
+                    id="maleRestriction"
+                    value="僅限男性"
+                    checked={restrictions.genderRestriction === "僅限男性"}
+                    className="w-6 h-6 text-black bg-transparent border-black focus:ring-0 focus:ring-transparent"
+                  />
+                  男
+                </label>
+                <label htmlFor="femaleRestriction" className="col-span-3 flex items-center gap-2 text-sans-body1">
+                  <input
+                    disabled
+                    type="radio"
+                    id="femaleRestriction"
+                    value="僅限女性"
+                    checked={restrictions.genderRestriction === "僅限女性"}
+                    className="w-6 h-6 text-black bg-transparent border-black focus:ring-0 focus:ring-transparent"
+                  />
+                  女
+                </label>
+                <label htmlFor="noGenderRestriction" className="col-span-3 flex items-center gap-2 text-sans-body1">
+                  <input
+                    disabled
+                    type="radio"
+                    id="noGenderRestriction"
+                    value="性別友善"
+                    checked={restrictions.genderRestriction === "性別友善"}
+                    className="w-6 h-6 text-black bg-transparent border-black focus:ring-0 focus:ring-transparent"
+                  />
+                  不限
+                </label>
+              </fieldset>
+              <h5 className="text-sans-b-body1 text-Landlord-40 mt-3">排除職業</h5>
+              <fieldset className="layout-grid">
+                <label htmlFor="hasJobRestriction" className="col-span-6 flex items-center gap-2 text-sans-body1">
+                  <input
+                    disabled
+                    type="radio"
+                    id="hasJobRestriction"
+                    value="hasJobRestriction"
+                    checked={restrictions.jobRestriction.length > 0}
+                    className="w-6 h-6 text-black bg-transparent border-black focus:ring-0 focus:ring-transparent"
+                  />
+                  限制
+                </label>
+                <label htmlFor="noJobRestriction" className="col-span-6 flex items-center gap-2 text-sans-body1">
+                  <input
+                    disabled
+                    type="radio"
+                    id="noJobRestriction"
+                    value="noJobRestriction"
+                    checked={restrictions.jobRestriction.length === 0}
+                    className="w-6 h-6 text-black bg-transparent border-black focus:ring-0 focus:ring-transparent"
+                  />
+                  不限
+                </label>
+              </fieldset>
+              {
+                restrictions.jobRestriction.length > 0 && (
+                  <>
+                    <h6 className="text-sans-caption -mb-2">職業類別</h6>
+                    <div className="layout-grid">
+                      <div className="col-span-3">
+                        {
+                          restrictions.jobRestriction.map((restriction, index) => (
+                            <p key={restriction+index} className={`confirm-data flex-1 ${
+                              index+1 === restrictions.jobRestriction.length ? "" : "mb-3"
+                            }`}>{ restriction || "\u00A0" }</p>
+                          ))
+                        }
+                      </div>
+                    </div>
+                  </>
+                )
+              }
+            </div>
+          )
+        }
+      </section>
       <div className="col-span-12 pt-10 flex justify-between">
         <button 
           type="button"
-          onClick={() => handleProcedureClick("費用")}
+          onClick={() => handleProcedureClick("限制")}
           className="outline-button-m pr-3 flex items-center"
         >
           <span className="material-symbols-outlined">chevron_left</span>
