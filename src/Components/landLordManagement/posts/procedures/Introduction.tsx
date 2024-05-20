@@ -1,25 +1,26 @@
 import { useContext } from "react";
 import { useForm } from "react-hook-form";
 import { ProcedureContext } from "../../../../pages/landlordManagement/AddNew";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setIntroduction } from "../../../../../redux/post/introductionSlice";
-import { RootState } from "../../../../../redux/store";
+// import { RootState } from "../../../../../redux/store";
 
+// 定義介紹資料的型別
 interface descriptionType {
   description: string
 }
 
 export default function Introduction() {
   const dispatch = useDispatch();
-  const content = useSelector( (store: RootState) => store.description);
+  // const content = useSelector( (store: RootState) => store.description);
+  const { handleProcedureClick, handleProcedureDone } =
+    useContext(ProcedureContext);
 
   const { register, handleSubmit, formState: { errors } } = useForm({
     defaultValues : {
       description: "",
     }
   });
-  const { handleProcedureClick, handleProcedureDone } =
-    useContext(ProcedureContext);
   const onSubmit = (data: descriptionType) => {
     dispatch(setIntroduction(data.description));
     handleProcedureDone(4);

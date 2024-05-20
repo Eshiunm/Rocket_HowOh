@@ -1,14 +1,37 @@
 import { useContext,  useState } from "react";
 import { useForm } from "react-hook-form";
+import { ProcedureContext } from "../../../../pages/landlordManagement/AddNew";
+// 欄位所需之靜態資料
 import cities from "../../../../constants/locations/cities";
 import houseTypes from "../../../../constants/houseTypes";
-import { ProcedureContext } from "../../../../pages/landlordManagement/AddNew";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setFormData } from "../../../../../redux/post/basicInformationSlice";
+
+// 定義送出基本資料的型別
+interface basicInformationDataType {
+  name: string,
+  city: string,
+  district: string,
+  road: string,
+  lane: string,
+  alley: string,
+  number: string,
+  floor: string,
+  floorTotal: string,
+  type: string,
+  ping: string,
+  roomNumbers: string,
+  livingRoomNumbers: string,
+  bathRoomNumbers: string,
+  balconyNumbers: string,
+  parkingSpaceNumbers: string
+}
 
 export default function BasicInformation() {
   const dispatch = useDispatch();
-  const content = useSelector(store => store.basicInformationContent);
+  // const content = useSelector(store => store.basicInformationContent);
+
+  // 控制欄位focus的狀態
   const [isNameFocused, setIsNameFocused] = useState(false); 
   const [isCityFocused, setIsCityFocused] = useState(false); 
   const [isDistrictFocused, setIsDistrictFocused] = useState(false); 
@@ -17,8 +40,9 @@ export default function BasicInformation() {
   const { handleProcedureClick, handleProcedureDone } =
     useContext(ProcedureContext);
 
-  const { register, handleSubmit,formState: { errors }, watch } = useForm({
+  const { register, handleSubmit,formState: { errors }, watch } = useForm<basicInformationDataType>({
     defaultValues: {
+      // 基本資訊欄位預設值
       name: "",
       city: "高雄市",
       district: "新興區",
@@ -38,7 +62,7 @@ export default function BasicInformation() {
     }
   });
   const selectedCity = watch("city");
-  const onSubmit = (data) => {
+  const onSubmit = (data: basicInformationDataType) => {
     // console.log(data)
     dispatch(setFormData(data));
     // 當全部設定完成時，再將content的內容打API存到後端
@@ -133,13 +157,14 @@ export default function BasicInformation() {
                 required: { value: true, message: "必填欄位" },
               })}
             >
-              {cities
-                .find((item) => item.city === selectedCity) 
+              { /* 監聽所在縣市，並顯示該縣市的區域 */
+                cities.find((item) => item.city === selectedCity) 
                 ?.districts.map((district) => (
-                <option value={district} key={district}>
-                  {district}
-                </option>
-              ))}
+                  <option value={district} key={district}>
+                    {district}
+                  </option>
+                ))
+              }
             </select>
             <label
               htmlFor="district"

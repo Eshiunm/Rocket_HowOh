@@ -17,8 +17,10 @@ export const ProcedureContext = createContext<contextValueType>(
 );
 
 export default function AddNew() {
+  // 狀態控制刊登房源步驟目前狀況
   const [procedure, setProcedure] = useState<procedureListType[]>(procedureList as procedureListType[]);
 
+  // 狀態控制刊登房源步驟目前所在位置
   const handleProcedureClick = (title: string) => {
     const newProcedure = procedure.map(item => {
       if (item.title === title) {
@@ -36,6 +38,7 @@ export default function AddNew() {
     setProcedure(newProcedure);
   };
 
+  // 狀態控制刊登房源已完成步驟
   const handleProcedureDone = (num: number) => {
     const newProcedure = [...procedure];
     newProcedure[num].isDone = true;
@@ -51,12 +54,14 @@ export default function AddNew() {
   return (
     <ProcedureContext.Provider value={contextValue}>
       <section className="bg-Landlord-99">
+        {/* 刊登房源頁面表頭區域 */}
         <div className="container layout-grid py-6">
           <Post procedure={procedure} />
           <AddNewProcedure />
         </div>
       </section>
       <main className="bg-Neutral-99 pt-7 pb-32">
+        {/* 刊登房源頁面填寫資料區域 */}
         <div className="container layout-grid">
           <AddNewData />
         </div>

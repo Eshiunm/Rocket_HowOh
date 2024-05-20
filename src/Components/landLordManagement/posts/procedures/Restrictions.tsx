@@ -2,10 +2,11 @@ import { ChangeEvent, useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { ProcedureContext } from "../../../../pages/landlordManagement/AddNew";
 import { occupations } from "../../../../constants/occupations";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setRestrictions } from "../../../../../redux/post/restrictionsSlice";
-import { RootState } from "../../../../../redux/store";
+// import { RootState } from "../../../../../redux/store";
 
+// 定義限制資料的型別
 interface restrictionType {
   hasTenantRestrictions: string;
   genderRestriction: string;
@@ -14,10 +15,12 @@ interface restrictionType {
 
 export default function Restrictions() {
   const dispatch = useDispatch();
-  const content = useSelector(( store: RootState ) => store.restrictionsContent);
+  // const content = useSelector(( store: RootState ) => store.restrictionsContent);
   
   const [jobRestrictionAmount,setJobRestrictionAmount] = useState<number>(0);
   const [selectedJobs, setSelectedJobs] = useState<string[]>([]);
+  const { handleProcedureClick, handleProcedureDone } =
+    useContext(ProcedureContext);
 
   const { register, handleSubmit, watch, reset } = useForm<restrictionType>({
     defaultValues: {
@@ -27,11 +30,10 @@ export default function Restrictions() {
     },
   });
   const hasTenantRestrictions: string = watch("hasTenantRestrictions");
-  const jobRestriction:string|string[] = watch("jobRestriction");
-  const { handleProcedureClick, handleProcedureDone } =
-    useContext(ProcedureContext);
+  const jobRestriction: string|string[] = watch("jobRestriction");
 
   const onSubmit = (data: restrictionType):void => {
+    // 重組jobRestriction資料後送出
     const formData = {...data};
     formData.jobRestriction = selectedJobs;
     dispatch(setRestrictions(formData));
@@ -39,6 +41,7 @@ export default function Restrictions() {
     handleProcedureClick("確認");
   };
 
+  // 控制排除職業選擇的狀態
   const handleSelectChange = (index: number, value: string):void => {
     const newSelectedJobs = [...selectedJobs];
     newSelectedJobs[index] = value;
@@ -47,12 +50,14 @@ export default function Restrictions() {
 
   useEffect(() => {
     if (hasTenantRestrictions === "false") {
+      // 當無租客限制時還原預設資料
       reset();
       setSelectedJobs([]);
     }
   }, [hasTenantRestrictions, reset]);
 
   useEffect(() => {
+    // 控制租客職業限制資料
     if (jobRestriction === "hasJobRestriction") {
       setJobRestrictionAmount(1);
       setSelectedJobs(["一般職員"]);
@@ -93,6 +98,7 @@ export default function Restrictions() {
           </fieldset>
         </div>
         {
+          // 有租客限制時才顯示
           hasTenantRestrictions === "true" && (
             <div className="flex flex-col gap-3 mb-10">
               <h5 className="text-sans-b-body1 text-Landlord-40">排除性別</h5>
@@ -152,6 +158,7 @@ export default function Restrictions() {
                 </label>
               </fieldset>
               {
+                // 有職業限制時才顯示
                 jobRestriction === "hasJobRestriction" && (
                   <div className="layout-grid">
                     <div className="col-span-6">
@@ -192,6 +199,7 @@ export default function Restrictions() {
                         onClick={() => {
                           setJobRestrictionAmount(prev => prev + 1)
                           setSelectedJobs(prev => [...prev, "一般職員"])
+                          // 點擊後新增一個欄位
                         }}
                       >
                         <span>新增職業</span>

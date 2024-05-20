@@ -4,23 +4,27 @@ import { useNavigate } from "react-router-dom";
 import { ProcedureContext } from "../../../../pages/landlordManagement/AddNew";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../../../redux/store";
+// 顯示欄位所需之靜態資料
 import { mainFeatures, nearByFacilities, houseFeatures, equipments, transportations } from "../../../../constants/featureList";
 import { waterBill, electricBill, managementFee } from "../../../../constants/forPay";
+import { formDataType } from "../procedures/Facilities";
 
 export default function Confirm() {
   const navigate = useNavigate();
-  const { formData } = useSelector((state: RootState) => state.basicInformationContent);
-  const { photos } = useSelector((state: RootState) => state.photosUpload);
-  const { facilities } = useSelector((state: RootState) => state.facilitiesContent);
-  const { expenses } = useSelector((state: RootState) => state.expensesContent);
-  const { introduction } = useSelector((state: RootState) => state.description);
-  const { restrictions } = useSelector((state: RootState) => state.restrictionsContent);
-  const { handleSubmit } = useForm();
   const { handleProcedureClick, handleProcedureDone } = useContext(ProcedureContext);
+  // 匯入前面步驟之 redux 資料
+  const { formData } = useSelector((store: RootState) => store.basicInformationContent);
+  const { photos } = useSelector((store: RootState) => store.photosUpload);
+  const { facilities } = useSelector((store: RootState) => store.facilitiesContent);
+  const { expenses } = useSelector((store: RootState) => store.expensesContent);
+  const { introduction } = useSelector((store: RootState) => store.description);
+  const { restrictions } = useSelector((store: RootState) => store.restrictionsContent);
+
+  const { handleSubmit } = useForm();
   const onSubmit = () => {
     handleProcedureDone(5);
     navigate("/landlord-management");
-    // handleProcedureClick("限制");
+    // 完成刊登後跳轉回房源管理頁面
   };
 
   return (
@@ -153,7 +157,7 @@ export default function Confirm() {
                   key={id}
                   type="button"
                   className={`flex items-center gap-1 hover:border hover:m-0 ${
-                    facilities[id] === true ? "tab-button-m-select" : "tab-button-m"
+                    facilities[id as keyof formDataType] === true ? "tab-button-m-select" : "tab-button-m"
                   }`}
                 >
                   <span className="material-symbols-outlined">
@@ -178,7 +182,7 @@ export default function Confirm() {
                   <input
                     disabled
                     type="checkbox"
-                    checked={facilities[id]}
+                    checked={facilities[id as keyof formDataType]}
                     className="hover:cursor-auto w-5 h-5 text-black focus:ring-transparent rounded-sm border-2 border-black cursor-pointer"
                   />
                   {title}
@@ -195,7 +199,7 @@ export default function Confirm() {
                   <input
                     disabled
                     type="checkbox"
-                    checked={facilities[id]}
+                    checked={facilities[id as keyof formDataType]}
                     className="hover:cursor-auto w-5 h-5 text-black focus:ring-transparent rounded-sm border-2 border-black cursor-pointer"
                   />
                   {title}
@@ -212,7 +216,7 @@ export default function Confirm() {
                   <input
                     disabled
                     type="checkbox"
-                    checked={facilities[id]}
+                    checked={facilities[id as keyof formDataType]}
                     className="hover:cursor-auto w-5 h-5 text-black focus:ring-transparent rounded-sm border-2 border-black cursor-pointer"
                   />
                   {title}
@@ -231,16 +235,16 @@ export default function Confirm() {
                         disabled
                         type="checkbox"
                         className="hover:cursor-auto w-5 h-5 text-black focus:ring-transparent rounded-sm border-2 border-black cursor-pointer"
-                        checked={facilities[id]}
+                        checked={facilities[id as keyof formDataType]}
                       />
                       {title}
                     </div>
                   </label>
                   <div className={`mt-[10px] ${
-                    facilities[id] ? "" : "hidden"
+                    facilities[id as keyof formDataType] ? "" : "hidden"
                     }`}>
                     <div className="col-span-3 flex items-center gap-2">
-                      <p className="confirm-data flex-1">{facilities[distance] || "\u00A0"}</p>
+                      <p className="confirm-data flex-1">{facilities[distance as keyof formDataType] || "\u00A0"}</p>
                       <span className="shrink-0">公尺</span>
                     </div>
                   </div>
