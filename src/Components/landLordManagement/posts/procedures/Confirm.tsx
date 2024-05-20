@@ -4,6 +4,7 @@ import { ProcedureContext } from "../../../../pages/landlordManagement/AddNew";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../../../redux/store";
 import { mainFeatures, nearByFacilities, houseFeatures, equipments, transportations } from "../../../../constants/featureList";
+import { waterBill, electricBill, managementFee } from "../../../../constants/forPay";
 
 export default function Confirm() {
   const { formData } = useSelector((state: RootState) => state.basicInformationContent);
@@ -252,6 +253,162 @@ export default function Confirm() {
           </div>
         </div>
       </section>
+      <section className="bg-Landlord-99 p-5 rounded-lg mb-5">
+        <h3 className="add-new-title">費用</h3>
+        <div className="layout-grid mb-10">
+          <h4 className="col-span-12 text-sans-b-h6">房租與押金</h4>
+          <div className="col-span-6">
+            <h5 className="col-span-12 text-sans-b-body1 text-Landlord-40">房租</h5>
+            <div className="flex items-center gap-2 pt-2">
+              <p className="confirm-data flex-1">{ expenses.rent || "\u00A0" }</p>
+              <span className="shrink-0">元/月</span>
+            </div>
+          </div>
+          <h5 className="col-span-12 text-sans-b-body1 text-Landlord-40">押金</h5>
+          <fieldset className="col-span-12 layout-grid">
+            <label htmlFor="oneMonth" className="col-span-3 flex items-center gap-2">
+              <input
+                disabled
+                type="radio"
+                id="oneMonth"
+                value="一個月"
+                checked={expenses.securityDeposit === "一個月"}
+                className="w-6 h-6 text-black bg-transparent border-black focus:ring-0 focus:ring-transparent"
+              />
+              <span>1個月</span>
+            </label>
+            <label htmlFor="twoMonth" className="col-span-3 flex items-center gap-2">
+              <input
+                disabled
+                type="radio"
+                id="twoMonth"
+                value="兩個月"
+                checked={expenses.securityDeposit === "兩個月"}
+                className="w-6 h-6 text-black bg-transparent border-black focus:ring-0 focus:ring-transparent"
+              />
+              <span>2個月</span>
+            </label>
+          </fieldset>
+        </div>
+        <div className="layout-grid gap-y-3 mb-10">
+          <h4 className="col-span-12 text-sans-b-h6 mb-6">雜支</h4>
+          <h5 className="col-span-12 text-sans-b-body1 text-Landlord-40">水費</h5>
+          <fieldset className="col-span-12 layout-grid">
+            {
+              waterBill.map(({id, title, value}) => (
+                <label key={id} className="col-span-3">
+                  <div className="flex items-center gap-2">
+                    <input
+                      disabled
+                      type="radio"
+                      value={value}
+                      checked={expenses.paymentMethodOfWaterBill === value}
+                      className="w-6 h-6 text-black bg-transparent border-black focus:ring-0 focus:ring-transparent"
+                    />
+                    <span className="text-sans-body1">{title}</span>
+                  </div>
+                  {
+                    expenses.paymentMethodOfWaterBill === "自訂" && id === "customWater" && (
+                      <div className="flex items-center gap-2 mt-3">
+                        <p className="confirm-data flex-1">{ expenses.waterBillPerMonth || "\u00A0" }</p>
+                        <span className="text-sans-body1 shrink-0">元/人</span>
+                      </div>
+                    )
+                  }
+                </label>
+              ))
+            }
+          </fieldset>
+          <h5 className="col-span-12 text-sans-b-body1 text-Landlord-40 mt-3">電費</h5>
+          <fieldset className="col-span-12 layout-grid">
+            {
+              electricBill.map(({id, title, value}) => (
+                <label key={id} className="col-span-3">
+                  <div className="flex items-center gap-2">
+                    <input
+                      disabled
+                      type="radio"
+                      value={value}
+                      checked={expenses.electricBill === value}
+                      className="w-6 h-6 text-black bg-transparent border-black focus:ring-0 focus:ring-transparent"
+                    />
+                    <span className="text-sans-body1">{title}</span>
+                  </div>
+                  {
+                    expenses.electricBill === "自訂" && id === "customElectric" && (
+                      <div className="flex items-center gap-2 mt-3">
+                        <p className="confirm-data flex-1">{ expenses.electricBillPerDegree || "\u00A0" }</p>
+                        <span className="text-sans-body1 shrink-0">元/度</span>
+                      </div>
+                    )
+                  }
+                </label>
+              ))
+            }
+          </fieldset>
+          {
+            expenses.electricBill === "依台電計價" && (
+              <>
+                <h6 className="col-span-12 text-sans-body2 mt-[1px]">繳納方式</h6>
+                <fieldset className="col-span-12 layout-grid">
+                  <label htmlFor="electricInRent" className="col-span-3 flex items-center gap-2">
+                    <input
+                      disabled
+                      type="radio"
+                      id="electricInRent"
+                      value="隨房租繳納"
+                      checked={expenses.paymentMethodOfElectricBill === "隨房租繳納"}
+                      className="w-6 h-6 text-black bg-transparent border-black focus:ring-0 focus:ring-transparent"
+                    />
+                    <span className="text-sans-body1">隨房租繳納</span>
+                  </label>
+                  <label htmlFor="electricPaySelf" className="col-span-3 flex items-center gap-2">
+                    <input
+                      disabled
+                      type="radio"
+                      id="electricPaySelf"
+                      value="自行繳納"
+                      checked={expenses.paymentMethodOfElectricBill === "自行繳納"}
+                      className="w-6 h-6 text-black bg-transparent border-black focus:ring-0 focus:ring-transparent"
+                    />
+                    <span className="text-sans-body1">自行繳納</span>
+                  </label>
+                </fieldset>
+              </>
+            )
+          }
+          <h5 className="col-span-12 text-sans-b-body1 text-Landlord-40 mt-3">管理費</h5>
+          <fieldset className="col-span-12 layout-grid">
+            {
+              managementFee.map(({id, title, value}) => (
+                <label key={id} htmlFor={id} className="col-span-3">
+                  <div className="flex items-center gap-2">
+                    <input
+                      disabled
+                      type="radio"
+                      id={id}
+                      value={value}
+                      checked={expenses.paymentMethodOfManagementFee === value}
+                      className="w-6 h-6 text-black bg-transparent border-black focus:ring-0 focus:ring-transparent"
+                    />
+                    <span className="text-sans-body1">{title}</span>
+                  </div>
+                  {
+                    (( expenses.paymentMethodOfManagementFee === "隨房租繳納"  && id === "managementFeePayWithRent" )
+                    || ( expenses.paymentMethodOfManagementFee === "自行繳納" && id === "managementFeePaySelf" ))
+                    && (
+                      <div className="flex items-center gap-2 mt-3">
+                        <p className="confirm-data flex-1">{ expenses.managementFeePerMonth || "\u00A0" }</p>
+                        <span className="text-sans-body1 shrink-0">元/月</span>
+                      </div>
+                    )
+                  }
+                </label>
+              ))
+            }
+          </fieldset>
+        </div>
+      </section>
       <div className="col-span-12 pt-10 flex justify-between">
         <button 
           type="button"
@@ -262,8 +419,8 @@ export default function Confirm() {
           <span>上一步</span>
         </button>
         <button type="submit" className="filled-button-m pl-3 flex items-center">
-          <span>下一步</span>
-          <span className="material-symbols-outlined">chevron_right</span>
+          <span className="mr-1">完成</span>
+          <span className="material-symbols-outlined">check</span>
         </button>
       </div>
     </form>
