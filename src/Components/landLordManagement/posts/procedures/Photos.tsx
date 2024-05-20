@@ -6,7 +6,7 @@ import axios from "axios";
 import { useDispatch } from "react-redux";
 import { setPhotos } from "../../../../../redux/post/photosSlice";
 
-interface photosDataType {		
+export interface photosDataType {		
   "path": string,
   "isCover": boolean
 }

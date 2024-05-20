@@ -1,12 +1,19 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { photosDataType } from "../../src/components/landLordManagement/posts/procedures/Photos";
+
+interface PhotosDataState {
+  photos: photosDataType[];
+}
+
+const initialState: PhotosDataState = {
+  photos: [],
+};
 
 export const photosSlice = createSlice({
   name: "photos",
-  initialState: {
-    photos: [],
-  },
+  initialState,
   reducers: {
-    setPhotos: (state, action) => {
+    setPhotos: (state, action: PayloadAction<photosDataType[]>) => {
       state.photos = [...action.payload];
     },
   },
