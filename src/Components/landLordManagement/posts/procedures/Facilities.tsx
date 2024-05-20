@@ -11,6 +11,7 @@ import {
 import { useDispatch } from "react-redux";
 import { setFacilities } from "../../../../../redux/post/facilitiesSlice";
 
+// 定義設備設施頁面資料的型別
 export interface formDataType {
   isNearByDepartmentStore: boolean, 
 	isNearBySchool: boolean, 
@@ -32,6 +33,7 @@ export interface formDataType {
 	hasTV: boolean, 
 }
 
+// 定義重點特色資料的型別
 interface selectedMainFeaturesType {
   isRentSubsidy: boolean;
   isCookAllowed: boolean;
@@ -39,6 +41,7 @@ interface selectedMainFeaturesType {
   isSTRAllowed: boolean;
 }
 
+// 定義交通資料的型別
 interface selectedTransportationsType {
   isNearMRT: boolean;
   isNearLRT: boolean;
@@ -50,13 +53,16 @@ interface selectedTransportationsType {
 export default function Facilities() {
   const dispatch = useDispatch();
   // const content = useSelector( (store: RootState) => store.facilitiesContent);
+  const { handleProcedureClick, handleProcedureDone } = useContext(ProcedureContext);
 
+  // 狀態控制重點特色按鈕點擊情況
   const [selectedMainFeatures, setSelectedMainFeatures] = useState<selectedMainFeaturesType>({
     isRentSubsidy: false,
     isCookAllowed: false,
     isPetAllowed: false,
     isSTRAllowed: false,
   });
+  // 狀態控制交通資料按鈕點擊情況
   const [selectedTransportations, setSelectedTransportations] = useState<selectedTransportationsType>({
     isNearMRT: false,
     isNearLRT: false,
@@ -64,10 +70,10 @@ export default function Facilities() {
     isNearTrainStation: false,
     isNearHSR: false,
   });
-  const { handleProcedureClick, handleProcedureDone } = useContext(ProcedureContext);
 
   const { register, handleSubmit, formState: { errors } } = useForm<formDataType>();
   const onSubmit: SubmitHandler<formDataType> = (data : formDataType) => {
+    // 重組資料後送出
     const formData = {
       ...selectedMainFeatures,
       ...selectedTransportations,
@@ -78,11 +84,14 @@ export default function Facilities() {
     handleProcedureClick("費用");
   };
 
+  // 重點特色按鈕點擊狀態切換
   const handleButtonClick = (id: keyof selectedMainFeaturesType) : void => {
     setSelectedMainFeatures((prev) => {
       return {...prev, [id]: !prev[id]}
     });
   };
+
+  // 點擊交通狀態切換
   const handleTransportationsClick = (id: keyof selectedTransportationsType) : void => {
     setSelectedTransportations((prev) => {
       return {...prev, [id]: !prev[id]}
@@ -194,10 +203,12 @@ export default function Facilities() {
                   <label htmlFor={distance} className={`mt-[10px] ${
                     selectedTransportations[id as keyof selectedTransportationsType] ? "" : "hidden"
                     }`}>
+                    {/* 被選到之交通出現距離輸入框 */}
                     <div className="col-span-3 flex items-center gap-2">
                       <input
                         type="number"
                         id={distance}
+                        placeholder="距離"
                         className={`add-new-input ${
                           errors[distance as keyof formDataType] && "border-Alert-50 border focus:border-Alert-50 focus:border"
                         }`}

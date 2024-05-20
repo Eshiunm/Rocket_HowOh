@@ -4,24 +4,27 @@ import { useNavigate } from "react-router-dom";
 import { ProcedureContext } from "../../../../pages/landlordManagement/AddNew";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../../../redux/store";
+// 顯示欄位所需之靜態資料
 import { mainFeatures, nearByFacilities, houseFeatures, equipments, transportations } from "../../../../constants/featureList";
 import { waterBill, electricBill, managementFee } from "../../../../constants/forPay";
 import { formDataType } from "../procedures/Facilities";
 
 export default function Confirm() {
   const navigate = useNavigate();
-  const { formData } = useSelector((state: RootState) => state.basicInformationContent);
-  const { photos } = useSelector((state: RootState) => state.photosUpload);
-  const { facilities } = useSelector((state: RootState) => state.facilitiesContent);
-  const { expenses } = useSelector((state: RootState) => state.expensesContent);
-  const { introduction } = useSelector((state: RootState) => state.description);
-  const { restrictions } = useSelector((state: RootState) => state.restrictionsContent);
-  const { handleSubmit } = useForm();
   const { handleProcedureClick, handleProcedureDone } = useContext(ProcedureContext);
+  // 匯入前面步驟之 redux 資料
+  const { formData } = useSelector((store: RootState) => store.basicInformationContent);
+  const { photos } = useSelector((store: RootState) => store.photosUpload);
+  const { facilities } = useSelector((store: RootState) => store.facilitiesContent);
+  const { expenses } = useSelector((store: RootState) => store.expensesContent);
+  const { introduction } = useSelector((store: RootState) => store.description);
+  const { restrictions } = useSelector((store: RootState) => store.restrictionsContent);
+
+  const { handleSubmit } = useForm();
   const onSubmit = () => {
     handleProcedureDone(5);
     navigate("/landlord-management");
-    // handleProcedureClick("限制");
+    // 完成刊登後跳轉回房源管理頁面
   };
 
   return (

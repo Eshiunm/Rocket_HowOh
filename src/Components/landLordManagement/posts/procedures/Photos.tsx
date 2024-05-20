@@ -6,6 +6,7 @@ import axios from "axios";
 import { useDispatch } from "react-redux";
 import { setPhotos } from "../../../../../redux/post/photosSlice";
 
+// 定義送出照片資料的型別
 export interface photosDataType {		
   "path": string,
   "isCover": boolean
@@ -22,6 +23,11 @@ export default function Photos() {
   const [images, setImages] = useState<string[]>([]);
   const [coverIndex, setCoverIndex] = useState(0); 
 
+  
+  const { handleSubmit } = useForm();
+  const { handleProcedureClick, handleProcedureDone } = useContext(ProcedureContext);
+
+  // 預覽上傳圖片的卡片樣式
   function UploadPhoto({photo, index}: UploadPhotoProps) {
     return (
       <li className="col-span-3 flex flex-col gap-3">
@@ -35,12 +41,14 @@ export default function Photos() {
                 : "hover:border-2 hover:-m-[1px]"
               }`}
             onClick={() => setCoverIndex(index)}
+            // 控制首圖所引號並設定為首圖樣式
           >
             {
               coverIndex === index ? "首圖" : "設為首圖"
             }
           </button>
           <button type="button" onClick={() => {
+            // 刪除單張照片，並設定索引值
             if ( index === coverIndex ) {
               setCoverIndex(0)
             } 
@@ -55,13 +63,9 @@ export default function Photos() {
     );
   }
 
-  const { handleSubmit } = useForm();
-  const { handleProcedureClick, handleProcedureDone } =
-    useContext(ProcedureContext);
-
   const uploadImage = async () => {
     const photosArray: photosDataType[] = [];
-    // 將圖片陣列逐一上傳
+    // 將圖片陣列逐一上傳至指定資料夾、帳號
     images.forEach(async (image,index) =>{
       const data = new FormData();
       data.append("file", image);
@@ -90,6 +94,7 @@ export default function Photos() {
     // }); 
   };
 
+  // 上傳圖片監聽事件 input:file change
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || []);
     const selectedImages = Array.from(files);
@@ -177,11 +182,6 @@ export default function Photos() {
           </button>
         </div>
       </form>
-      {
-        // photosStore.photos.length > 0 && photosStore.photos.map((photo, index) => (
-        //   <img key={index} src={photo.path} alt="uploaded" />
-        // ))
-      }
     </div>
   );
 }

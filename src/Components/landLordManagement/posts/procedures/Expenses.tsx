@@ -10,6 +10,7 @@ import { useDispatch } from "react-redux";
 import { setExpenses } from "../../../../../redux/post/expensesSlice";
 // import { RootState } from "../../../../../redux/store";
 
+// 定義費用資料的型別
 interface expensesType {
   rent: string;
   securityDeposit: string;
@@ -25,6 +26,9 @@ interface expensesType {
 export default function Expenses() {
   const dispatch = useDispatch();
   // const content = useSelector( (store: RootState) => store.expensesContent);
+  const { handleProcedureClick, handleProcedureDone } =
+    useContext(ProcedureContext);
+
   const { register, handleSubmit, formState: { errors }, watch } = useForm({
     defaultValues: {
       rent: "",
@@ -41,8 +45,7 @@ export default function Expenses() {
   const paymentMethodOfWaterBill = watch("paymentMethodOfWaterBill");
   const electricBillChoose = watch("electricBill");
   const paymentMethodOfManagementFee = watch("paymentMethodOfManagementFee");
-  const { handleProcedureClick, handleProcedureDone } =
-    useContext(ProcedureContext);
+
   const onSubmit = (data: expensesType) => {
     if (data.electricBill === "自訂") {
       data.paymentMethodOfElectricBill = "隨房租繳納"
@@ -125,6 +128,7 @@ export default function Expenses() {
                   {
                     paymentMethodOfWaterBill === "自訂" && id === "customWater" && (
                       <>
+                      {/* 當水費為自訂時，自訂欄位可輸入收費金額 */}
                         <div className="flex items-center gap-2 mt-3">
                           <input
                             type="number"
@@ -169,6 +173,7 @@ export default function Expenses() {
                   {
                     electricBillChoose === "自訂" && id === "customElectric" && (
                       <>
+                      {/* 當電費為自訂時，自訂欄位可輸入收費金額 */}
                         <div className="flex items-center gap-2 mt-5">
                           <input
                             type="number"
@@ -194,6 +199,7 @@ export default function Expenses() {
             }
           </fieldset>
           {
+            // 當電費為依台電計價時，可選取繳納方式
             electricBillChoose === "依台電計價" && (
               <>
                 <h6 className="col-span-12 text-sans-body2 mt-[1px]">繳納方式</h6>
@@ -244,6 +250,7 @@ export default function Expenses() {
                     <span className="text-sans-body1">{title}</span>
                   </div>
                   {
+                    // 當管理費為隨房租繳納或自行繳納時，其欄位可輸入收費金額
                     (( paymentMethodOfManagementFee === "隨房租繳納"  && id === "managementFeePayWithRent" )
                     || ( paymentMethodOfManagementFee === "自行繳納" && id === "managementFeePaySelf" ))
                     && (
