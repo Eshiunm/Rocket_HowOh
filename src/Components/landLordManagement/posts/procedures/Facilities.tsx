@@ -11,7 +11,7 @@ import {
 import { useDispatch } from "react-redux";
 import { setFacilities } from "../../../../../redux/post/facilitiesSlice";
 
-interface formDataType {
+export interface formDataType {
   isNearByDepartmentStore: boolean, 
 	isNearBySchool: boolean, 
 	isNearByMorningMarket: boolean, 

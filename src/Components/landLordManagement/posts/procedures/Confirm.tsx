@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../../../../redux/store";
 import { mainFeatures, nearByFacilities, houseFeatures, equipments, transportations } from "../../../../constants/featureList";
 import { waterBill, electricBill, managementFee } from "../../../../constants/forPay";
+import { formDataType } from "../procedures/Facilities";
 
 export default function Confirm() {
   const navigate = useNavigate();
@@ -153,7 +154,7 @@ export default function Confirm() {
                   key={id}
                   type="button"
                   className={`flex items-center gap-1 hover:border hover:m-0 ${
-                    facilities[id] === true ? "tab-button-m-select" : "tab-button-m"
+                    facilities[id as keyof formDataType] === true ? "tab-button-m-select" : "tab-button-m"
                   }`}
                 >
                   <span className="material-symbols-outlined">
@@ -178,7 +179,7 @@ export default function Confirm() {
                   <input
                     disabled
                     type="checkbox"
-                    checked={facilities[id]}
+                    checked={facilities[id as keyof formDataType]}
                     className="hover:cursor-auto w-5 h-5 text-black focus:ring-transparent rounded-sm border-2 border-black cursor-pointer"
                   />
                   {title}
@@ -195,7 +196,7 @@ export default function Confirm() {
                   <input
                     disabled
                     type="checkbox"
-                    checked={facilities[id]}
+                    checked={facilities[id as keyof formDataType]}
                     className="hover:cursor-auto w-5 h-5 text-black focus:ring-transparent rounded-sm border-2 border-black cursor-pointer"
                   />
                   {title}
@@ -212,7 +213,7 @@ export default function Confirm() {
                   <input
                     disabled
                     type="checkbox"
-                    checked={facilities[id]}
+                    checked={facilities[id as keyof formDataType]}
                     className="hover:cursor-auto w-5 h-5 text-black focus:ring-transparent rounded-sm border-2 border-black cursor-pointer"
                   />
                   {title}
@@ -231,16 +232,16 @@ export default function Confirm() {
                         disabled
                         type="checkbox"
                         className="hover:cursor-auto w-5 h-5 text-black focus:ring-transparent rounded-sm border-2 border-black cursor-pointer"
-                        checked={facilities[id]}
+                        checked={facilities[id as keyof formDataType]}
                       />
                       {title}
                     </div>
                   </label>
                   <div className={`mt-[10px] ${
-                    facilities[id] ? "" : "hidden"
+                    facilities[id as keyof formDataType] ? "" : "hidden"
                     }`}>
                     <div className="col-span-3 flex items-center gap-2">
-                      <p className="confirm-data flex-1">{facilities[distance] || "\u00A0"}</p>
+                      <p className="confirm-data flex-1">{facilities[distance as keyof formDataType] || "\u00A0"}</p>
                       <span className="shrink-0">公尺</span>
                     </div>
                   </div>
