@@ -127,7 +127,10 @@
     box-shadow: 0px 8px 12px 6px rgba(0, 0, 0, 0.15);
   }
   .letter-button-light {
-    @apply py-1 flex items-center gap-[10px] text-sans-b-body1 text-black hover:text-Neutral-30 disabled:text-Neutral-90
+    @apply py-1 flex items-center gap-[10px] text-sans-b-body1 text-black hover:text-Neutral-30 disabled:text-Neutral-90;
+  }
+  .letter-button-dark {
+    @apply p-2 flex items-center gap-[10px] text-sans-b-body1 text-white hover:text-Neutral-80 disabled:text-Neutral-40;
   }
   .confirm-data {
     @apply p-3 border-b border-Neutral-70;
