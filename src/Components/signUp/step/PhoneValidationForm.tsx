@@ -16,6 +16,9 @@ function PhoneValidation() {
   const currentStepState = useSelector(
     (store:RootState) => store.signUpStepState.currentStepState
   );
+  const phoneNumber = useSelector(
+    (store: RootState) => store.signupForm.signUpFormData.telphone
+  );
 
   const cancelSignUp = () => {
     dispatch(setCurrentStepState(0));
@@ -36,7 +39,7 @@ function PhoneValidation() {
           >
             <h2 className="text-sans-h5 mb-10">手機驗證</h2>
             <span className="inline-block text-sans-body1 mb-[34px]">
-              6位數驗證碼已傳送到0912123451
+              6 位數驗證碼已傳送到 {phoneNumber}
             </span>
             <div
               tabIndex={0}
