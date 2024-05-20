@@ -1,9 +1,9 @@
 const setCanvasPreview = (
-  image, // HTMLImageElement
-  canvas, // HTMLCanvasElement
-  crop // PixelCrop
+  image: HTMLImageElement | null,
+  canvas: HTMLCanvasElement | null,
+  crop
 ) => {
-  const ctx = canvas.getContext("2d");
+  const ctx = canvas?.getContext("2d");
   if (!ctx) {
     throw new Error("No 2d context");
   }
@@ -13,7 +13,7 @@ const setCanvasPreview = (
   // size the image back down if you want to download/upload and be
   // true to the images natural size.
   const pixelRatio = window.devicePixelRatio;
-  const scaleX = image.naturalWidth / image.width;
+  const scaleX = image?.naturalWidth / image.width;
   const scaleY = image.naturalHeight / image.height;
 
   canvas.width = Math.floor(crop.width * scaleX * pixelRatio);

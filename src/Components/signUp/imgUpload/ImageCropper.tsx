@@ -6,15 +6,20 @@ import ReactCrop, {
 } from "react-image-crop";
 import setCanvasPreview from "./setCanvasPreview";
 
+interface ModalProps {
+  setAvatarUrl: React.Dispatch<React.SetStateAction<string>>;
+  closeModal: () => void;
+}
+
 const ASPECT_RATIO = 1; // 裁減比例1:1
 const MIN_DIMENSION = 150; // 裁減的最小長寬為 150px * 150px
 
-function ImageCropper({ setAvatarUrl, closeModal }) {
+function ImageCropper({ setAvatarUrl, closeModal }: ModalProps) {
   // 處理圖片上傳的相關 Hooks
-  const imgRef = useRef(null);
-  const previewCanvasRef = useRef(null);
+  const imgRef = useRef<HTMLImageElement | null>(null);
+  const previewCanvasRef = useRef<HTMLCanvasElement | null>(null);
   const [imgSrc, setImgSrc] = useState("");
-  const [crop, setCrop] = useState();
+  const [crop, setCrop] = useState<any>();
   const [error, setError] = useState("");
 
   // 處理檔案上傳
@@ -48,7 +53,7 @@ function ImageCropper({ setAvatarUrl, closeModal }) {
     reader.readAsDataURL(file);
   };
 
-  const onImageLoad = e => {
+  const onImageLoad = (e: React.SyntheticEvent<HTMLImageElement>) => {
     const { width, height } = e.currentTarget;
     const cropWidthInPercent = (MIN_DIMENSION / width) * 100;
 
@@ -113,10 +118,12 @@ function ImageCropper({ setAvatarUrl, closeModal }) {
                   previewCanvasRef.current, // HTMLCanvasElement
                   convertToPixelCrop(
                     crop,
-                    imgRef.current?.width,
-                    imgRef.current?.height
+                    imgRef.current?.width ?? 0,
+                    imgRef.current?.height ?? 0
                   )
                 );
+                console.log(imgRef.current);
+                console.log(previewCanvasRef.current);
               }}
             >
               預覽
@@ -130,11 +137,11 @@ function ImageCropper({ setAvatarUrl, closeModal }) {
                   previewCanvasRef.current, // HTMLCanvasElement
                   convertToPixelCrop(
                     crop,
-                    imgRef.current?.width,
-                    imgRef.current?.height
+                    imgRef.current?.width ?? 0,
+                    imgRef.current?.height ?? 0
                   )
                 );
-                const dataUrl = previewCanvasRef.current?.toDataURL();
+                const dataUrl:any = previewCanvasRef.current?.toDataURL();
                 setAvatarUrl(dataUrl);
                 closeModal();
               }}
