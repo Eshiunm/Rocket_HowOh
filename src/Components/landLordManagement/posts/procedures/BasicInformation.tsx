@@ -3,12 +3,31 @@ import { useForm } from "react-hook-form";
 import cities from "../../../../constants/locations/cities";
 import houseTypes from "../../../../constants/houseTypes";
 import { ProcedureContext } from "../../../../pages/landlordManagement/AddNew";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setFormData } from "../../../../../redux/post/basicInformationSlice";
+
+interface basicInformationDataType {
+  name: string,
+  city: string,
+  district: string,
+  road: string,
+  lane: string,
+  alley: string,
+  number: string,
+  floor: string,
+  floorTotal: string,
+  type: string,
+  ping: string,
+  roomNumbers: string,
+  livingRoomNumbers: string,
+  bathRoomNumbers: string,
+  balconyNumbers: string,
+  parkingSpaceNumbers: string
+}
 
 export default function BasicInformation() {
   const dispatch = useDispatch();
-  const content = useSelector(store => store.basicInformationContent);
+  // const content = useSelector(store => store.basicInformationContent);
   const [isNameFocused, setIsNameFocused] = useState(false); 
   const [isCityFocused, setIsCityFocused] = useState(false); 
   const [isDistrictFocused, setIsDistrictFocused] = useState(false); 
@@ -17,7 +36,7 @@ export default function BasicInformation() {
   const { handleProcedureClick, handleProcedureDone } =
     useContext(ProcedureContext);
 
-  const { register, handleSubmit,formState: { errors }, watch } = useForm({
+  const { register, handleSubmit,formState: { errors }, watch } = useForm<basicInformationDataType>({
     defaultValues: {
       name: "",
       city: "高雄市",
@@ -38,7 +57,7 @@ export default function BasicInformation() {
     }
   });
   const selectedCity = watch("city");
-  const onSubmit = (data) => {
+  const onSubmit = (data: basicInformationDataType) => {
     // console.log(data)
     dispatch(setFormData(data));
     // 當全部設定完成時，再將content的內容打API存到後端
