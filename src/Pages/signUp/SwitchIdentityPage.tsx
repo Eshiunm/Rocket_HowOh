@@ -15,9 +15,12 @@ function SwitchIdentityPage() {
   const navigate = useNavigate();
   const handleLogin = (e: React.MouseEvent) => {
     e.stopPropagation();
-    e.target?.id.includes("tenant")
-      ? dispatch(setIdentityState("tenant"))
-      : dispatch(setIdentityState("landLord"));
+    const targetId = (e.target as HTMLSpanElement)?.id; // 取得 id 屬性
+    if (targetId && targetId.includes("tenant")) {
+      dispatch(setIdentityState("tenant"));
+    } else {
+      dispatch(setIdentityState("landLord"));
+    }
     navigate("/login");
   };
 

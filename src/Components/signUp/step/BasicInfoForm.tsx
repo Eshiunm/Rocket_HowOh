@@ -34,7 +34,7 @@ function BasicInfoForm() {
   // 控制 modal 開關
   const [modalOpen, setModalOpen] = useState(false);
   // 設定大頭貼 srcUrl
-  const [avatarUrl, setAvatarUrl] = useState("");
+  const [avatarUrl, setAvatarUrl] = useState<string>("");
   // react hook form
   const {
     handleSubmit,
@@ -119,16 +119,12 @@ function BasicInfoForm() {
     }
     dispatch(setSignUpForm(signUpFormData));
     try {
-      axios.post(
-        "http://98.70.102.116/api/signup",
-        signUpFormData
-      );
+      await axios.post("http://98.70.102.116/api/signup", signUpFormData);
+      dispatch(setCurrentStepState(currentStepState + 1));
     } catch (errors) {
-      console.log(errors)
+      console.log(errors);
     }
     setPosting(false);
-    
-    //dispatch(setCurrentStepState(currentStepState + 1));
   };
 
   return (

@@ -2,7 +2,7 @@ import { Avatar, Dropdown } from "flowbite-react";
 import { Link } from "react-router-dom";
 
 function NavigationLogin() {
-  const identity = "landLord";
+  const identity = "tenant";
   return (
     <>
       <ul className="flex gap-6 items-center">

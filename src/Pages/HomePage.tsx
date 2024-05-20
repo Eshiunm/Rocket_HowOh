@@ -3,42 +3,6 @@ import SearchForm from "../components/homePage/SearchForm";
 import Recommendation from "../components/homePage/Recommandation";
 import Footer from "../components/footer/Footer";
 
-interface FormElementsState {
-  District: {
-    noLimit: {
-      content: string;
-      checked: boolean;
-      disabled: boolean;
-    };
-    districts: {
-      content: string;
-      checked: boolean;
-    }[];
-  };
-  HouseType: {
-    noLimit: {
-      content: string;
-      checked: boolean;
-      disabled: boolean;
-    };
-    houseTypes: {
-      content: string;
-      checked: boolean;
-    }[];
-  };
-  RentRange: {
-    noLimit: {
-      content: string;
-      checked: boolean;
-      disabled: boolean;
-    };
-    rentRanges: {
-      content: string;
-      checked: boolean;
-    }[];
-  };
-}
-
 function HomePage() {
   return (
     <>

@@ -1,9 +1,10 @@
 import { useSelector } from "react-redux";
 import TenantLogin from "../../components/login/tenantLogin";
 import LandLordLogin from "../../components/login/landLordLogin";
+import { RootState } from "../../../redux/store";
 
 function LoginPage() {
-  const identityState = useSelector(store => store.identityState.identity);
+  const identityState = useSelector((store: RootState) => store.identityState.identity);
   console.log(identityState);
   return (
     <div

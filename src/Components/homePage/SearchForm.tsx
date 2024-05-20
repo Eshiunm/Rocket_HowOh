@@ -19,14 +19,30 @@ import searchIcon from "../../assets/imgs/icons/searchIcon.svg";
 import kaohsiungDistricts from "../../constants/locations/districts/kaohsiungDistricts";
 import houseTypes from "../../constants/houseTypes";
 import rentRanges from "../../constants/rentRange";
+import { RootState } from "../../../redux/store";
+
+interface District {
+  content: string;
+  checked: boolean;
+}
+interface HouseType {
+  content: string;
+  checked: boolean;
+}
+interface RentRange {
+  content: string;
+  checked: boolean;
+}
 
 function SearchForm() {
   const { handleSubmit } = useForm();
   const dispatch = useDispatch();
-  const searchContent = useSelector(store => store.inputSearch.textContent);
-  const districtState = useSelector(store => store.district);
-  const houseTypeState = useSelector(store => store.houseType);
-  const rentRangeState = useSelector(store => store.rentRange);
+  const searchContent = useSelector(
+    (store: RootState) => store.inputSearch.textContent
+  );
+  const districtState = useSelector((store: RootState) => store.district);
+  const houseTypeState = useSelector((store: RootState) => store.houseType);
+  const rentRangeState = useSelector((store: RootState) => store.rentRange);
   /* 初始化表單內所有的checkbox元素狀態 */
   useEffect(() => {
     const newDistricts = kaohsiungDistricts.map(item => {
@@ -84,7 +100,7 @@ function SearchForm() {
           checked: true, // 改變「不限的 checkbox」勾選狀態，false 改 true
           disabled: true, // 將「不限的checkbox」禁用
         },
-        districts: districtState.districts.map(item => {
+        districts: districtState.districts.map((item: District) => {
           return {
             ...item,
             checked: false, // 將所有區的 checkbox 勾選狀態設為「false」
@@ -96,11 +112,11 @@ function SearchForm() {
     } else {
       let newDistrictState = {
         ...districtState,
-        districts: districtState.districts.map(item => {
-          if (item.content === districtCheckboxDOM.name) {
+        districts: districtState.districts.map((item: District) => {
+          if ((item as { content?: string }) === districtCheckboxDOM.name) {
             return {
               ...item,
-              checked: !item.checked, // 改變剛剛按下的 checkbox 勾選狀態， true 改 false、false 改 true
+              checked: !(item as { checked?: boolean }).checked, // 改變剛剛按下的 checkbox 勾選狀態， true 改 false、false 改 true
             };
           } else {
             return item;
@@ -148,7 +164,7 @@ function SearchForm() {
           checked: true, // 改變「不限的checkbox」勾選狀態，false 改 true
           disabled: true, // 將「不限的checkbox」禁用
         },
-        houseTypes: houseTypeState.houseTypes.map(item => {
+        houseTypes: houseTypeState.houseTypes.map((item: HouseType) => {
           return {
             ...item,
             checked: false, // 將所有類型的 checkbox 勾選狀態設為「false」
@@ -160,11 +176,13 @@ function SearchForm() {
     } else {
       let newHouseTypeState = {
         ...houseTypeState,
-        houseTypes: houseTypeState.houseTypes.map(item => {
-          if (item.content === houseTypeCheckboxDOM.name) {
+        houseTypes: houseTypeState.houseTypes.map((item: HouseType) => {
+          if (
+            (item as { content?: string }).content === houseTypeCheckboxDOM.name
+          ) {
             return {
               ...item,
-              checked: !item.checked, // 將剛剛按下的 checkbox 勾選狀態， true 改 false、false 改 true
+              checked: !(item as { checked?: boolean }).checked, // 將剛剛按下的 checkbox 勾選狀態， true 改 false、false 改 true
             };
           } else {
             return item;
@@ -213,7 +231,7 @@ function SearchForm() {
           checked: true, // 改變「不限的checkbox」勾選狀態，false 改 true
           disabled: true, // 將「不限的checkbox」禁用
         },
-        rentRanges: rentRangeState.rentRanges.map(item => {
+        rentRanges: rentRangeState.rentRanges.map((item: RentRange) => {
           return {
             ...item,
             checked: false, // 將所有類型的 checkbox 勾選狀態設為「false」
@@ -225,11 +243,13 @@ function SearchForm() {
     } else {
       let newRentRangeState = {
         ...rentRangeState,
-        rentRanges: rentRangeState.rentRanges.map(item => {
-          if (item.content === rentRangeCheckboxDOM.name) {
+        rentRanges: rentRangeState.rentRanges.map((item: RentRange) => {
+          if (
+            (item as { content?: string }).content === rentRangeCheckboxDOM.name
+          ) {
             return {
               ...item,
-              checked: !item.checked, // 將剛剛按下的 checkbox 勾選狀態， true 改 false、false 改 true
+              checked: !(item as { checked?: boolean }).checked, // 將剛剛按下的 checkbox 勾選狀態， true 改 false、false 改 true
             };
           } else {
             return item;
@@ -337,14 +357,17 @@ function SearchForm() {
                   name="districtsNoLimit"
                   id="districtsNoLimit"
                   disabled={
-                    districtState.noLimit.disabled === undefined
+                    (districtState.noLimit as { disabled?: boolean })
+                      .disabled === undefined
                       ? true
-                      : districtState.noLimit.disabled
+                      : (districtState.noLimit as { disabled?: boolean })
+                          .disabled
                   }
                   checked={
-                    districtState.noLimit.checked === undefined
+                    (districtState.noLimit as { checked?: boolean }).checked ===
+                    undefined
                       ? false
-                      : districtState.noLimit.checked
+                      : (districtState.noLimit as { checked?: boolean }).checked
                   }
                   onChange={handleDistrictState}
                 />
@@ -352,7 +375,7 @@ function SearchForm() {
                   htmlFor="districtsNoLimit"
                   className="pl-2 cursor-pointer"
                 >
-                  {districtState.noLimit.content}
+                  {(districtState.noLimit as { content?: string }).content}
                 </label>
               </div>
               <div className="flex gap-x-[22px] gap-y-3 flex-wrap">
@@ -392,14 +415,18 @@ function SearchForm() {
                   name="houseTypeNoLimit"
                   id="houseTypeNoLimit"
                   disabled={
-                    houseTypeState.noLimit.disabled === undefined
+                    (houseTypeState.noLimit as { disabled?: boolean })
+                      .disabled === undefined
                       ? true
-                      : houseTypeState.noLimit.disabled
+                      : (houseTypeState.noLimit as { disabled?: boolean })
+                          .disabled
                   }
                   checked={
-                    houseTypeState.noLimit.checked === undefined
+                    (houseTypeState.noLimit as { checked?: boolean })
+                      .checked === undefined
                       ? true
-                      : houseTypeState.noLimit.checked
+                      : (houseTypeState.noLimit as { checked?: boolean })
+                          .checked
                   }
                   onChange={handleHouseTypeState}
                 />
@@ -407,7 +434,7 @@ function SearchForm() {
                   htmlFor="houseTypeNoLimit"
                   className="pl-2 cursor-pointer"
                 >
-                  {houseTypeState.noLimit.content}
+                  {(houseTypeState.noLimit as { content?: string }).content}
                 </label>
               </div>
               <div className="flex gap-x-[22px] gap-y-3 flex-wrap ">
@@ -452,19 +479,23 @@ function SearchForm() {
                   name="rentNoLimit"
                   id="rentNoLimit"
                   disabled={
-                    rentRangeState.noLimit.disabled === undefined
+                    (rentRangeState.noLimit as { disabled?: boolean })
+                      .disabled === undefined
                       ? true
-                      : rentRangeState.noLimit.disabled
+                      : (rentRangeState.noLimit as { disabled?: boolean })
+                          .disabled
                   }
                   checked={
-                    rentRangeState.noLimit.checked === undefined
+                    (rentRangeState.noLimit as { checked?: boolean })
+                      .checked === undefined
                       ? true
-                      : rentRangeState.noLimit.checked
+                      : (rentRangeState.noLimit as { checked?: boolean })
+                          .checked
                   }
                   onChange={handleRentRangeState}
                 />
                 <label htmlFor="rentNoLimit" className="pl-2 cursor-pointer">
-                  {rentRangeState.noLimit.content}
+                  {(rentRangeState.noLimit as { content?: string }).content}
                 </label>
               </div>
               <div className="flex gap-x-[22px] gap-y-3 flex-wrap ">

@@ -2,7 +2,12 @@ import CloseIcon from "./CloseIcon";
 import ImageCropper from "./ImageCropper";
 import "react-image-crop/dist/ReactCrop.css";
 
-function Modal({ setAvatarUrl, closeModal }) {
+interface ModalProps {
+  setAvatarUrl: React.Dispatch<React.SetStateAction<string>>;
+  closeModal: () => void;
+}
+
+function Modal({ setAvatarUrl, closeModal }:ModalProps) {
   return (
     <div
       className="relative z-[60]"
