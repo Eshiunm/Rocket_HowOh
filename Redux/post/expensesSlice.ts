@@ -17,7 +17,7 @@ export const expensesSlice = createSlice({
   },
   reducers: {
     setExpenses: (state, action) => {
-      state.expenses = action.payload;
+      state.expenses = {...action.payload};
     },
   },
 });

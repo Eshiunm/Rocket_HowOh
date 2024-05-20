@@ -36,7 +36,7 @@ export default function Restrictions() {
     formData.jobRestriction = selectedJobs;
     dispatch(setRestrictions(formData));
     handleProcedureDone(5);
-    handleProcedureClick("完成");
+    handleProcedureClick("確認");
   };
 
   const handleSelectChange = (index: number, value: string):void => {
@@ -95,7 +95,7 @@ export default function Restrictions() {
         {
           hasTenantRestrictions === "true" && (
             <div className="flex flex-col gap-3 mb-10">
-              <h5 className="text-sans-b-body1 text-Landlord-40">性別</h5>
+              <h5 className="text-sans-b-body1 text-Landlord-40">排除性別</h5>
               <fieldset className="layout-grid">
                 <label htmlFor="maleRestriction" className="col-span-3 flex items-center gap-2 text-sans-body1">
                   <input
@@ -128,7 +128,7 @@ export default function Restrictions() {
                   不限
                 </label>
               </fieldset>
-              <h5 className="text-sans-b-body1 text-Landlord-40">職業</h5>
+              <h5 className="text-sans-b-body1 text-Landlord-40">排除職業</h5>
               <fieldset className="layout-grid">
                 <label htmlFor="hasJobRestriction" className="col-span-6 flex items-center gap-2 text-sans-body1">
                   <input

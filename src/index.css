@@ -56,7 +56,7 @@
     @apply text-sans-h5 mb-6;
   }
   .add-new-small-title {
-    @apply text-base font-bold mb-6;
+    @apply text-sans-caption mb-1;
   }
   .option-label {
     @apply flex items-center w-full gap-2 mb-3;
@@ -128,6 +128,9 @@
   }
   .letter-button-light {
     @apply py-1 flex items-center gap-[10px] text-sans-b-body1 text-black hover:text-Neutral-30 disabled:text-Neutral-90
+  }
+  .confirm-data {
+    @apply p-3 border-b border-Neutral-70;
   }
   /* 首頁 Title 的打字效果 */
   .type-animation::after {
