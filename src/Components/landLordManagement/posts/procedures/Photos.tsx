@@ -3,18 +3,26 @@ import { useForm } from "react-hook-form";
 import { ProcedureContext } from "../../../../pages/landlordManagement/AddNew";
 import deleteImg from "../../../../assets/imgs/icons/deleteImg.svg"
 import axios from "axios";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setPhotos } from "../../../../../redux/post/photosSlice";
 
+interface photosDataType {		
+  "path": string,
+  "isCover": boolean
+}
+interface UploadPhotoProps {
+  photo: string;
+  index: number;
+}
 
 export default function Photos() {
   const dispatch = useDispatch();
-  const photosStore = useSelector(store => store.photosUpload);
+  // const photosStore = useSelector(store => store.photosUpload);
 
-  const [images, setImages] = useState([]);
+  const [images, setImages] = useState<string[]>([]);
   const [coverIndex, setCoverIndex] = useState(0); 
 
-  function UploadPhoto({photo, index}) {
+  function UploadPhoto({photo, index}: UploadPhotoProps) {
     return (
       <li className="col-span-3 flex flex-col gap-3">
         <img src={photo} className="rounded-xl" alt={`房源照片-${index+1}`} />
@@ -52,7 +60,7 @@ export default function Photos() {
     useContext(ProcedureContext);
 
   const uploadImage = async () => {
-    const picArray = [];
+    const photosArray: photosDataType[] = [];
     // 將圖片陣列逐一上傳
     images.forEach(async (image,index) =>{
       const data = new FormData();
@@ -66,13 +74,11 @@ export default function Photos() {
       try {
         // 上傳data，打 Cloudinary API，上傳到自己的 Cloudinary 帳號
         const response = await axios.post(`https://api.cloudinary.com/v1_1/${import.meta.env.VITE_CLOUDINARY_CLOUD_NAME}/image/upload`, data);
-        // picArray.push(response.data.url); // 將上傳的圖片的 url 保存起來，可以將成功上傳的照片顯示在畫面上
-        picArray.push({		
+        photosArray.push({		
           "path": response.data.url, //檔案路徑
           "isCover": coverIndex === index ? true : false //是否為封面
         })
-        // console.log(picArray);
-        dispatch(setPhotos(picArray));
+        dispatch(setPhotos(photosArray));
       } catch (error) {
         alert("圖片上傳失敗,請重新上傳");
       }
@@ -84,16 +90,16 @@ export default function Photos() {
     // }); 
   };
 
-  const handleImageChange = (e) => {
-    const files = [...e.target.files];
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(e.target.files || []);
     const selectedImages = Array.from(files);
     
     const imagePreviews = selectedImages.map((file) => {
       const reader = new FileReader();
       reader.readAsDataURL(file);
-      return new Promise((resolve) => {
+      return new Promise<string>((resolve) => {
         reader.onload = () => {
-          resolve(reader.result);
+          resolve(reader.result as string);
         };
       })
     });
