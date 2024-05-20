@@ -13,11 +13,11 @@ function App() {
       <BrowserRouter>
         <Header />
         <Routes>
-          <Route path="/" element={<HomePage />}></Route>
-          <Route path="/signUp" element={<SwitchIdentityPage />}></Route>
-          <Route path="/signUp/createAccount" element={<CreateAccountPage />}></Route>
-          <Route path="/login" element={<LoginPage />}></Route>
-          <Route path="/post" element={<AddNew />}></Route>
+          <Route index element={<HomePage />}></Route>
+          <Route path="signUp" element={<SwitchIdentityPage />}></Route>
+          <Route path="signUp/createAccount" element={<CreateAccountPage />}></Route>
+          <Route path="login" element={<LoginPage />}></Route>
+          <Route path="post" element={<AddNew />}></Route>
           <Route
             path="/landlord-management"
             element={<LandlordManagement />}
