@@ -19,7 +19,7 @@ function App() {
           <Route path="login" element={<LoginPage />}></Route>
           <Route path="post" element={<AddNew />}></Route>
           <Route
-            path="/landlord-management"
+            path="landlord-management"
             element={<LandlordManagement />}
           ></Route>
         </Routes>
