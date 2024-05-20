@@ -6,9 +6,9 @@ import {
   managementFee,
   waterBill,
 } from "../../../../constants/forPay";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setExpenses } from "../../../../../redux/post/expensesSlice";
-import { RootState } from "../../../../../redux/store";
+// import { RootState } from "../../../../../redux/store";
 
 interface expensesType {
   rent: string;
@@ -24,7 +24,7 @@ interface expensesType {
 
 export default function Expenses() {
   const dispatch = useDispatch();
-  const content = useSelector( (store: RootState) => store.expensesContent);
+  // const content = useSelector( (store: RootState) => store.expensesContent);
   const { register, handleSubmit, formState: { errors }, watch } = useForm({
     defaultValues: {
       rent: "",
