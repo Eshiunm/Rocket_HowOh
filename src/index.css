@@ -62,37 +62,37 @@
     @apply flex items-center w-full gap-2 mb-3;
   }
   .filled-button-l {
-    @apply text-sans-b-h6 rounded-lg px-20 py-3 bg-black text-white hover:bg-Neutral-40;
+    @apply text-sans-b-h6 rounded-lg px-20 py-3 bg-black text-white hover:bg-Neutral-40 disabled:bg-Neutral-90 disabled:text-white;
   }
   .filled-button-l-disable {
     @apply text-sans-b-h6 rounded-lg px-20 py-3 bg-Neutral-90 text-white;
   }
   .filled-button-m {
-    @apply text-sans-b-body1 rounded-lg p-2 bg-black text-white hover:bg-Neutral-40;
+    @apply text-sans-b-body1 rounded-lg p-2 bg-black text-white hover:bg-Neutral-40 disabled:bg-Neutral-90 disabled:text-white;
   }
   .filled-button-m-disable {
     @apply text-sans-b-body1 rounded-lg p-2 bg-Neutral-90 text-white;
   }
   .filled-button-s {
-    @apply text-sans-b-body2 rounded-lg p-2 bg-black text-white hover:bg-Neutral-40;
+    @apply text-sans-b-body2 rounded-lg p-2 bg-black text-white hover:bg-Neutral-40 disabled:bg-Neutral-90 disabled:text-white;
   }
   .filled-button-s-disable {
     @apply text-sans-b-body2 rounded-lg p-2 bg-Neutral-90 text-white;
   }
   .outline-button-l {
-    @apply text-sans-b-h6 border border-black rounded-lg px-20 py-3 bg-transparent text-black hover:bg-black hover:text-white;
+    @apply text-sans-b-h6 border border-black rounded-lg px-20 py-3 bg-transparent text-black hover:bg-black hover:text-white disabled:bg-Neutral-90 disabled:text-white;
   }
   .outline-button-l-disable {
     @apply text-sans-b-h6 border border-Neutral-90 rounded-lg px-20 py-3 bg-Neutral-90 text-white;
   }
   .outline-button-m {
-    @apply text-sans-b-body1 border border-black rounded-lg p-2 bg-transparent text-black hover:bg-black hover:text-white;
+    @apply text-sans-b-body1 border border-black rounded-lg p-2 bg-transparent text-black hover:bg-black hover:text-white disabled:bg-Neutral-90 disabled:text-white;
   }
   .outline-button-m-disable {
     @apply text-sans-b-body1 border border-Neutral-90 rounded-lg p-2 bg-Neutral-90 text-white;
   }
   .outline-button-s {
-    @apply text-sans-b-body2 border border-black rounded-lg p-2 bg-transparent text-black hover:bg-black hover:text-white;
+    @apply text-sans-b-body2 border border-black rounded-lg p-2 bg-transparent text-black hover:bg-black hover:text-white disabled:bg-Neutral-90 disabled:text-white;
   }
   .outline-button-s-disable {
     @apply text-sans-b-body2 border border-Neutral-90 rounded-lg p-2 bg-Neutral-90 text-white;
@@ -101,10 +101,10 @@
     @apply text-sans-caption text-Alert-50 pt-1 pl-5;
   }
   .tab-button-m {
-    @apply px-4 py-2 bg-transparent text-black border border-Landlord-50 rounded-3xl hover:border-2 hover:-m-[1px];
+    @apply text-sans-b-body1 px-4 py-2 bg-transparent text-black border border-Landlord-50 rounded-3xl hover:border-2 hover:-m-[1px];
   }
   .tab-button-m-select {
-    @apply px-4 py-2 bg-Landlord-50 text-white border border-Landlord-50 rounded-3xl;
+    @apply text-sans-b-body1 px-4 py-2 bg-Landlord-50 text-white border border-Landlord-50 rounded-3xl;
   }
   .shadow-elevation-1 {
     box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
