@@ -41,6 +41,7 @@ function ImageCropper({ setAvatarUrl, closeModal }) {
         }
       });
       setImgSrc(imageUrl); // 將讀取到的圖片 URL 設置到 imgSrc 狀態
+      setAvatarUrl(imageUrl);
     });
 
     // 以 Data URL 的格式讀取文件內容，當讀取完內容後會觸發上面的 load 監聽事件

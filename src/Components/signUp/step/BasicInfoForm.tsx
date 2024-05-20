@@ -5,6 +5,8 @@ import { useNavigate } from "react-router-dom";
 import { RootState } from "../../../../redux/store";
 import { useState } from "react";
 import { occupations } from "../../../constants/occupations";
+import { Spinner } from "flowbite-react";
+import axios from "axios";
 import Modal from "../imgUpload/Modal";
 import PlaceholderIcon from "../imgUpload/PlaceholderIcon";
 interface formDataType {
@@ -19,6 +21,7 @@ interface formDataType {
 function BasicInfoForm() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [imgPosting, setImgPosting] = useState(false);
   // 控制 modal 開關
   const [modalOpen, setModalOpen] = useState(false);
   // 設定大頭貼 srcUrl
@@ -49,11 +52,40 @@ function BasicInfoForm() {
     }
   };
 
-  const uploadImage = async () => {};
-  const onSubmit = (formData: formDataType) => {
-    //dispatch(setCurrentStepState(currentStepState + 1));
-    uploadImage();
+  const handleUploadImage = async () => {
+    const ImgData = new FormData();
+    // 用 append 的方式將資料組成 "key":"value" 的形式
+    ImgData.append("file", avatarUrl); // 圖片 url
+    ImgData.append(
+      "cloud_name",
+      import.meta.env.VITE_CLOUDINARY_Eshiunm_CLOUD_NAME
+    ); // Cloudinary 的帳號名稱
+    ImgData.append(
+      "upload_preset",
+      import.meta.env.VITE_CLOUDINARY_Eshiunm_UPLOAD_PRESET
+    ); // Cloudinary 上預設存放圖片的地方
+    ImgData.append("folder", "HowOh_UserAvatar"); // 存放圖片的資料夾名稱
+    try {
+      // 將圖片上傳到 Cloudinary
+      const response = await axios.post(
+        `https://api.cloudinary.com/v1_1/${
+          import.meta.env.VITE_CLOUDINARY_Eshiunm_CLOUD_NAME
+        }/image/upload`,
+        ImgData
+      );
+      const imgUrl = response.data.url;
+      return imgUrl;
+    } catch (error) {
+      alert("圖片上傳失敗,請重新上傳");
+      console.log(error);
+    }
+  };
+
+  const onSubmit = async (formData: formDataType) => {
+    setImgPosting(true);
+    const imgUrl = await handleUploadImage();
     console.log(formData);
+    dispatch(setCurrentStepState(currentStepState + 1));
   };
 
   return (
@@ -297,7 +329,7 @@ function BasicInfoForm() {
                     // 為了讓下面 label 的 peer-[:invalid:focus] 類別起到樣式的作用，要加上這個空值選項，Select 標籤也要加上 required 屬性
                     <option value={""} selected disabled hidden></option>
                   }
-                  {occupations.map(({ id, title: occupation },index) => (
+                  {occupations.map(({ id, title: occupation }, index) => (
                     <option value={index} key={id}>
                       {occupation}
                     </option>
@@ -388,13 +420,25 @@ function BasicInfoForm() {
             <button
               type="submit"
               className={`filled-button-l w-full mb-3 ${
-                Object.keys(errors).length > 0
+                Object.keys(errors).length > 0 || imgPosting
                   ? "bg-Neutral-90 hover:bg-Neutral-90"
                   : ""
               }`}
             >
-              確認
+              {imgPosting ? (
+                <>
+                  <Spinner
+                    aria-label="Spinner button example"
+                    size="lg"
+                    className="mr-4"
+                  />
+                  註冊中請稍後...
+                </>
+              ) : (
+                "確認"
+              )}
             </button>
+
             <button className="p-2 text-sans-b-body1" onClick={cancelSignUp}>
               取消
             </button>
