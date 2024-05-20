@@ -6,7 +6,7 @@ import { RootState } from "../../../../../redux/store";
 
 export default function Confirm() {
   const { formData } = useSelector((state: RootState) => state.basicInformationContent);
-  const photosUpload = useSelector((state: RootState) => state.photosUpload);
+  const { photos } = useSelector((state: RootState) => state.photosUpload);
   const facilitiesContent = useSelector((state: RootState) => state.facilitiesContent);
   const expensesContent = useSelector((state: RootState) => state.expensesContent);
   const description = useSelector((state: RootState) => state.description);
@@ -17,7 +17,7 @@ export default function Confirm() {
     // handleProcedureDone(5);
     // handleProcedureClick("限制");
     console.log(formData);
-    console.log(photosUpload);
+    console.log(photos);
     console.log(facilitiesContent);
     console.log(expensesContent);
     console.log(description);
@@ -26,7 +26,7 @@ export default function Confirm() {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <section className="bg-Landlord-99 p-5 rounded-lg">
+      <section className="bg-Landlord-99 p-5 rounded-lg mb-5">
         <h3 className="add-new-title">基本資訊</h3>
         <div className="layout-grid">
           <div className="col-span-12">
@@ -121,6 +121,26 @@ export default function Confirm() {
             </div>
           </div>
         </div>
+      </section>
+      <section className="bg-Landlord-99 p-5 rounded-lg mb-5">
+        <h3 className="add-new-title">照片</h3>
+        <ul className="layout-grid">
+          {
+            photos.map(({path,isCover}, index) => (
+              <li key={"photo-" + index} className="col-span-3 flex flex-col items-start gap-3">
+                <img src={path} className="rounded-xl" alt={`房源照片-${index+1}`} />
+                <button
+                  type="button"
+                  className={`text-sans-b-body1 px-4 py-1 rounded-3xl border border-Neutral-50 bg-Neutral-50 text-white ${
+                    isCover ? "" : "invisible"
+                  }`}
+                >
+                  首圖
+                </button>
+              </li>
+            ))
+          }
+        </ul>
       </section>
       <div className="col-span-12 pt-10 flex justify-between">
         <button 
