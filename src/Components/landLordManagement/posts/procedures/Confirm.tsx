@@ -1,5 +1,6 @@
 import { useContext } from "react";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import { ProcedureContext } from "../../../../pages/landlordManagement/AddNew";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../../../redux/store";
@@ -7,23 +8,19 @@ import { mainFeatures, nearByFacilities, houseFeatures, equipments, transportati
 import { waterBill, electricBill, managementFee } from "../../../../constants/forPay";
 
 export default function Confirm() {
+  const navigate = useNavigate();
   const { formData } = useSelector((state: RootState) => state.basicInformationContent);
   const { photos } = useSelector((state: RootState) => state.photosUpload);
   const { facilities } = useSelector((state: RootState) => state.facilitiesContent);
   const { expenses } = useSelector((state: RootState) => state.expensesContent);
-  const description = useSelector((state: RootState) => state.description);
+  const { introduction } = useSelector((state: RootState) => state.description);
   const { restrictions } = useSelector((state: RootState) => state.restrictionsContent);
   const { handleSubmit } = useForm();
   const { handleProcedureClick, handleProcedureDone } = useContext(ProcedureContext);
   const onSubmit = () => {
-    // handleProcedureDone(5);
+    handleProcedureDone(5);
+    navigate("/landlord-management");
     // handleProcedureClick("限制");
-    console.log(formData);
-    console.log(photos);
-    console.log(facilities);
-    console.log(expenses);
-    console.log(description);
-    console.log(restrictionsContent);
   };
 
   return (
@@ -133,7 +130,7 @@ export default function Confirm() {
                 <img src={path} className="rounded-xl" alt={`房源照片-${index+1}`} />
                 <button
                   type="button"
-                  className={`text-sans-b-body1 px-4 py-1 rounded-3xl border border-Neutral-50 bg-Neutral-50 text-white ${
+                  className={`cursor-default text-sans-b-body1 px-4 py-1 rounded-3xl border border-Neutral-50 bg-Neutral-50 text-white ${
                     isCover ? "" : "invisible"
                   }`}
                 >
@@ -407,6 +404,12 @@ export default function Confirm() {
               ))
             }
           </fieldset>
+        </div>
+      </section>
+      <section className="bg-Landlord-99 p-5 rounded-lg mb-5">
+        <h3 className="add-new-title">介紹</h3>
+        <div className="layout-grid">
+          <p className="col-span-6 whitespace-pre-line text-sans-body1">{ introduction }</p>
         </div>
       </section>
       <section className="bg-Landlord-99 p-5 rounded-lg mb-5">
