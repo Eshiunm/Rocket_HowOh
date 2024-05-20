@@ -9,6 +9,7 @@ export default function LandlordManagement() {
   const [activeButton, setActiveButton] = useState('');
 
   useEffect(() => {
+    // 判斷網址路徑所在位置，控制tab-button狀態
     if(location.pathname === '/landlord-management') {
       setActiveButton('all');
     } else if (location.pathname === '/landlord-management/history') {
