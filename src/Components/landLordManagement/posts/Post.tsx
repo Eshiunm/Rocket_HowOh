@@ -10,6 +10,7 @@ export default function Post({procedure}:{procedure:procedureListType[]}) {
         <button
           className={`${procedure[0].isActive ? "outline-button-m-disable" : "outline-button-m"} px-4`}
           disabled={procedure[0].isActive ? true : false}
+          // 在基本資訊頁面時不可點擊刪除房源
           >刪除房源</button>
       </div>
     </div>
