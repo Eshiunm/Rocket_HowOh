@@ -1,6 +1,7 @@
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { setCurrentStepState } from "../../../../redux/signUp/stepSlice";
+import { setSignUpForm } from "../../../../redux/signUp/signupFormSlice";
 import { useNavigate } from "react-router-dom";
 import { RootState } from "../../../../redux/store";
 import { useState } from "react";
@@ -12,6 +13,7 @@ import PlaceholderIcon from "../imgUpload/PlaceholderIcon";
 interface formDataType {
   lastName: string;
   firstName: string;
+  gender: string;
   email: string;
   password: string;
   passwordConfirm: string;
@@ -21,7 +23,14 @@ interface formDataType {
 function BasicInfoForm() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [imgPosting, setImgPosting] = useState(false);
+  const identityState = useSelector(
+    (store: RootState) => store.identityState.identity
+  );
+  const phoneNumber = useSelector(
+    (store: RootState) => store.signupForm.signUpFormData.telphone
+  );
+  // 是否正在打 API
+  const [posting, setPosting] = useState(false);
   // 控制 modal 開關
   const [modalOpen, setModalOpen] = useState(false);
   // 設定大頭貼 srcUrl
@@ -82,10 +91,44 @@ function BasicInfoForm() {
   };
 
   const onSubmit = async (formData: formDataType) => {
-    setImgPosting(true);
-    const imgUrl = await handleUploadImage();
-    console.log(formData);
-    dispatch(setCurrentStepState(currentStepState + 1));
+    const signUpFormData = {
+      firstName: formData.firstName, //名字
+      lastName: formData.lastName, //姓氏
+      email: formData.email, //信箱
+      password: formData.password, //密碼
+      telphone: phoneNumber, //手機
+      role: `${identityState === "landlord" ? "房東" : "租客"}`, //房東or租客
+      gender: formData.gender, //男or女
+      job: Number(formData.career), //職業 （參考下表）
+      photo: "", //照片網址
+      userIntro: `${
+        identityState === "landlord"
+          ? `您好，我是房東${formData.lastName}${
+              formData.gender === "男" ? "先生" : "小姐"
+            }，希望能找到合適的租客！ `
+          : `您好，我是租客${formData.lastName}${
+              formData.gender === "男" ? "先生" : "小姐"
+            }，希望能找到合適的房子！`
+      }}`,
+    };
+
+    setPosting(true);
+    if (avatarUrl) {
+      const imgUrl = await handleUploadImage();
+      signUpFormData.photo = imgUrl;
+    }
+    dispatch(setSignUpForm(signUpFormData));
+    try {
+      axios.post(
+        "http://98.70.102.116/api/signup",
+        signUpFormData
+      );
+    } catch (errors) {
+      console.log(errors)
+    }
+    setPosting(false);
+    
+    //dispatch(setCurrentStepState(currentStepState + 1));
   };
 
   return (
@@ -108,9 +151,9 @@ function BasicInfoForm() {
                   checked
                   id="male-radio"
                   type="radio"
-                  value=""
-                  name="gender-radio"
+                  value="男"
                   className="w-4 h-4 text-black focus:ring-transparent border-black focus:border-black"
+                  {...register("gender")}
                 />
                 <label
                   htmlFor="male-radio"
@@ -123,9 +166,9 @@ function BasicInfoForm() {
                 <input
                   id="female-radio"
                   type="radio"
-                  value=""
-                  name="gender-radio"
+                  value="女"
                   className="w-4 h-4 text-black focus:ring-transparent border-black focus:border-black"
+                  {...register("gender")}
                 />
                 <label
                   htmlFor="female-radio"
@@ -354,19 +397,8 @@ function BasicInfoForm() {
               ) : null}
             </div>
             {/* 上傳大頭貼區塊 */}
-            <span className="block text-sans-caption mb-3">上傳大頭貼</span>
-            <div className="flex flex-col justify-center items-center py-10 border border-dashed border-black rounded-lg mb-10">
-              {/* <input type="file" id="userProfile" onChange={onSelectFile} /> */}
-              <button
-                type="button"
-                title="Change photo"
-                className="filled-button-m mb-2"
-                onClick={() => setModalOpen(true)}
-              >
-                選擇檔案
-              </button>
-              <span className="text-sans-body2">支援PNG, JPG (Max 5MB)</span>
-            </div>
+            <span className="block text-sans-caption mb-8">上傳大頭貼</span>
+
             {/* Profile */}
             <div className="flex flex-col items-center mb-20">
               {avatarUrl ? (
@@ -420,12 +452,12 @@ function BasicInfoForm() {
             <button
               type="submit"
               className={`filled-button-l w-full mb-3 ${
-                Object.keys(errors).length > 0 || imgPosting
+                Object.keys(errors).length > 0 || posting
                   ? "bg-Neutral-90 hover:bg-Neutral-90"
                   : ""
               }`}
             >
-              {imgPosting ? (
+              {posting ? (
                 <>
                   <Spinner
                     aria-label="Spinner button example"

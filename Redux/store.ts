@@ -9,6 +9,7 @@ import basicInformationSlice from "./post/basicInformationSlice";
 import photosSlice from "./post/photosSlice";
 import facilitiesSlice from "./post/facilitiesSlice";
 import expensesSlice from "./post/expensesSlice";
+import signupFormSlice from "./signUp/signupFormSlice";
 import introductionSlice from "./post/introductionSlice";
 import restrictionsSlice from "./post/restrictionsSlice";
 
@@ -24,6 +25,7 @@ const store = configureStore({
     photosUpload: photosSlice,
     facilitiesContent: facilitiesSlice,
     expensesContent: expensesSlice,
+    signupForm: signupFormSlice,
     description: introductionSlice,
     restrictionsContent: restrictionsSlice,
   },
