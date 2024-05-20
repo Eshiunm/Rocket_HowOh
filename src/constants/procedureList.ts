@@ -32,7 +32,7 @@ export const procedureList:procedureListType[] = [
     isDone: false,
   },
   {
-    title: "完成",
+    title: "確認",
     isActive: false,
     isDone: false,
   }

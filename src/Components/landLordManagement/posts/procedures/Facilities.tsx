@@ -36,7 +36,7 @@ interface formDataType {
 export default function Facilities() {
   const dispatch = useDispatch();
   const content = useSelector( (store: RootState) => store.facilitiesContent);
-  console.log(content);
+
   const [selectedMainFeatures, setSelectedMainFeatures] = useState({
     isRentSubsidy: false,
     isCookAllowed: false,
@@ -105,7 +105,7 @@ export default function Facilities() {
         <div className="mb-10">
           <h4 className="text-sans-b-h6">其他特色</h4>
           <div className="layout-grid gap-y-3">
-            <h5 className="mt-6 col-span-12 text-sans-b-body1">附近機能</h5>
+            <h5 className="mt-6 col-span-12 text-Landlord-40 text-sans-b-body1">附近機能</h5>
             {
               nearByFacilities.map(({id, title}) => (
                 <label
@@ -123,7 +123,7 @@ export default function Facilities() {
                 </label>
               ))
             }
-            <h5 className="mt-3 col-span-12 text-sans-b-body1">屋源特色</h5>
+            <h5 className="mt-3 col-span-12 text-Landlord-40 text-sans-b-body1">屋源特色</h5>
             {
               houseFeatures.map(({id, title}) => (
                 <label
@@ -141,7 +141,7 @@ export default function Facilities() {
                 </label>
               ))
             }
-            <h5 className="mt-3 col-span-12 text-sans-b-body1">設備</h5>
+            <h5 className="mt-3 col-span-12 text-Landlord-40 text-sans-b-body1">設備</h5>
             {
               equipments.map(({id, title}) => (
                 <label
@@ -159,7 +159,7 @@ export default function Facilities() {
                 </label>
               ))
             }
-            <h5 className="mt-3 col-span-12 text-sans-b-body1">交通</h5>
+            <h5 className="mt-3 col-span-12 text-Landlord-40 text-sans-b-body1">交通</h5>
             {
               transportations.map(({id, title, distance}) => (
                 <div className="col-span-3" key={id}>

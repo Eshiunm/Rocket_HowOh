@@ -3,11 +3,10 @@ import { ProcedureContext } from "../../../pages/landlordManagement/AddNew";
 import BasicInformation from "./procedures/BasicInformation";
 import Photos from "./procedures/Photos";
 import Facilities from "./procedures/Facilities";
-import Equipments from "./procedures/Equipments";
 import Expenses from "./procedures/Expenses";
-import DepositAndRent from "./procedures/DepositAndRent";
 import Introduction from "./procedures/Introduction";
 import Restrictions from "./procedures/Restrictions";
+import Confirm from "./procedures/Confirm";
 
 export default function AddNewData() {
   const { procedure } = useContext(ProcedureContext);
@@ -25,7 +24,7 @@ export default function AddNewData() {
       {title === "費用" && <Expenses />}
       {title === "介紹" && <Introduction />}
       {title === "限制" && <Restrictions />}
-      {title === "完成" && <Equipments />}
+      {title === "確認" && <Confirm />}
     </div>
   );
 }
