@@ -6,7 +6,7 @@ import logo from "../../assets/imgs/howohLogo_whiteMode.svg";
 function Header() {
   const location = useLocation();
   const isLogin = false;
-  const identity = "landLord";
+  const identity = "tenant";
   const isSignupPage = location.pathname.includes("/signUp");
   const isLoginPage = location.pathname.includes("/login");
 
