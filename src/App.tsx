@@ -1,5 +1,5 @@
 import { Routes, Route, BrowserRouter } from "react-router-dom";
-import Header from "./components/header/Header";
+import Header from "./components/header/Header.tsx";
 import HomePage from "./pages/HomePage";
 import SwitchIdentityPage from "./pages/signUp/SwitchIdentityPage";
 import CreateAccountPage from "./pages/signUp/CreateAccountPage";
