@@ -3,12 +3,13 @@ import { useForm } from "react-hook-form";
 import { ProcedureContext } from "../../../../pages/landlordManagement/AddNew";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../../../redux/store";
+import { mainFeatures, nearByFacilities, houseFeatures, equipments, transportations } from "../../../../constants/featureList";
 
 export default function Confirm() {
   const { formData } = useSelector((state: RootState) => state.basicInformationContent);
   const { photos } = useSelector((state: RootState) => state.photosUpload);
-  const facilitiesContent = useSelector((state: RootState) => state.facilitiesContent);
-  const expensesContent = useSelector((state: RootState) => state.expensesContent);
+  const { facilities } = useSelector((state: RootState) => state.facilitiesContent);
+  const { expenses } = useSelector((state: RootState) => state.expensesContent);
   const description = useSelector((state: RootState) => state.description);
   const restrictionsContent = useSelector((state: RootState) => state.restrictionsContent);
   const { handleSubmit } = useForm();
@@ -18,8 +19,8 @@ export default function Confirm() {
     // handleProcedureClick("限制");
     console.log(formData);
     console.log(photos);
-    console.log(facilitiesContent);
-    console.log(expensesContent);
+    console.log(facilities);
+    console.log(expenses);
     console.log(description);
     console.log(restrictionsContent);
   };
@@ -141,6 +142,115 @@ export default function Confirm() {
             ))
           }
         </ul>
+      </section>
+      <section className="bg-Landlord-99 p-5 rounded-lg mb-5">
+        <h3 className="add-new-title">設備設施</h3>
+        <div className="mb-10">
+          <h4 className="text-sans-b-h6 mb-6">重點特色</h4>
+          <div className="flex gap-6">
+            {
+              mainFeatures.map(({id, title, icon}) => (
+                <button
+                  disabled
+                  key={id}
+                  type="button"
+                  className={`flex items-center gap-1 hover:border hover:m-0 ${
+                    facilities[id] === true ? "tab-button-m-select" : "tab-button-m"
+                  }`}
+                >
+                  <span className="material-symbols-outlined">
+                    {icon}
+                  </span>
+                  <span className="text-sans-b-body1">{title}</span>
+                </button>
+              ))
+            }
+          </div>
+        </div>
+        <div>
+          <h4 className="text-sans-b-h6">其他特色</h4>
+          <div className="layout-grid gap-y-3">
+            <h5 className="mt-6 col-span-12 text-Landlord-40 text-sans-b-body1">附近機能</h5>
+            {
+              nearByFacilities.map(({id, title}) => (
+                <label
+                  key={id} 
+                  className="col-span-3 text-sans-body1 flex items-center gap-2"
+                >
+                  <input
+                    disabled
+                    type="checkbox"
+                    checked={facilities[id]}
+                    className="hover:cursor-auto w-5 h-5 text-black focus:ring-transparent rounded-sm border-2 border-black cursor-pointer"
+                  />
+                  {title}
+                </label>
+              ))
+            }
+            <h5 className="mt-3 col-span-12 text-Landlord-40 text-sans-b-body1">屋源特色</h5>
+            {
+              houseFeatures.map(({id, title}) => (
+                <label
+                  key={id} 
+                  className="col-span-3 text-sans-body1 flex items-center gap-2"
+                >
+                  <input
+                    disabled
+                    type="checkbox"
+                    checked={facilities[id]}
+                    className="hover:cursor-auto w-5 h-5 text-black focus:ring-transparent rounded-sm border-2 border-black cursor-pointer"
+                  />
+                  {title}
+                </label>
+              ))
+            }
+            <h5 className="mt-3 col-span-12 text-Landlord-40 text-sans-b-body1">設備</h5>
+            {
+              equipments.map(({id, title}) => (
+                <label
+                  key={id}
+                  className="col-span-3 text-sans-body1 flex items-center gap-2"
+                >
+                  <input
+                    disabled
+                    type="checkbox"
+                    checked={facilities[id]}
+                    className="hover:cursor-auto w-5 h-5 text-black focus:ring-transparent rounded-sm border-2 border-black cursor-pointer"
+                  />
+                  {title}
+                </label>
+              ))
+            }
+            <h5 className="mt-3 col-span-12 text-Landlord-40 text-sans-b-body1">交通</h5>
+            {
+              transportations.map(({id, title, distance}) => (
+                <div className="col-span-3" key={id}>
+                  <label
+                    className="col-span-3 text-sans-body1"
+                  >
+                    <div className="flex items-cente gap-2">
+                      <input
+                        disabled
+                        type="checkbox"
+                        className="hover:cursor-auto w-5 h-5 text-black focus:ring-transparent rounded-sm border-2 border-black cursor-pointer"
+                        checked={facilities[id]}
+                      />
+                      {title}
+                    </div>
+                  </label>
+                  <div className={`mt-[10px] ${
+                    facilities[id] ? "" : "hidden"
+                    }`}>
+                    <div className="col-span-3 flex items-center gap-2">
+                      <p className="confirm-data flex-1">{facilities[distance] || "\u00A0"}</p>
+                      <span className="shrink-0">公尺</span>
+                    </div>
+                  </div>
+                </div>
+              ))
+            }
+          </div>
+        </div>
       </section>
       <div className="col-span-12 pt-10 flex justify-between">
         <button 
