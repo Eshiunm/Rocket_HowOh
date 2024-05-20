@@ -1,23 +1,44 @@
-import { Outlet } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useLocation, useNavigate, Link, Outlet } from "react-router-dom";
+import Footer from "../../components/footer/Footer";
 import addIcon from "../../assets/imgs/icons/add.svg";
 
 export default function LandlordManagement() {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const [activeButton, setActiveButton] = useState('');
+
+  useEffect(() => {
+    // 判斷網址路徑所在位置，控制tab-button狀態
+    if(location.pathname === '/landlord-management') {
+      setActiveButton('all');
+    } else if (location.pathname === '/landlord-management/history') {
+      setActiveButton('history');
+    }
+  },[location]);
+
   return (
     <>
-      <div className="container">
-        <div className="mt-[52px] bg-Landlord-95 rounded-xl p-6">
-          <h2 className="text-sans-b-h5 mb-7">房東好窩</h2>
-          <div className="flex gap-3">
-            <button className="text-sans-b-body1 bg-Landlord-30 text-Landlord-99 px-4 py-2 rounded-3xl">全部房源</button>
-            <button className="text-sans-b-body1 bg-transparent border border-Landlord-40 text-black px-4 py-2 rounded-3xl">出租歷史</button>
-            <button className="text-sans-b-h6 ml-auto px-20 py-3 rounded-lg bg-black flex justify-center items-center gap-3 text-white">
-              <span className="">新增房源</span>
+      <header className="bg-Landlord-99">
+        <div className="container px-8 py-6">
+          <h2 className="text-sans-b-h5 mb-5">房東好窩</h2>
+          <div className="flex items-end gap-3">
+            <Link to="/landlord-management" className={`tab-button-m py-1 ${activeButton === 'all' ? 'bg-Landlord-50 text-Landlord-99' : ""}`}>全部房源</Link>
+            <Link to="/landlord-management/history" className={`tab-button-m py-1 ${activeButton === 'history' ? 'bg-Landlord-50 text-Landlord-99' : ""}`}>出租歷史</Link>
+            <button
+              className="filled-button-m px-11 ml-auto flex justify-center items-center gap-2 "
+              onClick={() => {
+                navigate("/post");
+              }}
+            >
+              <span>新增房源</span>
               <img src={addIcon} alt="add" />
             </button>
           </div>
         </div>
-      </div>
+      </header>
       <Outlet />
+      <Footer />
     </>
   );
 }
