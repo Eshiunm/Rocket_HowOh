@@ -2,9 +2,9 @@ import { ChangeEvent, useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { ProcedureContext } from "../../../../pages/landlordManagement/AddNew";
 import { occupations } from "../../../../constants/occupations";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setRestrictions } from "../../../../../redux/post/restrictionsSlice";
-import { RootState } from "../../../../../redux/store";
+// import { RootState } from "../../../../../redux/store";
 
 interface restrictionType {
   hasTenantRestrictions: string;
@@ -14,7 +14,7 @@ interface restrictionType {
 
 export default function Restrictions() {
   const dispatch = useDispatch();
-  const content = useSelector(( store: RootState ) => store.restrictionsContent);
+  // const content = useSelector(( store: RootState ) => store.restrictionsContent);
   
   const [jobRestrictionAmount,setJobRestrictionAmount] = useState<number>(0);
   const [selectedJobs, setSelectedJobs] = useState<string[]>([]);
