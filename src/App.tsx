@@ -18,10 +18,10 @@ function App() {
           <Route path="/signUp/createAccount" element={<CreateAccountPage />}></Route>
           <Route path="/login" element={<LoginPage />}></Route>
           <Route path="/post" element={<AddNew />}></Route>
-          <Route
-            path="/landlord-management"
-            element={<LandlordManagement />}
-          ></Route>
+          <Route path="/landlord-management" element={<LandlordManagement />} >
+            <Route index element={<h1>全部房源</h1>} />
+            <Route path="history" element={<h1>出租歷史</h1>} />
+          </Route>
         </Routes>
       </BrowserRouter>
     </>
