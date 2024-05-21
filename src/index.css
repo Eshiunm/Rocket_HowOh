@@ -80,19 +80,19 @@
     @apply text-sans-b-body2 rounded-lg p-2 bg-Neutral-90 text-white;
   }
   .outline-button-l {
-    @apply text-sans-b-h6 border border-black rounded-lg px-20 py-3 bg-transparent text-black hover:bg-black hover:text-white disabled:bg-Neutral-90 disabled:text-white;
+    @apply text-sans-b-h6 border border-black rounded-lg px-20 py-3 bg-transparent text-black hover:bg-black hover:text-white disabled:bg-Neutral-90 disabled:text-white disabled:border-Neutral-90;
   }
   .outline-button-l-disable {
     @apply text-sans-b-h6 border border-Neutral-90 rounded-lg px-20 py-3 bg-Neutral-90 text-white;
   }
   .outline-button-m {
-    @apply text-sans-b-body1 border border-black rounded-lg p-2 bg-transparent text-black hover:bg-black hover:text-white disabled:bg-Neutral-90 disabled:text-white;
+    @apply text-sans-b-body1 border border-black rounded-lg p-2 bg-transparent text-black hover:bg-black hover:text-white disabled:bg-Neutral-90 disabled:text-white disabled:border-Neutral-90;
   }
   .outline-button-m-disable {
     @apply text-sans-b-body1 border border-Neutral-90 rounded-lg p-2 bg-Neutral-90 text-white;
   }
   .outline-button-s {
-    @apply text-sans-b-body2 border border-black rounded-lg p-2 bg-transparent text-black hover:bg-black hover:text-white disabled:bg-Neutral-90 disabled:text-white;
+    @apply text-sans-b-body2 border border-black rounded-lg p-2 bg-transparent text-black hover:bg-black hover:text-white disabled:bg-Neutral-90 disabled:text-white disabled:border-Neutral-90;
   }
   .outline-button-s-disable {
     @apply text-sans-b-body2 border border-Neutral-90 rounded-lg p-2 bg-Neutral-90 text-white;
