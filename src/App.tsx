@@ -6,6 +6,7 @@ import CreateAccountPage from "./pages/signUp/CreateAccountPage";
 import LoginPage from "./pages/login/loginPage";
 import AddNew from "./pages/landlordManagement/AddNew";
 import LandlordManagement from "./pages/landlordManagement/LandlordManagement";
+import HouseList from "./components/landLordManagement/index/HouseList";
 
 function App() {
   return (
@@ -18,10 +19,10 @@ function App() {
           <Route path="signUp/createAccount" element={<CreateAccountPage />}></Route>
           <Route path="login" element={<LoginPage />}></Route>
           <Route path="post" element={<AddNew />}></Route>
-          <Route
-            path="landlord-management"
-            element={<LandlordManagement />}
-          ></Route>
+          <Route path="landlord-management" element={<LandlordManagement />} >
+            <Route index element={<HouseList />} />
+            <Route path="history" element={<h1>出租歷史</h1>} />
+          </Route>
         </Routes>
       </BrowserRouter>
     </>
