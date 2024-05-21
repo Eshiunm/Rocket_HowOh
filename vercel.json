@@ -3,7 +3,7 @@
   "routes": [
     {
       "src": "/api/(.*)",
-      "dest": "http://your-backend-api.com/:path*",
+      "dest": "http://98.70.102.116/",
       "methods": ["GET", "POST", "PUT", "DELETE","PATCH"]
     }
   ]
