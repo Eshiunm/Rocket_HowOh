@@ -1,6 +1,7 @@
 import { useState, useEffect, ChangeEvent } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { changeContent } from "../../../redux/searchForm/inputSearchSlice";
 import {
   setDistrictNoLimitState,
@@ -36,6 +37,7 @@ interface RentRange {
 
 function SearchForm() {
   const { handleSubmit } = useForm();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const searchContent = useSelector(
     (store: RootState) => store.inputSearch.textContent
@@ -115,7 +117,9 @@ function SearchForm() {
       let newDistrictState = {
         ...districtState,
         districts: districtState.districts.map((item: District) => {
-          if ((item as { content?: string }).content === districtCheckboxDOM.name) {
+          if (
+            (item as { content?: string }).content === districtCheckboxDOM.name
+          ) {
             return {
               ...item,
               checked: !(item as { checked?: boolean }).checked, // 改變剛剛按下的 checkbox 勾選狀態， true 改 false、false 改 true
@@ -289,7 +293,9 @@ function SearchForm() {
       dispatch(setRentRangeItemsState(newRentRangeState.rentRanges));
     }
   };
-  const onSubmit = () => {};
+  const onSubmit = () => {
+    navigate("/houseList");
+  };
   return (
     <>
       <form
