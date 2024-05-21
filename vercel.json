@@ -1,3 +1,10 @@
 {
-  "rewrites": [{ "source": "/(.*)", "destination": "/" }]
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/" },
+    {
+      "source": "/api/(.*)",
+      "destination": "http://98.70.102.116/:path",
+      "methods": ["GET", "POST", "PUT", "DELETE"]
+    }
+  ]
 }
