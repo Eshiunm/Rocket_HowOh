@@ -1,3 +1,5 @@
+import recommendation_picture_2 from "../../assets/imgs/homePage/recommendation_picture_2.svg"
+
 function Recommendation() {
   return (
     <section className="recommendation py-16">
@@ -15,7 +17,7 @@ function Recommendation() {
             <a href="">
               <img
                 className="rounded-[20px] mb-4"
-                src="./src/assets/imgs/homePage/recommendation_picture_2.svg"
+                src={recommendation_picture_2}
                 alt="recommendation_picture_1"
               />
               <h4 className="text-sans-b-h6 mb-3">信義國小套房 捷運3分鐘</h4>
@@ -60,7 +62,7 @@ function Recommendation() {
             <a href="">
               <img
                 className="rounded-[20px] mb-4"
-                src="./src/assets/imgs/homePage/recommendation_picture_2.svg"
+                src={recommendation_picture_2}
                 alt="recommendation_picture_1"
               />
               <h4 className="text-sans-b-h6 mb-3">信義國小套房 捷運3分鐘</h4>
@@ -105,7 +107,7 @@ function Recommendation() {
             <a href="">
               <img
                 className="rounded-[20px] mb-4"
-                src="./src/assets/imgs/homePage/recommendation_picture_2.svg"
+                src={recommendation_picture_2}
                 alt="recommendation_picture_1"
               />
               <h4 className="text-sans-b-h6 mb-3">信義國小套房 捷運3分鐘</h4>
@@ -150,7 +152,7 @@ function Recommendation() {
             <a href="">
               <img
                 className="rounded-[20px] mb-4"
-                src="./src/assets/imgs/homePage/recommendation_picture_2.svg"
+                src={recommendation_picture_2}
                 alt="recommendation_picture_1"
               />
               <h4 className="text-sans-b-h6 mb-3">信義國小套房 捷運3分鐘</h4>
@@ -195,7 +197,7 @@ function Recommendation() {
             <a href="">
               <img
                 className="rounded-[20px] mb-4"
-                src="./src/assets/imgs/homePage/recommendation_picture_2.svg"
+                src={recommendation_picture_2}
                 alt="recommendation_picture_1"
               />
               <h4 className="text-sans-b-h6 mb-3">信義國小套房 捷運3分鐘</h4>
@@ -240,7 +242,7 @@ function Recommendation() {
             <a href="">
               <img
                 className="rounded-[20px] mb-4"
-                src="./src/assets/imgs/homePage/recommendation_picture_2.svg"
+                src={recommendation_picture_2}
                 alt="recommendation_picture_1"
               />
               <h4 className="text-sans-b-h6 mb-3">信義國小套房 捷運3分鐘</h4>
@@ -285,7 +287,7 @@ function Recommendation() {
             <a href="">
               <img
                 className="rounded-[20px] mb-4"
-                src="./src/assets/imgs/homePage/recommendation_picture_2.svg"
+                src={recommendation_picture_2}
                 alt="recommendation_picture_1"
               />
               <h4 className="text-sans-b-h6 mb-3">信義國小套房 捷運3分鐘</h4>
@@ -330,7 +332,7 @@ function Recommendation() {
             <a href="">
               <img
                 className="rounded-[20px] mb-4"
-                src="./src/assets/imgs/homePage/recommendation_picture_2.svg"
+                src={recommendation_picture_2}
                 alt="recommendation_picture_1"
               />
               <h4 className="text-sans-b-h6 mb-3">信義國小套房 捷運3分鐘</h4>

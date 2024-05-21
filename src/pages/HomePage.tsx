@@ -30,7 +30,7 @@ function HomePage() {
               wrapper="span"
               speed={{ type: "keyStrokeDelayInMs", value: 250 }}
               className={
-                "text-Brand-90 font-Dela-Gothic-One text-dela-display1 type-animation"
+                "type-animation text-Brand-90 font-Dela-Gothic-One text-dela-display1"
               }
               repeat={Infinity}
             />
