@@ -43,6 +43,7 @@ function SearchForm() {
   const districtState = useSelector((store: RootState) => store.district);
   const houseTypeState = useSelector((store: RootState) => store.houseType);
   const rentRangeState = useSelector((store: RootState) => store.rentRange);
+  const [isSearchInputFocused, setIsSearchInputFocused] = useState(false); // 記錄搜尋框是否被 focused
   /* 初始化表單內所有的checkbox元素狀態 */
   useEffect(() => {
     const newDistricts = kaohsiungDistricts.map(item => {
@@ -86,7 +87,7 @@ function SearchForm() {
     dispatch(setRentRangeNoLimitState(newformElementState.RentRange.noLimit));
     dispatch(setRentRangeItemsState(newformElementState.RentRange.rentRanges));
   }, []);
-  const [isSearchInputFocused, setIsSearchInputFocused] = useState(false); // 記錄搜尋框是否被 focused
+
   const setSearchContent = (e: ChangeEvent<HTMLInputElement>) => {
     dispatch(changeContent(e.target.value));
   };
@@ -110,10 +111,11 @@ function SearchForm() {
       dispatch(setDistrictNoLimitState(newDistrictState.noLimit));
       dispatch(setDistrictItemsState(newDistrictState.districts));
     } else {
+      console.log(districtCheckboxDOM);
       let newDistrictState = {
         ...districtState,
         districts: districtState.districts.map((item: District) => {
-          if ((item as { content?: string }) === districtCheckboxDOM.name) {
+          if ((item as { content?: string }).content === districtCheckboxDOM.name) {
             return {
               ...item,
               checked: !(item as { checked?: boolean }).checked, // 改變剛剛按下的 checkbox 勾選狀態， true 改 false、false 改 true
@@ -123,7 +125,7 @@ function SearchForm() {
           }
         }),
       };
-
+      console.log(newDistrictState);
       if (districtCheckboxDOM.checked === true) {
         newDistrictState = {
           ...newDistrictState,
