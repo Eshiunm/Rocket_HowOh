@@ -22,6 +22,7 @@ import leftIcon_white from "../assets/imgs/icons/leftIcon_white.svg";
 import leftIcon_black from "../assets/imgs/icons/leftIcon_black.svg";
 import rightIcon_white from "../assets/imgs/icons/rightIcon_white.svg";
 import housePicture from "../assets/imgs/homePage/recommendation_picture_1.svg";
+import starIcon from "../assets/imgs/icons/starIcon.svg";
 import kaohsiungDistricts from "../constants/locations/districts/kaohsiungDistricts";
 import houseTypes from "../constants/houseTypes";
 import rentRanges from "../constants/rentRange";
@@ -606,25 +607,884 @@ function HouseListPage() {
               </div>
               {/* 列表 */}
               <ul>
-                <li className="p-3 flex gap-x-4 text-sans-b-h6">
+                <li className="p-3 flex gap-x-4">
                   <img
                     src={housePicture}
                     alt="housePicture"
                     className="rounded-2xl"
                   />
-                  <div>
-                    <div>
+                  <div className="relative flex flex-col justify-between">
+                    <div className="relative flex justify-between">
                       <div>
-                        <h3>輕奢小資套房 近輕軌醫院公園</h3>
-                        <ul>
-                          <li className=""></li>
+                        {/* 房源名稱 */}
+                        <h3 className="text-sans-b-h6 mb-3">
+                          輕奢小資套房 近輕軌醫院公園
+                        </h3>
+                        {/* 房源特色 */}
+                        <ul className="flex gap-x-2">
+                          <li className="text-sans-body2 py-1 px-2 bg-Tenant-90 rounded-lg">
+                            可申請租屋補助
+                          </li>
+                          <li className="text-sans-body2 py-1 px-2 bg-Tenant-90 rounded-lg">
+                            寵物友善
+                          </li>
+                          <li className="text-sans-body2 py-1 px-2 bg-Tenant-90 rounded-lg">
+                            可開火
+                          </li>
+                          <li className="text-sans-body2 py-1 px-2 bg-Tenant-90 rounded-lg">
+                            可短租
+                          </li>
                         </ul>
                       </div>
+                      {/* 評分 */}
+                      <div className="absolute top-0 -right-[24%] flex self-start items-center gap-x-[10px] p-2 bg-Neutral-95 rounded-lg ">
+                        <span className="text-sans-body1">4.5</span>
+                        <img
+                          src={starIcon}
+                          alt="starIcon"
+                          className="w-4 h-4"
+                        />
+                      </div>
+                    </div>
+                    <div>
+                      <ul className="flex gap-x-2 mb-2">
+                        <li className="pr-2 border-r-[1px] border-r-Tenant-70">
+                          <span>獨立套房</span>
+                        </li>
+                        <li className="pr-2 border-r-[1px] border-r-Tenant-70">
+                          <span>1房1衛1廳 1陽台</span>
+                        </li>
+                        <li className="pr-2 border-r-[1px] border-r-Tenant-70">
+                          <span>15坪</span>
+                        </li>
+                        <li>
+                          <span>2/7樓</span>
+                        </li>
+                      </ul>
+                      <p className="mb-2">高雄市鼓山區美術東八街</p>
+                      <ul className="flex gap-x-2">
+                        <li className="pr-2 border-r-[1px] border-r-Tenant-70">
+                          <span>房東</span>
+                        </li>
+                        <li>
+                          <span>陳小姐</span>
+                        </li>
+                      </ul>
+                    </div>
+                    <div className="absolute bottom-0 -right-[24%]">
+                      <span className="before:block before:z-[0] before:absolute before:h-[10%] before:w-[64%] before:bg-[#bac6e6] before:bottom-[5%] before:left-0"></span>
+                      <span className="text-sans-b-h5 mr-2 relative">
+                        15,000
+                      </span>
+                      <span>元/月</span>
+                    </div>
+                  </div>
+                </li>
+                <li className="p-3 flex gap-x-4">
+                  <img
+                    src={housePicture}
+                    alt="housePicture"
+                    className="rounded-2xl"
+                  />
+                  <div className="relative flex flex-col justify-between">
+                    <div className="relative flex justify-between">
+                      <div>
+                        {/* 房源名稱 */}
+                        <h3 className="text-sans-b-h6 mb-3">
+                          輕奢小資套房 近輕軌醫院公園
+                        </h3>
+                        {/* 房源特色 */}
+                        <ul className="flex gap-x-2">
+                          <li className="text-sans-body2 py-1 px-2 bg-Tenant-90 rounded-lg">
+                            可申請租屋補助
+                          </li>
+                          <li className="text-sans-body2 py-1 px-2 bg-Tenant-90 rounded-lg">
+                            寵物友善
+                          </li>
+                          <li className="text-sans-body2 py-1 px-2 bg-Tenant-90 rounded-lg">
+                            可開火
+                          </li>
+                          <li className="text-sans-body2 py-1 px-2 bg-Tenant-90 rounded-lg">
+                            可短租
+                          </li>
+                        </ul>
+                      </div>
+                      {/* 評分 */}
+                      <div className="absolute top-0 -right-[24%] flex self-start items-center gap-x-[10px] p-2 bg-Neutral-95 rounded-lg ">
+                        <span className="text-sans-body1">4.5</span>
+                        <img
+                          src={starIcon}
+                          alt="starIcon"
+                          className="w-4 h-4"
+                        />
+                      </div>
+                    </div>
+                    <div>
+                      <ul className="flex gap-x-2 mb-2">
+                        <li className="pr-2 border-r-[1px] border-r-Tenant-70">
+                          <span>獨立套房</span>
+                        </li>
+                        <li className="pr-2 border-r-[1px] border-r-Tenant-70">
+                          <span>1房1衛1廳 1陽台</span>
+                        </li>
+                        <li className="pr-2 border-r-[1px] border-r-Tenant-70">
+                          <span>15坪</span>
+                        </li>
+                        <li>
+                          <span>2/7樓</span>
+                        </li>
+                      </ul>
+                      <p className="mb-2">高雄市鼓山區美術東八街</p>
+                      <ul className="flex gap-x-2">
+                        <li className="pr-2 border-r-[1px] border-r-Tenant-70">
+                          <span>房東</span>
+                        </li>
+                        <li>
+                          <span>陳小姐</span>
+                        </li>
+                      </ul>
+                    </div>
+                    <div className="absolute bottom-0 -right-[24%]">
+                      <span className="before:block before:z-[0] before:absolute before:h-[10%] before:w-[64%] before:bg-[#bac6e6] before:bottom-[5%] before:left-0"></span>
+                      <span className="text-sans-b-h5 mr-2 relative">
+                        15,000
+                      </span>
+                      <span>元/月</span>
+                    </div>
+                  </div>
+                </li>
+                <li className="p-3 flex gap-x-4">
+                  <img
+                    src={housePicture}
+                    alt="housePicture"
+                    className="rounded-2xl"
+                  />
+                  <div className="relative flex flex-col justify-between">
+                    <div className="relative flex justify-between">
+                      <div>
+                        {/* 房源名稱 */}
+                        <h3 className="text-sans-b-h6 mb-3">
+                          輕奢小資套房 近輕軌醫院公園
+                        </h3>
+                        {/* 房源特色 */}
+                        <ul className="flex gap-x-2">
+                          <li className="text-sans-body2 py-1 px-2 bg-Tenant-90 rounded-lg">
+                            可申請租屋補助
+                          </li>
+                          <li className="text-sans-body2 py-1 px-2 bg-Tenant-90 rounded-lg">
+                            寵物友善
+                          </li>
+                          <li className="text-sans-body2 py-1 px-2 bg-Tenant-90 rounded-lg">
+                            可開火
+                          </li>
+                          <li className="text-sans-body2 py-1 px-2 bg-Tenant-90 rounded-lg">
+                            可短租
+                          </li>
+                        </ul>
+                      </div>
+                      {/* 評分 */}
+                      <div className="absolute top-0 -right-[24%] flex self-start items-center gap-x-[10px] p-2 bg-Neutral-95 rounded-lg ">
+                        <span className="text-sans-body1">4.5</span>
+                        <img
+                          src={starIcon}
+                          alt="starIcon"
+                          className="w-4 h-4"
+                        />
+                      </div>
+                    </div>
+                    <div>
+                      <ul className="flex gap-x-2 mb-2">
+                        <li className="pr-2 border-r-[1px] border-r-Tenant-70">
+                          <span>獨立套房</span>
+                        </li>
+                        <li className="pr-2 border-r-[1px] border-r-Tenant-70">
+                          <span>1房1衛1廳 1陽台</span>
+                        </li>
+                        <li className="pr-2 border-r-[1px] border-r-Tenant-70">
+                          <span>15坪</span>
+                        </li>
+                        <li>
+                          <span>2/7樓</span>
+                        </li>
+                      </ul>
+                      <p className="mb-2">高雄市鼓山區美術東八街</p>
+                      <ul className="flex gap-x-2">
+                        <li className="pr-2 border-r-[1px] border-r-Tenant-70">
+                          <span>房東</span>
+                        </li>
+                        <li>
+                          <span>陳小姐</span>
+                        </li>
+                      </ul>
+                    </div>
+                    <div className="absolute bottom-0 -right-[24%]">
+                      <span className="before:block before:z-[0] before:absolute before:h-[10%] before:w-[64%] before:bg-[#bac6e6] before:bottom-[5%] before:left-0"></span>
+                      <span className="text-sans-b-h5 mr-2 relative">
+                        15,000
+                      </span>
+                      <span>元/月</span>
+                    </div>
+                  </div>
+                </li>
+                <li className="p-3 flex gap-x-4">
+                  <img
+                    src={housePicture}
+                    alt="housePicture"
+                    className="rounded-2xl"
+                  />
+                  <div className="relative flex flex-col justify-between">
+                    <div className="relative flex justify-between">
+                      <div>
+                        {/* 房源名稱 */}
+                        <h3 className="text-sans-b-h6 mb-3">
+                          輕奢小資套房 近輕軌醫院公園
+                        </h3>
+                        {/* 房源特色 */}
+                        <ul className="flex gap-x-2">
+                          <li className="text-sans-body2 py-1 px-2 bg-Tenant-90 rounded-lg">
+                            可申請租屋補助
+                          </li>
+                          <li className="text-sans-body2 py-1 px-2 bg-Tenant-90 rounded-lg">
+                            寵物友善
+                          </li>
+                          <li className="text-sans-body2 py-1 px-2 bg-Tenant-90 rounded-lg">
+                            可開火
+                          </li>
+                          <li className="text-sans-body2 py-1 px-2 bg-Tenant-90 rounded-lg">
+                            可短租
+                          </li>
+                        </ul>
+                      </div>
+                      {/* 評分 */}
+                      <div className="absolute top-0 -right-[24%] flex self-start items-center gap-x-[10px] p-2 bg-Neutral-95 rounded-lg ">
+                        <span className="text-sans-body1">4.5</span>
+                        <img
+                          src={starIcon}
+                          alt="starIcon"
+                          className="w-4 h-4"
+                        />
+                      </div>
+                    </div>
+                    <div>
+                      <ul className="flex gap-x-2 mb-2">
+                        <li className="pr-2 border-r-[1px] border-r-Tenant-70">
+                          <span>獨立套房</span>
+                        </li>
+                        <li className="pr-2 border-r-[1px] border-r-Tenant-70">
+                          <span>1房1衛1廳 1陽台</span>
+                        </li>
+                        <li className="pr-2 border-r-[1px] border-r-Tenant-70">
+                          <span>15坪</span>
+                        </li>
+                        <li>
+                          <span>2/7樓</span>
+                        </li>
+                      </ul>
+                      <p className="mb-2">高雄市鼓山區美術東八街</p>
+                      <ul className="flex gap-x-2">
+                        <li className="pr-2 border-r-[1px] border-r-Tenant-70">
+                          <span>房東</span>
+                        </li>
+                        <li>
+                          <span>陳小姐</span>
+                        </li>
+                      </ul>
+                    </div>
+                    <div className="absolute bottom-0 -right-[24%]">
+                      <span className="before:block before:z-[0] before:absolute before:h-[10%] before:w-[64%] before:bg-[#bac6e6] before:bottom-[5%] before:left-0"></span>
+                      <span className="text-sans-b-h5 mr-2 relative">
+                        15,000
+                      </span>
+                      <span>元/月</span>
+                    </div>
+                  </div>
+                </li>
+                <li className="p-3 flex gap-x-4">
+                  <img
+                    src={housePicture}
+                    alt="housePicture"
+                    className="rounded-2xl"
+                  />
+                  <div className="relative flex flex-col justify-between">
+                    <div className="relative flex justify-between">
+                      <div>
+                        {/* 房源名稱 */}
+                        <h3 className="text-sans-b-h6 mb-3">
+                          輕奢小資套房 近輕軌醫院公園
+                        </h3>
+                        {/* 房源特色 */}
+                        <ul className="flex gap-x-2">
+                          <li className="text-sans-body2 py-1 px-2 bg-Tenant-90 rounded-lg">
+                            可申請租屋補助
+                          </li>
+                          <li className="text-sans-body2 py-1 px-2 bg-Tenant-90 rounded-lg">
+                            寵物友善
+                          </li>
+                          <li className="text-sans-body2 py-1 px-2 bg-Tenant-90 rounded-lg">
+                            可開火
+                          </li>
+                          <li className="text-sans-body2 py-1 px-2 bg-Tenant-90 rounded-lg">
+                            可短租
+                          </li>
+                        </ul>
+                      </div>
+                      {/* 評分 */}
+                      <div className="absolute top-0 -right-[24%] flex self-start items-center gap-x-[10px] p-2 bg-Neutral-95 rounded-lg ">
+                        <span className="text-sans-body1">4.5</span>
+                        <img
+                          src={starIcon}
+                          alt="starIcon"
+                          className="w-4 h-4"
+                        />
+                      </div>
+                    </div>
+                    <div>
+                      <ul className="flex gap-x-2 mb-2">
+                        <li className="pr-2 border-r-[1px] border-r-Tenant-70">
+                          <span>獨立套房</span>
+                        </li>
+                        <li className="pr-2 border-r-[1px] border-r-Tenant-70">
+                          <span>1房1衛1廳 1陽台</span>
+                        </li>
+                        <li className="pr-2 border-r-[1px] border-r-Tenant-70">
+                          <span>15坪</span>
+                        </li>
+                        <li>
+                          <span>2/7樓</span>
+                        </li>
+                      </ul>
+                      <p className="mb-2">高雄市鼓山區美術東八街</p>
+                      <ul className="flex gap-x-2">
+                        <li className="pr-2 border-r-[1px] border-r-Tenant-70">
+                          <span>房東</span>
+                        </li>
+                        <li>
+                          <span>陳小姐</span>
+                        </li>
+                      </ul>
+                    </div>
+                    <div className="absolute bottom-0 -right-[24%]">
+                      <span className="before:block before:z-[0] before:absolute before:h-[10%] before:w-[64%] before:bg-[#bac6e6] before:bottom-[5%] before:left-0"></span>
+                      <span className="text-sans-b-h5 mr-2 relative">
+                        15,000
+                      </span>
+                      <span>元/月</span>
+                    </div>
+                  </div>
+                </li>
+                <li className="p-3 flex gap-x-4">
+                  <img
+                    src={housePicture}
+                    alt="housePicture"
+                    className="rounded-2xl"
+                  />
+                  <div className="relative flex flex-col justify-between">
+                    <div className="relative flex justify-between">
+                      <div>
+                        {/* 房源名稱 */}
+                        <h3 className="text-sans-b-h6 mb-3">
+                          輕奢小資套房 近輕軌醫院公園
+                        </h3>
+                        {/* 房源特色 */}
+                        <ul className="flex gap-x-2">
+                          <li className="text-sans-body2 py-1 px-2 bg-Tenant-90 rounded-lg">
+                            可申請租屋補助
+                          </li>
+                          <li className="text-sans-body2 py-1 px-2 bg-Tenant-90 rounded-lg">
+                            寵物友善
+                          </li>
+                          <li className="text-sans-body2 py-1 px-2 bg-Tenant-90 rounded-lg">
+                            可開火
+                          </li>
+                          <li className="text-sans-body2 py-1 px-2 bg-Tenant-90 rounded-lg">
+                            可短租
+                          </li>
+                        </ul>
+                      </div>
+                      {/* 評分 */}
+                      <div className="absolute top-0 -right-[24%] flex self-start items-center gap-x-[10px] p-2 bg-Neutral-95 rounded-lg ">
+                        <span className="text-sans-body1">4.5</span>
+                        <img
+                          src={starIcon}
+                          alt="starIcon"
+                          className="w-4 h-4"
+                        />
+                      </div>
+                    </div>
+                    <div>
+                      <ul className="flex gap-x-2 mb-2">
+                        <li className="pr-2 border-r-[1px] border-r-Tenant-70">
+                          <span>獨立套房</span>
+                        </li>
+                        <li className="pr-2 border-r-[1px] border-r-Tenant-70">
+                          <span>1房1衛1廳 1陽台</span>
+                        </li>
+                        <li className="pr-2 border-r-[1px] border-r-Tenant-70">
+                          <span>15坪</span>
+                        </li>
+                        <li>
+                          <span>2/7樓</span>
+                        </li>
+                      </ul>
+                      <p className="mb-2">高雄市鼓山區美術東八街</p>
+                      <ul className="flex gap-x-2">
+                        <li className="pr-2 border-r-[1px] border-r-Tenant-70">
+                          <span>房東</span>
+                        </li>
+                        <li>
+                          <span>陳小姐</span>
+                        </li>
+                      </ul>
+                    </div>
+                    <div className="absolute bottom-0 -right-[24%]">
+                      <span className="before:block before:z-[0] before:absolute before:h-[10%] before:w-[64%] before:bg-[#bac6e6] before:bottom-[5%] before:left-0"></span>
+                      <span className="text-sans-b-h5 mr-2 relative">
+                        15,000
+                      </span>
+                      <span>元/月</span>
+                    </div>
+                  </div>
+                </li>
+                <li className="p-3 flex gap-x-4">
+                  <img
+                    src={housePicture}
+                    alt="housePicture"
+                    className="rounded-2xl"
+                  />
+                  <div className="relative flex flex-col justify-between">
+                    <div className="relative flex justify-between">
+                      <div>
+                        {/* 房源名稱 */}
+                        <h3 className="text-sans-b-h6 mb-3">
+                          輕奢小資套房 近輕軌醫院公園
+                        </h3>
+                        {/* 房源特色 */}
+                        <ul className="flex gap-x-2">
+                          <li className="text-sans-body2 py-1 px-2 bg-Tenant-90 rounded-lg">
+                            可申請租屋補助
+                          </li>
+                          <li className="text-sans-body2 py-1 px-2 bg-Tenant-90 rounded-lg">
+                            寵物友善
+                          </li>
+                          <li className="text-sans-body2 py-1 px-2 bg-Tenant-90 rounded-lg">
+                            可開火
+                          </li>
+                          <li className="text-sans-body2 py-1 px-2 bg-Tenant-90 rounded-lg">
+                            可短租
+                          </li>
+                        </ul>
+                      </div>
+                      {/* 評分 */}
+                      <div className="absolute top-0 -right-[24%] flex self-start items-center gap-x-[10px] p-2 bg-Neutral-95 rounded-lg ">
+                        <span className="text-sans-body1">4.5</span>
+                        <img
+                          src={starIcon}
+                          alt="starIcon"
+                          className="w-4 h-4"
+                        />
+                      </div>
+                    </div>
+                    <div>
+                      <ul className="flex gap-x-2 mb-2">
+                        <li className="pr-2 border-r-[1px] border-r-Tenant-70">
+                          <span>獨立套房</span>
+                        </li>
+                        <li className="pr-2 border-r-[1px] border-r-Tenant-70">
+                          <span>1房1衛1廳 1陽台</span>
+                        </li>
+                        <li className="pr-2 border-r-[1px] border-r-Tenant-70">
+                          <span>15坪</span>
+                        </li>
+                        <li>
+                          <span>2/7樓</span>
+                        </li>
+                      </ul>
+                      <p className="mb-2">高雄市鼓山區美術東八街</p>
+                      <ul className="flex gap-x-2">
+                        <li className="pr-2 border-r-[1px] border-r-Tenant-70">
+                          <span>房東</span>
+                        </li>
+                        <li>
+                          <span>陳小姐</span>
+                        </li>
+                      </ul>
+                    </div>
+                    <div className="absolute bottom-0 -right-[24%]">
+                      <span className="before:block before:z-[0] before:absolute before:h-[10%] before:w-[64%] before:bg-[#bac6e6] before:bottom-[5%] before:left-0"></span>
+                      <span className="text-sans-b-h5 mr-2 relative">
+                        15,000
+                      </span>
+                      <span>元/月</span>
+                    </div>
+                  </div>
+                </li>
+                <li className="p-3 flex gap-x-4">
+                  <img
+                    src={housePicture}
+                    alt="housePicture"
+                    className="rounded-2xl"
+                  />
+                  <div className="relative flex flex-col justify-between">
+                    <div className="relative flex justify-between">
+                      <div>
+                        {/* 房源名稱 */}
+                        <h3 className="text-sans-b-h6 mb-3">
+                          輕奢小資套房 近輕軌醫院公園
+                        </h3>
+                        {/* 房源特色 */}
+                        <ul className="flex gap-x-2">
+                          <li className="text-sans-body2 py-1 px-2 bg-Tenant-90 rounded-lg">
+                            可申請租屋補助
+                          </li>
+                          <li className="text-sans-body2 py-1 px-2 bg-Tenant-90 rounded-lg">
+                            寵物友善
+                          </li>
+                          <li className="text-sans-body2 py-1 px-2 bg-Tenant-90 rounded-lg">
+                            可開火
+                          </li>
+                          <li className="text-sans-body2 py-1 px-2 bg-Tenant-90 rounded-lg">
+                            可短租
+                          </li>
+                        </ul>
+                      </div>
+                      {/* 評分 */}
+                      <div className="absolute top-0 -right-[24%] flex self-start items-center gap-x-[10px] p-2 bg-Neutral-95 rounded-lg ">
+                        <span className="text-sans-body1">4.5</span>
+                        <img
+                          src={starIcon}
+                          alt="starIcon"
+                          className="w-4 h-4"
+                        />
+                      </div>
+                    </div>
+                    <div>
+                      <ul className="flex gap-x-2 mb-2">
+                        <li className="pr-2 border-r-[1px] border-r-Tenant-70">
+                          <span>獨立套房</span>
+                        </li>
+                        <li className="pr-2 border-r-[1px] border-r-Tenant-70">
+                          <span>1房1衛1廳 1陽台</span>
+                        </li>
+                        <li className="pr-2 border-r-[1px] border-r-Tenant-70">
+                          <span>15坪</span>
+                        </li>
+                        <li>
+                          <span>2/7樓</span>
+                        </li>
+                      </ul>
+                      <p className="mb-2">高雄市鼓山區美術東八街</p>
+                      <ul className="flex gap-x-2">
+                        <li className="pr-2 border-r-[1px] border-r-Tenant-70">
+                          <span>房東</span>
+                        </li>
+                        <li>
+                          <span>陳小姐</span>
+                        </li>
+                      </ul>
+                    </div>
+                    <div className="absolute bottom-0 -right-[24%]">
+                      <span className="before:block before:z-[0] before:absolute before:h-[10%] before:w-[64%] before:bg-[#bac6e6] before:bottom-[5%] before:left-0"></span>
+                      <span className="text-sans-b-h5 mr-2 relative">
+                        15,000
+                      </span>
+                      <span>元/月</span>
+                    </div>
+                  </div>
+                </li>
+                <li className="p-3 flex gap-x-4">
+                  <img
+                    src={housePicture}
+                    alt="housePicture"
+                    className="rounded-2xl"
+                  />
+                  <div className="relative flex flex-col justify-between">
+                    <div className="relative flex justify-between">
+                      <div>
+                        {/* 房源名稱 */}
+                        <h3 className="text-sans-b-h6 mb-3">
+                          輕奢小資套房 近輕軌醫院公園
+                        </h3>
+                        {/* 房源特色 */}
+                        <ul className="flex gap-x-2">
+                          <li className="text-sans-body2 py-1 px-2 bg-Tenant-90 rounded-lg">
+                            可申請租屋補助
+                          </li>
+                          <li className="text-sans-body2 py-1 px-2 bg-Tenant-90 rounded-lg">
+                            寵物友善
+                          </li>
+                          <li className="text-sans-body2 py-1 px-2 bg-Tenant-90 rounded-lg">
+                            可開火
+                          </li>
+                          <li className="text-sans-body2 py-1 px-2 bg-Tenant-90 rounded-lg">
+                            可短租
+                          </li>
+                        </ul>
+                      </div>
+                      {/* 評分 */}
+                      <div className="absolute top-0 -right-[24%] flex self-start items-center gap-x-[10px] p-2 bg-Neutral-95 rounded-lg ">
+                        <span className="text-sans-body1">4.5</span>
+                        <img
+                          src={starIcon}
+                          alt="starIcon"
+                          className="w-4 h-4"
+                        />
+                      </div>
+                    </div>
+                    <div>
+                      <ul className="flex gap-x-2 mb-2">
+                        <li className="pr-2 border-r-[1px] border-r-Tenant-70">
+                          <span>獨立套房</span>
+                        </li>
+                        <li className="pr-2 border-r-[1px] border-r-Tenant-70">
+                          <span>1房1衛1廳 1陽台</span>
+                        </li>
+                        <li className="pr-2 border-r-[1px] border-r-Tenant-70">
+                          <span>15坪</span>
+                        </li>
+                        <li>
+                          <span>2/7樓</span>
+                        </li>
+                      </ul>
+                      <p className="mb-2">高雄市鼓山區美術東八街</p>
+                      <ul className="flex gap-x-2">
+                        <li className="pr-2 border-r-[1px] border-r-Tenant-70">
+                          <span>房東</span>
+                        </li>
+                        <li>
+                          <span>陳小姐</span>
+                        </li>
+                      </ul>
+                    </div>
+                    <div className="absolute bottom-0 -right-[24%]">
+                      <span className="before:block before:z-[0] before:absolute before:h-[10%] before:w-[64%] before:bg-[#bac6e6] before:bottom-[5%] before:left-0"></span>
+                      <span className="text-sans-b-h5 mr-2 relative">
+                        15,000
+                      </span>
+                      <span>元/月</span>
+                    </div>
+                  </div>
+                </li>
+                <li className="p-3 flex gap-x-4">
+                  <img
+                    src={housePicture}
+                    alt="housePicture"
+                    className="rounded-2xl"
+                  />
+                  <div className="relative flex flex-col justify-between">
+                    <div className="relative flex justify-between">
+                      <div>
+                        {/* 房源名稱 */}
+                        <h3 className="text-sans-b-h6 mb-3">
+                          輕奢小資套房 近輕軌醫院公園
+                        </h3>
+                        {/* 房源特色 */}
+                        <ul className="flex gap-x-2">
+                          <li className="text-sans-body2 py-1 px-2 bg-Tenant-90 rounded-lg">
+                            可申請租屋補助
+                          </li>
+                          <li className="text-sans-body2 py-1 px-2 bg-Tenant-90 rounded-lg">
+                            寵物友善
+                          </li>
+                          <li className="text-sans-body2 py-1 px-2 bg-Tenant-90 rounded-lg">
+                            可開火
+                          </li>
+                          <li className="text-sans-body2 py-1 px-2 bg-Tenant-90 rounded-lg">
+                            可短租
+                          </li>
+                        </ul>
+                      </div>
+                      {/* 評分 */}
+                      <div className="absolute top-0 -right-[24%] flex self-start items-center gap-x-[10px] p-2 bg-Neutral-95 rounded-lg ">
+                        <span className="text-sans-body1">4.5</span>
+                        <img
+                          src={starIcon}
+                          alt="starIcon"
+                          className="w-4 h-4"
+                        />
+                      </div>
+                    </div>
+                    <div>
+                      <ul className="flex gap-x-2 mb-2">
+                        <li className="pr-2 border-r-[1px] border-r-Tenant-70">
+                          <span>獨立套房</span>
+                        </li>
+                        <li className="pr-2 border-r-[1px] border-r-Tenant-70">
+                          <span>1房1衛1廳 1陽台</span>
+                        </li>
+                        <li className="pr-2 border-r-[1px] border-r-Tenant-70">
+                          <span>15坪</span>
+                        </li>
+                        <li>
+                          <span>2/7樓</span>
+                        </li>
+                      </ul>
+                      <p className="mb-2">高雄市鼓山區美術東八街</p>
+                      <ul className="flex gap-x-2">
+                        <li className="pr-2 border-r-[1px] border-r-Tenant-70">
+                          <span>房東</span>
+                        </li>
+                        <li>
+                          <span>陳小姐</span>
+                        </li>
+                      </ul>
+                    </div>
+                    <div className="absolute bottom-0 -right-[24%]">
+                      <span className="before:block before:z-[0] before:absolute before:h-[10%] before:w-[64%] before:bg-[#bac6e6] before:bottom-[5%] before:left-0"></span>
+                      <span className="text-sans-b-h5 mr-2 relative">
+                        15,000
+                      </span>
+                      <span>元/月</span>
+                    </div>
+                  </div>
+                </li>
+                <li className="p-3 flex gap-x-4">
+                  <img
+                    src={housePicture}
+                    alt="housePicture"
+                    className="rounded-2xl"
+                  />
+                  <div className="relative flex flex-col justify-between">
+                    <div className="relative flex justify-between">
+                      <div>
+                        {/* 房源名稱 */}
+                        <h3 className="text-sans-b-h6 mb-3">
+                          輕奢小資套房 近輕軌醫院公園
+                        </h3>
+                        {/* 房源特色 */}
+                        <ul className="flex gap-x-2">
+                          <li className="text-sans-body2 py-1 px-2 bg-Tenant-90 rounded-lg">
+                            可申請租屋補助
+                          </li>
+                          <li className="text-sans-body2 py-1 px-2 bg-Tenant-90 rounded-lg">
+                            寵物友善
+                          </li>
+                          <li className="text-sans-body2 py-1 px-2 bg-Tenant-90 rounded-lg">
+                            可開火
+                          </li>
+                          <li className="text-sans-body2 py-1 px-2 bg-Tenant-90 rounded-lg">
+                            可短租
+                          </li>
+                        </ul>
+                      </div>
+                      {/* 評分 */}
+                      <div className="absolute top-0 -right-[24%] flex self-start items-center gap-x-[10px] p-2 bg-Neutral-95 rounded-lg ">
+                        <span className="text-sans-body1">4.5</span>
+                        <img
+                          src={starIcon}
+                          alt="starIcon"
+                          className="w-4 h-4"
+                        />
+                      </div>
+                    </div>
+                    <div>
+                      <ul className="flex gap-x-2 mb-2">
+                        <li className="pr-2 border-r-[1px] border-r-Tenant-70">
+                          <span>獨立套房</span>
+                        </li>
+                        <li className="pr-2 border-r-[1px] border-r-Tenant-70">
+                          <span>1房1衛1廳 1陽台</span>
+                        </li>
+                        <li className="pr-2 border-r-[1px] border-r-Tenant-70">
+                          <span>15坪</span>
+                        </li>
+                        <li>
+                          <span>2/7樓</span>
+                        </li>
+                      </ul>
+                      <p className="mb-2">高雄市鼓山區美術東八街</p>
+                      <ul className="flex gap-x-2">
+                        <li className="pr-2 border-r-[1px] border-r-Tenant-70">
+                          <span>房東</span>
+                        </li>
+                        <li>
+                          <span>陳小姐</span>
+                        </li>
+                      </ul>
+                    </div>
+                    <div className="absolute bottom-0 -right-[24%]">
+                      <span className="before:block before:z-[0] before:absolute before:h-[10%] before:w-[64%] before:bg-[#bac6e6] before:bottom-[5%] before:left-0"></span>
+                      <span className="text-sans-b-h5 mr-2 relative">
+                        15,000
+                      </span>
+                      <span>元/月</span>
+                    </div>
+                  </div>
+                </li>
+                <li className="p-3 flex gap-x-4">
+                  <img
+                    src={housePicture}
+                    alt="housePicture"
+                    className="rounded-2xl"
+                  />
+                  <div className="relative flex flex-col justify-between">
+                    <div className="relative flex justify-between">
+                      <div>
+                        {/* 房源名稱 */}
+                        <h3 className="text-sans-b-h6 mb-3">
+                          輕奢小資套房 近輕軌醫院公園
+                        </h3>
+                        {/* 房源特色 */}
+                        <ul className="flex gap-x-2">
+                          <li className="text-sans-body2 py-1 px-2 bg-Tenant-90 rounded-lg">
+                            可申請租屋補助
+                          </li>
+                          <li className="text-sans-body2 py-1 px-2 bg-Tenant-90 rounded-lg">
+                            寵物友善
+                          </li>
+                          <li className="text-sans-body2 py-1 px-2 bg-Tenant-90 rounded-lg">
+                            可開火
+                          </li>
+                          <li className="text-sans-body2 py-1 px-2 bg-Tenant-90 rounded-lg">
+                            可短租
+                          </li>
+                        </ul>
+                      </div>
+                      {/* 評分 */}
+                      <div className="absolute top-0 -right-[24%] flex self-start items-center gap-x-[10px] p-2 bg-Neutral-95 rounded-lg ">
+                        <span className="text-sans-body1">4.5</span>
+                        <img
+                          src={starIcon}
+                          alt="starIcon"
+                          className="w-4 h-4"
+                        />
+                      </div>
+                    </div>
+                    <div>
+                      <ul className="flex gap-x-2 mb-2">
+                        <li className="pr-2 border-r-[1px] border-r-Tenant-70">
+                          <span>獨立套房</span>
+                        </li>
+                        <li className="pr-2 border-r-[1px] border-r-Tenant-70">
+                          <span>1房1衛1廳 1陽台</span>
+                        </li>
+                        <li className="pr-2 border-r-[1px] border-r-Tenant-70">
+                          <span>15坪</span>
+                        </li>
+                        <li>
+                          <span>2/7樓</span>
+                        </li>
+                      </ul>
+                      <p className="mb-2">高雄市鼓山區美術東八街</p>
+                      <ul className="flex gap-x-2">
+                        <li className="pr-2 border-r-[1px] border-r-Tenant-70">
+                          <span>房東</span>
+                        </li>
+                        <li>
+                          <span>陳小姐</span>
+                        </li>
+                      </ul>
+                    </div>
+                    <div className="absolute bottom-0 -right-[24%]">
+                      <span className="before:block before:z-[0] before:absolute before:h-[10%] before:w-[64%] before:bg-[#bac6e6] before:bottom-[5%] before:left-0"></span>
+                      <span className="text-sans-b-h5 mr-2 relative">
+                        15,000
+                      </span>
+                      <span>元/月</span>
                     </div>
                   </div>
                 </li>
               </ul>
-              <div className="flex justify-between mb-6 pb-3">
+              <div className="flex justify-between mt-2 pt-3 border-t border-Neutral-95">
                 <button type="button"></button>
                 <div>
                   <p className="text-sans-b-body2 text-center text-Brand-10 mb-2">
