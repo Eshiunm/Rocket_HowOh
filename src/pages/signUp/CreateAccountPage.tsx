@@ -13,11 +13,11 @@ function CreateAccountPage() {
   const currentStepState = useSelector(
     (store: RootState) => store.signUpStepState.currentStepState
   );
-  const identityState = useSelector(
-    (store: RootState) => store.identityState.identity
+  const registerIdentityState = useSelector(
+    (store: RootState) => store.registerIdentityState.identity
   );
   // console.log(currentStepState);
-  // console.log(identityState);
+  // console.log(registerIdentityState);
   /*
     使用者若按到重新載入，一律回到步驟一
   */
@@ -35,7 +35,7 @@ function CreateAccountPage() {
       {/* 註冊進度條 */}
       <div
         className={`pt-6 pb-[50px] ${
-          identityState === "tenant" ? "bg-Tenant-90" : "bg-Landlord-90"
+          registerIdentityState === "tenant" ? "bg-Tenant-90" : "bg-Landlord-90"
         } `}
       >
         <div className="container layout-grid">

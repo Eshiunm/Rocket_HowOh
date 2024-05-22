@@ -4,7 +4,7 @@ import districtSlice from "./searchForm/districtSlice";
 import houseTypeSlice from "./searchForm/houseTypeSlice";
 import rentRangeSlice from "./searchForm/rentRangeSlice";
 import stepSlice from "./signUp/stepSlice";
-import identityState from "./common/identitySlice";
+import registerIdentityState from "./common/registerIdentitySlice";
 import basicInformationSlice from "./post/basicInformationSlice";
 import photosSlice from "./post/photosSlice";
 import facilitiesSlice from "./post/facilitiesSlice";
@@ -20,7 +20,7 @@ const store = configureStore({
     houseType: houseTypeSlice,
     rentRange: rentRangeSlice,
     signUpStepState: stepSlice,
-    identityState: identityState,
+    registerIdentityState: registerIdentityState,
     basicInformationContent: basicInformationSlice,
     photosUpload: photosSlice,
     facilitiesContent: facilitiesSlice,

@@ -1,5 +1,6 @@
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
+import { setIdentityState } from "../../../../redux/common/registerIdentitySlice";
 import { setCurrentStepState } from "../../../../redux/signUp/stepSlice";
 import { setSignUpForm } from "../../../../redux/signUp/signupFormSlice";
 import { useNavigate } from "react-router-dom";
@@ -23,8 +24,8 @@ interface formDataType {
 function BasicInfoForm() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const identityState = useSelector(
-    (store: RootState) => store.identityState.identity
+  const registerIdentityState = useSelector(
+    (store: RootState) => store.registerIdentityState.identity
   );
   const phoneNumber = useSelector(
     (store: RootState) => store.signupForm.signUpFormData.telphone
@@ -90,7 +91,7 @@ function BasicInfoForm() {
     }
   };
 
-  //提交表單，打 API
+  //提交表單，打註冊 API
   const onSubmit = async (formData: formDataType) => {
     const signUpFormData = {
       firstName: formData.firstName, //名字
@@ -98,12 +99,12 @@ function BasicInfoForm() {
       email: formData.email, //信箱
       password: formData.password, //密碼
       telphone: phoneNumber, //手機
-      role: `${identityState === "landlord" ? "房東" : "租客"}`, //房東or租客
+      role: `${registerIdentityState === "landlord" ? "房東" : "租客"}`, //房東or租客
       gender: formData.gender, //男or女
       job: Number(formData.career), //職業 （參考下表）
       photo: "", //照片網址
       userIntro: `${
-        identityState === "landlord"
+        registerIdentityState === "landlord"
           ? `您好，我是房東${formData.lastName}${
               formData.gender === "男" ? "先生" : "小姐"
             }，希望能找到合適的租客！ `
@@ -120,8 +121,8 @@ function BasicInfoForm() {
     }
     dispatch(setSignUpForm(signUpFormData));
     try {
-      const response = await axios.post("http://98.70.102.116/api/signup",signUpFormData);
-      console.log(response);
+      await axios.post("http://98.70.102.116/api/signup", signUpFormData);
+      dispatch(setIdentityState(null));
       dispatch(setCurrentStepState(currentStepState + 1));
     } catch (errors) {
       console.log(errors);
