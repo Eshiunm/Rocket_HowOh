@@ -13,7 +13,9 @@ function CreateAccountPage() {
   const currentStepState = useSelector(
     (store: RootState) => store.signUpStepState.currentStepState
   );
-  // const identityState = useSelector(store => store.identityState.identity);
+  const identityState = useSelector(
+    (store: RootState) => store.identityState.identity
+  );
   // console.log(currentStepState);
   // console.log(identityState);
   /*
@@ -31,7 +33,11 @@ function CreateAccountPage() {
   return (
     <>
       {/* 註冊進度條 */}
-      <div className="pt-6 pb-[50px] bg-Tenant-90">
+      <div
+        className={`pt-6 pb-[50px] ${
+          identityState === "tenant" ? "bg-Tenant-90" : "bg-Landlord-90"
+        } `}
+      >
         <div className="container layout-grid">
           <div className="col-span-8 col-start-3">
             <ul className="flex justify-between items-center">
