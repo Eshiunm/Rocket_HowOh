@@ -4,6 +4,9 @@ import { setCurrentStepState } from "../../../../redux/signUp/stepSlice";
 import { useNavigate } from "react-router-dom";
 import { RootState } from "../../../../redux/store";
 import { setSignUpForm } from "../../../../redux/signUp/signupFormSlice";
+import axios from "axios";
+import { Spinner } from "flowbite-react";
+import { useState } from "react";
 
 interface formDataType {
   telphone: string;
@@ -12,6 +15,8 @@ interface formDataType {
 function EnterPhoneForm() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  // 是否正在打 API
+  const [posting, setPosting] = useState(false);
   const {
     handleSubmit,
     register,
@@ -29,9 +34,17 @@ function EnterPhoneForm() {
     navigate("/signUp");
   };
 
-  const onSubmit = (data: formDataType) => {
-    dispatch(setSignUpForm(data));
-    dispatch(setCurrentStepState(currentStepState + 1));
+  const onSubmit = async (data: formDataType) => {
+    setPosting(true);
+    try {
+      await axios.post("http://98.70.102.116/api/phoneNumberVerifi", data);
+      dispatch(setCurrentStepState(currentStepState + 1));
+      dispatch(setSignUpForm(data));
+    } catch (error) {
+      console.log(error);
+      alert("該手機號碼已註冊過");
+    }
+    setPosting(false);
   };
 
   return (
@@ -89,9 +102,20 @@ function EnterPhoneForm() {
                   ? "bg-Neutral-90 hover:bg-Neutral-90"
                   : ""
               }`}
-              disabled={Object.keys(errors).length > 0}
+              disabled={Object.keys(errors).length > 0 || posting}
             >
-              進行驗證
+              {posting ? (
+                <>
+                  <Spinner
+                    aria-label="Spinner button example"
+                    size="lg"
+                    className="mr-4"
+                  />
+                  驗證中請稍後...
+                </>
+              ) : (
+                "確認"
+              )}
             </button>
             <button className="p-2 text-sans-b-body1" onClick={cancelSignUp}>
               取消
