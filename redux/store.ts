@@ -1,10 +1,11 @@
-import { configureStore } from "@reduxjs/toolkit";
+import { configureStore, current } from "@reduxjs/toolkit";
 import inputSearchSlice from "./searchForm/inputSearchSlice";
 import districtSlice from "./searchForm/districtSlice";
 import houseTypeSlice from "./searchForm/houseTypeSlice";
 import rentRangeSlice from "./searchForm/rentRangeSlice";
 import stepSlice from "./signUp/stepSlice";
-import registerIdentityState from "./common/registerIdentitySlice";
+import registerIdentitySlice from "./common/registerIdentitySlice";
+import currentIdentitySlice from "./common/currentIdentitySlice";
 import basicInformationSlice from "./post/basicInformationSlice";
 import photosSlice from "./post/photosSlice";
 import facilitiesSlice from "./post/facilitiesSlice";
@@ -20,7 +21,8 @@ const store = configureStore({
     houseType: houseTypeSlice,
     rentRange: rentRangeSlice,
     signUpStepState: stepSlice,
-    registerIdentityState: registerIdentityState,
+    registerIdentityState: registerIdentitySlice,
+    currentIdentity: currentIdentitySlice,
     basicInformationContent: basicInformationSlice,
     photosUpload: photosSlice,
     facilitiesContent: facilitiesSlice,

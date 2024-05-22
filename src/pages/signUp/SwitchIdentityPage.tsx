@@ -2,14 +2,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import tenant_bgImg from "../../assets/imgs/signUp/signUp_tenant_bgImg.svg";
 import lendLord_bgImg from "../../assets/imgs/signUp/signUp_lendLord_bgImg.svg";
-import { setIdentityState } from "../../../redux/common/registerIdentitySlice";
+import { setRegisterIdentityState } from "../../../redux/common/registerIdentitySlice";
 import { setCurrentStepState } from "../../../redux/signUp/stepSlice";
 import { RootState } from "../../../redux/store";
 
 function SwitchIdentityPage() {
   const dispatch = useDispatch();
   const registerIdentityState = useSelector(
-    (store: RootState) => store.registerIdentityState.identity
+    (store: RootState) => store.registerIdentityState.registerIdentity
   );
   console.log(registerIdentityState);
   const navigate = useNavigate();
@@ -17,21 +17,21 @@ function SwitchIdentityPage() {
     e.stopPropagation();
     const targetId = (e.target as HTMLSpanElement)?.id; // 取得 id 屬性
     if (targetId && targetId.includes("tenant")) {
-      dispatch(setIdentityState("tenant"));
+      dispatch(setRegisterIdentityState("tenant"));
     } else {
-      dispatch(setIdentityState("landLord"));
+      dispatch(setRegisterIdentityState("landLord"));
     }
     navigate("/login");
   };
 
   const handleTenantSignUp = () => {
-    dispatch(setIdentityState("tenant"));
+    dispatch(setRegisterIdentityState("tenant"));
     dispatch(setCurrentStepState(1));
     navigate("/signUp/createAccount");
   };
 
   const handleLendLordSignUp = () => {
-    dispatch(setIdentityState("lendLord"));
+    dispatch(setRegisterIdentityState("landLord"));
     dispatch(setCurrentStepState(1));
     navigate("/signUp/createAccount");
   };

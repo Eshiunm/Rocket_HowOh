@@ -16,7 +16,10 @@ function App() {
         <Header />
         <Routes>
           <Route index element={<HomePage />}></Route>
-          <Route path="houseList" element={<HouseListPage />}></Route>
+          <Route path="houseList">
+            <Route index element={<HouseListPage />}></Route>
+            <Route path="a" element={<h1>你現在在單一房源頁面</h1>}></Route>
+          </Route>
           <Route path="signUp" element={<SwitchIdentityPage />}></Route>
           <Route
             path="signUp/createAccount"
@@ -24,7 +27,7 @@ function App() {
           ></Route>
           <Route path="login" element={<LoginPage />}></Route>
           <Route path="post" element={<AddNew />}></Route>
-          <Route path="landlord-management" element={<LandlordManagement />} >
+          <Route path="landlord-management" element={<LandlordManagement />}>
             <Route index element={<HouseList />} />
             <Route path="history" element={<h1>出租歷史</h1>} />
           </Route>

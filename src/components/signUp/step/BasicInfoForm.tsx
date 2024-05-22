@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import { setIdentityState } from "../../../../redux/common/registerIdentitySlice";
+import { setRegisterIdentityState } from "../../../../redux/common/registerIdentitySlice";
 import { setCurrentStepState } from "../../../../redux/signUp/stepSlice";
 import { setSignUpForm } from "../../../../redux/signUp/signupFormSlice";
 import { useNavigate } from "react-router-dom";
@@ -25,13 +25,13 @@ function BasicInfoForm() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const registerIdentityState = useSelector(
-    (store: RootState) => store.registerIdentityState.identity
+    (store: RootState) => store.registerIdentityState.registerIdentity
   );
   const phoneNumber = useSelector(
     (store: RootState) => store.signupForm.signUpFormData.telphone
   );
   // 是否正在打 API
-  const [posting, setPosting] = useState(false);
+  const [isPosting, setPosting] = useState(false);
   // 控制 modal 開關
   const [modalOpen, setModalOpen] = useState(false);
   // 設定大頭貼 srcUrl
@@ -99,7 +99,7 @@ function BasicInfoForm() {
       email: formData.email, //信箱
       password: formData.password, //密碼
       telphone: phoneNumber, //手機
-      role: `${registerIdentityState === "landlord" ? "房東" : "租客"}`, //房東or租客
+      role: `${registerIdentityState === "landLord" ? "房東" : "租客"}`, //房東or租客
       gender: formData.gender, //男or女
       job: Number(formData.career), //職業 （參考下表）
       photo: "", //照片網址
@@ -113,7 +113,8 @@ function BasicInfoForm() {
             }，希望能找到合適的房子！`
       }}`,
     };
-
+    console.log(registerIdentityState);
+    console.log(signUpFormData);
     setPosting(true);
     if (avatarUrl) {
       const imgUrl = await handleUploadImage();
@@ -121,8 +122,11 @@ function BasicInfoForm() {
     }
     dispatch(setSignUpForm(signUpFormData));
     try {
-      await axios.post("http://98.70.102.116/api/signup", signUpFormData);
-      dispatch(setIdentityState(null));
+      await axios.post(
+        "http://98.70.102.116/api/register/common/signup",
+        signUpFormData
+      );
+      dispatch(setRegisterIdentityState(null));
       dispatch(setCurrentStepState(currentStepState + 1));
     } catch (errors) {
       console.log(errors);
@@ -451,12 +455,12 @@ function BasicInfoForm() {
             <button
               type="submit"
               className={`filled-button-l w-full mb-3 ${
-                Object.keys(errors).length > 0 || posting
+                Object.keys(errors).length > 0 || isPosting
                   ? "bg-Neutral-90 hover:bg-Neutral-90"
                   : ""
               }`}
             >
-              {posting ? (
+              {isPosting ? (
                 <>
                   <Spinner
                     aria-label="Spinner button example"

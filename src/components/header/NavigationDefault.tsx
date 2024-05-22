@@ -1,17 +1,17 @@
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { setIdentityState } from "../../../redux/common/registerIdentitySlice";
+import { setRegisterIdentityState } from "../../../redux/common/registerIdentitySlice";
 
 function NavigationDefault() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const directToLandLordLogin = () => {
     navigate("/login");
-    dispatch(setIdentityState("landLord"));
+    dispatch(setRegisterIdentityState("landLord"));
   };
   const directToTenantLogin = () => {
     navigate("/login");
-    dispatch(setIdentityState("tenant"));
+    dispatch(setRegisterIdentityState("tenant"));
   };
   const directToCreateAccount = () => {
     navigate("/signUp");
