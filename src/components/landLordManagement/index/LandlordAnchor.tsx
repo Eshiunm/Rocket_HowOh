@@ -1,10 +1,31 @@
 import anchorHouse from "../../../assets/imgs/landlord-management/AnchorHouse.svg";
 
-export default function LandlordAnchor() {
+export default function LandlordAnchor({targetRef}) {
+  const goPublishList = () => {
+    window.scrollTo({
+      top: targetRef.publishList.current.offsetTop - 100,
+      behavior: "smooth",
+    })
+  }
+  const goRentedList = () => {
+    window.scrollTo({
+      top: targetRef.rentedList.current.offsetTop - 100,
+      behavior: "smooth",
+    })
+  }
+  const goFinishedList = () => {
+    window.scrollTo({
+      top: targetRef.finishedList.current.offsetTop - 100,
+      behavior: "smooth",
+    })
+  }
+
   return (
     <section className="pb-6 border-b border-Neutral-95">
       <ul className="layout-grid">
-        <li className="group relative overflow-hidden col-span-3 text-white rounded-xl p-3 bg-Alert-70">
+        <li className="cursor-pointer group relative overflow-hidden col-span-3 text-white rounded-xl p-3 bg-Alert-70"
+          onClick={goPublishList}
+        >
           <img
             src={anchorHouse}
             alt="anchor-house"
@@ -17,7 +38,9 @@ export default function LandlordAnchor() {
             <span className="material-symbols-outlined">chevron_right</span>
           </button>
         </li>
-        <li className="group relative overflow-hidden col-span-3 text-white rounded-xl p-3 bg-Landlord-60">
+        <li className="cursor-pointer group relative overflow-hidden col-span-3 text-white rounded-xl p-3 bg-Landlord-60"
+          onClick={goRentedList}
+        >
           <img
             src={anchorHouse}
             alt="anchor-house"
@@ -30,7 +53,9 @@ export default function LandlordAnchor() {
             <span className="material-symbols-outlined">chevron_right</span>
           </button>
         </li>
-        <li className="group relative overflow-hidden col-span-3 text-white rounded-xl p-3 bg-Tenant-50">
+        <li className="cursor-pointer group relative overflow-hidden col-span-3 text-white rounded-xl p-3 bg-Tenant-50"
+          onClick={goFinishedList}
+        >
           <img
             src={anchorHouse}
             alt="anchor-house"
@@ -43,7 +68,7 @@ export default function LandlordAnchor() {
             <span className="material-symbols-outlined">chevron_right</span>
           </button>
         </li>
-        <li className="group relative overflow-hidden col-span-3 text-white rounded-xl p-3 bg-Neutral-50">
+        <li className="cursor-pointer group relative overflow-hidden col-span-3 text-white rounded-xl p-3 bg-Neutral-50">
           <img
             src={anchorHouse}
             alt="anchor-house"
