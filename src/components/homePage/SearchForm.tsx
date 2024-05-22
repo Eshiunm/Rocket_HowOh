@@ -1,6 +1,7 @@
 import { useState, useEffect, ChangeEvent } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { changeContent } from "../../../redux/searchForm/inputSearchSlice";
 import {
   setDistrictNoLimitState,
@@ -36,6 +37,7 @@ interface RentRange {
 
 function SearchForm() {
   const { handleSubmit } = useForm();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const searchContent = useSelector(
     (store: RootState) => store.inputSearch.textContent
@@ -292,7 +294,9 @@ function SearchForm() {
       dispatch(setRentRangeItemsState(newRentRangeState.rentRanges));
     }
   };
-  const onSubmit = () => {};
+  const onSubmit = () => {
+    navigate("/houseList");
+  };
   return (
     <>
       <form
