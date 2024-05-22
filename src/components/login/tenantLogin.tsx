@@ -6,10 +6,15 @@ import axios from "axios";
 import { useState } from "react";
 import { Spinner } from "flowbite-react";
 
+interface formDataType {
+  telphone: string;
+  password: string;
+}
+
 function TenantLogin() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { handleSubmit, register } = useForm();
+  const { handleSubmit, register } = useForm<formDataType>();
   // 是否正在打 API
   const [posting, setPosting] = useState(false);
 
@@ -18,20 +23,20 @@ function TenantLogin() {
     navigate("/signUp/createAccount");
   };
 
-  // const onSubmit = async formData => {
-  //   setPosting(true);
-  //   try {
-  //     const resopnse = await axios.post(
-  //       "http://98.70.102.116/api/login",
-  //       formData
-  //     );
-  //     alert(resopnse.data.message);
-  //     navigate("/");
-  //   } catch (errors) {
-  //     console.log(errors);
-  //   }
-  //   setPosting(false);
-  // };
+  const onSubmit = async (formData :formDataType) => {
+    setPosting(true);
+    try {
+      const resopnse = await axios.post(
+        "http://98.70.102.116/api/login",
+        formData
+      );
+      alert(resopnse.data.message);
+      navigate("/");
+    } catch (errors) {
+      console.log(errors);
+    }
+    setPosting(false);
+  };
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
