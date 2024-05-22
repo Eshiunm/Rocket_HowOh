@@ -1,4 +1,4 @@
-import { configureStore, current } from "@reduxjs/toolkit";
+import { configureStore} from "@reduxjs/toolkit";
 import inputSearchSlice from "./searchForm/inputSearchSlice";
 import districtSlice from "./searchForm/districtSlice";
 import houseTypeSlice from "./searchForm/houseTypeSlice";
