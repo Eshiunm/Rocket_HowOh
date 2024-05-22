@@ -27,13 +27,13 @@ function SwitchIdentityPage() {
   const handleTenantSignUp = () => {
     dispatch(setRegisterIdentityState("tenant"));
     dispatch(setCurrentStepState(1));
-    navigate("/signUp/createAccount");
+    navigate("/signup/createAccount");
   };
 
   const handleLendLordSignUp = () => {
     dispatch(setRegisterIdentityState("landLord"));
     dispatch(setCurrentStepState(1));
-    navigate("/signUp/createAccount");
+    navigate("/signup/createAccount");
   };
 
   return (

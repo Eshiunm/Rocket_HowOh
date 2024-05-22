@@ -33,7 +33,7 @@ function EnterPhoneForm() {
 
   const cancelSignUp = () => {
     dispatch(setCurrentStepState(0));
-    navigate("/signUp");
+    navigate("/signup");
   };
 
   const onSubmit = async (data: formDataType) => {

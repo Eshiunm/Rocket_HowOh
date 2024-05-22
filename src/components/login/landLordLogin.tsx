@@ -35,7 +35,7 @@ function LandLordLogin() {
   };
   const turnToSignUp = () => {
     dispatch(setRegisterIdentityState("landLord"));
-    navigate("/signUp/createAccount");
+    navigate("/signup/createAccount");
   };
 
   const onSubmit = async (formData: formDataType) => {

@@ -35,7 +35,7 @@ function TenantLogin() {
   };
   const turnToSignUp = () => {
     dispatch(setRegisterIdentityState("tenant"));
-    navigate("/signUp/createAccount");
+    navigate("/signup/createAccount");
   };
 
   const onSubmit = async (formData: formDataType) => {

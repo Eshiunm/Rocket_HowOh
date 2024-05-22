@@ -7,7 +7,7 @@ function CreateCompleted() {
   const dispatch = useDispatch();
   const handleLogin = () => {
     dispatch(setCurrentStepState(0));
-    navigate("/signUp");
+    navigate("/signup");
   };
   return (
     <div className="wrap h-screen bg-Neutral-99 pt-[60px]">

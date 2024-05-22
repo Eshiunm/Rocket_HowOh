@@ -14,7 +14,7 @@ function NavigationDefault() {
     dispatch(setRegisterIdentityState("tenant"));
   };
   const directToCreateAccount = () => {
-    navigate("/signUp");
+    navigate("/signup");
   };
   return (
     <ul className="flex gap-6">
