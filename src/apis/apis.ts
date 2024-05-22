@@ -47,7 +47,7 @@ export const apiHouseLandlordContract = () => houseRequest.get('/landlord/contra
 export const apiHouseLandlordSingleContract = (id: string) => houseRequest.post(`/landlord/contract/${id}`); // ALO-7
 export const apiHouseLandlordChangeStatus = (id: string) => houseRequest.patch(`/landlord/status/${id}`); // ALO-6
 export const apiHouseLandlordAddTenant = (data: any) => houseRequest.post('/landlord/userinfo', data); // ALO-5
-export const apiHouseLandlordPostImg = (data: any) => houseRequest.post(`/landlord/img/${id}`, data); // ALO-4
+export const apiHouseLandlordPostImg = (data: any, id: string) => houseRequest.post(`/landlord/img/${id}`, data); // ALO-4
 export const apiHouseLandlordSingleInfo = (id: string) => houseRequest.get(`/landlord/info/${id}`); // ALO-15、ALO-14、ALO-13、ALO-12
 export const apiHouseLandlordPostDelete = (id: string) => houseRequest.delete(`/landlord/${id}`); // ALO-11
 export const apiHouseLandlordUnratedCount = () => houseRequest.get('/landlord/count/unrated'); // ALO-10
