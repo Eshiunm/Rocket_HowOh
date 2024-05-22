@@ -43,7 +43,8 @@ function SearchForm() {
   const districtState = useSelector((store: RootState) => store.district);
   const houseTypeState = useSelector((store: RootState) => store.houseType);
   const rentRangeState = useSelector((store: RootState) => store.rentRange);
-  const [isSearchInputFocused, setIsSearchInputFocused] = useState(false); // 記錄搜尋框是否被 focused
+  const [isCityDropdownFocused, setIsCityDropdownFocused] = useState(false); // 偵測縣市的Dropdown是否被 focused
+  const [isSearchInputFocused, setIsSearchInputFocused] = useState(false); // 偵測搜尋框是否被 focused
   /* 初始化表單內所有的checkbox元素狀態 */
   useEffect(() => {
     const newDistricts = kaohsiungDistricts.map(item => {
@@ -115,7 +116,9 @@ function SearchForm() {
       let newDistrictState = {
         ...districtState,
         districts: districtState.districts.map((item: District) => {
-          if ((item as { content?: string }).content === districtCheckboxDOM.name) {
+          if (
+            (item as { content?: string }).content === districtCheckboxDOM.name
+          ) {
             return {
               ...item,
               checked: !(item as { checked?: boolean }).checked, // 改變剛剛按下的 checkbox 勾選狀態， true 改 false、false 改 true
@@ -297,28 +300,103 @@ function SearchForm() {
         className="bg-white rounded-[20px] p-8"
       >
         {/* drowdown & search */}
-        <div className="flex gap-6 mb-6">
+        <div className="flex gap-x-6 mb-6 ">
           {/* dropdown component */}
-          <div className="relative w-60">
-            <span className="absolute text-sans-caption text-black top-[-10px] z-1 bg-white px-[2px] start-3">
-              縣市
-            </span>
-            <div
-              tabIndex={0} // 新增這個屬性可獲得 focus 焦點
-              className="flex justify-between h-12 p-3 bg-transparent rounded-[4px] border border-black appearance-none focus:outline-none focus:ring-0 focus:border-Brand-30"
+          <div
+            tabIndex={0}
+            className={`relative flex items-center w-60 border p-3  rounded-[4px] ${
+              isCityDropdownFocused
+                ? "border-Brand-30 border-2 m-[-1px]"
+                : "border-black"
+            }`}
+          >
+            <input
+              type="text"
+              id="cityDropdown"
+              className={`block w-full p-0 pl-1 text-black bg-transparent border-none appearance-none focus:ring-0 peer cursor-pointer ${
+                isCityDropdownFocused ? "caret-transparent" : ""
+              }`}
+              placeholder=""
+              onFocus={() => setIsCityDropdownFocused(true)}
+              onBlur={() => setIsCityDropdownFocused(false)}
+              onChange={setSearchContent}
+            />
+            <label
+              htmlFor="cityDropdown"
+              className="absolute text-sans-body1 text-black duration-200 transform -translate-y-4 scale-75 top-[3px] z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-Brand-30 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-[3px] peer-focus:scale-75 peer-focus:-translate-y-4 start-3"
             >
-              <span className="text-black">高雄市</span>
-              <img
-                src={dropdownIcon}
-                className="scale-[.8]"
-                alt="dropdownIcon"
-              />
-            </div>
+              縣市
+            </label>
+            <label htmlFor="cityDropdown" className="cursor-pointer">
+              <img src={dropdownIcon} className="w-4 h-4" alt="dropdownIcon" />
+            </label>
+
+            {isCityDropdownFocused && (
+              //這個區塊會顯示在上層，不會跟其他元素同層 
+              <div className="absolute top-[120%] w-[280%] p-5 bg-Neutral-99 rounded-xl shadow-elevation-3">
+                <ul>
+                  <li className="flex mb-3">
+                    <span className="mr-6 text-sans-b-body1 text-Brand-40">
+                      北部
+                    </span>
+                    <div className="flex gap-x-[14px]">
+                      <button className="border-b border-black hover:text-Neutral-50 hover:border-Neutral-50">
+                        台北市
+                      </button>
+                      <button className="border-b border-black">新北市</button>
+                      <button className="border-b border-black">桃園市</button>
+                      <button className="border-b border-black">新竹市</button>
+                      <button className="border-b border-black">新竹縣</button>
+                      <button className="border-b border-black">宜蘭市</button>
+                      <button className="border-b border-black">基隆市</button>
+                    </div>
+                  </li>
+                  <li className="flex mb-3">
+                    <span className="mr-6 text-sans-b-body1 text-Brand-40">
+                      中部
+                    </span>
+                    <div className="flex gap-x-[14px]">
+                      <button className="border-b border-black hover:text-Neutral-50">
+                        台中市
+                      </button>
+                      <button className="border-b border-black">彰化縣</button>
+                      <button className="border-b border-black">雲林縣</button>
+                      <button className="border-b border-black">苗栗縣</button>
+                      <button className="border-b border-black">南投縣</button>
+                    </div>
+                  </li>
+                  <li className="flex mb-3">
+                    <span className="mr-6 text-sans-b-body1 text-Brand-40">
+                      南部
+                    </span>
+                    <div className="flex gap-x-[14px]">
+                      <button className="border-b border-black">高雄市</button>
+                      <button className="border-b border-black">台南縣</button>
+                      <button className="border-b border-black">嘉義縣</button>
+                      <button className="border-b border-black">屏東縣</button>
+                    </div>
+                  </li>
+                  <li className="flex">
+                    <span className="mr-6 text-sans-b-body1 text-Brand-40">
+                      東部
+                    </span>
+                    <div className="flex gap-x-[14px]">
+                      <button className="border-b border-black">台東市</button>
+                      <button className="border-b border-black">花蓮縣</button>
+                      <button className="border-b border-black">澎湖縣</button>
+                      <button className="border-b border-black">金門縣</button>
+                      <button className="border-b border-black">連江縣</button>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            )}
           </div>
+
           {/* search component */}
           <div
             tabIndex={0}
-            className={`relative flex w-full border p-3  rounded-[4px] ${
+            className={`relative flex items-center w-full border p-3 rounded-[4px] ${
               isSearchInputFocused
                 ? "border-Brand-30 border-2 m-[-1px]"
                 : "border-black"
@@ -326,7 +404,7 @@ function SearchForm() {
           >
             <input
               type="text"
-              id="floating_outlined"
+              id="searchInput"
               className="block w-full p-0 pl-1 text-black bg-transparent border-none appearance-none focus:ring-0 peer"
               placeholder=""
               defaultValue={searchContent}
@@ -335,12 +413,12 @@ function SearchForm() {
               onChange={setSearchContent}
             />
             <label
-              htmlFor="floating_outlined"
+              htmlFor="searchInput"
               className="absolute text-sans-body1 text-black duration-200 transform -translate-y-4 scale-75 top-[3px] z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-Brand-30 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-[3px] peer-focus:scale-75 peer-focus:-translate-y-4 start-3"
             >
               搜尋
             </label>
-            <img src={searchIcon} alt="searchIcon" />
+            <img src={searchIcon} className="w-4 h-4" alt="searchIcon" />
           </div>
         </div>
 
