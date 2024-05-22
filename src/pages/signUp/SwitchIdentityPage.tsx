@@ -2,16 +2,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import tenant_bgImg from "../../assets/imgs/signUp/signUp_tenant_bgImg.svg";
 import lendLord_bgImg from "../../assets/imgs/signUp/signUp_lendLord_bgImg.svg";
-import { setIdentityState } from "../../../redux/common/identitySlice";
+import { setIdentityState } from "../../../redux/common/registerIdentitySlice";
 import { setCurrentStepState } from "../../../redux/signUp/stepSlice";
 import { RootState } from "../../../redux/store";
 
 function SwitchIdentityPage() {
   const dispatch = useDispatch();
-  const identityState = useSelector(
-    (store: RootState) => store.identityState.identity
+  const registerIdentityState = useSelector(
+    (store: RootState) => store.registerIdentityState.identity
   );
-  console.log(identityState);
+  console.log(registerIdentityState);
   const navigate = useNavigate();
   const handleLogin = (e: React.MouseEvent) => {
     e.stopPropagation();

@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { setIdentityState } from "../../../redux/common/identitySlice";
+import { setIdentityState } from "../../../redux/common/registerIdentitySlice";
 function LandLordLogin() {
   const navigate = useNavigate();
   const dispatch = useDispatch();

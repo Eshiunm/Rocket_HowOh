@@ -1,5 +1,4 @@
 import flow_bite from "flowbite-react/tailwind";
-import homeSearchImgUrl from "./src/assets/imgs/homePage/home_search_backgroundImg.png";
 
 /** @type {import('tailwindcss').Config} */
 export default {

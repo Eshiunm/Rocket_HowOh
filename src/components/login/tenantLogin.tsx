@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { setIdentityState } from "../../../redux/common/identitySlice";
+import { setIdentityState } from "../../../redux/common/registerIdentitySlice";
 import axios from "axios";
 import { useState } from "react";
 import { Spinner } from "flowbite-react";
@@ -23,7 +23,7 @@ function TenantLogin() {
     navigate("/signUp/createAccount");
   };
 
-  const onSubmit = async (formData :formDataType) => {
+  const onSubmit = async (formData: formDataType) => {
     setPosting(true);
     try {
       const resopnse = await axios.post(
