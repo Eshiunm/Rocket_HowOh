@@ -90,6 +90,7 @@ function BasicInfoForm() {
     }
   };
 
+  //提交表單，打 API
   const onSubmit = async (formData: formDataType) => {
     const signUpFormData = {
       firstName: formData.firstName, //名字
@@ -119,7 +120,8 @@ function BasicInfoForm() {
     }
     dispatch(setSignUpForm(signUpFormData));
     try {
-      await axios.post("http://98.70.102.116/api/signup", signUpFormData);
+      const response = await axios.post("http://98.70.102.116/api/signup",signUpFormData);
+      console.log(response);
       dispatch(setCurrentStepState(currentStepState + 1));
     } catch (errors) {
       console.log(errors);
