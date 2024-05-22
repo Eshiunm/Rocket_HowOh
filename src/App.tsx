@@ -20,9 +20,9 @@ function App() {
             <Route index element={<HouseListPage />}></Route>
             <Route path="a" element={<h1>你現在在單一房源頁面</h1>}></Route>
           </Route>
-          <Route path="signUp" element={<SwitchIdentityPage />}></Route>
+          <Route path="signup" element={<SwitchIdentityPage />}></Route>
           <Route
-            path="signUp/createAccount"
+            path="signup/createAccount"
             element={<CreateAccountPage />}
           ></Route>
           <Route path="login" element={<LoginPage />}></Route>

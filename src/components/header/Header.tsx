@@ -8,7 +8,7 @@ function Header() {
   const location = useLocation();
   const [isLogin, setIsLogin] = useState(false);
   const [currentIdentity, setCurrentIdentity] = useState("");
-  const isSignupPage = location.pathname.includes("/signUp");
+  const isSignupPage = location.pathname.includes("/signup");
   const isLoginPage = location.pathname.includes("/login");
 
   useEffect(() => {
