@@ -276,18 +276,30 @@ export default function HouseDatas({houseDatas}: {houseDatas: houseDatasType}) {
       </section>
       <section className="bg-Landlord-99 p-5 rounded-lg mb-5">
         <h3 className="add-new-title">費用</h3>
-        <div className="layout-grid mb-10">
-          <h4 className="col-span-12 text-sans-b-h6">房租與押金</h4>
-          <div className="col-span-6">
-            <h5 className="col-span-12 text-sans-b-body1 text-Landlord-40">房租</h5>
+        <div className={`layout-grid gap-y-3 mb-10 ${
+            gridSpanWide ? "grid-cols-12" : "grid-cols-7"
+        }`}>
+          <h4 className={`text-sans-b-h6 mb-3 ${
+            gridSpanWide ? "col-span-12" : "col-span-7"
+          }`}>房租與押金</h4>
+          <div className={`${
+            gridSpanWide ? "col-span-6" : "col-span-4"
+          }`}>
+            <h5 className="text-sans-b-body1 text-Landlord-40">房租</h5>
             <div className="flex items-center gap-2">
               <p className="confirm-data flex-1">{ expenses.rent || "\u00A0" }</p>
               <span className="shrink-0">元/月</span>
             </div>
           </div>
-          <h5 className="col-span-12 text-sans-b-body1 text-Landlord-40">押金</h5>
-          <fieldset className="col-span-12 layout-grid">
-            <label htmlFor="oneMonth" className="col-span-3 flex items-center gap-2">
+          <h5 className={`text-sans-b-body1 text-Landlord-40 ${
+            gridSpanWide ? "col-span-12" : "col-span-7"
+          }`}>押金</h5>
+          <fieldset className={`layout-grid ${
+            gridSpanWide ? "col-span-12 grid-cols-12" : "col-span-7 grid-cols-7"
+          }`}>
+            <label htmlFor="oneMonth" className={`flex items-center gap-2 ${
+              gridSpanWide ? "col-span-3" : "col-span-2"
+            }`}>
               <input
                 disabled
                 type="radio"
@@ -298,7 +310,9 @@ export default function HouseDatas({houseDatas}: {houseDatas: houseDatasType}) {
               />
               <span>1個月</span>
             </label>
-            <label htmlFor="twoMonth" className="col-span-3 flex items-center gap-2">
+            <label htmlFor="twoMonth" className={`flex items-center gap-2 ${
+              gridSpanWide ? "col-span-3" : "col-span-2"
+            }`}>
               <input
                 disabled
                 type="radio"
@@ -311,13 +325,23 @@ export default function HouseDatas({houseDatas}: {houseDatas: houseDatasType}) {
             </label>
           </fieldset>
         </div>
-        <div className="layout-grid gap-y-3 mb-10">
-          <h4 className="col-span-12 text-sans-b-h6 mb-6">雜支</h4>
-          <h5 className="col-span-12 text-sans-b-body1 text-Landlord-40">水費</h5>
-          <fieldset className="col-span-12 layout-grid">
+        <div className={`layout-grid gap-y-3 mb-10 ${
+            gridSpanWide ? "grid-cols-12" : "grid-cols-7"
+        }`}>
+          <h4 className={`text-sans-b-h6 mb-6 ${
+            gridSpanWide ? "col-span-12" : "col-span-7"
+          }`}>雜支</h4>
+          <h5 className={`text-sans-b-body1 text-Landlord-40 ${
+            gridSpanWide ? "col-span-12" : "col-span-7"
+          }`}>水費</h5>
+          <fieldset className={`layout-grid ${
+            gridSpanWide ? "col-span-12 grid-cols-12" : "col-span-7 grid-cols-7"
+          }`}>
             {
               waterBill.map(({id, title, value}) => (
-                <label key={id} className="col-span-3">
+                <label key={id} className={`${
+                  gridSpanWide ? "col-span-3" : "col-span-2"
+                }`}>
                   <div className="flex items-center gap-2">
                     <input
                       disabled
@@ -340,11 +364,17 @@ export default function HouseDatas({houseDatas}: {houseDatas: houseDatasType}) {
               ))
             }
           </fieldset>
-          <h5 className="col-span-12 text-sans-b-body1 text-Landlord-40 mt-3">電費</h5>
-          <fieldset className="col-span-12 layout-grid">
+          <h5 className={`text-sans-b-body1 text-Landlord-40 ${
+            gridSpanWide ? "col-span-12" : "col-span-7"
+          }`}>電費</h5>
+          <fieldset className={`layout-grid ${
+            gridSpanWide ? "col-span-12 grid-cols-12" : "col-span-7 grid-cols-7"
+          }`}>
             {
               electricBill.map(({id, title, value}) => (
-                <label key={id} className="col-span-3">
+                <label key={id} className={`${
+                  gridSpanWide ? "col-span-3" : "col-span-2"
+                }`}>
                   <div className="flex items-center gap-2">
                     <input
                       disabled
@@ -370,9 +400,15 @@ export default function HouseDatas({houseDatas}: {houseDatas: houseDatasType}) {
           {
             expenses.electricBill === "依台電計價" && (
               <>
-                <h6 className="col-span-12 text-sans-body2 mt-[1px]">繳納方式</h6>
-                <fieldset className="col-span-12 layout-grid">
-                  <label htmlFor="electricInRent" className="col-span-3 flex items-center gap-2">
+                <h6 className={`text-sans-body2 mt-[1px] ${
+                  gridSpanWide ? "col-span-12" : "col-span-7"
+                }`}>繳納方式</h6>
+                <fieldset className={`layout-grid ${
+                  gridSpanWide ? "col-span-12 grid-cols-12" : "col-span-7 grid-cols-7"
+                }`}>
+                  <label htmlFor="electricInRent" className={`flex items-center gap-2 ${
+                    gridSpanWide ? "col-span-3" : "col-span-2"
+                  }`}>
                     <input
                       disabled
                       type="radio"
@@ -383,7 +419,9 @@ export default function HouseDatas({houseDatas}: {houseDatas: houseDatasType}) {
                     />
                     <span className="text-sans-body1">隨房租繳納</span>
                   </label>
-                  <label htmlFor="electricPaySelf" className="col-span-3 flex items-center gap-2">
+                  <label htmlFor="electricPaySelf"className={`flex items-center gap-2 ${
+                    gridSpanWide ? "col-span-3" : "col-span-2"
+                  }`}>
                     <input
                       disabled
                       type="radio"
@@ -398,11 +436,17 @@ export default function HouseDatas({houseDatas}: {houseDatas: houseDatasType}) {
               </>
             )
           }
-          <h5 className="col-span-12 text-sans-b-body1 text-Landlord-40 mt-3">管理費</h5>
-          <fieldset className="col-span-12 layout-grid">
+          <h5 className={`text-sans-b-body1 text-Landlord-40 mt-3 ${
+            gridSpanWide ? "col-span-12" : "col-span-7"
+          }`}>管理費</h5>
+          <fieldset className={`layout-grid ${
+            gridSpanWide ? "col-span-12 grid-cols-12" : "col-span-7 grid-cols-7"
+          }`}>
             {
               managementFee.map(({id, title, value}) => (
-                <label key={id} htmlFor={id} className="col-span-3">
+                <label key={id} htmlFor={id} className={`${
+                  gridSpanWide ? "col-span-3" : "col-span-2"
+                }`}>
                   <div className="flex items-center gap-2">
                     <input
                       disabled
