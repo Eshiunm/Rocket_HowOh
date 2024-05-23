@@ -130,16 +130,13 @@ export default function Confirm() {
         <ul className="layout-grid">
           {
             photos.map(({path,isCover}, index) => (
-              <li key={"photo-" + index} className="col-span-3 flex flex-col items-start gap-3">
-                <img src={path} className="rounded-xl" alt={`房源照片-${index+1}`} />
-                <button
-                  type="button"
-                  className={`cursor-default text-sans-b-body1 px-4 py-1 rounded-3xl border border-Neutral-50 bg-Neutral-50 text-white ${
-                    isCover ? "" : "invisible"
-                  }`}
+              <li key={"photo-" + index} className="h-48 rounded-xl overflow-hidden relative col-span-3 flex flex-col items-start gap-3">
+                <img src={path} className="w-full h-full object-cover" alt={`房源照片-${index+1}`} />
+                <span
+                  className={isCover ? "absolute top-0 left-0 text-sans-b-body1 bg-Landlord-50 text-white rounded-tl-lg rounded-br-lg px-4 py-1" : "invisible"}
                 >
                   首圖
-                </button>
+                </span>
               </li>
             ))
           }
