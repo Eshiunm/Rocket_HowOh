@@ -137,11 +137,15 @@ export default function HouseDatas({houseDatas}: {houseDatas: houseDatasType}) {
             photos.map(({path,isCover}: photosDataType, index: number) => (
               <li key={"photo-" + index} className="h-48 rounded-xl overflow-hidden relative col-span-3 flex flex-col items-start gap-3">
                 <img src={path} className="w-full h-full object-cover" alt={`房源照片-${index+1}`} />
-                <span
-                  className={isCover ? "absolute top-0 left-0 text-sans-b-body1 bg-Landlord-50 text-white rounded-tl-lg rounded-br-lg px-4 py-1" : "invisible"}
-                >
-                  首圖
-                </span>
+                {
+                  isCover && (
+                    <span
+                      className="absolute top-0 left-0 text-sans-b-body1 bg-Landlord-50 text-white rounded-tl-lg rounded-br-lg px-4 py-1"
+                    >
+                      首圖
+                    </span>
+                  )
+                }
               </li>
             ))
           }

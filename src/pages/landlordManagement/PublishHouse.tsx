@@ -4,12 +4,71 @@ import Footer from "../../components/footer/Footer";
 export default function PublishHouse() {
 
   const houseDatas = {
-    formData:{},
-    photos:[],
-    facilities:{},
-    expenses:{},
-    introduction:"",
-    restrictions:{},
+    formData:{
+      name: "信義國小",
+      city: "高雄市",
+      district: "新興區",
+      road: "五福六路",
+      lane: "6",
+      alley: "3",
+      number: "5",
+      floor: "2",
+      floorTotal: "5",
+      type: "整層住家",
+      ping: "20",
+      roomNumbers: "5",
+      livingRoomNumbers: "",
+      bathRoomNumbers: "",
+      balconyNumbers: "",
+      parkingSpaceNumbers: "",
+    },
+    photos:[
+      {
+        "path": "https://res.cloudinary.com/dstruxyyk/image/upload/v1716470077/Howoh%20house%20photos/nnmf64wcit02jhikxhpr.jpg",
+        "isCover": true
+      },
+      {
+        "path": "https://res.cloudinary.com/dstruxyyk/image/upload/v1716470077/Howoh%20house%20photos/nnmf64wcit02jhikxhpr.jpg",
+        "isCover": false
+      },
+    ],
+    facilities:{
+      isNearByDepartmentStore: true, 
+      isNearBySchool: true, 
+      isNearByMorningMarket: true, 
+      isNearByNightMarket: true, 
+      isNearByConvenientStore: true, 
+      isNearByPark: true, 
+      hasGarbageDisposal: true, 
+      hasWindowInBathroom: true, 
+      hasElevator: true, 
+      hasAirConditioner: true, 
+      hasWashingMachine: true, 
+      hasRefrigerator: true, 
+      hasCloset: true, 
+      hasTableAndChair: true, 
+      hasWaterHeater: true, 
+      hasInternet: true, 
+      hasBed: true, 
+      hasTV: true,
+    },
+    expenses:{
+      rent: "10393",
+      securityDeposit: "一個月",
+      paymentMethodOfWaterBill: "包含於房租",
+      waterBillPerMonth: "string",
+      electricBill: "自訂",
+      electricBillPerDegree: "5",
+      paymentMethodOfElectricBill: "string",
+      paymentMethodOfManagementFee: "隨房租繳納",
+      managementFeePerMonth: "1000",
+    },
+    introduction: "2132132edccf",
+    restrictions:{
+      hasTenantRestrictions: "true",
+      genderRestriction: "女",
+      jobRestriction: ["123","csdfd"],
+    },
   };
   return (
     <>
