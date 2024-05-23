@@ -135,6 +135,9 @@
   .confirm-data {
     @apply p-3 border-b border-Neutral-70;
   }
+  .badge-m {
+    @apply px-2 py-1 text-sans-body2 text-black rounded-lg;
+  }
   /* 首頁 Title 的打字效果 */
   .type-animation::after {
     content: "" !important;
