@@ -1,4 +1,11 @@
-import { useState, useEffect, ChangeEvent } from "react";
+import {
+  useState,
+  useEffect,
+  ChangeEvent,
+  MouseEventHandler,
+  MouseEvent,
+  useRef,
+} from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -15,13 +22,13 @@ import {
   setRentRangeNoLimitState,
   setRentRangeItemsState,
 } from "../../../redux/searchForm/rentRangeSlice";
+import dropdownCities from "../../constants/locations/dropdownCities";
 import dropdownIcon from "../../assets/imgs/icons/dropdownIcon.svg";
 import searchIcon from "../../assets/imgs/icons/searchIcon.svg";
 import kaohsiungDistricts from "../../constants/locations/districts/kaohsiungDistricts";
 import houseTypes from "../../constants/houseTypes";
 import rentRanges from "../../constants/rentRange";
 import { RootState } from "../../../redux/store";
-
 interface District {
   content: string;
   checked: boolean;
@@ -46,6 +53,7 @@ function SearchForm() {
   const houseTypeState = useSelector((store: RootState) => store.houseType);
   const rentRangeState = useSelector((store: RootState) => store.rentRange);
   const [isCityDropdownFocused, setIsCityDropdownFocused] = useState(false); // 偵測縣市的Dropdown是否被 focused
+  const [cityDropdownModalIsOpen, setCityDropdownModalIsOpen] = useState(false);
   const [isSearchInputFocused, setIsSearchInputFocused] = useState(false); // 偵測搜尋框是否被 focused
   /* 初始化表單內所有的checkbox元素狀態 */
   useEffect(() => {
@@ -82,17 +90,43 @@ function SearchForm() {
         rentRanges: newRentRanges,
       },
     };
-
     dispatch(setDistrictNoLimitState(newformElementState.District.noLimit));
     dispatch(setDistrictItemsState(newformElementState.District.districts));
     dispatch(setHouseTypeNoLimitState(newformElementState.HouseType.noLimit));
     dispatch(setHouseTypeItemsState(newformElementState.HouseType.houseTypes));
     dispatch(setRentRangeNoLimitState(newformElementState.RentRange.noLimit));
     dispatch(setRentRangeItemsState(newformElementState.RentRange.rentRanges));
+
+    // 加上滑鼠點擊的監聽事件，當使用者點擊篩選縣市的下拉選單以外的地方，就將此下拉選單收起來
+    document.addEventListener("mousedown", handleClickOutside);
   }, []);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+  const inputCityRef = useRef<HTMLInputElement>(null);
 
   const setSearchContent = (e: ChangeEvent<HTMLInputElement>) => {
     dispatch(changeContent(e.target.value));
+  };
+
+  //當滑鼠點擊篩選縣市的下拉選單以外的地方，就將此下拉選單收起來
+  const handleClickOutside = (event: any) => {
+    if (
+      dropdownRef.current &&
+      !dropdownRef.current.contains(event.target as Node)
+    ) {
+      setCityDropdownModalIsOpen(false);
+    }
+  };
+
+  const setCity = (e: MouseEvent<HTMLButtonElement>) => {
+    const cityName = e.currentTarget.name; // 獲取按鈕的 name 屬性
+    if (inputCityRef.current) {
+      // 更新縣市的 input 值
+      inputCityRef.current.value = cityName;
+    }
+  };
+  const handleCityDropdownFocused = () => {
+    setIsCityDropdownFocused(true);
+    setCityDropdownModalIsOpen(true);
   };
   const handleDistrictState = (e: ChangeEvent<HTMLInputElement>) => {
     const districtCheckboxDOM = e.target as HTMLInputElement;
@@ -308,20 +342,23 @@ function SearchForm() {
           {/* dropdown component */}
           <div
             tabIndex={0}
-            className={`relative flex items-center w-60 border p-3  rounded-[4px] ${
+            className={`relative cursor-pointer flex items-center w-60 border p-3  rounded-[4px] ${
               isCityDropdownFocused
                 ? "border-Brand-30 border-2 m-[-1px]"
                 : "border-black"
             }`}
           >
             <input
+              ref={inputCityRef}
               type="text"
+              readOnly
+              defaultValue={"高雄市"}
               id="cityDropdown"
               className={`block w-full p-0 pl-1 text-black bg-transparent border-none appearance-none focus:ring-0 peer cursor-pointer ${
                 isCityDropdownFocused ? "caret-transparent" : ""
               }`}
               placeholder=""
-              onFocus={() => setIsCityDropdownFocused(true)}
+              onFocus={handleCityDropdownFocused}
               onBlur={() => setIsCityDropdownFocused(false)}
               onChange={setSearchContent}
             />
@@ -334,62 +371,95 @@ function SearchForm() {
             <label htmlFor="cityDropdown" className="cursor-pointer">
               <img src={dropdownIcon} className="w-4 h-4" alt="dropdownIcon" />
             </label>
-
-            {isCityDropdownFocused && (
-              //這個區塊會顯示在上層，不會跟其他元素同層 
-              <div className="absolute top-[120%] w-[280%] p-5 bg-Neutral-99 rounded-xl shadow-elevation-3">
+            {/* 篩選縣市的下拉選單*/}
+            {cityDropdownModalIsOpen && (
+              <div
+                ref={dropdownRef}
+                className="absolute top-[120%] w-[280%] p-5 bg-Neutral-99 rounded-xl shadow-elevation-3"
+              >
                 <ul>
+                  {/* 北部縣市 */}
                   <li className="flex mb-3">
                     <span className="mr-6 text-sans-b-body1 text-Brand-40">
                       北部
                     </span>
                     <div className="flex gap-x-[14px]">
-                      <button className="border-b border-black hover:text-Neutral-50 hover:border-Neutral-50">
-                        台北市
-                      </button>
-                      <button className="border-b border-black">新北市</button>
-                      <button className="border-b border-black">桃園市</button>
-                      <button className="border-b border-black">新竹市</button>
-                      <button className="border-b border-black">新竹縣</button>
-                      <button className="border-b border-black">宜蘭市</button>
-                      <button className="border-b border-black">基隆市</button>
+                      {dropdownCities.north.map((district, index) => {
+                        return (
+                          <button
+                            type="button"
+                            key={index}
+                            name={district}
+                            className="border-b border-black hover:text-Neutral-50 hover:border-Neutral-50"
+                            onClick={setCity}
+                          >
+                            {district}
+                          </button>
+                        );
+                      })}
                     </div>
                   </li>
+                  {/* 中部縣市 */}
                   <li className="flex mb-3">
                     <span className="mr-6 text-sans-b-body1 text-Brand-40">
                       中部
                     </span>
                     <div className="flex gap-x-[14px]">
-                      <button className="border-b border-black hover:text-Neutral-50">
-                        台中市
-                      </button>
-                      <button className="border-b border-black">彰化縣</button>
-                      <button className="border-b border-black">雲林縣</button>
-                      <button className="border-b border-black">苗栗縣</button>
-                      <button className="border-b border-black">南投縣</button>
+                      {dropdownCities.central.map((district, index) => {
+                        return (
+                          <button
+                            type="button"
+                            key={index}
+                            name={district}
+                            className="border-b border-black hover:text-Neutral-50 hover:border-Neutral-50"
+                            onClick={setCity}
+                          >
+                            {district}
+                          </button>
+                        );
+                      })}
                     </div>
                   </li>
+                  {/* 南部縣市 */}
                   <li className="flex mb-3">
                     <span className="mr-6 text-sans-b-body1 text-Brand-40">
                       南部
                     </span>
                     <div className="flex gap-x-[14px]">
-                      <button className="border-b border-black">高雄市</button>
-                      <button className="border-b border-black">台南縣</button>
-                      <button className="border-b border-black">嘉義縣</button>
-                      <button className="border-b border-black">屏東縣</button>
+                      {dropdownCities.south.map((district, index) => {
+                        return (
+                          <button
+                            type="button"
+                            key={index}
+                            name={district}
+                            className="border-b border-black hover:text-Neutral-50 hover:border-Neutral-50"
+                            onClick={setCity}
+                          >
+                            {district}
+                          </button>
+                        );
+                      })}
                     </div>
                   </li>
+                  {/* 東部縣市 */}
                   <li className="flex">
                     <span className="mr-6 text-sans-b-body1 text-Brand-40">
                       東部
                     </span>
                     <div className="flex gap-x-[14px]">
-                      <button className="border-b border-black">台東市</button>
-                      <button className="border-b border-black">花蓮縣</button>
-                      <button className="border-b border-black">澎湖縣</button>
-                      <button className="border-b border-black">金門縣</button>
-                      <button className="border-b border-black">連江縣</button>
+                      {dropdownCities.east.map((district, index) => {
+                        return (
+                          <button
+                            type="button"
+                            key={index}
+                            name={district}
+                            className="border-b border-black hover:text-Neutral-50 hover:border-Neutral-50"
+                            onClick={setCity}
+                          >
+                            {district}
+                          </button>
+                        );
+                      })}
                     </div>
                   </li>
                 </ul>
