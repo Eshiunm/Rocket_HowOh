@@ -54,8 +54,15 @@ function LandLordLogin() {
       navigate("/");
     } catch (errors: any) {
       let errorMessage = errors.response.data;
-      if (errorMessage === "尚未註冊手機號碼")
+      if (errorMessage === "尚未註冊手機號碼") {
         errorMessage = "手機號碼尚未註冊，請點擊下方建立帳號";
+      } else if (errorMessage === "錯誤身分") {
+        errorMessage = "身份錯誤，請換身份登入";
+      } else if (errorMessage === "密碼錯誤") {
+        errorMessage = "密碼錯誤，請重新輸入密碼";
+      } else {
+        errorMessage = "伺服器錯誤，請刷新頁面後再試一次";
+      }
       setApiErrorMessage(errorMessage);
     }
     setPosting(false);
