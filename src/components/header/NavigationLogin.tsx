@@ -1,8 +1,18 @@
 import { Avatar, Dropdown } from "flowbite-react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import asd from "../../assets/imgs/homePage/aboutMe_bgImg_1.jpg";
 
 function NavigationLogin() {
-  const identity = "tenant";
+  let identity = "";
+  const [userProfileUrl, setUserProfileUrl] = useState("");
+
+  useEffect(() => {
+    identity = localStorage.getItem("currentIdentity")?.toString() || "";
+    const userProfile = localStorage.getItem("userProfile")?.toString() || "";
+    setUserProfileUrl(userProfile);
+    // console.log(typeof userProfile);
+  });
   return (
     <>
       <ul className="flex gap-6 items-center">
@@ -17,7 +27,7 @@ function NavigationLogin() {
             {/* 如果要放圖片，可以再參考一下 flowbite react ui component */}
             {identity === "tenant" ? (
               <>
-                <Avatar rounded size="sm" />
+                <Avatar rounded size="sm" img={asd} />
                 <Dropdown
                   label=""
                   dismissOnClick={false}
@@ -49,7 +59,7 @@ function NavigationLogin() {
               </>
             ) : (
               <>
-                <Avatar rounded size="sm" />
+                <Avatar rounded size="sm" img={`${userProfileUrl}`} />
                 <Dropdown
                   label=""
                   dismissOnClick={false}

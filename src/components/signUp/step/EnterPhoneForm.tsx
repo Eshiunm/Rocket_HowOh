@@ -16,7 +16,9 @@ function EnterPhoneForm() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   // 是否正在打 API
-  const [posting, setPosting] = useState(false);
+  const [isPosting, setPosting] = useState(false);
+  // 打API後跳出的錯誤訊息
+  const [apiErrorMessage, setApiErrorMessage] = useState("");
   const {
     handleSubmit,
     register,
@@ -26,23 +28,30 @@ function EnterPhoneForm() {
     (store: RootState) => store.signUpStepState.currentStepState
   );
   const registerIdentityState = useSelector(
-    (store: RootState) => store.registerIdentityState.identity
+    (store: RootState) => store.registerIdentityState.registerIdentity
   );
 
   const cancelSignUp = () => {
     dispatch(setCurrentStepState(0));
-    navigate("/signUp");
+    navigate("/signup");
   };
 
   const onSubmit = async (data: formDataType) => {
+    setApiErrorMessage("");
     setPosting(true);
     try {
-      await axios.post("http://98.70.102.116/api/phoneNumberVerifi", data);
+      await axios.post(
+        "http://98.70.102.116/api/register/common/phoneNumberVerifi",
+        data
+      );
       dispatch(setCurrentStepState(currentStepState + 1));
       dispatch(setSignUpForm(data));
-    } catch (error) {
-      console.log(error);
-      alert("該手機號碼已註冊過");
+    } catch (error: any) {
+      let errorMessage = error.response.data;
+      if(errorMessage === "已註冊手機號碼"){
+        errorMessage = "手機號碼已被註冊過";
+      }
+      setApiErrorMessage(errorMessage);
     }
     setPosting(false);
   };
@@ -86,7 +95,7 @@ function EnterPhoneForm() {
                 請以手機建立帳號
               </label>
             </div>
-            {/* 提示字 */}
+            {/* 錯誤提示字 */}
             <span
               className={`${
                 errors.telphone ? "text-Alert-50" : "text-black"
@@ -96,7 +105,11 @@ function EnterPhoneForm() {
                 ? errors.telphone.message
                 : "請填入真實手機，我們將驗證您的手機"}
             </span>
-
+            {apiErrorMessage ? (
+              <span className="text-Alert-50 inline-block pl-3 text-sans-caption mb-10">
+                {apiErrorMessage}
+              </span>
+            ) : null}
             <button
               type="submit"
               className={`filled-button-l w-full mb-3 ${
@@ -104,9 +117,9 @@ function EnterPhoneForm() {
                   ? "bg-Neutral-90 hover:bg-Neutral-90"
                   : ""
               }`}
-              disabled={Object.keys(errors).length > 0 || posting}
+              disabled={Object.keys(errors).length > 0 || isPosting}
             >
-              {posting ? (
+              {isPosting ? (
                 <>
                   <Spinner
                     aria-label="Spinner button example"

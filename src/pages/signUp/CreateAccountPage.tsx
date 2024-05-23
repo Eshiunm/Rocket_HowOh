@@ -14,7 +14,7 @@ function CreateAccountPage() {
     (store: RootState) => store.signUpStepState.currentStepState
   );
   const registerIdentityState = useSelector(
-    (store: RootState) => store.registerIdentityState.identity
+    (store: RootState) => store.registerIdentityState.registerIdentity
   );
   // console.log(currentStepState);
   // console.log(registerIdentityState);

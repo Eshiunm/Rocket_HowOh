@@ -22,7 +22,7 @@ function PhoneValidation() {
 
   const cancelSignUp = () => {
     dispatch(setCurrentStepState(0));
-    navigate("/signUp");
+    navigate("/signup");
   };
 
   const onSubmit = () => {

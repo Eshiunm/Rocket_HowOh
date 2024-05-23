@@ -1,18 +1,18 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  identity: null,
+  registerIdentity: null,
 };
 
-export const identitySlice = createSlice({
-  name: "identity",
+export const registerIdentitySlice = createSlice({
+  name: "registerIdentity",
   initialState,
   reducers: {
-    setIdentityState: (state, action) => {
-      state.identity = action.payload;
+    setRegisterIdentityState: (state, action) => {
+      state.registerIdentity = action.payload;
     },
   },
 });
 
-export const { setIdentityState } = identitySlice.actions;
-export default identitySlice.reducer;
+export const { setRegisterIdentityState } = registerIdentitySlice.actions;
+export default registerIdentitySlice.reducer;
