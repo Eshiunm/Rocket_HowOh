@@ -135,7 +135,9 @@ export default function HouseDatas({houseDatas}: {houseDatas: houseDatasType}) {
         <ul className="layout-grid">
           {
             photos.map(({path,isCover}: photosDataType, index: number) => (
-              <li key={"photo-" + index} className="h-48 rounded-xl overflow-hidden relative col-span-3 flex flex-col items-start gap-3">
+              <li key={"photo-" + index} className={`rounded-xl overflow-hidden relative col-span-3 flex flex-col items-start gap-3 ${
+                gridSpanWide? "h-48" : "h-24"
+              }`}>
                 <img src={path} className="w-full h-full object-cover" alt={`房源照片-${index+1}`} />
                 {
                   isCover && (
