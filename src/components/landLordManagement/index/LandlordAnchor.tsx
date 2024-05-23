@@ -1,30 +1,12 @@
+import { refFnListType } from "./HouseList";
 import anchorHouse from "../../../assets/imgs/landlord-management/AnchorHouse.svg";
 
-export default function LandlordAnchor({targetRef}) {
-  const goPublishList = () => {
-    window.scrollTo({
-      top: targetRef.publishList.current.offsetTop - 100,
-      behavior: "smooth",
-    })
-  }
-  const goRentedList = () => {
-    window.scrollTo({
-      top: targetRef.rentedList.current.offsetTop - 100,
-      behavior: "smooth",
-    })
-  }
-  const goFinishedList = () => {
-    window.scrollTo({
-      top: targetRef.finishedList.current.offsetTop - 100,
-      behavior: "smooth",
-    })
-  }
-
+export default function LandlordAnchor({refFnList}: {refFnList: refFnListType}) {
   return (
     <section className="pb-6 border-b border-Neutral-95">
       <ul className="layout-grid">
         <li className="cursor-pointer group relative overflow-hidden col-span-3 text-white rounded-xl p-3 bg-Alert-70"
-          onClick={goPublishList}
+          onClick={refFnList.goPublishList}
         >
           <img
             src={anchorHouse}
@@ -39,7 +21,7 @@ export default function LandlordAnchor({targetRef}) {
           </button>
         </li>
         <li className="cursor-pointer group relative overflow-hidden col-span-3 text-white rounded-xl p-3 bg-Landlord-60"
-          onClick={goRentedList}
+          onClick={refFnList.goRentedList}
         >
           <img
             src={anchorHouse}
@@ -54,7 +36,7 @@ export default function LandlordAnchor({targetRef}) {
           </button>
         </li>
         <li className="cursor-pointer group relative overflow-hidden col-span-3 text-white rounded-xl p-3 bg-Tenant-50"
-          onClick={goFinishedList}
+          onClick={refFnList.goFinishedList}
         >
           <img
             src={anchorHouse}

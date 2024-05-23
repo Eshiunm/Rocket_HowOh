@@ -4,6 +4,12 @@ import LandlordAnchor from "./LandlordAnchor";
 import HouseCard from "./HouseCard";
 import tooltipIcon from "../../../assets/imgs/icons/tooltip.svg"
 
+export interface refFnListType {
+  goPublishList : () => void,
+  goRentedList :  () => void,
+  goFinishedList : () => void,
+}
+
 export default function HouseList() {
   const customTheme: CustomFlowbiteTheme = {
     accordion: {
@@ -39,19 +45,45 @@ export default function HouseList() {
     }
   };
 
-  const publishList = useRef<HTMLUListElement>(null);
-  const rentedList = useRef<HTMLUListElement>(null);
-  const finishedList = useRef<HTMLUListElement>(null);
-  const refList = {
-    publishList,
-    rentedList,
-    finishedList
+  const publishList = useRef<HTMLDivElement>(null);
+  const rentedList = useRef<HTMLDivElement>(null);
+  const finishedList = useRef<HTMLDivElement>(null);
+
+  const goPublishList = () => {
+    if (publishList.current) {
+      window.scrollTo({
+        top: publishList.current.offsetTop - 100,
+        behavior: "smooth",
+      });
+    }
+  }
+  const goRentedList = () => {
+    if (rentedList.current) {
+      window.scrollTo({
+        top: rentedList.current.offsetTop - 100,
+        behavior: "smooth",
+      });
+    }
+  }
+  const goFinishedList = () => {
+    if (finishedList.current) {
+      window.scrollTo({
+        top: finishedList.current.offsetTop - 100,
+        behavior: "smooth",
+      });
+    }
+  }
+
+  const refFnList: refFnListType = {
+    goPublishList,
+    goRentedList,
+    goFinishedList,
   }
 
   return (
     <main className="container mt-14 mb-32">
       {/* 上方 anchor 區域 */}
-      <LandlordAnchor targetRef={refList} />
+      <LandlordAnchor refFnList={refFnList} />
       {/* 手風琴呈現列表 */}
       <Flowbite theme={{ theme: customTheme }}>
         <Accordion alwaysOpen>
