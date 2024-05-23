@@ -10,9 +10,9 @@ export default function LandlordManagement() {
 
   useEffect(() => {
     // 判斷網址路徑所在位置，控制tab-button狀態
-    if(location.pathname === '/landlord-management') {
+    if(location.pathname === '/landlord') {
       setActiveButton('all');
-    } else if (location.pathname === '/landlord-management/history') {
+    } else if (location.pathname === '/landlord/history') {
       setActiveButton('history');
     }
   },[location]);
@@ -23,12 +23,12 @@ export default function LandlordManagement() {
         <div className="container px-8 py-6">
           <h2 className="text-sans-b-h5 mb-5">房東好窩</h2>
           <div className="flex items-end gap-3">
-            <Link to="/landlord-management" className={`tab-button-m py-1 ${activeButton === 'all' ? 'bg-Landlord-50 text-Landlord-99' : ""}`}>全部房源</Link>
-            <Link to="/landlord-management/history" className={`tab-button-m py-1 ${activeButton === 'history' ? 'bg-Landlord-50 text-Landlord-99' : ""}`}>出租歷史</Link>
+            <Link to="/landlord" className={`tab-button-m py-1 ${activeButton === 'all' ? 'bg-Landlord-50 text-Landlord-99' : ""}`}>全部房源</Link>
+            <Link to="/landlord/history" className={`tab-button-m py-1 ${activeButton === 'history' ? 'bg-Landlord-50 text-Landlord-99' : ""}`}>出租歷史</Link>
             <button
               className="filled-button-m px-11 ml-auto flex justify-center items-center gap-2 "
               onClick={() => {
-                navigate("/post");
+                navigate("/landlord/post");
               }}
             >
               <span>新增房源</span>

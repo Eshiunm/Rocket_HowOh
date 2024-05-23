@@ -26,10 +26,13 @@ function App() {
             element={<CreateAccountPage />}
           ></Route>
           <Route path="login" element={<LoginPage />}></Route>
-          <Route path="post" element={<AddNew />}></Route>
-          <Route path="landlord-management" element={<LandlordManagement />}>
-            <Route index element={<HouseList />} />
-            <Route path="history" element={<h1>出租歷史</h1>} />
+          <Route path="landlord" >
+            <Route element={<LandlordManagement />}>
+              <Route index element={<HouseList />} />
+              <Route path="history" element={<h1>出租歷史</h1>} />
+            </Route>
+            <Route path="post" element={<AddNew />} />
+            <Route path="comment" element={<h1>評價管理</h1>} />
           </Route>
         </Routes>
       </BrowserRouter>

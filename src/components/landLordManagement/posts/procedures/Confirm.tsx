@@ -23,7 +23,7 @@ export default function Confirm() {
   const { handleSubmit } = useForm();
   const onSubmit = () => {
     handleProcedureDone(5);
-    navigate("/landlord-management");
+    navigate("/landlord");
     // 完成刊登後跳轉回房源管理頁面
   };
 
