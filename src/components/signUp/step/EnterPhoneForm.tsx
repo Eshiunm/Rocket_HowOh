@@ -40,7 +40,7 @@ function EnterPhoneForm() {
     setApiErrorMessage("");
     setPosting(true);
     try {
-      const response = await apiRegisterPhoneNumberVerifi(data);
+      await apiRegisterPhoneNumberVerifi(data);
       dispatch(setCurrentStepState(currentStepState + 1));
       dispatch(setSignUpForm(data));
     } catch (error: any) {
