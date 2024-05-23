@@ -15,7 +15,7 @@ export default function HouseList() {
         }
       },
       "content": {
-        "base": "py-6 first:rounded-t-lg last:rounded-b-lg"
+        "base": "pb-6 first:rounded-t-lg last:rounded-b-lg"
       },
       "title": {
         "arrow": {
