@@ -1,4 +1,5 @@
-import axios from "axios";
+
+import { apiLogin } from "../../apis/apis";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -46,11 +47,7 @@ function TenantLogin() {
     setApiErrorMessage("");
     setPosting(true);
     try {
-      const resopnse = await axios.post(
-        "http://98.70.102.116/api/login",
-        newFormData
-      );
-      console.log(resopnse);
+      const resopnse = await apiLogin(newFormData);
       const token = resopnse.data.token;
       localStorage.setItem("authToken", token);
       localStorage.setItem("currentIdentity", "tenant");

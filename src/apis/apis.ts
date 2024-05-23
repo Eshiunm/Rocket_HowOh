@@ -2,11 +2,13 @@ import axios from 'axios';
 
 // 登入登出、密碼變更相關的 api
 const baseRequest = axios.create({
-  baseURL: 'http://98.70.102.116/api'
+  //baseURL: 'http://98.70.102.116/api'
+  baseURL: '/api'
 });
 // 註冊相關的 api
 const registerRequest = axios.create({
-  baseURL: 'http://98.70.102.116/api/register'
+  // baseURL: 'http://98.70.102.116/api/register'
+  baseURL: '/api/register'
 });
 // 房源相關的 api
 const houseRequest = axios.create({
@@ -31,7 +33,7 @@ const commentRequest = axios.create({
 
 
 // 登入登出-相關的 api
-export const apiSignUp = (data: any) => baseRequest.post('/login', data); // FCL-1
+export const apiLogin = (data: any) => baseRequest.post('/login', data); // FCL-1
 export const apiLogOut = () => baseRequest.post('/logout'); // FCL-2
 export const apiPasswordChange = (data: any) => baseRequest.patch('/password', data); // FCL-4
 
