@@ -476,16 +476,24 @@ export default function HouseDatas({houseDatas}: {houseDatas: houseDatasType}) {
       </section>
       <section className="bg-Landlord-99 p-5 rounded-lg mb-5">
         <h3 className="add-new-title">介紹</h3>
-        <div className="layout-grid">
-          <p className="col-span-6 whitespace-pre-line text-sans-body1">{ introduction }</p>
+        <div className={`layout-grid ${
+          gridSpanWide ? "grid-cols-12" : "grid-cols-7"
+        }`}>
+          <p className={`whitespace-pre-line text-sans-body1 ${
+            gridSpanWide ? "col-span-6" : "col-span-5"
+          }`}>{ introduction }</p>
         </div>
       </section>
       <section className="bg-Landlord-99 p-5 rounded-lg mb-5">
         <h3 className="add-new-title">租客限制</h3>
         <div className="flex flex-col gap-6 mb-6">
           <h4 className="text-sans-b-h6">是否設定條件？</h4>
-          <fieldset className="layout-grid">
-            <label htmlFor="hasRestriction" className="col-span-3 flex items-center gap-2 text-sans-body1">
+          <fieldset className={`layout-grid ${
+            gridSpanWide ? "grid-cols-12" : "grid-cols-7"
+          }`}>
+            <label htmlFor="hasRestriction" className={`flex items-center gap-2 text-sans-body1 ${
+              gridSpanWide ? "col-span-3" : "col-span-2"
+            }`}>
               <input
                 disabled
                 type="radio"
@@ -496,7 +504,9 @@ export default function HouseDatas({houseDatas}: {houseDatas: houseDatasType}) {
               />
               是
             </label>
-            <label htmlFor="noRestriction" className="col-span-3 flex items-center gap-2 text-sans-body1">
+            <label htmlFor="noRestriction" className={`flex items-center gap-2 text-sans-body1 ${
+              gridSpanWide ? "col-span-3" : "col-span-2"
+            }`}>
               <input
                 disabled
                 type="radio"
@@ -513,8 +523,12 @@ export default function HouseDatas({houseDatas}: {houseDatas: houseDatasType}) {
           restrictions.hasTenantRestrictions === "true" && (
             <div className="flex flex-col gap-3">
               <h5 className="text-sans-b-body1 text-Landlord-40">排除性別</h5>
-              <fieldset className="layout-grid">
-                <label htmlFor="maleRestriction" className="col-span-3 flex items-center gap-2 text-sans-body1">
+              <fieldset className={`layout-grid ${
+                gridSpanWide ? "grid-cols-12" : "grid-cols-7"
+              }`}>
+                <label htmlFor="maleRestriction" className={`flex items-center gap-2 text-sans-body1 ${
+                  gridSpanWide ? "col-span-3" : "col-span-2"
+                }`}>
                   <input
                     disabled
                     type="radio"
@@ -525,7 +539,9 @@ export default function HouseDatas({houseDatas}: {houseDatas: houseDatasType}) {
                   />
                   男
                 </label>
-                <label htmlFor="femaleRestriction" className="col-span-3 flex items-center gap-2 text-sans-body1">
+                <label htmlFor="femaleRestriction" className={`flex items-center gap-2 text-sans-body1 ${
+                  gridSpanWide ? "col-span-3" : "col-span-2"
+                }`}>
                   <input
                     disabled
                     type="radio"
@@ -536,7 +552,9 @@ export default function HouseDatas({houseDatas}: {houseDatas: houseDatasType}) {
                   />
                   女
                 </label>
-                <label htmlFor="noGenderRestriction" className="col-span-3 flex items-center gap-2 text-sans-body1">
+                <label htmlFor="noGenderRestriction" className={`flex items-center gap-2 text-sans-body1 ${
+                  gridSpanWide ? "col-span-3" : "col-span-2"
+                }`}>
                   <input
                     disabled
                     type="radio"
@@ -549,8 +567,12 @@ export default function HouseDatas({houseDatas}: {houseDatas: houseDatasType}) {
                 </label>
               </fieldset>
               <h5 className="text-sans-b-body1 text-Landlord-40 mt-3">排除職業</h5>
-              <fieldset className="layout-grid">
-                <label htmlFor="hasJobRestriction" className="col-span-6 flex items-center gap-2 text-sans-body1">
+              <fieldset className={`layout-grid ${
+                gridSpanWide ? "grid-cols-12" : "grid-cols-7"
+              }`}>
+                <label htmlFor="hasJobRestriction" className={`flex items-center gap-2 text-sans-body1 ${
+                  gridSpanWide ? "col-span-3" : "col-span-2"
+                }`}>
                   <input
                     disabled
                     type="radio"
@@ -561,7 +583,9 @@ export default function HouseDatas({houseDatas}: {houseDatas: houseDatasType}) {
                   />
                   限制
                 </label>
-                <label htmlFor="noJobRestriction" className="col-span-6 flex items-center gap-2 text-sans-body1">
+                <label htmlFor="noJobRestriction" className={`flex items-center gap-2 text-sans-body1 ${
+                  gridSpanWide ? "col-span-3" : "col-span-2"
+                }`}>
                   <input
                     disabled
                     type="radio"
@@ -580,10 +604,14 @@ export default function HouseDatas({houseDatas}: {houseDatas: houseDatasType}) {
                     <div className="layout-grid">
                       <div className="col-span-3">
                         {
-                          restrictions.jobRestriction??[].map((restriction: string, index: number) => (
+                          typeof(restrictions.jobRestriction) === "object" 
+                          && 
+                          restrictions.jobRestriction.map((restriction: string, index: number) => (
                             <p key={restriction+index} className={`confirm-data flex-1 ${
                               index+1 === restrictions.jobRestriction.length ? "" : "mb-3"
-                            }`}>{ restriction || "\u00A0" }</p>
+                            }`}>
+                              { restriction || "\u00A0" }
+                            </p>
                           ))
                         }
                       </div>
