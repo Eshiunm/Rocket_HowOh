@@ -9,14 +9,14 @@ export default function PublishHouse() {
             <div>
               <h6 className="mb-2 text-sans-body2">變更狀態</h6>
               <div className="flex gap-3">
-                <button className="outline-button-m">更改為已承租</button>
-                <button className="outline-button-m">更改為已完成</button>
+                <button type="button" className="outline-button-m">更改為已承租</button>
+                <button type="button" className="outline-button-m">更改為已完成</button>
               </div>
             </div>
             <div className="flex gap-6">
-              <button className="outline-button-m">返回房源管理頁面</button>
-              <button className="outline-button-m">查看合約</button>
-              <button className="filled-button-m">查看租客預約請求</button>
+              <button type="button" className="outline-button-m">返回房源管理頁面</button>
+              <button type="button" className="outline-button-m">查看合約</button>
+              <button type="button" className="filled-button-m">查看租客預約請求</button>
             </div>
           </div>
         </div>
