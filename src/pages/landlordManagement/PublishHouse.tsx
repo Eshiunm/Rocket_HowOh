@@ -1,4 +1,16 @@
+import HouseDatas from "../../components/landLordManagement/HouseDatas";
+import Footer from "../../components/footer/Footer";
+
 export default function PublishHouse() {
+
+  const houseDatas = {
+    formData:{},
+    photos:[],
+    facilities:{},
+    expenses:{},
+    introduction:"",
+    restrictions:{},
+  };
   return (
     <>
       <header className="bg-Landlord-99">
@@ -21,6 +33,12 @@ export default function PublishHouse() {
           </div>
         </div>
       </header>
+      <main className="container layout-grid">
+        <div className="col-span-7 pt-6 pb-52">
+          <HouseDatas houseDatas={houseDatas}/>
+        </div>
+      </main>
+      <Footer />
     </>
   );
 }

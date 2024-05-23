@@ -1,3 +1,5 @@
+import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import { mainFeatures, nearByFacilities, houseFeatures, equipments, transportations } from "../../constants/featureList";
 import { waterBill, electricBill, managementFee } from "../../constants/forPay";
 import { basicInformationDataType } from "./posts/procedures/BasicInformation";
@@ -17,6 +19,19 @@ export interface houseDatasType {
 
 export default function HouseDatas({houseDatas}: {houseDatas: houseDatasType}) {
   const { formData, photos, facilities, expenses, introduction, restrictions } = houseDatas;
+
+  const location = useLocation();
+  const [gridSpanWide, setGridSpanWide] = useState(true);
+
+  useEffect(() => {
+    // 判斷網址路徑所在位置，控制grid span 寬度
+    if(location.pathname === '/landlord/post') {
+      setGridSpanWide(true);
+    } else {
+      setGridSpanWide(false);
+    }
+  },[location]);
+
   return (
     <>
       <section className="bg-Landlord-99 p-5 rounded-lg mb-5">
@@ -158,13 +173,19 @@ export default function HouseDatas({houseDatas}: {houseDatas: houseDatasType}) {
         </div>
         <div>
           <h4 className="text-sans-b-h6">其他特色</h4>
-          <div className="layout-grid gap-y-3">
-            <h5 className="mt-6 col-span-12 text-Landlord-40 text-sans-b-body1">附近機能</h5>
+          <div className={`layout-grid gap-y-3 ${
+            gridSpanWide ? "grid-cols-12" : "grid-cols-7"
+          }`}>
+            <h5 className={`mt-6 text-Landlord-40 text-sans-b-body1 ${
+              gridSpanWide ? "col-span-12" : "col-span-7"
+            }`}>附近機能</h5>
             {
               nearByFacilities.map(({id, title}) => (
                 <label
                   key={id} 
-                  className="col-span-3 text-sans-body1 flex items-center gap-2"
+                  className={`text-sans-body1 flex items-center gap-2 ${
+                    gridSpanWide ? "col-span-3" : "col-span-2"
+                  }`}
                 >
                   <input
                     disabled
@@ -176,12 +197,16 @@ export default function HouseDatas({houseDatas}: {houseDatas: houseDatasType}) {
                 </label>
               ))
             }
-            <h5 className="mt-3 col-span-12 text-Landlord-40 text-sans-b-body1">屋源特色</h5>
+            <h5 className={`mt-6 text-Landlord-40 text-sans-b-body1 ${
+              gridSpanWide ? "col-span-12" : "col-span-7"
+            }`}>屋源特色</h5>
             {
               houseFeatures.map(({id, title}) => (
                 <label
                   key={id} 
-                  className="col-span-3 text-sans-body1 flex items-center gap-2"
+                  className={`text-sans-body1 flex items-center gap-2 ${
+                    gridSpanWide ? "col-span-3" : "col-span-2"
+                  }`}
                 >
                   <input
                     disabled
@@ -193,12 +218,16 @@ export default function HouseDatas({houseDatas}: {houseDatas: houseDatasType}) {
                 </label>
               ))
             }
-            <h5 className="mt-3 col-span-12 text-Landlord-40 text-sans-b-body1">設備</h5>
+            <h5 className={`mt-6 text-Landlord-40 text-sans-b-body1 ${
+              gridSpanWide ? "col-span-12" : "col-span-7"
+            }`}>設備</h5>
             {
               equipments.map(({id, title}) => (
                 <label
                   key={id}
-                  className="col-span-3 text-sans-body1 flex items-center gap-2"
+                  className={`text-sans-body1 flex items-center gap-2 ${
+                    gridSpanWide ? "col-span-3" : "col-span-2"
+                  }`}
                 >
                   <input
                     disabled
@@ -210,10 +239,14 @@ export default function HouseDatas({houseDatas}: {houseDatas: houseDatasType}) {
                 </label>
               ))
             }
-            <h5 className="mt-3 col-span-12 text-Landlord-40 text-sans-b-body1">交通</h5>
+            <h5 className={`mt-6 text-Landlord-40 text-sans-b-body1 ${
+              gridSpanWide ? "col-span-12" : "col-span-7"
+            }`}>交通</h5>
             {
               transportations.map(({id, title, distance}) => (
-                <div className="col-span-3" key={id}>
+                <div className={`${
+                  gridSpanWide ? "col-span-3" : "col-span-2"
+                }`} key={id}>
                   <label
                     className="col-span-3 text-sans-body1"
                   >
