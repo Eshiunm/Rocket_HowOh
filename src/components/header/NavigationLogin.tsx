@@ -59,7 +59,11 @@ function NavigationLogin() {
               </>
             ) : (
               <>
-                <Avatar rounded size="sm" img={`${userProfileUrl}`} />
+                <Avatar
+                  rounded
+                  size="sm"
+                  img={userProfileUrl !== "null" ? userProfileUrl : ""}
+                />
                 <Dropdown
                   label=""
                   dismissOnClick={false}

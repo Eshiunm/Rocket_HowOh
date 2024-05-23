@@ -4,7 +4,7 @@ import { setCurrentStepState } from "../../../../redux/signUp/stepSlice";
 import { useNavigate } from "react-router-dom";
 import { RootState } from "../../../../redux/store";
 import { setSignUpForm } from "../../../../redux/signUp/signupFormSlice";
-import axios from "axios";
+import { apiRegisterPhoneNumberVerifi } from "../../../apis/apis";
 import { Spinner } from "flowbite-react";
 import { useState } from "react";
 
@@ -40,15 +40,12 @@ function EnterPhoneForm() {
     setApiErrorMessage("");
     setPosting(true);
     try {
-      await axios.post(
-        "http://98.70.102.116/api/register/common/phoneNumberVerifi",
-        data
-      );
+      await apiRegisterPhoneNumberVerifi(data);
       dispatch(setCurrentStepState(currentStepState + 1));
       dispatch(setSignUpForm(data));
     } catch (error: any) {
       let errorMessage = error.response.data;
-      if(errorMessage === "已註冊手機號碼"){
+      if (errorMessage === "已註冊手機號碼") {
         errorMessage = "手機號碼已被註冊過";
       }
       setApiErrorMessage(errorMessage);

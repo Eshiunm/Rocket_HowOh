@@ -9,6 +9,7 @@ import { useState } from "react";
 import { occupations } from "../../../constants/occupations";
 import { Spinner } from "flowbite-react";
 import axios from "axios";
+import {apiRegisterSignUp} from "../../../apis/apis"
 import Modal from "../imgUpload/Modal";
 import PlaceholderIcon from "../imgUpload/PlaceholderIcon";
 interface formDataType {
@@ -113,8 +114,7 @@ function BasicInfoForm() {
             }，希望能找到合適的房子！`
       }}`,
     };
-    console.log(registerIdentityState);
-    console.log(signUpFormData);
+
     setPosting(true);
     if (avatarUrl) {
       const imgUrl = await handleUploadImage();
@@ -122,10 +122,11 @@ function BasicInfoForm() {
     }
     dispatch(setSignUpForm(signUpFormData));
     try {
-      await axios.post(
-        "http://98.70.102.116/api/register/common/signup",
-        signUpFormData
-      );
+      // await axios.post(
+      //   "http://98.70.102.116/api/register/common/signup",
+      //   signUpFormData
+      // );
+      await apiRegisterSignUp(signUpFormData);
       dispatch(setRegisterIdentityState(null));
       dispatch(setCurrentStepState(currentStepState + 1));
     } catch (errors) {
