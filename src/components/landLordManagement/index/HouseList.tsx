@@ -1,7 +1,14 @@
+import { useRef } from "react";
 import { CustomFlowbiteTheme, Flowbite, Accordion, AccordionContent, AccordionPanel, AccordionTitle, Tooltip } from "flowbite-react";
 import LandlordAnchor from "./LandlordAnchor";
 import HouseCard from "./HouseCard";
 import tooltipIcon from "../../../assets/imgs/icons/tooltip.svg"
+
+export interface refFnListType {
+  goPublishList : () => void,
+  goRentedList :  () => void,
+  goFinishedList : () => void,
+}
 
 export default function HouseList() {
   const customTheme: CustomFlowbiteTheme = {
@@ -14,7 +21,7 @@ export default function HouseList() {
         }
       },
       "content": {
-        "base": "py-6 first:rounded-t-lg last:rounded-b-lg"
+        "base": "pb-6 first:rounded-t-lg last:rounded-b-lg"
       },
       "title": {
         "arrow": {
@@ -38,76 +45,119 @@ export default function HouseList() {
     }
   };
 
+  const publishList = useRef<HTMLDivElement>(null);
+  const rentedList = useRef<HTMLDivElement>(null);
+  const finishedList = useRef<HTMLDivElement>(null);
+
+  const goPublishList = () => {
+    if (publishList.current) {
+      window.scrollTo({
+        top: publishList.current.offsetTop - 100,
+        behavior: "smooth",
+      });
+    }
+  }
+  const goRentedList = () => {
+    if (rentedList.current) {
+      window.scrollTo({
+        top: rentedList.current.offsetTop - 100,
+        behavior: "smooth",
+      });
+    }
+  }
+  const goFinishedList = () => {
+    if (finishedList.current) {
+      window.scrollTo({
+        top: finishedList.current.offsetTop - 100,
+        behavior: "smooth",
+      });
+    }
+  }
+
+  const refFnList: refFnListType = {
+    goPublishList,
+    goRentedList,
+    goFinishedList,
+  }
+
   return (
     <main className="container mt-14 mb-32">
       {/* 上方 anchor 區域 */}
-      <LandlordAnchor />
+      <LandlordAnchor refFnList={refFnList} />
       {/* 手風琴呈現列表 */}
       <Flowbite theme={{ theme: customTheme }}>
         <Accordion alwaysOpen>
           <AccordionPanel>
-            <AccordionTitle>
-              新增中
-            </AccordionTitle>
-            <AccordionContent>
-              <ul className="layout-grid">
-                <HouseCard />
-              </ul>
-            </AccordionContent>
+            <div>
+              <AccordionTitle>
+                新增中
+              </AccordionTitle>
+              <AccordionContent>
+                <ul className="layout-grid">
+                  <HouseCard />
+                </ul>
+              </AccordionContent>
+            </div>
           </AccordionPanel>
           <AccordionPanel>
-            <AccordionTitle>
-              <div className="flex items-start">
-                刊登中
-                <Tooltip
-                  className="bg-Landlord-30 text-white text-center whitespace-pre-line"
-                  content={"租客可看到您的房源！\n當租約邀請送出並受指定租客接受，房源狀態即變更為已承租。"}
-                >
-                  <img src={tooltipIcon} alt="tooltip" />
-                </Tooltip>
-              </div>
-            </AccordionTitle>
-            <AccordionContent>
-              <ul className="layout-grid">
-                <HouseCard />
-              </ul>
-            </AccordionContent>
+            <div ref={publishList}>
+              <AccordionTitle>
+                <div className="flex items-start">
+                  刊登中
+                  <Tooltip
+                    className="bg-Landlord-30 text-white text-center whitespace-pre-line"
+                    content={"租客可看到您的房源！\n當租約邀請送出並受指定租客接受，房源狀態即變更為已承租。"}
+                  >
+                    <img src={tooltipIcon} alt="tooltip" />
+                  </Tooltip>
+                </div>
+              </AccordionTitle>
+              <AccordionContent>
+                <ul className="layout-grid">
+                  <HouseCard />
+                </ul>
+              </AccordionContent>
+            </div>
           </AccordionPanel>
           <AccordionPanel>
-            <AccordionTitle>
-              <div className="flex items-start">
-                已承租
-                <Tooltip
-                  className="bg-Landlord-30 text-white text-center whitespace-pre-line"
-                  content={"您的房源已成功指定租客！\n您可以隨時下載合約，進行線下紙本簽約。"}
-                >
-                  <img src={tooltipIcon} alt="tooltip" />
-                </Tooltip>
-              </div>
-            </AccordionTitle>
-            <AccordionContent>
-              <ul className="layout-grid">
-                <HouseCard />
-              </ul>
-            </AccordionContent>
+            <div ref={rentedList}>
+              <AccordionTitle>
+                <div className="flex items-start">
+                  已承租
+                  <Tooltip
+                    className="bg-Landlord-30 text-white text-center whitespace-pre-line"
+                    content={"您的房源已成功指定租客！\n您可以隨時下載合約，進行線下紙本簽約。"}
+                  >
+                    <img src={tooltipIcon} alt="tooltip" />
+                  </Tooltip>
+                </div>
+              </AccordionTitle>
+              <AccordionContent>
+                <ul className="layout-grid">
+                  <HouseCard />
+                </ul>
+              </AccordionContent>
+            </div>
           </AccordionPanel>
           <AccordionPanel>
-            <AccordionTitle>
-              <div className="flex items-start">
-                已完成
-                <Tooltip
-                  className="bg-Landlord-30 text-white text-center whitespace-pre-line"
-                  content={"您的租約已完成！請於完成兩週內評價您的房客。\n您可以由此將房源重新上架。"}
-                >
-                  <img src={tooltipIcon} alt="tooltip" />
-                </Tooltip>
-              </div>
-            </AccordionTitle>
-            <AccordionContent>
-              <ul className="layout-grid">
-                <HouseCard />
-              </ul>
-            </AccordionContent>
+            <div ref={finishedList}>
+              <AccordionTitle>
+                <div className="flex items-start">
+                  已完成
+                  <Tooltip
+                    className="bg-Landlord-30 text-white text-center whitespace-pre-line"
+                    content={"您的租約已完成！請於完成兩週內評價您的房客。\n您可以由此將房源重新上架。"}
+                  >
+                    <img src={tooltipIcon} alt="tooltip" />
+                  </Tooltip>
+                </div>
+              </AccordionTitle>
+              <AccordionContent>
+                <ul className="layout-grid">
+                  <HouseCard />
+                </ul>
+              </AccordionContent>
+            </div>
           </AccordionPanel>
         </Accordion>
       </Flowbite>
