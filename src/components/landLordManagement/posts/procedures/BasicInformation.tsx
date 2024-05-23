@@ -8,7 +8,7 @@ import { useDispatch } from "react-redux";
 import { setFormData } from "../../../../../redux/post/basicInformationSlice";
 
 // 定義送出基本資料的型別
-interface basicInformationDataType {
+export interface basicInformationDataType {
   name: string,
   city: string,
   district: string,

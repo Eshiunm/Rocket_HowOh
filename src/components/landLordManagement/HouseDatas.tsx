@@ -1,8 +1,21 @@
 import { mainFeatures, nearByFacilities, houseFeatures, equipments, transportations } from "../../constants/featureList";
 import { waterBill, electricBill, managementFee } from "../../constants/forPay";
+import { basicInformationDataType } from "./posts/procedures/BasicInformation";
+import { photosDataType } from "./posts/procedures/Photos";
 import { formDataType } from "./posts/procedures/Facilities";
+import { expensesType } from "./posts/procedures/Expenses";
+import { restrictionType } from "./posts/procedures/Restrictions";
 
-export default function HouseDatas({houseDatas}) {
+export interface houseDatasType {
+  formData: basicInformationDataType,
+  photos: photosDataType[],
+  facilities: formDataType,
+  expenses: expensesType,
+  introduction: string,
+  restrictions: restrictionType,
+}
+
+export default function HouseDatas({houseDatas}: {houseDatas: houseDatasType}) {
   const { formData, photos, facilities, expenses, introduction, restrictions } = houseDatas;
   return (
     <>
@@ -106,7 +119,7 @@ export default function HouseDatas({houseDatas}) {
         <h3 className="add-new-title">照片</h3>
         <ul className="layout-grid">
           {
-            photos.map(({path,isCover}, index) => (
+            photos.map(({path,isCover}: photosDataType, index: number) => (
               <li key={"photo-" + index} className="h-48 rounded-xl overflow-hidden relative col-span-3 flex flex-col items-start gap-3">
                 <img src={path} className="w-full h-full object-cover" alt={`房源照片-${index+1}`} />
                 <span
@@ -490,7 +503,7 @@ export default function HouseDatas({houseDatas}) {
                     <div className="layout-grid">
                       <div className="col-span-3">
                         {
-                          restrictions.jobRestriction.map((restriction, index) => (
+                          restrictions.jobRestriction??[].map((restriction: string, index: number) => (
                             <p key={restriction+index} className={`confirm-data flex-1 ${
                               index+1 === restrictions.jobRestriction.length ? "" : "mb-3"
                             }`}>{ restriction || "\u00A0" }</p>

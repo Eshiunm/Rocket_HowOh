@@ -11,7 +11,7 @@ import { setExpenses } from "../../../../../redux/post/expensesSlice";
 // import { RootState } from "../../../../../redux/store";
 
 // 定義費用資料的型別
-interface expensesType {
+export interface expensesType {
   rent: string;
   securityDeposit: string;
   paymentMethodOfWaterBill: string;
