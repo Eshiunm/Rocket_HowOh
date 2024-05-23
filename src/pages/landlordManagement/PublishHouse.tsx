@@ -1,8 +1,9 @@
+import { useNavigate } from "react-router-dom";
 import HouseDatas from "../../components/landLordManagement/HouseDatas";
 import Footer from "../../components/footer/Footer";
 
 export default function PublishHouse() {
-
+  const navigate = useNavigate();
   const houseDatas = {
     formData:{
       name: "信義國小",
@@ -85,7 +86,11 @@ export default function PublishHouse() {
               </div>
             </div>
             <div className="flex gap-6">
-              <button type="button" className="outline-button-m">返回房源管理頁面</button>
+              <button
+                type="button"
+                className="outline-button-m"
+                onClick={() => navigate("/landlord")}
+              >返回房源管理頁面</button>
               <button type="button" className="outline-button-m">查看合約</button>
               <button type="button" className="filled-button-m">查看租客預約請求</button>
             </div>
