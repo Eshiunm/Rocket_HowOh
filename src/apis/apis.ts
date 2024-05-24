@@ -1,5 +1,13 @@
 import axios from 'axios';
 
+const token = localStorage.getItem('authToken');
+console.log(token);
+const config = {
+  'headers' : {
+    'Authorization': `Bearer ${token}`
+  }
+}
+
 // 登入登出、密碼變更相關的 api
 const baseRequest = axios.create({
   baseURL: 'http://98.70.102.116/api'
@@ -41,7 +49,7 @@ export const apiRegisterPhoneNumberVerifi = (data: any) => registerRequest.post(
 
 // 房源-房東相關的 api
 export const apiHouseLandlordPostStep = (data: any, id: string) => houseRequest.patch(`/landlord/${id}`, data); // ALO-3
-export const apiHouseLandlordPostNew = () => houseRequest.post('/landlord'); // ALO-2
+export const apiHouseLandlordPostNew = (data:any) => houseRequest.post('/landlord',data,config); // ALO-2
 export const apiHouseLandlordList = () => houseRequest.get('/landlord/list'); // ALO-1
 export const apiHouseLandlordContract = () => houseRequest.get('/landlord/contract'); // ALO-16
 export const apiHouseLandlordSingleContract = (id: string) => houseRequest.post(`/landlord/contract/${id}`); // ALO-7
