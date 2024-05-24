@@ -69,18 +69,18 @@ export default function BasicInformation() {
   });
   const selectedCity = watch("city");
   
-  const onSubmit = async (data: basicInformationDataType) => {
+  const onSubmit = (data: basicInformationDataType) => {
     // 開始 Loading
     setLoading(true);
     // 送出基本資訊至 redux
     dispatch(setFormData(data));
     // 打 API 送出基本資訊（ALO-3)
-    const houseId = localStorage.getItem('houseId');
-    const newData = {
-      ...data,
-      status: "完成步驟1"
-    }
     const patchData = async () => {
+      const houseId = localStorage.getItem('houseId');
+      const newData = {
+        ...data,
+        status: "完成步驟1"
+      }
       try {
         const res = await apiHouseLandlordPostStep(newData, houseId);
         if (res.data.Status === false) {
@@ -102,7 +102,6 @@ export default function BasicInformation() {
       }
     }
     patchData();
-    // setLoading(false);
   };
   return (
     <>
