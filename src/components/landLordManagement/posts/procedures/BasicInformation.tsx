@@ -1,10 +1,11 @@
 import { useContext,  useState } from "react";
 import { useForm } from "react-hook-form";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../../../../redux/store";
 import { ProcedureContext } from "../../../../pages/landlordManagement/AddNew";
 // 欄位所需之靜態資料
 import cities from "../../../../constants/locations/cities";
 import houseTypes from "../../../../constants/houseTypes";
-import { useDispatch } from "react-redux";
 import { setFormData } from "../../../../../redux/post/basicInformationSlice";
 
 // 定義送出基本資料的型別
@@ -29,7 +30,8 @@ export interface basicInformationDataType {
 
 export default function BasicInformation() {
   const dispatch = useDispatch();
-  // const content = useSelector(store => store.basicInformationContent);
+  const {formData} = useSelector((store: RootState) => store.basicInformationContent);
+  console.log(formData);
 
   // 控制欄位focus的狀態
   const [isNameFocused, setIsNameFocused] = useState(false); 
@@ -43,22 +45,22 @@ export default function BasicInformation() {
   const { register, handleSubmit,formState: { errors }, watch } = useForm<basicInformationDataType>({
     defaultValues: {
       // 基本資訊欄位預設值
-      name: "",
-      city: "高雄市",
-      district: "新興區",
-      road: "",
-      lane: "",
-      alley: "",
-      number: "",
-      floor: "",
-      floorTotal: "",
-      type: "整層住家",
-      ping: "",
-      roomNumbers: "",
-      livingRoomNumbers: "",
-      bathRoomNumbers: "",
-      balconyNumbers: "",
-      parkingSpaceNumbers: ""
+      name: formData.name,
+      city: formData.city,
+      district: formData.district,
+      road: formData.road,
+      lane: formData.lane,
+      alley: formData.alley,
+      number: formData.number,
+      floor: formData.floor,
+      floorTotal: formData.floorTotal,
+      type: formData.type,
+      ping: formData.ping,
+      roomNumbers: formData.roomNumbers,
+      livingRoomNumbers: formData.livingRoomNumbers,
+      bathRoomNumbers: formData.bathRoomNumbers,
+      balconyNumbers: formData.balconyNumbers,
+      parkingSpaceNumbers: formData.parkingSpaceNumbers
     }
   });
   const selectedCity = watch("city");
