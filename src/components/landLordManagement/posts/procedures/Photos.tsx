@@ -1,9 +1,10 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { ProcedureContext } from "../../../../pages/landlordManagement/AddNew";
 import deleteImg from "../../../../assets/imgs/icons/deleteImg.svg"
 import axios from "axios";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../../../../redux/store";
 import { setPhotos } from "../../../../../redux/post/photosSlice";
 
 // 定義送出照片資料的型別
@@ -18,12 +19,11 @@ interface UploadPhotoProps {
 
 export default function Photos() {
   const dispatch = useDispatch();
-  // const photosStore = useSelector(store => store.photosUpload);
+  const { photos } = useSelector((store: RootState) => store.photosUpload);
 
   const [images, setImages] = useState<string[]>([]);
   const [coverIndex, setCoverIndex] = useState(0); 
 
-  
   const { handleSubmit } = useForm();
   const { handleProcedureClick, handleProcedureDone } = useContext(ProcedureContext);
 
@@ -119,6 +119,20 @@ export default function Photos() {
     handleProcedureDone(1);
     handleProcedureClick("設備設施");
   };
+
+  useEffect(() => {
+    // 只要到這個頁面，就抓取redux內所有上傳的照片的資料，讓使用者可以接續上傳圖片
+    if (photos.length > 0) {
+      setImages([]);
+      setCoverIndex(0);
+      photos.forEach((item, index) => {
+        if (item.isCover) {
+          setCoverIndex(index)
+        }
+        setImages((prev) => [...prev, item.path]);
+      })
+    }
+  }, [photos]);
 
   return (
     <div className="p-5">
