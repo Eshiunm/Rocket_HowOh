@@ -1,9 +1,9 @@
 import { useContext } from "react";
 import { useForm } from "react-hook-form";
 import { ProcedureContext } from "../../../../pages/landlordManagement/AddNew";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setIntroduction } from "../../../../../redux/post/introductionSlice";
-// import { RootState } from "../../../../../redux/store";
+import { RootState } from "../../../../../redux/store";
 
 // 定義介紹資料的型別
 interface descriptionType {
@@ -12,13 +12,13 @@ interface descriptionType {
 
 export default function Introduction() {
   const dispatch = useDispatch();
-  // const content = useSelector( (store: RootState) => store.description);
+  const { introduction } = useSelector( (store: RootState) => store.description);
   const { handleProcedureClick, handleProcedureDone } =
     useContext(ProcedureContext);
 
   const { register, handleSubmit, formState: { errors } } = useForm({
     defaultValues : {
-      description: "",
+      description: introduction,
     }
   });
   const onSubmit = (data: descriptionType) => {
