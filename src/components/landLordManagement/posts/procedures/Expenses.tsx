@@ -6,9 +6,9 @@ import {
   managementFee,
   waterBill,
 } from "../../../../constants/forPay";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setExpenses } from "../../../../../redux/post/expensesSlice";
-// import { RootState } from "../../../../../redux/store";
+import { RootState } from "../../../../../redux/store";
 
 // 定義費用資料的型別
 export interface expensesType {
@@ -25,21 +25,21 @@ export interface expensesType {
 
 export default function Expenses() {
   const dispatch = useDispatch();
-  // const content = useSelector( (store: RootState) => store.expensesContent);
+  const {expenses} = useSelector( (store: RootState) => store.expensesContent);
   const { handleProcedureClick, handleProcedureDone } =
     useContext(ProcedureContext);
 
   const { register, handleSubmit, formState: { errors }, watch } = useForm({
     defaultValues: {
-      rent: "",
-      securityDeposit: "兩個月",
-      paymentMethodOfWaterBill: "包含於房租",
-      waterBillPerMonth: "",
-      electricBill: "依台電計價",
-      electricBillPerDegree: "",
-      paymentMethodOfElectricBill: "自行繳納",
-      paymentMethodOfManagementFee: "無管理費",
-      managementFeePerMonth: "",
+      rent: expenses.rent,
+      securityDeposit: expenses.securityDeposit,
+      paymentMethodOfWaterBill: expenses.paymentMethodOfWaterBill,
+      waterBillPerMonth: expenses.waterBillPerMonth,
+      electricBill: expenses.electricBill,
+      electricBillPerDegree: expenses.electricBillPerDegree,
+      paymentMethodOfElectricBill: expenses.paymentMethodOfElectricBill,
+      paymentMethodOfManagementFee: expenses.paymentMethodOfManagementFee,
+      managementFeePerMonth: expenses.managementFeePerMonth,
     }
   });
   const paymentMethodOfWaterBill = watch("paymentMethodOfWaterBill");
