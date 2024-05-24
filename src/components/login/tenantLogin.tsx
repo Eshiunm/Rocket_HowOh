@@ -138,7 +138,7 @@ function TenantLogin() {
           {/* 顯示密碼按鈕 */}
           <button
             type="button"
-            className="absolute inset-y-0 right-0 flex items-center px-2"
+            className="absolute inset-y-0 right-4 flex items-center px-2"
             onMouseDown={handleMouseDown}
             onMouseUp={handleMouseUp}
             onMouseLeave={handleMouseUp}
@@ -155,6 +155,7 @@ function TenantLogin() {
           {errors.password && errors.password.message}
         </span>
       </div>
+      {/* 打 API 後產生的錯誤訊息放這 */}
       {apiErrorMessage && (
         <p className="text-Alert-50 mb-7">{apiErrorMessage}</p>
       )}
