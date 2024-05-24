@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../../../redux/store";
 import { setPhotos } from "../../../../../redux/post/photosSlice";
 import BigLoading from "../../../loading/BigLoading";
+import { apiHouseLandlordPostImg } from "../../../../apis/apis"
 
 // 定義送出照片資料的型別
 export interface photosDataType {		
@@ -122,8 +123,16 @@ export default function Photos() {
     setLoading(true);
     try {
       const photosArray = await uploadImage();
-      // handleProcedureDone(1);
-      // handleProcedureClick("設備設施");
+      const newData = {
+        "status": "完成步驟2", 
+        "files": photosArray
+      };
+      const houseId = localStorage.getItem('houseId');
+      const response = await apiHouseLandlordPostImg(newData, houseId);
+      console.log(response);
+      setLoading(false);
+      handleProcedureDone(1);
+      handleProcedureClick("設備設施");
     } catch (error) {
       alert(error);
     }

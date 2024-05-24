@@ -51,7 +51,7 @@ export const apiRegisterPhoneNumberVerifi = (data: any) => registerRequest.post(
 // 房源-房東刊登房源相關的 api
 export const apiHouseLandlordPostNew = (data:any) => houseRequest.post('/landlord',data,config); // ALO-2
 export const apiHouseLandlordPostStep = (data: any, houseId: string|null) => houseRequest.patch(`/landlord/${houseId}`, data, config); // ALO-3
-export const apiHouseLandlordPostImg = (data: any, id: string) => houseRequest.post(`/landlord/img/${id}`, data); // ALO-4
+export const apiHouseLandlordPostImg = (data: any, houseId: string|null) => houseRequest.post(`/landlord/img/${houseId}`, data, config); // ALO-4
 
 // 房源-房東相關的 api
 export const apiHouseLandlordList = () => houseRequest.get('/landlord/list'); // ALO-1
