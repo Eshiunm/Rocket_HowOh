@@ -48,9 +48,11 @@ export const apiPasswordChange = (data: any) => baseRequest.patch('/password', d
 export const apiRegisterSignUp = (data: any) => registerRequest.post('/common/signup', data); // FCR-1
 export const apiRegisterPhoneNumberVerifi = (data: any) => registerRequest.post('/common/phoneNumberVerifi', data); // FCR-2
 
-// 房源-房東相關的 api
-export const apiHouseLandlordPostStep = (data: any, id: string) => houseRequest.patch(`/landlord/${id}`, data); // ALO-3
+// 房源-房東刊登房源相關的 api
 export const apiHouseLandlordPostNew = (data:any) => houseRequest.post('/landlord',data,config); // ALO-2
+export const apiHouseLandlordPostStep = (data: any, houseId: string|null) => houseRequest.patch(`/landlord/${houseId}`, data, config); // ALO-3
+
+// 房源-房東相關的 api
 export const apiHouseLandlordList = () => houseRequest.get('/landlord/list'); // ALO-1
 export const apiHouseLandlordContract = () => houseRequest.get('/landlord/contract'); // ALO-16
 export const apiHouseLandlordSingleContract = (id: string) => houseRequest.post(`/landlord/contract/${id}`); // ALO-7
