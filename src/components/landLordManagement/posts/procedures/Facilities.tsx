@@ -131,9 +131,8 @@ export default function Facilities() {
           throw new Error(response.data.Message);
         }
         setLoading(false);
-        console.log(response)
-        // handleProcedureDone(2);
-        // handleProcedureClick("費用");
+        handleProcedureDone(2);
+        handleProcedureClick("費用");
       } catch (error: any) {
         localStorage.clear();
         if (error.response.status === 401) {
