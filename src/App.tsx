@@ -18,7 +18,7 @@ function App() {
           <Route index element={<HomePage />}></Route>
           <Route path="houseList">
             <Route index element={<HouseListPage />}></Route>
-            <Route path="a" element={<h1>你現在在單一房源頁面</h1>}></Route>
+            <Route path=":houseId" element={<h1>你現在在單一房源頁面</h1>}></Route>
           </Route>
           <Route path="signup" element={<SwitchIdentityPage />}></Route>
           <Route
