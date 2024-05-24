@@ -1,7 +1,6 @@
 import axios from 'axios';
 
 const token = localStorage.getItem('authToken');
-console.log(token);
 const config = {
   'headers' : {
     'Authorization': `Bearer ${token}`
