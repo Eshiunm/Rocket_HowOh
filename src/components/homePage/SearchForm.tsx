@@ -2,7 +2,6 @@ import {
   useState,
   useEffect,
   ChangeEvent,
-  MouseEventHandler,
   MouseEvent,
   useRef,
 } from "react";
