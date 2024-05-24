@@ -7,7 +7,7 @@ import { setRestrictions } from "../../../../../redux/post/restrictionsSlice";
 // import { RootState } from "../../../../../redux/store";
 
 // 定義限制資料的型別
-interface restrictionType {
+export interface restrictionType {
   hasTenantRestrictions: string;
   genderRestriction: string;
   jobRestriction: string | string[];

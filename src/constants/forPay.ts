@@ -1,7 +1,7 @@
 const waterBill = [
   {
     id: "customWater",
-    title: "自訂（隨房租繳納）",
+    title: "自訂(隨房租繳納)",
     value: "自訂"
   },
   {
@@ -19,7 +19,7 @@ const waterBill = [
 const electricBill = [
   {
     id: "customElectric",
-    title: "自訂（隨房租繳納）",
+    title: "自訂(隨房租繳納)",
     value: "自訂",
   },
   {
@@ -42,12 +42,12 @@ const managementFee = [
   },
   {
     id: "managementFeePayWithRent",
-    title: "房客支付（隨房租繳納）",
+    title: "房客支付(隨房租繳納)",
     value: "隨房租繳納",
   },
   {
     id: "managementFeePaySelf",
-    title: "房客支付（自行繳納）",
+    title: "房客支付(自行繳納)",
     value: "自行繳納",
   },
 ];
