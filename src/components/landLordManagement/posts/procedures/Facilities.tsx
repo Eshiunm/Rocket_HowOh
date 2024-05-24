@@ -8,29 +8,35 @@ import {
   transportations,
   equipments
 } from "../../../../constants/featureList";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setFacilities } from "../../../../../redux/post/facilitiesSlice";
+import { RootState } from "../../../../../redux/store";
 
 // 定義設備設施頁面資料的型別
 export interface formDataType {
-  isNearByDepartmentStore: boolean, 
-	isNearBySchool: boolean, 
-	isNearByMorningMarket: boolean, 
-	isNearByNightMarket: boolean, 
-	isNearByConvenientStore: boolean, 
-	isNearByPark: boolean, 
-	hasGarbageDisposal: boolean, 
-	hasWindowInBathroom: boolean, 
-	hasElevator: boolean, 
-	hasAirConditioner: boolean, 
-	hasWashingMachine: boolean, 
-	hasRefrigerator: boolean, 
-	hasCloset: boolean, 
-	hasTableAndChair: boolean, 
-	hasWaterHeater: boolean, 
-	hasInternet: boolean, 
-	hasBed: boolean, 
-	hasTV: boolean, 
+  isNearByDepartmentStore: boolean; 
+	isNearBySchool: boolean; 
+	isNearByMorningMarket: boolean; 
+	isNearByNightMarket: boolean; 
+	isNearByConvenientStore: boolean; 
+	isNearByPark: boolean; 
+	hasGarbageDisposal: boolean; 
+	hasWindowInBathroom: boolean; 
+	hasElevator: boolean; 
+	hasAirConditioner: boolean; 
+	hasWashingMachine: boolean; 
+	hasRefrigerator: boolean; 
+	hasCloset: boolean; 
+	hasTableAndChair: boolean; 
+	hasWaterHeater: boolean; 
+	hasInternet: boolean; 
+	hasBed: boolean; 
+	hasTV: boolean; 
+  kmAwayMRT?: string;  
+  kmAwayLRT?: string;  
+  kmAwayBusStation?: string;  
+  kmAwayHSR?: string;  
+  kmAwayTrainStation?: string; 
 }
 
 // 定義重點特色資料的型別
@@ -52,26 +58,52 @@ interface selectedTransportationsType {
 
 export default function Facilities() {
   const dispatch = useDispatch();
-  // const content = useSelector( (store: RootState) => store.facilitiesContent);
+  const { facilities } = useSelector( (store: RootState) => store.facilitiesContent);
   const { handleProcedureClick, handleProcedureDone } = useContext(ProcedureContext);
 
   // 狀態控制重點特色按鈕點擊情況
   const [selectedMainFeatures, setSelectedMainFeatures] = useState<selectedMainFeaturesType>({
-    isRentSubsidy: false,
-    isCookAllowed: false,
-    isPetAllowed: false,
-    isSTRAllowed: false,
+    isRentSubsidy: facilities.isRentSubsidy,
+    isCookAllowed: facilities.isCookAllowed,
+    isPetAllowed: facilities.isPetAllowed,
+    isSTRAllowed: facilities.isSTRAllowed,
   });
   // 狀態控制交通資料按鈕點擊情況
   const [selectedTransportations, setSelectedTransportations] = useState<selectedTransportationsType>({
-    isNearMRT: false,
-    isNearLRT: false,
-    isNearBusStation: false,
-    isNearTrainStation: false,
-    isNearHSR: false,
+    isNearMRT: facilities.isNearMRT,
+    isNearLRT: facilities.isNearLRT,
+    isNearBusStation: facilities.isNearBusStation,
+    isNearTrainStation: facilities.isNearTrainStation,
+    isNearHSR: facilities.isNearHSR,
   });
 
-  const { register, handleSubmit, formState: { errors } } = useForm<formDataType>();
+  const { register, handleSubmit, formState: { errors } } = useForm<formDataType>({
+    defaultValues: {
+      isNearByDepartmentStore: facilities.isNearByDepartmentStore,
+      isNearBySchool: facilities.isNearBySchool , 
+      isNearByMorningMarket: facilities.isNearByMorningMarket, 
+      isNearByNightMarket: facilities.isNearByNightMarket, 
+      isNearByConvenientStore: facilities.isNearByConvenientStore,
+      isNearByPark: facilities.isNearByPark,
+      hasGarbageDisposal: facilities.hasGarbageDisposal,
+      hasWindowInBathroom: facilities.hasWindowInBathroom,
+      hasElevator: facilities.hasElevator,
+      hasAirConditioner: facilities.hasAirConditioner,
+      hasWashingMachine: facilities.hasWashingMachine,
+      hasRefrigerator: facilities.hasRefrigerator,
+      hasCloset: facilities.hasCloset,
+      hasTableAndChair: facilities.hasTableAndChair,
+      hasWaterHeater: facilities.hasWaterHeater,
+      hasInternet: facilities.hasInternet,
+      hasBed: facilities.hasBed,
+      hasTV: facilities.hasTV,
+      kmAwayMRT: facilities.kmAwayMRT, 
+      kmAwayLRT: facilities.kmAwayLRT, 
+      kmAwayBusStation: facilities.kmAwayBusStation, 
+      kmAwayHSR: facilities.kmAwayHSR, 
+      kmAwayTrainStation: facilities.kmAwayTrainStation,
+    }
+  });
   const onSubmit: SubmitHandler<formDataType> = (data : formDataType) => {
     // 重組資料後送出
     const formData = {
