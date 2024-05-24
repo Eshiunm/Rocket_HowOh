@@ -102,7 +102,7 @@ export default function BasicInformation() {
       }
     }
     patchData();
-    setLoading(false);
+    // setLoading(false);
   };
   return (
     <>

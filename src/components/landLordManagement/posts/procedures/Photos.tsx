@@ -1,13 +1,13 @@
+import axios from "axios";
 import { useContext, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
 import { ProcedureContext } from "../../../../pages/landlordManagement/AddNew";
 import deleteImg from "../../../../assets/imgs/icons/deleteImg.svg"
-import axios from "axios";
-import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../../../redux/store";
 import { setPhotos } from "../../../../../redux/post/photosSlice";
-import BigLoading from "../../../loading/BigLoading";
 import { apiHouseLandlordPostImg } from "../../../../apis/apis"
+import BigLoading from "../../../loading/BigLoading";
 
 // 定義送出照片資料的型別
 export interface photosDataType {		
@@ -128,8 +128,8 @@ export default function Photos() {
         "files": photosArray
       };
       const houseId = localStorage.getItem('houseId');
-      const response = await apiHouseLandlordPostImg(newData, houseId);
-      console.log(response);
+      // ALO-4
+      await apiHouseLandlordPostImg(newData, houseId);
       setLoading(false);
       handleProcedureDone(1);
       handleProcedureClick("設備設施");
@@ -137,8 +137,6 @@ export default function Photos() {
       alert(error);
     }
     setLoading(false);
-    // handleProcedureDone(1);
-    // handleProcedureClick("設備設施");
   };
 
   useEffect(() => {
@@ -158,6 +156,7 @@ export default function Photos() {
   return (
     <>
       {
+        // 上傳圖片時的 loading
         loading && <BigLoading />
       }
       <div className="p-5">
