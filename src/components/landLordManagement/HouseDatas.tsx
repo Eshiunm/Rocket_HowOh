@@ -541,8 +541,8 @@ export default function HouseDatas({houseDatas}: {houseDatas: houseDatasType}) {
                     disabled
                     type="radio"
                     id="maleRestriction"
-                    value="僅限男性"
-                    checked={restrictions.genderRestriction === "僅限男性"}
+                    value="排除男性"
+                    checked={restrictions.genderRestriction === "排除男性"}
                     className="w-6 h-6 text-black bg-transparent border-black focus:ring-0 focus:ring-transparent"
                   />
                   男
@@ -554,8 +554,8 @@ export default function HouseDatas({houseDatas}: {houseDatas: houseDatasType}) {
                     disabled
                     type="radio"
                     id="femaleRestriction"
-                    value="僅限女性"
-                    checked={restrictions.genderRestriction === "僅限女性"}
+                    value="排除女性"
+                    checked={restrictions.genderRestriction === "排除女性"}
                     className="w-6 h-6 text-black bg-transparent border-black focus:ring-0 focus:ring-transparent"
                   />
                   女
