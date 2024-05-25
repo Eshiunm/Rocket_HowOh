@@ -23,6 +23,8 @@ export default function HouseDatas({houseDatas}: {houseDatas: houseDatasType}) {
   const location = useLocation();
   const [gridSpanWide, setGridSpanWide] = useState(true);
 
+  const landlordJobRestriction = restrictions.jobRestriction.split(",");
+
   useEffect(() => {
     // 判斷網址路徑所在位置，控制grid span 寬度
     if(location.pathname === '/landlord/post') {
@@ -604,27 +606,20 @@ export default function HouseDatas({houseDatas}: {houseDatas: houseDatasType}) {
                 </label>
               </fieldset>
               {
-                restrictions.jobRestriction && (
+                landlordJobRestriction.length > 0 && (
                   <>
                     <h6 className="text-sans-caption -mb-2">職業類別</h6>
                     <div className="layout-grid">
                       <div className="col-span-3">
                         {
-                          <p className={`confirm-data flex-1 mb-3`}>
-                            { restrictions.jobRestriction || "\u00A0" }
-                          </p>
-                        }
-                        {/* {
-                          typeof(restrictions.jobRestriction) === "object" 
-                          && 
-                          restrictions.jobRestriction.map((restriction: string, index: number) => (
-                            <p key={restriction+index} className={`confirm-data flex-1 ${
-                              index+1 === restrictions.jobRestriction.length ? "" : "mb-3"
+                          landlordJobRestriction.map((job,index) => (
+                            <p key={job+index} className={`confirm-data flex-1 ${
+                              index === landlordJobRestriction.length - 1 ? "" : "mb-3"
                             }`}>
-                              { restriction || "\u00A0" }
+                              { job || "\u00A0" }
                             </p>
                           ))
-                        } */}
+                        }
                       </div>
                     </div>
                   </>
