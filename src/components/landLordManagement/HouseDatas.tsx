@@ -18,11 +18,10 @@ export interface houseDatasType {
 }
 
 export default function HouseDatas({houseDatas}: {houseDatas: houseDatasType}) {
-  const { formData, photos, facilities, expenses, introduction, restrictions } = houseDatas;
-
   const location = useLocation();
   const [gridSpanWide, setGridSpanWide] = useState(true);
 
+  const { formData, photos, facilities, expenses, introduction, restrictions } = houseDatas;
   const landlordJobRestriction = restrictions.jobRestriction.split(",");
 
   useEffect(() => {
