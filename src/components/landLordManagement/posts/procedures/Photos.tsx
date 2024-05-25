@@ -8,6 +8,7 @@ import { RootState } from "../../../../../redux/store";
 import { setPhotos } from "../../../../../redux/post/photosSlice";
 import { apiHouseLandlordPostImg } from "../../../../apis/apis"
 import BigLoading from "../../../loading/BigLoading";
+import { useNavigate } from "react-router-dom";
 
 // 定義送出照片資料的型別
 export interface photosDataType {		
@@ -20,6 +21,7 @@ interface UploadPhotoProps {
 }
 
 export default function Photos() {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { photos } = useSelector((store: RootState) => store.photosUpload);
 
@@ -129,12 +131,21 @@ export default function Photos() {
       };
       const houseId = localStorage.getItem('houseId');
       // ALO-4
-      await apiHouseLandlordPostImg(newData, houseId);
+      const response =await apiHouseLandlordPostImg(newData, houseId);
+      if (response.data.Status === false) {
+        throw new Error(response.data.Message);
+      }
       setLoading(false);
       handleProcedureDone(1);
       handleProcedureClick("設備設施");
-    } catch (error) {
-      alert(error);
+    } catch (error: any) {
+      localStorage.clear();
+      if (error.response.status === 401) {
+        alert(`錯誤回報：401\n請洽 howoh好窩網路管理員`);
+      } else {
+        alert(error);
+      }
+      navigate('/');
     }
     setLoading(false);
   };
