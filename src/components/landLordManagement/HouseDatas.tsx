@@ -604,12 +604,17 @@ export default function HouseDatas({houseDatas}: {houseDatas: houseDatasType}) {
                 </label>
               </fieldset>
               {
-                restrictions.jobRestriction.length > 0 && (
+                restrictions.jobRestriction && (
                   <>
                     <h6 className="text-sans-caption -mb-2">職業類別</h6>
                     <div className="layout-grid">
                       <div className="col-span-3">
                         {
+                          <p className={`confirm-data flex-1 mb-3`}>
+                            { restrictions.jobRestriction || "\u00A0" }
+                          </p>
+                        }
+                        {/* {
                           typeof(restrictions.jobRestriction) === "object" 
                           && 
                           restrictions.jobRestriction.map((restriction: string, index: number) => (
@@ -619,7 +624,7 @@ export default function HouseDatas({houseDatas}: {houseDatas: houseDatasType}) {
                               { restriction || "\u00A0" }
                             </p>
                           ))
-                        }
+                        } */}
                       </div>
                     </div>
                   </>

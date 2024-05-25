@@ -10,7 +10,7 @@ import { setRestrictions } from "../../../../../redux/post/restrictionsSlice";
 export interface restrictionType {
   hasTenantRestrictions: string;
   genderRestriction: string;
-  jobRestriction: string | string[];
+  jobRestriction: string;
 }
 
 export default function Restrictions() {
@@ -30,12 +30,12 @@ export default function Restrictions() {
     },
   });
   const hasTenantRestrictions: string = watch("hasTenantRestrictions");
-  const jobRestriction: string|string[] = watch("jobRestriction");
+  const jobRestriction: string = watch("jobRestriction");
 
   const onSubmit = (data: restrictionType):void => {
     // 重組jobRestriction資料後送出
     const formData = {...data};
-    formData.jobRestriction = selectedJobs;
+    formData.jobRestriction = selectedJobs.join(",");
     dispatch(setRestrictions(formData));
     handleProcedureDone(5);
     handleProcedureClick("確認");
