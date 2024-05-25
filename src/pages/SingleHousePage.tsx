@@ -667,7 +667,7 @@ function SingleHousePage() {
           </div>
 
           {/* 房東基本資訊 */}
-          <div className="col-span-3 col-start-9">
+          <div className="col-span-3 col-start-9 ">
             {/* 查看更多照片 */}
             <div className="flex justify-between">
               <span></span>
@@ -676,87 +676,91 @@ function SingleHousePage() {
               </button>
             </div>
 
-            {/* 預約看房 */}
-            <div className="shadow-elevation-3 rounded-2xl p-6 mb-[14px]">
-              <ul className="flex flex-col gap-y-[34px]">
-                <li>
-                  <h5 className="text-center">
-                    <span className="before:block before:absolute before:h-[10%] before:w-[95%] before:bg-[#bac6e6] before:bottom-[5%] before:right-[7%] relative">
-                      <span className="relative text-sans-b-h1 mr-2">
-                        10,000
+            <div className="sticky top-[80px]">
+              {/* 預約看房 */}
+              <div className=" shadow-elevation-3 rounded-2xl p-6 mb-[14px]">
+                <ul className="flex flex-col gap-y-[34px]">
+                  <li>
+                    <h5 className="text-center">
+                      <span className="before:block before:absolute before:h-[10%] before:w-[95%] before:bg-[#bac6e6] before:bottom-[5%] before:right-[7%] relative">
+                        <span className="relative text-sans-b-h1 mr-2">
+                          10,000
+                        </span>
                       </span>
+                      <span className="text-sans-caption font-normal">
+                        元/月
+                      </span>
+                    </h5>
+                  </li>
+                  <li>
+                    <span className="block text-center">
+                      押金
+                      <span className="inline-block h-full bg-Tenant-70 w-[1px] text-white mx-2">
+                        |
+                      </span>
+                      一個月
                     </span>
-                    <span className="text-sans-caption font-normal">元/月</span>
-                  </h5>
-                </li>
-                <li>
-                  <span className="block text-center">
-                    押金
-                    <span className="inline-block h-full bg-Tenant-70 w-[1px] text-white mx-2">
-                      |
-                    </span>
-                    一個月
-                  </span>
-                </li>
-                <li>
-                  <button className="w-full text-sans-b-body1 text-center border-Neutral-90 bg-Brand-90 py-2 rounded-lg shadow-elevation-2 hover:bg-Brand-95">
-                    預約看房
-                  </button>
-                </li>
-              </ul>
-            </div>
-            {/* 房東基本資訊 */}
-            <div className="shadow-elevation-3 rounded-2xl p-6">
-              <ul className="flex flex-col gap-y-6">
-                <li className="flex justify-between">
-                  <div>
+                  </li>
+                  <li>
+                    <button className="w-full text-sans-b-body1 text-center border-Neutral-90 bg-Brand-90 py-2 rounded-lg shadow-elevation-2 hover:bg-Brand-95">
+                      預約看房
+                    </button>
+                  </li>
+                </ul>
+              </div>
+              {/* 房東基本資訊 */}
+              <div className="shadow-elevation-3 rounded-2xl p-6">
+                <ul className="flex flex-col gap-y-6">
+                  <li className="flex justify-between">
+                    <div>
+                      <img
+                        src={landLordIcon}
+                        alt="landLordIcon"
+                        className="mb-4"
+                      />
+                      <h4 className="text-sans-b-body1 text-Landlord-40 mb-4">
+                        房東
+                      </h4>
+                      <p>
+                        <span className="text-sans-b-h3">王</span> 太太
+                      </p>
+                    </div>
                     <img
-                      src={landLordIcon}
-                      alt="landLordIcon"
-                      className="mb-4"
+                      src={landLordProfile}
+                      alt="landLordProfile"
+                      className="rounded-2xl"
                     />
-                    <h4 className="text-sans-b-body1 text-Landlord-40 mb-4">
-                      房東
-                    </h4>
+                  </li>
+                  <li className="flex justify-between gap-x-3">
+                    <div className="w-full shadow-elevation-2 rounded-lg p-4">
+                      <h5 className="text-sans-b-body1 text-Landlord-50 mb-4">
+                        評價
+                      </h5>
+                      <p className="flex justify-between items-end">
+                        <span className="text-sans-h4">4.8</span>
+                        <img src={ratingStarIcon} alt="ratingStarIcon" />
+                      </p>
+                    </div>
+                    <div className="w-full shadow-elevation-2 rounded-lg p-4">
+                      <h5 className="text-sans-b-body1 text-Landlord-50 mb-4">
+                        則數
+                      </h5>
+                      <p className="flex justify-between items-end">
+                        <span className="text-sans-h4">4</span>
+                        <span>則</span>
+                      </p>
+                    </div>
+                  </li>
+                  <li>
+                    <h5 className="text-sans-b-body1 text-Landlord-50 mb-3">
+                      自我介紹
+                    </h5>
                     <p>
-                      <span className="text-sans-b-h3">王</span> 太太
+                      租客您好，我平日是一名忙碌的菜販，在高雄有一間出租套房。雖然房源不華美，但非常乾淨。若房間有問題，會即時修理，不用擔心。
                     </p>
-                  </div>
-                  <img
-                    src={landLordProfile}
-                    alt="landLordProfile"
-                    className="rounded-2xl"
-                  />
-                </li>
-                <li className="flex justify-between gap-x-3">
-                  <div className="w-full shadow-elevation-2 rounded-lg p-4">
-                    <h5 className="text-sans-b-body1 text-Landlord-50 mb-4">
-                      評價
-                    </h5>
-                    <p className="flex justify-between items-end">
-                      <span className="text-sans-h4">4.8</span>
-                      <img src={ratingStarIcon} alt="ratingStarIcon" />
-                    </p>
-                  </div>
-                  <div className="w-full shadow-elevation-2 rounded-lg p-4">
-                    <h5 className="text-sans-b-body1 text-Landlord-50 mb-4">
-                      則數
-                    </h5>
-                    <p className="flex justify-between items-end">
-                      <span className="text-sans-h4">4</span>
-                      <span>則</span>
-                    </p>
-                  </div>
-                </li>
-                <li>
-                  <h5 className="text-sans-b-body1 text-Landlord-50 mb-3">
-                    自我介紹
-                  </h5>
-                  <p>
-                    租客您好，我平日是一名忙碌的菜販，在高雄有一間出租套房。雖然房源不華美，但非常乾淨。若房間有問題，會即時修理，不用擔心。
-                  </p>
-                </li>
-              </ul>
+                  </li>
+                </ul>
+              </div>
             </div>
           </div>
         </div>
