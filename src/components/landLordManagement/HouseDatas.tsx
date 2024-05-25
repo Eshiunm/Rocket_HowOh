@@ -18,10 +18,11 @@ export interface houseDatasType {
 }
 
 export default function HouseDatas({houseDatas}: {houseDatas: houseDatasType}) {
-  const { formData, photos, facilities, expenses, introduction, restrictions } = houseDatas;
-
   const location = useLocation();
   const [gridSpanWide, setGridSpanWide] = useState(true);
+
+  const { formData, photos, facilities, expenses, introduction, restrictions } = houseDatas;
+  const landlordJobRestriction = restrictions.jobRestriction.split(",");
 
   useEffect(() => {
     // 判斷網址路徑所在位置，控制grid span 寬度
@@ -196,7 +197,7 @@ export default function HouseDatas({houseDatas}: {houseDatas: houseDatasType}) {
                   <input
                     disabled
                     type="checkbox"
-                    checked={facilities[id as keyof formDataType]}
+                    checked={facilities[id as keyof formDataType] === true}
                     className="hover:cursor-auto w-5 h-5 text-black focus:ring-transparent rounded-sm border-2 border-black cursor-pointer"
                   />
                   {title}
@@ -217,7 +218,7 @@ export default function HouseDatas({houseDatas}: {houseDatas: houseDatasType}) {
                   <input
                     disabled
                     type="checkbox"
-                    checked={facilities[id as keyof formDataType]}
+                    checked={facilities[id as keyof formDataType] === true}
                     className="hover:cursor-auto w-5 h-5 text-black focus:ring-transparent rounded-sm border-2 border-black cursor-pointer"
                   />
                   {title}
@@ -238,7 +239,7 @@ export default function HouseDatas({houseDatas}: {houseDatas: houseDatasType}) {
                   <input
                     disabled
                     type="checkbox"
-                    checked={facilities[id as keyof formDataType]}
+                    checked={facilities[id as keyof formDataType] === true}
                     className="hover:cursor-auto w-5 h-5 text-black focus:ring-transparent rounded-sm border-2 border-black cursor-pointer"
                   />
                   {title}
@@ -261,7 +262,7 @@ export default function HouseDatas({houseDatas}: {houseDatas: houseDatasType}) {
                         disabled
                         type="checkbox"
                         className="hover:cursor-auto w-5 h-5 text-black focus:ring-transparent rounded-sm border-2 border-black cursor-pointer"
-                        checked={facilities[id as keyof formDataType]}
+                        checked={facilities[id as keyof formDataType] === true}
                       />
                       {title}
                     </div>
@@ -539,8 +540,8 @@ export default function HouseDatas({houseDatas}: {houseDatas: houseDatasType}) {
                     disabled
                     type="radio"
                     id="maleRestriction"
-                    value="僅限男性"
-                    checked={restrictions.genderRestriction === "僅限男性"}
+                    value="排除男性"
+                    checked={restrictions.genderRestriction === "排除男性"}
                     className="w-6 h-6 text-black bg-transparent border-black focus:ring-0 focus:ring-transparent"
                   />
                   男
@@ -552,8 +553,8 @@ export default function HouseDatas({houseDatas}: {houseDatas: houseDatasType}) {
                     disabled
                     type="radio"
                     id="femaleRestriction"
-                    value="僅限女性"
-                    checked={restrictions.genderRestriction === "僅限女性"}
+                    value="排除女性"
+                    checked={restrictions.genderRestriction === "排除女性"}
                     className="w-6 h-6 text-black bg-transparent border-black focus:ring-0 focus:ring-transparent"
                   />
                   女
@@ -604,19 +605,17 @@ export default function HouseDatas({houseDatas}: {houseDatas: houseDatasType}) {
                 </label>
               </fieldset>
               {
-                restrictions.jobRestriction.length > 0 && (
+                landlordJobRestriction.length > 0 && (
                   <>
                     <h6 className="text-sans-caption -mb-2">職業類別</h6>
                     <div className="layout-grid">
                       <div className="col-span-3">
                         {
-                          typeof(restrictions.jobRestriction) === "object" 
-                          && 
-                          restrictions.jobRestriction.map((restriction: string, index: number) => (
-                            <p key={restriction+index} className={`confirm-data flex-1 ${
-                              index+1 === restrictions.jobRestriction.length ? "" : "mb-3"
+                          landlordJobRestriction.map((job,index) => (
+                            <p key={job+index} className={`confirm-data flex-1 ${
+                              index === landlordJobRestriction.length - 1 ? "" : "mb-3"
                             }`}>
-                              { restriction || "\u00A0" }
+                              { job || "\u00A0" }
                             </p>
                           ))
                         }

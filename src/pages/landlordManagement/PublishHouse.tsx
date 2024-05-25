@@ -68,7 +68,7 @@ export default function PublishHouse() {
     restrictions:{
       hasTenantRestrictions: "true",
       genderRestriction: "女",
-      jobRestriction: ["123","csdfd"],
+      jobRestriction: "123c,sdfd",
     },
   };
   return (

@@ -6,7 +6,7 @@ export const restrictionsSlice = createSlice({
     restrictions: {
       hasTenantRestrictions: "false",
       genderRestriction: "性別友善",
-      jobRestriction: [],
+      jobRestriction: "",
     }
   },
   reducers: {

@@ -48,15 +48,17 @@ export const apiPasswordChange = (data: any) => baseRequest.patch('/password', d
 export const apiRegisterSignUp = (data: any) => registerRequest.post('/common/signup', data); // FCR-1
 export const apiRegisterPhoneNumberVerifi = (data: any) => registerRequest.post('/common/phoneNumberVerifi', data); // FCR-2
 
-// 房源-房東相關的 api
-export const apiHouseLandlordPostStep = (data: any, id: string) => houseRequest.patch(`/landlord/${id}`, data); // ALO-3
+// 房源-房東刊登房源相關的 api
 export const apiHouseLandlordPostNew = (data:any) => houseRequest.post('/landlord',data,config); // ALO-2
+export const apiHouseLandlordPostStep = (data: any, houseId: string|null) => houseRequest.patch(`/landlord/${houseId}`, data, config); // ALO-3
+export const apiHouseLandlordPostImg = (data: any, houseId: string|null) => houseRequest.post(`/landlord/img/${houseId}`, data, config); // ALO-4
+
+// 房源-房東相關的 api
 export const apiHouseLandlordList = () => houseRequest.get('/landlord/list'); // ALO-1
 export const apiHouseLandlordContract = () => houseRequest.get('/landlord/contract'); // ALO-16
 export const apiHouseLandlordSingleContract = (id: string) => houseRequest.post(`/landlord/contract/${id}`); // ALO-7
 export const apiHouseLandlordChangeStatus = (id: string) => houseRequest.patch(`/landlord/status/${id}`); // ALO-6
 export const apiHouseLandlordAddTenant = (data: any) => houseRequest.post('/landlord/userinfo', data); // ALO-5
-export const apiHouseLandlordPostImg = (data: any, id: string) => houseRequest.post(`/landlord/img/${id}`, data); // ALO-4
 export const apiHouseLandlordSingleInfo = (id: string) => houseRequest.get(`/landlord/info/${id}`); // ALO-15、ALO-14、ALO-13、ALO-12
 export const apiHouseLandlordPostDelete = (id: string) => houseRequest.delete(`/landlord/${id}`); // ALO-11
 export const apiHouseLandlordUnratedCount = () => houseRequest.get('/landlord/count/unrated'); // ALO-10
