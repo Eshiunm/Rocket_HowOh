@@ -2,9 +2,9 @@ import { ChangeEvent, useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { ProcedureContext } from "../../../../pages/landlordManagement/AddNew";
 import { occupations } from "../../../../constants/occupations";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setRestrictions } from "../../../../../redux/post/restrictionsSlice";
-// import { RootState } from "../../../../../redux/store";
+import { RootState } from "../../../../../redux/store";
 
 // 定義限制資料的型別
 export interface restrictionType {
@@ -15,18 +15,18 @@ export interface restrictionType {
 
 export default function Restrictions() {
   const dispatch = useDispatch();
-  // const content = useSelector(( store: RootState ) => store.restrictionsContent);
-  
-  const [jobRestrictionAmount,setJobRestrictionAmount] = useState<number>(0);
+  const { restrictions } = useSelector(( store: RootState ) => store.restrictionsContent);
+
   const [selectedJobs, setSelectedJobs] = useState<string[]>([]);
+  const [jobRestrictionAmount,setJobRestrictionAmount] = useState<number>(0);
   const { handleProcedureClick, handleProcedureDone } =
     useContext(ProcedureContext);
 
   const { register, handleSubmit, watch, reset } = useForm<restrictionType>({
     defaultValues: {
-      hasTenantRestrictions: "false",
-      genderRestriction: "性別友善",
-      jobRestriction: "noJobRestriction"
+      hasTenantRestrictions: restrictions.hasTenantRestrictions,
+      genderRestriction: restrictions.genderRestriction,
+      jobRestriction: restrictions.jobRestriction ? "hasJobRestriction" : "noJobRestriction",
     },
   });
   const hasTenantRestrictions: string = watch("hasTenantRestrictions");
@@ -59,13 +59,23 @@ export default function Restrictions() {
   useEffect(() => {
     // 控制租客職業限制資料
     if (jobRestriction === "hasJobRestriction") {
-      setJobRestrictionAmount(1);
-      setSelectedJobs(["一般職員"]);
+      // setJobRestrictionAmount(1);
+      // setSelectedJobs(["一般職員"]);
+      setJobRestrictionAmount(selectedJobs.length || 1);
     } else {
       setJobRestrictionAmount(0);
       setSelectedJobs([]);
     }
-  }, [jobRestriction]);
+  }, [jobRestriction,selectedJobs]);
+
+  useEffect(() => {
+    // 若 redux 內有租客職業限制資料則還原
+    if (restrictions.jobRestriction) {
+      const jobs = restrictions.jobRestriction.split(",");
+      setSelectedJobs(jobs);
+      setJobRestrictionAmount(jobs.length);
+    }
+  }, [restrictions]);
 
   return (
     <div className="p-5">
@@ -175,6 +185,7 @@ export default function Restrictions() {
                                 id={`occupations-${index}`}
                                 className="block w-full p-3 pl-5 text-sans-body1 text-black bg-transparent border-none appearance-none focus:ring-0"
                                 onChange={(e:ChangeEvent<HTMLSelectElement>) => handleSelectChange(index, e.target.value)}
+                                value={selectedJobs[index]} // 設定才能讓使用者在回來頁面時能看到自己的選擇
                               >
                                 {occupations.map(({ id, title: occupation }) => (
                                     <option value={occupation} key={index+id}>
