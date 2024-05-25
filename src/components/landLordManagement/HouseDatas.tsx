@@ -198,7 +198,7 @@ export default function HouseDatas({houseDatas}: {houseDatas: houseDatasType}) {
                   <input
                     disabled
                     type="checkbox"
-                    checked={facilities[id as keyof formDataType]}
+                    checked={facilities[id as keyof formDataType] === true}
                     className="hover:cursor-auto w-5 h-5 text-black focus:ring-transparent rounded-sm border-2 border-black cursor-pointer"
                   />
                   {title}
@@ -219,7 +219,7 @@ export default function HouseDatas({houseDatas}: {houseDatas: houseDatasType}) {
                   <input
                     disabled
                     type="checkbox"
-                    checked={facilities[id as keyof formDataType]}
+                    checked={facilities[id as keyof formDataType] === true}
                     className="hover:cursor-auto w-5 h-5 text-black focus:ring-transparent rounded-sm border-2 border-black cursor-pointer"
                   />
                   {title}
@@ -240,7 +240,7 @@ export default function HouseDatas({houseDatas}: {houseDatas: houseDatasType}) {
                   <input
                     disabled
                     type="checkbox"
-                    checked={facilities[id as keyof formDataType]}
+                    checked={facilities[id as keyof formDataType] === true}
                     className="hover:cursor-auto w-5 h-5 text-black focus:ring-transparent rounded-sm border-2 border-black cursor-pointer"
                   />
                   {title}
@@ -263,7 +263,7 @@ export default function HouseDatas({houseDatas}: {houseDatas: houseDatasType}) {
                         disabled
                         type="checkbox"
                         className="hover:cursor-auto w-5 h-5 text-black focus:ring-transparent rounded-sm border-2 border-black cursor-pointer"
-                        checked={facilities[id as keyof formDataType]}
+                        checked={facilities[id as keyof formDataType] === true}
                       />
                       {title}
                     </div>
