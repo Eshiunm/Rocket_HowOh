@@ -1,6 +1,10 @@
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import houseImg from "../assets/imgs/homePage/recommendation_picture_1.svg";
+import singleHousePage_MainPicture from "../assets/imgs/SingleHousePage/singleHousePage_MainPicture.jpg"
+import singleHousePage_secondaryPicture1 from "../assets/imgs/SingleHousePage/singleHousePage_secondaryPicture1.jpg"
+import singleHousePage_secondaryPicture2 from "../assets/imgs/SingleHousePage/singleHousePage_secondaryPicture2.jpg"
+import singleHousePage_secondaryPicture3 from "../assets/imgs/SingleHousePage/singleHousePage_secondaryPicture3.jpg"
+import singleHousePage_secondaryPicture4 from "../assets/imgs/SingleHousePage/singleHousePage_secondaryPicture4.jpg"
 import handShakeIcon from "../assets/imgs/SingleHousePage/handShakeIcon.svg";
 import homeAndGardenIcon from "../assets/imgs/SingleHousePage/homeAndGardenIcon.svg";
 import grandMoneyIcon from "../assets/imgs/SingleHousePage/grandMoney.svg";
@@ -27,7 +31,7 @@ function SingleHousePage() {
           {/* 首圖 */}
           <div className="col-span-6 col-start-2">
             <div className="mainImg h-[425px]">
-              <img src={houseImg} alt="mainImg" className="w-full h-full" />
+              <img src={singleHousePage_MainPicture} alt="mainImg" className="w-full h-full" />
             </div>
           </div>
           {/* 次要圖片 */}
@@ -35,16 +39,16 @@ function SingleHousePage() {
             <div className="sideImg flex">
               <ul className="flex flex-wrap justify-between gap-y-6">
                 <li className="w-[48%] h-[200px]">
-                  <img src={houseImg} alt="houseImg" className="h-full" />
+                  <img src={singleHousePage_secondaryPicture1} alt="houseImg" className="h-full" />
                 </li>
                 <li className="w-[48%] h-[200px]">
-                  <img src={houseImg} alt="houseImg" className="h-full" />
+                  <img src={singleHousePage_secondaryPicture2} alt="houseImg" className="h-full" />
                 </li>
                 <li className="w-[48%] h-[200px]">
-                  <img src={houseImg} alt="houseImg" className="h-full" />
+                  <img src={singleHousePage_secondaryPicture3} alt="houseImg" className="h-full" />
                 </li>
                 <li className="w-[48%] h-[200px]">
-                  <img src={houseImg} alt="houseImg" className="h-full" />
+                  <img src={singleHousePage_secondaryPicture4} alt="houseImg" className="h-full" />
                 </li>
               </ul>
             </div>
