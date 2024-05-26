@@ -10,6 +10,7 @@ function Header() {
   const [currentIdentity, setCurrentIdentity] = useState("");
   const isSignupPage = location.pathname.includes("/signup");
   const isLoginPage = location.pathname.includes("/login");
+  const atLandLordPage = location.pathname.includes("/landlord");
 
   useEffect(() => {
     const authToken = localStorage.getItem("authToken");
@@ -47,7 +48,7 @@ function Header() {
           currentIdentity !== "tenant" ? (
           <ul className="flex items-center gap-6">
             <li>
-              <Link to="/" className="text-sans-b-body1">
+              <Link to="/landlord" className={`text-sans-b-body1 ${atLandLordPage ? "border-b border-black" : ""}`}>
                 房東好窩
               </Link>
             </li>

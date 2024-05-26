@@ -1,10 +1,20 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import singleHousePage_MainPicture from "../assets/imgs/SingleHousePage/singleHousePage_MainPicture.jpg"
-import singleHousePage_secondaryPicture1 from "../assets/imgs/SingleHousePage/singleHousePage_secondaryPicture1.jpg"
-import singleHousePage_secondaryPicture2 from "../assets/imgs/SingleHousePage/singleHousePage_secondaryPicture2.jpg"
-import singleHousePage_secondaryPicture3 from "../assets/imgs/SingleHousePage/singleHousePage_secondaryPicture3.jpg"
-import singleHousePage_secondaryPicture4 from "../assets/imgs/SingleHousePage/singleHousePage_secondaryPicture4.jpg"
+// Import Swiper React components
+import { Swiper, SwiperSlide } from "swiper/react";
+// Import Swiper styles
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import "../components/singleHousePage/mainPicture_carousel.css"; //客製化上一張、下一張箭頭的樣式
+// import required modules
+import { Navigation, Pagination } from "swiper/modules";
+import HousePicturesModal from "../components/singleHousePage/HousePicturesModal";
+import singleHousePage_MainPicture from "../assets/imgs/SingleHousePage/singleHousePage_MainPicture.jpg";
+import singleHousePage_secondaryPicture1 from "../assets/imgs/SingleHousePage/singleHousePage_secondaryPicture1.jpg";
+import singleHousePage_secondaryPicture2 from "../assets/imgs/SingleHousePage/singleHousePage_secondaryPicture2.jpg";
+import singleHousePage_secondaryPicture3 from "../assets/imgs/SingleHousePage/singleHousePage_secondaryPicture3.jpg";
+import singleHousePage_secondaryPicture4 from "../assets/imgs/SingleHousePage/singleHousePage_secondaryPicture4.jpg";
 import handShakeIcon from "../assets/imgs/SingleHousePage/handShakeIcon.svg";
 import homeAndGardenIcon from "../assets/imgs/SingleHousePage/homeAndGardenIcon.svg";
 import grandMoneyIcon from "../assets/imgs/SingleHousePage/grandMoney.svg";
@@ -18,37 +28,88 @@ import Footer from "../components/footer/Footer";
 
 function SingleHousePage() {
   const { houseId } = useParams<{ houseId: string }>();
-
+  const [isModalOpen, setIsModalOpen] = useState(false);
   useEffect(() => {
     // 使用 houseId 進行相關操作，例如獲取數據
     console.log(houseId);
   }, []);
+
   return (
     <>
       <div className="wrap bg-Neutral-99 pb-32">
         {/* 房源圖片 */}
         <div className="container layout-grid pt-6 mb-6">
           {/* 首圖 */}
-          <div className="col-span-6 col-start-2">
-            <div className="mainImg h-[425px]">
-              <img src={singleHousePage_MainPicture} alt="mainImg" className="w-full h-full" />
-            </div>
+          <div className="col-span-6 col-start-2 overflow-hidden">
+            {/* 首圖輪播 */}
+            <Swiper
+              slidesPerView={1}
+              spaceBetween={30}
+              loop={true}
+              navigation={true}
+              modules={[Pagination, Navigation]}
+              className="mainImgSwiper cursor-pointer"
+              onClick={() => setIsModalOpen(true)}
+            >
+              <SwiperSlide>
+                <img
+                  src={singleHousePage_MainPicture}
+                  alt="mainImg"
+                  className="w-full h-full"
+                />
+              </SwiperSlide>
+              <SwiperSlide>
+                <img
+                  src={singleHousePage_MainPicture}
+                  alt="mainImg"
+                  className="w-full h-full"
+                />
+              </SwiperSlide>
+            </Swiper>
           </div>
           {/* 次要圖片 */}
           <div className="col-span-4">
             <div className="sideImg flex">
               <ul className="flex flex-wrap justify-between gap-y-6">
-                <li className="w-[48%] h-[200px]">
-                  <img src={singleHousePage_secondaryPicture1} alt="houseImg" className="h-full" />
+                <li
+                  className="w-[48%] h-[200px] overflow-hidden"
+                  onClick={() => setIsModalOpen(true)}
+                >
+                  <img
+                    src={singleHousePage_secondaryPicture1}
+                    alt="houseImg"
+                    className="h-full hover:scale-110 transition-all duration-300 cursor-pointer"
+                  />
                 </li>
-                <li className="w-[48%] h-[200px]">
-                  <img src={singleHousePage_secondaryPicture2} alt="houseImg" className="h-full" />
+                <li
+                  className="w-[48%] h-[200px] overflow-hidden"
+                  onClick={() => setIsModalOpen(true)}
+                >
+                  <img
+                    src={singleHousePage_secondaryPicture2}
+                    alt="houseImg"
+                    className="h-full hover:scale-110 transition-all duration-300 cursor-pointer"
+                  />
                 </li>
-                <li className="w-[48%] h-[200px]">
-                  <img src={singleHousePage_secondaryPicture3} alt="houseImg" className="h-full" />
+                <li
+                  className="w-[48%] h-[200px] overflow-hidden"
+                  onClick={() => setIsModalOpen(true)}
+                >
+                  <img
+                    src={singleHousePage_secondaryPicture3}
+                    alt="houseImg"
+                    className="h-full hover:scale-110 transition-all duration-300 cursor-pointer"
+                  />
                 </li>
-                <li className="w-[48%] h-[200px]">
-                  <img src={singleHousePage_secondaryPicture4} alt="houseImg" className="h-full" />
+                <li
+                  className="w-[48%] h-[200px] overflow-hidden"
+                  onClick={() => setIsModalOpen(true)}
+                >
+                  <img
+                    src={singleHousePage_secondaryPicture4}
+                    alt="houseImg"
+                    className="h-full hover:scale-110 transition-all duration-300 cursor-pointer"
+                  />
                 </li>
               </ul>
             </div>
@@ -769,6 +830,10 @@ function SingleHousePage() {
           </div>
         </div>
       </div>
+
+      {isModalOpen && (
+        <HousePicturesModal closeModal={() => setIsModalOpen(false)} />
+      )}
       <Footer></Footer>
     </>
   );

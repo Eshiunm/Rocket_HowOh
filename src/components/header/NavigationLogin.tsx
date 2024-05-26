@@ -7,9 +7,10 @@ function NavigationLogin() {
   const [userProfileUrl, setUserProfileUrl] = useState("");
 
   const handleLogout = () => {
-    localStorage.removeItem("authToken");
-    localStorage.removeItem("currentIdentity");
-    localStorage.removeItem("userProfile");
+    // localStorage.removeItem("authToken");
+    // localStorage.removeItem("currentIdentity");
+    // localStorage.removeItem("userProfile");
+    localStorage.clear();
     window.location.reload();
   };
 

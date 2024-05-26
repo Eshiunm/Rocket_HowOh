@@ -99,7 +99,6 @@ function HouseListPage() {
   const turnToSingleHousePage = (e: any) => {
     const liElement = e.currentTarget;
     const houseId = liElement.dataset.houseid;
-    console.log(houseId);
     navigate(`/houseList/${houseId}`);
   };
 
