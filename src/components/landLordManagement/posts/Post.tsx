@@ -7,12 +7,23 @@ import { HiOutlineExclamationCircle } from "react-icons/hi";
 // 刪除房源處理
 import { apiHouseLandlordPostDelete } from "../../../apis/apis";
 import BigLoading from "../../loading/BigLoading";
+import { useDispatch } from "react-redux";
+// slices 還原至預設值 
+import { resetBasicInformation } from "../../../../redux/post/basicInformationSlice";
+import { resetPhotos } from "../../../../redux/post/photosSlice";
+import { resetFacilities } from "../../../../redux/post/facilitiesSlice";
+import { resetExpenses } from "../../../../redux/post/expensesSlice";
+import { resetIntroduction } from "../../../../redux/post/introductionSlice";
+import { resetRestrictions } from "../../../../redux/post/restrictionsSlice";
 
 export default function Post({procedure}:{procedure:procedureListType[]}) {
   // 控制 Model-popup 的開關
   const navigate = useNavigate();
   const [openModal, setOpenModal] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  // 控制 slices 還原至預設值
+  const dispatch = useDispatch();
 
   const handlePostDelete = async () => {
     setLoading(true);
@@ -23,6 +34,13 @@ export default function Post({procedure}:{procedure:procedureListType[]}) {
         throw new Error(response.data.Message);
       }
       alert("成功刪除房源，即將返回房源列表");
+      dispatch(resetBasicInformation());
+      dispatch(resetPhotos());
+      dispatch(resetFacilities());
+      dispatch(resetExpenses());
+      dispatch(resetIntroduction());
+      dispatch(resetRestrictions());
+      
       navigate('/landlord');
       setOpenModal(false);
     } catch (error: any) {
