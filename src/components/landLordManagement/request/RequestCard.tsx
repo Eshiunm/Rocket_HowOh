@@ -1,3 +1,4 @@
+import { Tooltip } from "flowbite-react";
 import rightIcon_black from "../../../assets/imgs/icons/rightIcon_black.svg";
 
 export default function RequestCard() {
@@ -27,10 +28,15 @@ export default function RequestCard() {
         <a href="tel:+886-958-230-1239" className="text-sans-body1">0958-230-1239</a>
       </div>
       <div className="ml-auto flex flex-col items-end">
-        <time>
-          <span className="pr-2 mr-2 border-r border-Tenant-70">2024年5月18日</span>
-          <span>12:00</span>
-        </time>
+        <Tooltip
+          className="bg-Landlord-30 text-sans-body2 rounded-lg py-1 px-11 text-white text-center whitespace-pre-line"
+          content={"租客申請預約時間"}
+        >
+          <time className="cursor-pointer">
+            <span className="pr-2 mr-2 border-r border-Tenant-70">2024年5月18日</span>
+            <span>12:00</span>
+          </time>
+        </Tooltip>
         <button
           type="button"
           className="mt-auto letter-button-light border-b border-black hover:border-Neutral-30"
