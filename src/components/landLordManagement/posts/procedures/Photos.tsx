@@ -2,6 +2,7 @@ import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
+import { Toast, ToastToggle } from "flowbite-react";
 import { ProcedureContext } from "../../../../pages/landlordManagement/AddNew";
 import deleteImg from "../../../../assets/imgs/icons/deleteImg.svg"
 import { RootState } from "../../../../../redux/store";
@@ -189,7 +190,7 @@ export default function Photos() {
               />
             </label>
             {
-              images.length < 1 && <p className="post-alert">至少上傳１張照片</p>
+              images.length < 1 && <p className="post-alert text-black">至少上傳１張照片</p>
             }
           </section>
           <section>
@@ -211,14 +212,6 @@ export default function Photos() {
               <span className="material-symbols-outlined">chevron_left</span>
               <span>上一步</span>
             </button>
-            {
-              images.length > 8 && (
-                <div className="flex items-center gap-3 px-3 py-2 bg-Alert-60 rounded shadow-elevation-3">
-                  <p className="text-sans-body1">最多上傳８張照片</p>
-                  {/* <span className="material-symbols-outlined cursor-pointer">close</span> */}
-                </div>
-              )
-            }
             <button 
               type="submit"
               className={`flex items-center pl-3 ${
@@ -232,6 +225,14 @@ export default function Photos() {
           </div>
         </form>
       </div>
+      {
+        images.length > 8 && (
+          <Toast className="w-auto gap-2 fixed bottom-10 left-1/2 -translate-x-1/2 bg-Alert-60 rounded px-2 py-1">
+            <div className="text-black text-sans-body1">最多上傳８張照片</div>
+            <ToastToggle className="bg-transparent ml-0 focus:ring-0 text-black hover:bg-transparent" />
+          </Toast>
+        )
+      }
     </>
   );
 }
