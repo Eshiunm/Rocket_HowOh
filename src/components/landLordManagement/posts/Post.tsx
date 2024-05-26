@@ -47,8 +47,8 @@ export default function Post({procedure}:{procedure:procedureListType[]}) {
         <div className="flex gap-6">
           <Link to="/landlord" className="outline-button-m">返回房源列表</Link>
           <button
-            className={`${procedure[0].isActive ? "outline-button-m-disable" : "outline-button-m"} px-4`}
-            disabled={procedure[0].isActive ? true : false}
+            className={`${procedure[0].isActive && !procedure[0].isDone ? "outline-button-m-disable" : "outline-button-m"} px-4`}
+            disabled={ procedure[0].isActive && !procedure[0].isDone}
             // 在基本資訊頁面時不可點擊刪除房源
             onClick={() => setOpenModal(true)}
           >
