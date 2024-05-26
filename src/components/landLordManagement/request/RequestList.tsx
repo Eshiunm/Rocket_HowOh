@@ -1,9 +1,11 @@
+import RequestCard from "./RequestCard";
+
 export default function RequestList() {
   return (
     <ul>
-      <li>請求</li>
-      <li>請求</li>
-      <li>請求</li>
+      <RequestCard />
+      <RequestCard />
+      <RequestCard />
     </ul>
   );
 }

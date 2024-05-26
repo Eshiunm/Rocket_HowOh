@@ -25,7 +25,7 @@ export default function TenantRequest() {
       </header>
       <main className="container layout-grid">
         <div className="col-span-7 px-5">
-          <section className="flex items-start gap-6 pb-3 pl-3 pt-6">
+          <section className="flex items-start gap-6 pb-3 pl-3 pt-6 border-b border-Neutral-95 mb-6">
             <div className="flex gap-3 items-center pt-[14px]">
               <input
                 type="checkbox"
