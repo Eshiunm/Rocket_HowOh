@@ -34,13 +34,13 @@ export default function Post({procedure}:{procedure:procedureListType[]}) {
         throw new Error(response.data.Message);
       }
       alert("成功刪除房源，即將返回房源列表");
+      localStorage.removeItem("houseId");
       dispatch(resetBasicInformation());
       dispatch(resetPhotos());
       dispatch(resetFacilities());
       dispatch(resetExpenses());
       dispatch(resetIntroduction());
       dispatch(resetRestrictions());
-      
       navigate('/landlord');
       setOpenModal(false);
     } catch (error: any) {

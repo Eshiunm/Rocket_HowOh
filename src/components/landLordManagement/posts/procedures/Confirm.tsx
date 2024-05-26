@@ -2,17 +2,25 @@ import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { ProcedureContext } from "../../../../pages/landlordManagement/AddNew";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../../../redux/store";
 import HouseDatas from "../../HouseDatas";
 import BigLoading from "../../../loading/BigLoading";
 import { apiHouseLandlordPostStep } from "../../../../apis/apis";
+// slices 還原至預設值
+import { resetBasicInformation } from "../../../../../redux/post/basicInformationSlice";
+import { resetPhotos } from "../../../../../redux/post/photosSlice";
+import { resetFacilities } from "../../../../../redux/post/facilitiesSlice";
+import { resetExpenses } from "../../../../../redux/post/expensesSlice";
+import { resetIntroduction } from "../../../../../redux/post/introductionSlice";
+import { resetRestrictions } from "../../../../../redux/post/restrictionsSlice";
 
 export default function Confirm() {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { handleProcedureClick, handleProcedureDone } = useContext(ProcedureContext);
   // 匯入前面步驟之 redux 資料
+  const dispatch = useDispatch();
   const { formData } = useSelector((store: RootState) => store.basicInformationContent);
   const { photos } = useSelector((store: RootState) => store.photosUpload);
   const { facilities } = useSelector((store: RootState) => store.facilitiesContent);
@@ -37,6 +45,13 @@ export default function Confirm() {
         if (response.data.Status === false) {
           throw new Error(response.data.Message);
         }
+        localStorage.removeItem("houseId");
+        dispatch(resetBasicInformation());
+        dispatch(resetPhotos());
+        dispatch(resetFacilities());
+        dispatch(resetExpenses());
+        dispatch(resetIntroduction());
+        dispatch(resetRestrictions());
         setLoading(false);
         handleProcedureDone(5);
         navigate("/landlord");
