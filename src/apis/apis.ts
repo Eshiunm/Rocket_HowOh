@@ -1,11 +1,14 @@
 import axios from 'axios';
 
-const token = localStorage.getItem('authToken');
-const config = {
-  'headers' : {
-    'Authorization': `Bearer ${token}`
-  }
-}
+const getToken = () => {
+  const token = localStorage.getItem("authToken");
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  return config;
+};
 
 // 登入登出、密碼變更相關的 api
 const baseRequest = axios.create({
@@ -54,10 +57,10 @@ export const apiRegisterSignUp = (data: any) => registerRequest.post('/common/si
 export const apiRegisterPhoneNumberVerifi = (data: any) => registerRequest.post('/common/phoneNumberVerifi', data); // FCR-2
 
 // 房源-房東刊登房源相關的 api
-export const apiHouseLandlordPostNew = (data:any) => houseRequest.post('/landlord',data,config); // ALO-2
-export const apiHouseLandlordPostStep = (data: any, houseId: string|null) => houseRequest.patch(`/landlord/${houseId}`, data, config); // ALO-3
-export const apiHouseLandlordPostImg = (data: any, houseId: string|null) => houseRequest.post(`/landlord/img/${houseId}`, data, config); // ALO-4
-export const apiHouseLandlordPostDelete = (houseId: string|null) => houseRequest.delete(`/landlord/${houseId}`, config); // ALO-11
+export const apiHouseLandlordPostNew = (data:any) => houseRequest.post('/landlord',data,getToken()); // ALO-2
+export const apiHouseLandlordPostStep = (data: any, houseId: string|null) => houseRequest.patch(`/landlord/${houseId}`, data, getToken()); // ALO-3
+export const apiHouseLandlordPostImg = (data: any, houseId: string|null) => houseRequest.post(`/landlord/img/${houseId}`, data, getToken()); // ALO-4
+export const apiHouseLandlordPostDelete = (houseId: string|null) => houseRequest.delete(`/landlord/${houseId}`, getToken()); // ALO-11
 
 // 房源-房東相關的 api
 export const apiHouseLandlordList = () => houseRequest.get('/landlord/list'); // ALO-1
