@@ -1,5 +1,5 @@
 // Import Swiper React components
-import { Swiper, SwiperClass, SwiperSlide } from "swiper/react";
+// import { Swiper, SwiperClass, SwiperSlide } from "swiper/react";
 
 // Import Swiper styles
 import "swiper/css";
@@ -8,21 +8,21 @@ import "swiper/css/navigation";
 import "swiper/css/thumbs";
 import "./housePictureModal.css";
 // import required modules
-import { FreeMode, Navigation, Thumbs } from "swiper/modules";
+//import { FreeMode, Navigation, Thumbs } from "swiper/modules";
 import CloseIcon from "../signUp/imgUpload/CloseIcon";
-import { useState } from "react";
-import singleHousePage_MainPicture from "../../assets/imgs/SingleHousePage/singleHousePage_MainPicture.jpg";
-import singleHousePage_secondaryPicture1 from "../../assets/imgs/SingleHousePage/singleHousePage_secondaryPicture1.jpg";
-import singleHousePage_secondaryPicture2 from "../../assets/imgs/SingleHousePage/singleHousePage_secondaryPicture2.jpg";
-import singleHousePage_secondaryPicture3 from "../../assets/imgs/SingleHousePage/singleHousePage_secondaryPicture3.jpg";
-import singleHousePage_secondaryPicture4 from "../../assets/imgs/SingleHousePage/singleHousePage_secondaryPicture4.jpg";
+// import { useState } from "react";
+// import singleHousePage_MainPicture from "../../assets/imgs/SingleHousePage/singleHousePage_MainPicture.jpg";
+ import singleHousePage_secondaryPicture1 from "../../assets/imgs/SingleHousePage/singleHousePage_secondaryPicture1.jpg";
+// import singleHousePage_secondaryPicture2 from "../../assets/imgs/SingleHousePage/singleHousePage_secondaryPicture2.jpg";
+// import singleHousePage_secondaryPicture3 from "../../assets/imgs/SingleHousePage/singleHousePage_secondaryPicture3.jpg";
+// import singleHousePage_secondaryPicture4 from "../../assets/imgs/SingleHousePage/singleHousePage_secondaryPicture4.jpg";
 
 interface ModalProps {
   closeModal: () => void;
 }
 
 function HousePicturesModal({ closeModal }: ModalProps) {
-  const [thumbsSwiper, setThumbsSwiper] = useState<SwiperClass | null>(null);
+  //const [thumbsSwiper, setThumbsSwiper] = useState<SwiperClass | null>(null);
   return (
     <div className="relative z-[60]">
       {/* Modal 打開時的背景模糊效果 */}
