@@ -23,7 +23,7 @@ export default function TenantRequest() {
           </button>
         </div>
       </header>
-      <main className="container layout-grid">
+      <main className="container layout-grid mb-40">
         <div className="col-span-7 px-5">
           <section className="flex items-start gap-6 pb-3 pl-3 pt-6 border-b border-Neutral-95 mb-6">
             <div className="flex gap-3 items-center pt-[14px]">
@@ -87,8 +87,8 @@ export default function TenantRequest() {
                   筆
                 </h6>
               </div>
-              <div className="flex">
-                <button className="text-sans-b-body2 bg-Neutral-90 filled-button-s rounded-r-none flex items-center gap-1">
+              <div className="flex gap-[1px]">
+                <button className="text-sans-b-body2 filled-button-s rounded-r-none flex items-center gap-1">
                   <img src={leftIcon_white} alt="left-icon" />
                   上一頁
                 </button>
@@ -101,6 +101,34 @@ export default function TenantRequest() {
           </section>
           <section>
             <RequestList />
+          </section>
+          <section className="flex justify-end pt-3 border-t border-Neutral-95">
+            <div className="flex flex-col items-center gap-2">
+              <div className="flex gap-[10px] text-sans-body2">
+                <h6>
+                  顯示
+                  <span className="text-sans-b-body2"> 1 </span>
+                  至
+                  <span className="text-sans-b-body2"> 12 </span>
+                  筆
+                </h6>
+                <h6>
+                  共
+                  <span className="text-sans-b-body2"> 32 </span>
+                  筆
+                </h6>
+              </div>
+              <div className="flex gap-[1px]">
+                <button className="text-sans-b-body2 filled-button-s rounded-r-none flex items-center gap-1">
+                  <img src={leftIcon_white} alt="left-icon" />
+                  上一頁
+                </button>
+                <button className="text-sans-b-body2 filled-button-s rounded-l-none flex items-center gap-1">
+                  下一頁
+                  <img src={rightIcon_white} alt="right-icon" />
+                </button>
+              </div>
+            </div>
           </section>
         </div>
       </main>
