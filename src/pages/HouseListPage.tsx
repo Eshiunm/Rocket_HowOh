@@ -96,6 +96,12 @@ function HouseListPage() {
     dispatch(setRentRangeItemsState(newformElementState.RentRange.rentRanges));
   }, []);
 
+  const turnToSingleHousePage = (e: any) => {
+    const liElement = e.currentTarget;
+    const houseId = liElement.dataset.houseid;
+    navigate(`/houseList/${houseId}`);
+  };
+
   const setSearchContent = (e: ChangeEvent<HTMLInputElement>) => {
     dispatch(changeContent(e.target.value));
   };
@@ -572,7 +578,7 @@ function HouseListPage() {
               </button>
             </form>
           </div>
-          {/* 房源列表 */}
+          {/* 房源列表區塊 */}
           <div className="col-span-7">
             <div className="bg-white rounded-xl p-5">
               <div className="flex justify-between mb-6 pb-3 border-b border-Neutral-95">
@@ -607,12 +613,19 @@ function HouseListPage() {
               </div>
               {/* 列表 */}
               <ul>
-                <li className="p-3 flex gap-x-4">
-                  <img
-                    src={housePicture}
-                    alt="housePicture"
-                    className="rounded-2xl"
-                  />
+                <li
+                  className="p-3 flex gap-x-4 cursor-pointer"
+                  data-HouseId="cfiuawehruh"
+                  onClick={turnToSingleHousePage}
+                >
+                  <div className="rounded-2xl overflow-hidden">
+                    <img
+                      src={housePicture}
+                      alt="housePicture"
+                      className="rounded-2xl hover:scale-125 transition-all duration-300 hover:transition hover:duration-300"
+                    />
+                  </div>
+
                   <div className="relative flex flex-col justify-between">
                     <div className="relative flex justify-between">
                       <div>
