@@ -1,4 +1,3 @@
-import { useState } from "react";
 import leftIcon_white from "../../assets/imgs/icons/leftIcon_white.svg";
 import rightIcon_white from "../../assets/imgs/icons/rightIcon_white.svg";
 import Footer from "../../components/footer/Footer";
@@ -7,7 +6,6 @@ import RequestList from "../../components/landLordManagement/request/RequestList
 
 export default function TenantRequest() {
   const navigate = useNavigate();
-  const [isOrderFocused, setIsOrderFocused] = useState(false);
 
   return (
     <>
