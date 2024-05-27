@@ -138,6 +138,9 @@
   .badge-m {
     @apply px-2 py-1 text-sans-body2 text-black rounded-lg;
   }
+  .badge-s {
+    @apply text-sans-caption flex px-2 py-0.5 rounded;
+  }
   .checkBox-black {
     @apply w-5 h-5 text-black focus:ring-transparent rounded-sm border-2 border-black cursor-pointer;
   }

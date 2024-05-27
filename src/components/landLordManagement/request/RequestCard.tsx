@@ -18,7 +18,7 @@ export default function RequestCard({status = "none"}) {
           <h3 className="text-sans-b-h6">詹小美</h3>
           {
             status === "send" && (
-              <div className="text-sans-caption flex bg-Tenant-90 px-2 py-0.5 rounded">
+              <div className="badge-s bg-Tenant-90">
                 <h5 className="pr-2 mr-2 border-r border-Tenant-70">租約邀請已送出</h5>
                 <time>2024年5月24日</time>
               </div>
@@ -26,7 +26,7 @@ export default function RequestCard({status = "none"}) {
           }
           {
             status === "reject" && (
-              <div className="text-sans-caption flex bg-Alert-95 px-2 py-0.5 rounded">
+              <div className="badge-s bg-Alert-95">
                 <h5 className="pr-2 mr-2 border-r border-Tenant-70">租約邀請已拒絕</h5>
                 <time>2024年5月24日</time>
               </div>
