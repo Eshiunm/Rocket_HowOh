@@ -3,9 +3,9 @@ import RequestCard from "./RequestCard";
 export default function RequestList() {
   return (
     <ul>
-      <RequestCard />
-      <RequestCard />
-      <RequestCard />
+      <RequestCard status="send" />
+      <RequestCard status="reject" />
+      <RequestCard status="none" />
     </ul>
   );
 }

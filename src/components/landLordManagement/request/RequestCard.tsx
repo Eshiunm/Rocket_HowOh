@@ -1,9 +1,9 @@
 import { Tooltip } from "flowbite-react";
 import rightIcon_black from "../../../assets/imgs/icons/rightIcon_black.svg";
 
-export default function RequestCard() {
+export default function RequestCard({status = "none"}) {
   return (
-    <li className="p-3 mb-4 flex gap-4">
+    <li className="p-3 mb-4 flex gap-4 rounded-xl hover:bg-Landlord-95">
       <input
         type="checkbox"
         name=""
@@ -16,10 +16,25 @@ export default function RequestCard() {
       <div>
         <div className="flex gap-3 mb-4">
           <h3 className="text-sans-b-h6">詹小美</h3>
-          <div className="text-sans-caption flex bg-Alert-95 px-2 py-0.5 rounded">
-            <h5 className="pr-2 mr-2 border-r border-Tenant-70">租約邀請已拒絕</h5>
-            <time>2024年5月24日</time>
-          </div>
+          {
+            status === "send" && (
+              <div className="text-sans-caption flex bg-Tenant-90 px-2 py-0.5 rounded">
+                <h5 className="pr-2 mr-2 border-r border-Tenant-70">租約邀請已送出</h5>
+                <time>2024年5月24日</time>
+              </div>
+            )
+          }
+          {
+            status === "reject" && (
+              <div className="text-sans-caption flex bg-Alert-95 px-2 py-0.5 rounded">
+                <h5 className="pr-2 mr-2 border-r border-Tenant-70">租約邀請已拒絕</h5>
+                <time>2024年5月24日</time>
+              </div>
+            )
+          }
+          {
+            status === "none" && false
+          }
         </div>
         <div className="text-sans-body1 flex mb-2">
           <h4 className="pr-2 mr-2 border-r border-Tenant-70">女</h4>

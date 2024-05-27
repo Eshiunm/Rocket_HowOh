@@ -35,7 +35,7 @@ export default function TenantRequest() {
               />
               <label
                 htmlFor="checkAllTenant"
-                className="text-sans-b-body1 cursor-pointer p-2"
+                className="letter-button-light cursor-pointer"
               >
                 全選
               </label>
