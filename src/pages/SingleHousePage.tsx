@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -29,6 +29,39 @@ import Footer from "../components/footer/Footer";
 
 function SingleHousePage() {
   const { houseId } = useParams<{ houseId: string }>();
+  const introductionRef = useRef<HTMLDivElement>(null);
+  const equipmentRef = useRef<HTMLDivElement>(null);
+  const usageFeeRef = useRef<HTMLDivElement>(null);
+  const evaluateRef = useRef<HTMLDivElement>(null);
+
+  const goIntroductionRef = () => {
+    window.scrollTo({
+      top: introductionRef.current!.offsetTop - 100,
+      behavior: "smooth",
+    });
+  };
+
+  const goEquipmentRef = () => {
+    window.scrollTo({
+      top: equipmentRef.current!.offsetTop - 100,
+      behavior: "smooth",
+    });
+  };
+
+  const goUsageFeeRef = () => {
+    window.scrollTo({
+      top: usageFeeRef.current!.offsetTop - 100,
+      behavior: "smooth",
+    });
+  };
+
+  const goEvaluateRef = () => {
+    window.scrollTo({
+      top: evaluateRef.current!.offsetTop - 100,
+      behavior: "smooth",
+    });
+  };
+
   const [isHousePicturesCarouselOpen, setIsHousePicturesCarouselOpen] =
     useState(false);
   const [isSeeMoreHousePicturesOpen, setIsSeeMoreHousePicturesOpen] =
@@ -163,25 +196,37 @@ function SingleHousePage() {
             <div>
               <ul className="flex gap-x-3 mb-10">
                 <li className="">
-                  <button className="w-[153px] flex justify-center items-center gap-x-2 py-3 rounded-lg bg-Neutral-95">
+                  <button
+                    className="w-[153px] flex justify-start items-center gap-x-2 py-3 pl-3 rounded-lg bg-Neutral-95"
+                    onClick={goIntroductionRef}
+                  >
                     <img src={handShakeIcon} alt="handShakeIcon" />
-                    <span className="text-sans-b-body1">房源介紹</span>
+                    <span className="text-sans-b-body1 ">房源介紹</span>
                   </button>
                 </li>
                 <li className="">
-                  <button className="w-[153px] flex justify-center items-center gap-x-2 py-3 rounded-lg bg-Neutral-95">
+                  <button
+                    className="w-[153px] flex justify-start items-center gap-x-2 py-3 pl-3 rounded-lg bg-Neutral-95"
+                    onClick={goEquipmentRef}
+                  >
                     <img src={homeAndGardenIcon} alt="homeAndGardenIcon" />
                     <span className="text-sans-b-body1">設備設施</span>
                   </button>
                 </li>
                 <li className="">
-                  <button className="w-[153px] flex justify-center items-center gap-x-2 py-3 rounded-lg bg-Neutral-95">
+                  <button
+                    className="w-[153px] flex justify-start items-center gap-x-2 py-3 pl-3 rounded-lg bg-Neutral-95"
+                    onClick={goUsageFeeRef}
+                  >
                     <img src={grandMoneyIcon} alt="handShakeIcon" />
                     <span className="text-sans-b-body1">雜支</span>
                   </button>
                 </li>
                 <li className="">
-                  <button className="w-[153px] flex justify-center items-center gap-x-2 py-3 rounded-lg bg-Neutral-95">
+                  <button
+                    className="w-[153px] flex justify-start items-center gap-x-2 py-3 pl-3 rounded-lg bg-Neutral-95"
+                    onClick={goEvaluateRef}
+                  >
                     <img src={reviewsIcon} alt="handShakeIcon" />
                     <span className="text-sans-b-body1">評價</span>
                   </button>
@@ -189,7 +234,10 @@ function SingleHousePage() {
               </ul>
 
               {/* 房源介紹 */}
-              <div className="mb-10 border-b border-Neutral-95">
+              <div
+                className="mb-10 border-b border-Neutral-95"
+                ref={introductionRef}
+              >
                 <h3 className="text-sans-b-h6 mb-5">
                   <span className="before:block before:absolute before:h-5 before:w-[100%] before:bg-Neutral-95 before:bottom-[-5%] before:-right-[0%] before:rounded-md relative">
                     <span className="relative text-black px-3">房源介紹</span>
@@ -210,7 +258,10 @@ function SingleHousePage() {
               </div>
 
               {/* 設備設施 */}
-              <div className="mb-10 border-b border-Neutral-95">
+              <div
+                className="mb-10 border-b border-Neutral-95"
+                ref={equipmentRef}
+              >
                 <h3 className="text-sans-b-h6 mb-5">
                   <span className="before:block before:absolute before:h-5 before:w-[100%] before:bg-Neutral-95 before:bottom-[-5%] before:-right-[0%] before:rounded-md relative">
                     <span className="relative text-black px-3">設備設施</span>
@@ -507,7 +558,10 @@ function SingleHousePage() {
               </div>
 
               {/* 雜支 */}
-              <div className="mb-10 border-b border-Neutral-95">
+              <div
+                className="mb-10 border-b border-Neutral-95"
+                ref={usageFeeRef}
+              >
                 <h3 className="text-sans-b-h6 mb-5">
                   <span className="before:block before:absolute before:h-5 before:w-[100%] before:bg-Neutral-95 before:bottom-[-5%] before:-right-[0%] before:rounded-md relative">
                     <span className="relative text-black px-3">雜支</span>
@@ -530,7 +584,10 @@ function SingleHousePage() {
               </div>
 
               {/* 評價 */}
-              <div className="mb-10 border-b border-Neutral-95">
+              <div
+                className="mb-10 border-b border-Neutral-95"
+                ref={evaluateRef}
+              >
                 <h3 className="text-sans-b-h6 mb-5">
                   <span className="before:block before:absolute before:h-5 before:w-[100%] before:bg-Neutral-95 before:bottom-[-5%] before:-right-[0%] before:rounded-md relative">
                     <span className="relative text-black px-3">評價</span>
@@ -740,7 +797,10 @@ function SingleHousePage() {
             {/* 查看更多照片 */}
             <div className="flex justify-between">
               <span></span>
-              <button className="flex items-center mb-7 filled-button-s" onClick={()=> setIsSeeMoreHousePicturesOpen(true)}>
+              <button
+                className="flex items-center mb-7 filled-button-s"
+                onClick={() => setIsSeeMoreHousePicturesOpen(true)}
+              >
                 查看更多照片 <img src={rightIcon_white} alt="rightIcon_white" />
               </button>
             </div>
