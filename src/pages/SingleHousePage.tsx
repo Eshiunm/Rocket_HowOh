@@ -10,6 +10,7 @@ import "../components/singleHousePage/mainPicture_carousel.css"; //客製化上�
 // import required modules
 import { Navigation, Pagination } from "swiper/modules";
 import HousePicturesModal from "../components/singleHousePage/HousePicturesModal";
+import SeeMoreHousePicturesModal from "../components/singleHousePage/SeeMoreHousePicturesModal";
 import singleHousePage_MainPicture from "../assets/imgs/SingleHousePage/singleHousePage_MainPicture.jpg";
 import singleHousePage_secondaryPicture1 from "../assets/imgs/SingleHousePage/singleHousePage_secondaryPicture1.jpg";
 import singleHousePage_secondaryPicture2 from "../assets/imgs/SingleHousePage/singleHousePage_secondaryPicture2.jpg";
@@ -28,7 +29,10 @@ import Footer from "../components/footer/Footer";
 
 function SingleHousePage() {
   const { houseId } = useParams<{ houseId: string }>();
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isHousePicturesCarouselOpen, setIsHousePicturesCarouselOpen] =
+    useState(false);
+  const [isSeeMoreHousePicturesOpen, setIsSeeMoreHousePicturesOpen] =
+    useState(false);
   useEffect(() => {
     // 使用 houseId 進行相關操作，例如獲取數據
     console.log(houseId);
@@ -49,7 +53,7 @@ function SingleHousePage() {
               navigation={true}
               modules={[Pagination, Navigation]}
               className="mainImgSwiper cursor-pointer"
-              onClick={() => setIsModalOpen(true)}
+              onClick={() => setIsHousePicturesCarouselOpen(true)}
             >
               <SwiperSlide>
                 <img
@@ -73,7 +77,7 @@ function SingleHousePage() {
               <ul className="flex flex-wrap justify-between gap-y-6">
                 <li
                   className="w-[48%] h-[200px] overflow-hidden"
-                  onClick={() => setIsModalOpen(true)}
+                  onClick={() => setIsHousePicturesCarouselOpen(true)}
                 >
                   <img
                     src={singleHousePage_secondaryPicture1}
@@ -83,7 +87,7 @@ function SingleHousePage() {
                 </li>
                 <li
                   className="w-[48%] h-[200px] overflow-hidden"
-                  onClick={() => setIsModalOpen(true)}
+                  onClick={() => setIsHousePicturesCarouselOpen(true)}
                 >
                   <img
                     src={singleHousePage_secondaryPicture2}
@@ -93,7 +97,7 @@ function SingleHousePage() {
                 </li>
                 <li
                   className="w-[48%] h-[200px] overflow-hidden"
-                  onClick={() => setIsModalOpen(true)}
+                  onClick={() => setIsHousePicturesCarouselOpen(true)}
                 >
                   <img
                     src={singleHousePage_secondaryPicture3}
@@ -103,7 +107,7 @@ function SingleHousePage() {
                 </li>
                 <li
                   className="w-[48%] h-[200px] overflow-hidden"
-                  onClick={() => setIsModalOpen(true)}
+                  onClick={() => setIsHousePicturesCarouselOpen(true)}
                 >
                   <img
                     src={singleHousePage_secondaryPicture4}
@@ -736,7 +740,7 @@ function SingleHousePage() {
             {/* 查看更多照片 */}
             <div className="flex justify-between">
               <span></span>
-              <button className="flex items-center mb-7 filled-button-s">
+              <button className="flex items-center mb-7 filled-button-s" onClick={()=> setIsSeeMoreHousePicturesOpen(true)}>
                 查看更多照片 <img src={rightIcon_white} alt="rightIcon_white" />
               </button>
             </div>
@@ -831,8 +835,15 @@ function SingleHousePage() {
         </div>
       </div>
 
-      {isModalOpen && (
-        <HousePicturesModal closeModal={() => setIsModalOpen(false)} />
+      {isHousePicturesCarouselOpen && (
+        <HousePicturesModal
+          closeModal={() => setIsHousePicturesCarouselOpen(false)}
+        />
+      )}
+      {isSeeMoreHousePicturesOpen && (
+        <SeeMoreHousePicturesModal
+          closeModal={() => setIsSeeMoreHousePicturesOpen(false)}
+        />
       )}
       <Footer></Footer>
     </>
