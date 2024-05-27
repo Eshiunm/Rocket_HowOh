@@ -55,6 +55,7 @@ export default function Confirm() {
         setLoading(false);
         handleProcedureDone(5);
         navigate("/landlord");
+        window.location.reload();
         // 完成刊登後跳轉回房源管理頁面
       } catch (error: any) {
         localStorage.clear();
