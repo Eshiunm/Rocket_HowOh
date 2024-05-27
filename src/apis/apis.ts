@@ -19,23 +19,28 @@ const registerRequest = axios.create({
 });
 // 房源相關的 api
 const houseRequest = axios.create({
-  baseURL: 'http://98.70.102.116/api/house'
+  // baseURL: 'http://98.70.102.116/api/house'
+  baseURL: '/api/house'
 });
 // 租賃相關的 api
 const orderRequest = axios.create({
-  baseURL: 'http://98.70.102.116/api/order'
+  // baseURL: 'http://98.70.102.116/api/order'
+  baseURL: '/api/order'
 });
 // 預約相關的 api
 const appointmentRequest = axios.create({
-  baseURL: 'http://98.70.102.116/api/appointment'
+  // baseURL: 'http://98.70.102.116/api/appointment'
+  baseURL: '/api/appointment'
 });
 // 租客身分比對相關的 api
 const userRequest = axios.create({
-  baseURL: 'http://98.70.102.116/api/user'
+  // baseURL: 'http://98.70.102.116/api/user'
+  baseURL: '/api/user'
 });
 // 評價相關的 api
 const commentRequest = axios.create({
-  baseURL: 'http://98.70.102.116/api/comment'
+  // baseURL: 'http://98.70.102.116/api/comment'
+  baseURL: '/api/comment'
 });
 
 

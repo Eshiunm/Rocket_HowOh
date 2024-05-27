@@ -42,6 +42,7 @@ export default function Post({procedure}:{procedure:procedureListType[]}) {
       dispatch(resetIntroduction());
       dispatch(resetRestrictions());
       navigate('/landlord');
+      window.location.reload();
       setOpenModal(false);
     } catch (error: any) {
       localStorage.clear();

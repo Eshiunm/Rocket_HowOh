@@ -605,7 +605,7 @@ export default function HouseDatas({houseDatas}: {houseDatas: houseDatasType}) {
                 </label>
               </fieldset>
               {
-                landlordJobRestriction.length > 0 && (
+                landlordJobRestriction[0] !== "" && (
                   <>
                     <h6 className="text-sans-caption -mb-2">職業類別</h6>
                     <div className="layout-grid">
