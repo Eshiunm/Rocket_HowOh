@@ -25,8 +25,8 @@ export default function TenantRequest() {
       </header>
       <main className="container layout-grid mb-40">
         <div className="col-span-7 px-5">
-          <section className="flex items-start gap-6 pb-3 pl-3 pt-6 border-b border-Neutral-95 mb-6">
-            <div className="flex gap-3 items-center pt-[14px]">
+          <section className="flex items-start gap-6 pb-3 pt-6 border-b border-Neutral-95 mb-6">
+            {/* <div className="flex gap-3 items-center pt-[14px]">
               <input
                 type="checkbox"
                 name=""
@@ -71,8 +71,28 @@ export default function TenantRequest() {
                   排序
                 </label>
               </div>
+            </div> */}
+            <div className="flex gap-3 pt-4">
+              <button
+                className="tab-button-m py-1"
+                data-sort="oldFirst"
+              >
+                舊至新
+              </button>
+              <button
+                className="tab-button-m py-1"
+                data-sort="newFirst"
+              >
+                新至舊
+              </button>
+              <button
+                className="tab-button-m py-1"
+                data-sort="hidden"
+              >
+                已隱藏
+              </button>
             </div>
-            <div className="flex flex-col items-center gap-2">
+            <div className="ml-auto flex flex-col items-center gap-2">
               <div className="flex gap-[10px] text-sans-body2">
                 <h6>
                   顯示

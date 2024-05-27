@@ -4,12 +4,6 @@ import rightIcon_black from "../../../assets/imgs/icons/rightIcon_black.svg";
 export default function RequestCard({status = "none"}) {
   return (
     <li className="p-3 mb-4 flex gap-4 rounded-xl hover:bg-Landlord-95">
-      <input
-        type="checkbox"
-        name=""
-        id=""
-        className="checkBox-black self-center"
-      />
       <div className="w-36 h-24 rounded-2xl bg-Landlord-60">
 
       </div>
@@ -54,7 +48,7 @@ export default function RequestCard({status = "none"}) {
         </Tooltip>
         <button
           type="button"
-          className="mt-auto letter-button-light border-b border-black hover:border-Neutral-30"
+          className="mt-auto mb-1 mr-2 letter-button-light border-b border-black hover:border-Neutral-30"
         >
           查看更多
           <img src={rightIcon_black} alt="rightIcon" />
