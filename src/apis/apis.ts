@@ -63,7 +63,7 @@ export const apiHouseLandlordPostImg = (data: any, houseId: string|null) => hous
 export const apiHouseLandlordPostDelete = (houseId: string|null) => houseRequest.delete(`/landlord/${houseId}`, getToken()); // ALO-11
 
 // 房源-房東房源管理相關的 api
-export const apiHouseLandlordList = () => houseRequest.get('/landlord/list'); // ALO-1
+export const apiHouseLandlordList = () => houseRequest.get('/landlord/list',getToken()); // ALO-1
 
 // 房源-房東相關的 api
 export const apiHouseLandlordContract = () => houseRequest.get('/landlord/contract'); // ALO-16

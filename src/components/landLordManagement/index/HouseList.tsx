@@ -4,7 +4,7 @@ import LandlordAnchor from "./LandlordAnchor";
 import HouseCard from "./HouseCard";
 import tooltipIcon from "../../../assets/imgs/icons/tooltip.svg"
 import BigLoading from "../../loading/BigLoading";
-import apiHouseLandlordList from "../../../apis/apis";
+import { apiHouseLandlordList } from "../../../apis/apis";
 
 export interface refFnListType {
   goPublishList : () => void,
@@ -47,32 +47,40 @@ export default function HouseList() {
     }
   };
 
-  const publishList = useRef<HTMLDivElement>(null);
-  const rentedList = useRef<HTMLDivElement>(null);
-  const finishedList = useRef<HTMLDivElement>(null);
+  const publishCount = useRef<HTMLDivElement>(null);
+  const rentedCount = useRef<HTMLDivElement>(null);
+  const finishedCount = useRef<HTMLDivElement>(null);
 
   const [loading, setLoading] = useState(false);
+  const [addingList, setAddingList] = useState([]);
+  const [publishList, setPublishList] = useState([]);
+  const [rentedList, setRentedList] = useState([]);
+  const [finishedList, setFinishedList] = useState([]);
+  console.log(addingList);
+  console.log(publishList);
+  console.log(rentedList);
+  console.log(finishedList);
 
   const goPublishList = () => {
-    if (publishList.current) {
+    if (publishCount.current) {
       window.scrollTo({
-        top: publishList.current.offsetTop - 100,
+        top: publishCount.current.offsetTop - 100,
         behavior: "smooth",
       });
     }
   }
   const goRentedList = () => {
-    if (rentedList.current) {
+    if (rentedCount.current) {
       window.scrollTo({
-        top: rentedList.current.offsetTop - 100,
+        top: rentedCount.current.offsetTop - 100,
         behavior: "smooth",
       });
     }
   }
   const goFinishedList = () => {
-    if (finishedList.current) {
+    if (finishedCount.current) {
       window.scrollTo({
-        top: finishedList.current.offsetTop - 100,
+        top: finishedCount.current.offsetTop - 100,
         behavior: "smooth",
       });
     }
@@ -87,9 +95,21 @@ export default function HouseList() {
   useEffect(() => {
     const getHouseList = async () => {
       setLoading(true);
+      try {
+        const response = await apiHouseLandlordList();
+        console.log(response);
+        setAddingList(response.data.data["未完成"]);
+        setPublishList(response.data.data["刊登中"]);
+        setRentedList(response.data.data["已承租"]);
+        setFinishedList(response.data.data["已完成"]);
+        setLoading(false);
+      } catch (error) {
+        console.log(error);
+      }
+
     }
     getHouseList();
-  })
+  },[])
 
   return (
     <>
@@ -115,7 +135,7 @@ export default function HouseList() {
               </div>
             </AccordionPanel>
             <AccordionPanel>
-              <div ref={publishList}>
+              <div ref={publishCount}>
                 <AccordionTitle>
                   <div className="flex items-start">
                     刊登中
@@ -135,7 +155,7 @@ export default function HouseList() {
               </div>
             </AccordionPanel>
             <AccordionPanel>
-              <div ref={rentedList}>
+              <div ref={rentedCount}>
                 <AccordionTitle>
                   <div className="flex items-start">
                     已承租
@@ -155,7 +175,7 @@ export default function HouseList() {
               </div>
             </AccordionPanel>
             <AccordionPanel>
-              <div ref={finishedList}>
+              <div ref={finishedCount}>
                 <AccordionTitle>
                   <div className="flex items-start">
                     已完成
