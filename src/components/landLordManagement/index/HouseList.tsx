@@ -106,7 +106,6 @@ export default function HouseList() {
       setLoading(true);
       try {
         const response = await apiHouseLandlordList();
-        console.log(response);
         setAddingList(response.data.data["未完成"]);
         setPublishList(response.data.data["刊登中"]);
         setRentedList(response.data.data["已承租"]);

@@ -1,8 +1,16 @@
+import { useState } from 'react';
+// 轉換承租時間
 import moment from 'moment-timezone';
+// Model-popup 所需之匯入
+import { Modal } from "flowbite-react";
+import { HiOutlineExclamationCircle } from "react-icons/hi";
 
 export default function HouseCard({data, houseStatus}: {data:any, houseStatus:string}) {
-  const { name, photo, status, reservationCount, userName, leaseStartTime, leaseEndTime} = data;
-  console.log(data, houseStatus);
+  const { houseId, name, photo, status, reservationCount, userName, leaseStartTime, leaseEndTime} = data;
+  console.log(houseId, houseStatus);
+
+  // 控制 Model-popup 的開關
+  const [openModal, setOpenModal] = useState(false);
 
   const buttonMessage = () => {
     if (houseStatus === "addingList") { // 新增中
@@ -55,6 +63,13 @@ export default function HouseCard({data, houseStatus}: {data:any, houseStatus:st
     }
   };
 
+  const handleButtonClick = () => {
+    if ( houseStatus === "publishList" ) {
+      console.log(houseId);
+      setOpenModal(true)
+    }
+  }
+
   return (
     <li className="col-span-3 p-4 rounded-[20px] bg-white hover:bg-Landlord-99">
       <div className="overflow-hidden rounded-2xl mb-4 h-48">
@@ -73,7 +88,41 @@ export default function HouseCard({data, houseStatus}: {data:any, houseStatus:st
       </div>
       <h5 className="text-sans-b-h6 mb-2">{name}</h5>
       {houseMessage()}
-      <button className="w-full text-center outline-button-s">{buttonMessage()}</button>
+      <button
+        className="w-full text-center outline-button-s"
+        onClick={handleButtonClick}
+      >
+        {buttonMessage()}
+      </button>
+      {/* 點擊刪除房源跳出的 Model pop-up */}
+      <div className="blur">
+
+      <Modal className="z-50 backdrop-blur-md" show={openModal} size="lg" onClose={() => setOpenModal(false)} popup>
+        <Modal.Body className="p-10">
+          <div className="flex items-center gap-3 mb-10">
+            <HiOutlineExclamationCircle className="h-6 w-6 text-Alert-50" />
+            <h3 className="text-sans-h5 text-Alert-50">
+              警示
+            </h3>
+            <span
+              className="material-symbols-outlined ml-auto cursor-pointer"
+              onClick={() => setOpenModal(false)}
+            >
+              close
+            </span>
+          </div>
+          <p className="mb-10 text-sans-body1">此動作不可返回，您確定要刪除房源？</p>
+          <div className="flex justify-end gap-6">
+            <button className="outline-button-m" onClick={() => setOpenModal(false)}>
+              確認刪除
+            </button>
+            <button className="filled-button-m" onClick={() => setOpenModal(false)}>
+              返回
+            </button>
+          </div>
+        </Modal.Body>
+      </Modal>
+      </div>
     </li>
   );
 }
