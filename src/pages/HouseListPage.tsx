@@ -16,6 +16,7 @@ import {
   setRentRangeNoLimitState,
   setRentRangeItemsState,
 } from "../../redux/searchForm/rentRangeSlice";
+import dropdownCities from "../constants/locations/dropdownCities";
 import dropdownIcon from "../assets/imgs/icons/dropdownIcon.svg";
 import searchIcon from "../assets/imgs/icons/searchIcon.svg";
 import leftIcon_white from "../assets/imgs/icons/leftIcon_white.svg";
@@ -54,46 +55,58 @@ function HouseListPage() {
   const [isSearchInputFocused, setIsSearchInputFocused] = useState(false); // 記錄搜尋框是否被 focused
   /* 初始化表單內所有的checkbox元素狀態 */
   useEffect(() => {
-    const newDistricts = kaohsiungDistricts.map(item => {
-      return {
-        content: item,
-        checked: false,
-      };
-    });
-    const newHouseTypes = houseTypes.map(item => {
-      return {
-        content: item,
-        checked: false,
-      };
-    });
-    const newRentRanges = rentRanges.map(item => {
-      return {
-        content: item,
-        checked: false,
-      };
-    });
+    console.log(districtState);
+    if (districtState.districts.length === 0) {
+      const counties = dropdownCities.south;
+      const country = counties.find(
+        // 區域預設顯示高雄市
+        county => county.countryId === "64"
+      );
+      const newDistricts = country?.districts.map(item => {
+        return {
+          id: item.districtId,
+          checked: false,
+          content: item.districtName,
+        };
+      });
+      const newHouseTypes = houseTypes.map(item => {
+        return {
+          content: item,
+          checked: false,
+        };
+      });
+      const newRentRanges = rentRanges.map(item => {
+        return {
+          content: item,
+          checked: false,
+        };
+      });
 
-    const newformElementState = {
-      District: {
-        noLimit: { content: "不限", checked: true, disabled: true },
-        districts: newDistricts,
-      },
-      HouseType: {
-        noLimit: { content: "不限", checked: true, disabled: true },
-        houseTypes: newHouseTypes,
-      },
-      RentRange: {
-        noLimit: { content: "不限", checked: true, disabled: true },
-        rentRanges: newRentRanges,
-      },
-    };
-
-    dispatch(setDistrictNoLimitState(newformElementState.District.noLimit));
-    dispatch(setDistrictItemsState(newformElementState.District.districts));
-    dispatch(setHouseTypeNoLimitState(newformElementState.HouseType.noLimit));
-    dispatch(setHouseTypeItemsState(newformElementState.HouseType.houseTypes));
-    dispatch(setRentRangeNoLimitState(newformElementState.RentRange.noLimit));
-    dispatch(setRentRangeItemsState(newformElementState.RentRange.rentRanges));
+      const newformElementState = {
+        District: {
+          noLimit: { content: "不限", checked: true, disabled: true },
+          districts: newDistricts,
+        },
+        HouseType: {
+          noLimit: { content: "不限", checked: true, disabled: true },
+          houseTypes: newHouseTypes,
+        },
+        RentRange: {
+          noLimit: { content: "不限", checked: true, disabled: true },
+          rentRanges: newRentRanges,
+        },
+      };
+      dispatch(setDistrictNoLimitState(newformElementState.District.noLimit));
+      dispatch(setDistrictItemsState(newformElementState.District.districts));
+      dispatch(setHouseTypeNoLimitState(newformElementState.HouseType.noLimit));
+      dispatch(
+        setHouseTypeItemsState(newformElementState.HouseType.houseTypes)
+      );
+      dispatch(setRentRangeNoLimitState(newformElementState.RentRange.noLimit));
+      dispatch(
+        setRentRangeItemsState(newformElementState.RentRange.rentRanges)
+      );
+    }
   }, []);
 
   const turnToSingleHousePage = (e: any) => {
@@ -125,7 +138,6 @@ function HouseListPage() {
       dispatch(setDistrictNoLimitState(newDistrictState.noLimit));
       dispatch(setDistrictItemsState(newDistrictState.districts));
     } else {
-      console.log(districtCheckboxDOM);
       let newDistrictState = {
         ...districtState,
         districts: districtState.districts.map((item: District) => {
@@ -141,7 +153,6 @@ function HouseListPage() {
           }
         }),
       };
-      console.log(newDistrictState);
       if (districtCheckboxDOM.checked === true) {
         newDistrictState = {
           ...newDistrictState,

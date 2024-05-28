@@ -1,14 +1,9 @@
-import {
-  useState,
-  useEffect,
-  ChangeEvent,
-  MouseEvent,
-  useRef,
-} from "react";
+import { useState, useEffect, ChangeEvent, MouseEvent, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { changeContent } from "../../../redux/searchForm/inputSearchSlice";
+import { setCityDropdownState } from "../../../redux/searchForm/cityDropdownSlice";
 import {
   setDistrictNoLimitState,
   setDistrictItemsState,
@@ -24,7 +19,6 @@ import {
 import dropdownCities from "../../constants/locations/dropdownCities";
 import dropdownIcon from "../../assets/imgs/icons/dropdownIcon.svg";
 import searchIcon from "../../assets/imgs/icons/searchIcon.svg";
-import kaohsiungDistricts from "../../constants/locations/districts/kaohsiungDistricts";
 import houseTypes from "../../constants/houseTypes";
 import rentRanges from "../../constants/rentRange";
 import { RootState } from "../../../redux/store";
@@ -48,6 +42,11 @@ function SearchForm() {
   const searchContent = useSelector(
     (store: RootState) => store.inputSearch.textContent
   );
+  const countryState = useSelector(
+    (store: RootState) => store.cityDropdown.country
+  );
+  console.log(countryState);
+  const dropdownRef = useRef<HTMLDivElement>(null);
   const districtState = useSelector((store: RootState) => store.district);
   const houseTypeState = useSelector((store: RootState) => store.houseType);
   const rentRangeState = useSelector((store: RootState) => store.rentRange);
@@ -56,51 +55,67 @@ function SearchForm() {
   const [isSearchInputFocused, setIsSearchInputFocused] = useState(false); // 偵測搜尋框是否被 focused
   /* 初始化表單內所有的checkbox元素狀態 */
   useEffect(() => {
-    const newDistricts = kaohsiungDistricts.map(item => {
-      return {
-        content: item,
-        checked: false,
-      };
-    });
-    const newHouseTypes = houseTypes.map(item => {
-      return {
-        content: item,
-        checked: false,
-      };
-    });
-    const newRentRanges = rentRanges.map(item => {
-      return {
-        content: item,
-        checked: false,
-      };
-    });
+    if (
+      countryState.id.length === 0 ||
+      districtState.districts.length === 0 ||
+      houseTypeState.houseTypes.length === 0 ||
+      rentRangeState.rentRanges.length === 0
+    ) {
+      const counties = dropdownCities.south;
+      const country = counties.find(
+        // 區域預設顯示高雄市
+        county => county.countryId === "64"
+      );
+      const newDistricts = country?.districts.map(item => {
+        return {
+          id: item.districtId,
+          checked: false,
+          content: item.districtName,
+        };
+      });
+      const newHouseTypes = houseTypes.map(item => {
+        return {
+          content: item,
+          checked: false,
+        };
+      });
+      const newRentRanges = rentRanges.map(item => {
+        return {
+          content: item,
+          checked: false,
+        };
+      });
 
-    const newformElementState = {
-      District: {
-        noLimit: { content: "不限", checked: true, disabled: true },
-        districts: newDistricts,
-      },
-      HouseType: {
-        noLimit: { content: "不限", checked: true, disabled: true },
-        houseTypes: newHouseTypes,
-      },
-      RentRange: {
-        noLimit: { content: "不限", checked: true, disabled: true },
-        rentRanges: newRentRanges,
-      },
-    };
-    dispatch(setDistrictNoLimitState(newformElementState.District.noLimit));
-    dispatch(setDistrictItemsState(newformElementState.District.districts));
-    dispatch(setHouseTypeNoLimitState(newformElementState.HouseType.noLimit));
-    dispatch(setHouseTypeItemsState(newformElementState.HouseType.houseTypes));
-    dispatch(setRentRangeNoLimitState(newformElementState.RentRange.noLimit));
-    dispatch(setRentRangeItemsState(newformElementState.RentRange.rentRanges));
+      const newFormElementState = {
+        District: {
+          noLimit: { content: "不限", checked: true, disabled: true },
+          districts: newDistricts,
+        },
+        HouseType: {
+          noLimit: { content: "不限", checked: true, disabled: true },
+          houseTypes: newHouseTypes,
+        },
+        RentRange: {
+          noLimit: { content: "不限", checked: true, disabled: true },
+          rentRanges: newRentRanges,
+        },
+      };
+      dispatch(setCityDropdownState({ id: "64", name: "高雄市" }));
+      dispatch(setDistrictNoLimitState(newFormElementState.District.noLimit));
+      dispatch(setDistrictItemsState(newFormElementState.District.districts));
+      dispatch(setHouseTypeNoLimitState(newFormElementState.HouseType.noLimit));
+      dispatch(
+        setHouseTypeItemsState(newFormElementState.HouseType.houseTypes)
+      );
+      dispatch(setRentRangeNoLimitState(newFormElementState.RentRange.noLimit));
+      dispatch(
+        setRentRangeItemsState(newFormElementState.RentRange.rentRanges)
+      );
+    }
 
     // 加上滑鼠點擊的監聽事件，當使用者點擊篩選縣市的下拉選單以外的地方，就將此下拉選單收起來
     document.addEventListener("mousedown", handleClickOutside);
   }, []);
-  const dropdownRef = useRef<HTMLDivElement>(null);
-  const inputCityRef = useRef<HTMLInputElement>(null);
 
   const setSearchContent = (e: ChangeEvent<HTMLInputElement>) => {
     dispatch(changeContent(e.target.value));
@@ -116,12 +131,32 @@ function SearchForm() {
     }
   };
 
+  // 隨著縣市的下拉選單狀態變化，更改成該縣市對應的區 (例如選了高雄市，區只會顯示高雄的區，像是三民區、新興區等)
   const setCity = (e: MouseEvent<HTMLButtonElement>) => {
-    const cityName = e.currentTarget.name; // 獲取按鈕的 name 屬性
-    if (inputCityRef.current) {
-      // 更新縣市的 input 值
-      inputCityRef.current.value = cityName;
-    }
+    const target = e.target as HTMLButtonElement;
+    const region = target.dataset.region; // 使用者選擇的縣市屬於在北部、中部、南部、東部哪一個
+    const currentChooseCountryId = target.id; // 取得使用者選擇的縣市 ID
+    const counties = dropdownCities[region as keyof typeof dropdownCities]; //先透過區域篩選出該區域的縣市
+    const country = counties.find(// 再透過縣市ID找到特定的縣市
+      country => country.countryId === currentChooseCountryId
+    );
+    // 將剛剛找到的縣市所對應的區和checkbox預設的狀態組出新的資料
+    const newDistricts = country?.districts.map(item => {
+      return {
+        id: item.districtId,
+        checked: false,
+        content: item.districtName,
+      };
+    });
+    const districtState = {
+      noLimit: { content: "不限", checked: true, disabled: true },
+      districts: newDistricts,
+    };
+    dispatch(setCityDropdownState({ id: country?.countryId, name: country?.countryName }));
+    dispatch(setDistrictNoLimitState(districtState.noLimit));
+    dispatch(setDistrictItemsState(districtState.districts));
+
+    setCityDropdownModalIsOpen(false);
   };
   const handleCityDropdownFocused = () => {
     setIsCityDropdownFocused(true);
@@ -147,7 +182,6 @@ function SearchForm() {
       dispatch(setDistrictNoLimitState(newDistrictState.noLimit));
       dispatch(setDistrictItemsState(newDistrictState.districts));
     } else {
-      console.log(districtCheckboxDOM);
       let newDistrictState = {
         ...districtState,
         districts: districtState.districts.map((item: District) => {
@@ -163,7 +197,6 @@ function SearchForm() {
           }
         }),
       };
-      console.log(newDistrictState);
       if (districtCheckboxDOM.checked === true) {
         newDistrictState = {
           ...newDistrictState,
@@ -262,7 +295,6 @@ function SearchForm() {
   };
   const handleRentRangeState = (e: ChangeEvent<HTMLInputElement>) => {
     const rentRangeCheckboxDOM = e.target as HTMLInputElement;
-    console.log(rentRangeCheckboxDOM);
     if (rentRangeCheckboxDOM.id === "rentNoLimit") {
       const newRentRangeState = {
         ...rentRangeState,
@@ -336,7 +368,7 @@ function SearchForm() {
         onSubmit={handleSubmit(onSubmit)}
         className="bg-white rounded-[20px] p-8"
       >
-        {/* drowdown & search */}
+        {/* dropdown & search */}
         <div className="flex gap-x-6 mb-6 ">
           {/* dropdown component */}
           <div
@@ -348,11 +380,10 @@ function SearchForm() {
             }`}
           >
             <input
-              ref={inputCityRef}
               type="text"
               readOnly
-              defaultValue={"高雄市"}
-              id="cityDropdown"
+              defaultValue={countryState.name}
+              id={countryState.id}
               className={`block w-full p-0 pl-1 text-black bg-transparent border-none appearance-none focus:ring-0 peer cursor-pointer ${
                 isCityDropdownFocused ? "caret-transparent" : ""
               }`}
@@ -362,7 +393,7 @@ function SearchForm() {
               onChange={setSearchContent}
             />
             <label
-              htmlFor="cityDropdown"
+              htmlFor={countryState.id}
               className="absolute text-sans-body1 text-black duration-200 transform -translate-y-4 scale-75 top-[3px] z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-Brand-30 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-[3px] peer-focus:scale-75 peer-focus:-translate-y-4 start-3"
             >
               縣市
@@ -383,16 +414,18 @@ function SearchForm() {
                       北部
                     </span>
                     <div className="flex gap-x-[14px]">
-                      {dropdownCities.north.map((district, index) => {
+                      {dropdownCities.north.map((countryContent, index) => {
                         return (
                           <button
                             type="button"
                             key={index}
-                            name={district}
+                            id={countryContent.countryId}
+                            name={countryContent.countryName}
+                            data-region="north"
                             className="border-b border-black hover:text-Neutral-50 hover:border-Neutral-50"
                             onClick={setCity}
                           >
-                            {district}
+                            {countryContent.countryName}
                           </button>
                         );
                       })}
@@ -404,16 +437,18 @@ function SearchForm() {
                       中部
                     </span>
                     <div className="flex gap-x-[14px]">
-                      {dropdownCities.central.map((district, index) => {
+                      {dropdownCities.central.map((countryContent, index) => {
                         return (
                           <button
                             type="button"
                             key={index}
-                            name={district}
+                            id={countryContent.countryId}
+                            name={countryContent.countryName}
+                            data-region="central"
                             className="border-b border-black hover:text-Neutral-50 hover:border-Neutral-50"
                             onClick={setCity}
                           >
-                            {district}
+                            {countryContent.countryName}
                           </button>
                         );
                       })}
@@ -425,16 +460,18 @@ function SearchForm() {
                       南部
                     </span>
                     <div className="flex gap-x-[14px]">
-                      {dropdownCities.south.map((district, index) => {
+                      {dropdownCities.south.map((countryContent, index) => {
                         return (
                           <button
                             type="button"
                             key={index}
-                            name={district}
+                            id={countryContent.countryId}
+                            name={countryContent.countryName}
+                            data-region="south"
                             className="border-b border-black hover:text-Neutral-50 hover:border-Neutral-50"
                             onClick={setCity}
                           >
-                            {district}
+                            {countryContent.countryName}
                           </button>
                         );
                       })}
@@ -446,16 +483,18 @@ function SearchForm() {
                       東部
                     </span>
                     <div className="flex gap-x-[14px]">
-                      {dropdownCities.east.map((district, index) => {
+                      {dropdownCities.east.map((countryContent, index) => {
                         return (
                           <button
                             type="button"
                             key={index}
-                            name={district}
+                            id={countryContent.countryId}
+                            name={countryContent.countryName}
+                            data-region="east"
                             className="border-b border-black hover:text-Neutral-50 hover:border-Neutral-50"
                             onClick={setCity}
                           >
-                            {district}
+                            {countryContent.countryName}
                           </button>
                         );
                       })}
@@ -532,26 +571,31 @@ function SearchForm() {
                 </label>
               </div>
               <div className="flex gap-x-[22px] gap-y-3 flex-wrap">
-                {districtState.districts.map(({ content, checked }, index) => {
-                  return (
-                    <div
-                      key={index}
-                      className="flex items-center cursor-pointer"
-                    >
-                      <input
-                        className="w-5 h-5 text-black focus:ring-transparent rounded-sm border-2 border-black cursor-pointer"
-                        type="checkbox"
-                        checked={checked}
-                        name={content}
-                        id={content}
-                        onChange={handleDistrictState}
-                      />
-                      <label htmlFor={content} className="pl-2 cursor-pointer">
-                        {content}
-                      </label>
-                    </div>
-                  );
-                })}
+                {districtState.districts.map(
+                  ({ content, checked, id }, index) => {
+                    return (
+                      <div
+                        key={index}
+                        className="flex items-center cursor-pointer"
+                      >
+                        <input
+                          className="w-5 h-5 text-black focus:ring-transparent rounded-sm border-2 border-black cursor-pointer"
+                          type="checkbox"
+                          checked={checked}
+                          name={content}
+                          id={id}
+                          onChange={handleDistrictState}
+                        />
+                        <label
+                          htmlFor={content}
+                          className="pl-2 cursor-pointer"
+                        >
+                          {content}
+                        </label>
+                      </div>
+                    );
+                  }
+                )}
               </div>
             </div>
           </li>

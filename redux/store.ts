@@ -1,4 +1,5 @@
-import { configureStore} from "@reduxjs/toolkit";
+import { configureStore } from "@reduxjs/toolkit";
+import cityDropdownSlice from "./searchForm/cityDropdownSlice";
 import inputSearchSlice from "./searchForm/inputSearchSlice";
 import districtSlice from "./searchForm/districtSlice";
 import houseTypeSlice from "./searchForm/houseTypeSlice";
@@ -17,6 +18,7 @@ import restrictionsSlice from "./post/restrictionsSlice";
 const store = configureStore({
   reducer: {
     inputSearch: inputSearchSlice,
+    cityDropdown: cityDropdownSlice,
     district: districtSlice,
     houseType: houseTypeSlice,
     rentRange: rentRangeSlice,
