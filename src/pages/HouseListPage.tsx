@@ -51,14 +51,14 @@ interface RentRange {
   content: string;
   checked: boolean;
 }
-interface HouseFeatures {
-  content: string;
-  checked: boolean;
-}
-interface LandLordRating {
-  content: string;
-  checked: boolean;
-}
+// interface HouseFeatures {
+//   content: string;
+//   checked: boolean;
+// }
+// interface LandLordRating {
+//   content: string;
+//   checked: boolean;
+// }
 
 function HouseListPage() {
   const { handleSubmit } = useForm();
