@@ -2,8 +2,9 @@ import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { RootState } from "../../redux/store";
-import { ChangeEvent, useEffect, useRef, useState } from "react";
+import { ChangeEvent, useEffect, useRef, useState, MouseEvent } from "react";
 import { changeContent } from "../../redux/searchForm/inputSearchSlice";
+import { setCountryDropdownState } from "../../redux/searchForm/cityDropdownSlice";
 import {
   setDistrictNoLimitState,
   setDistrictItemsState,
@@ -32,7 +33,6 @@ import leftIcon_black from "../assets/imgs/icons/leftIcon_black.svg";
 import rightIcon_white from "../assets/imgs/icons/rightIcon_white.svg";
 import housePicture from "../assets/imgs/homePage/recommendation_picture_1.svg";
 import starIcon from "../assets/imgs/icons/starIcon.svg";
-import kaohsiungDistricts from "../constants/locations/districts/kaohsiungDistricts";
 import houseTypes from "../constants/searchFormCondition/houseTypes";
 import rentRanges from "../constants/searchFormCondition/rentRange";
 import houseFeatures from "../constants/searchFormCondition/houseFeatures";
@@ -67,8 +67,10 @@ function HouseListPage() {
   const searchContent = useSelector(
     (store: RootState) => store.inputSearch.textContent
   );
+  const countryState = useSelector(
+    (store: RootState) => store.cityDropdown.country
+  );
   const dropdownRef = useRef<HTMLDivElement>(null);
-  const inputCityRef = useRef<HTMLInputElement>(null);
   const districtState = useSelector((store: RootState) => store.district);
   const houseTypeState = useSelector((store: RootState) => store.houseType);
   const rentRangeState = useSelector((store: RootState) => store.rentRange);
@@ -81,89 +83,97 @@ function HouseListPage() {
   const [isSearchInputFocused, setIsSearchInputFocused] = useState(false); // 記錄搜尋框是否被 focused
   const [isCityDropdownFocused, setIsCityDropdownFocused] = useState(false); // 偵測縣市的Dropdown是否被 focused
   const [cityDropdownModalIsOpen, setCityDropdownModalIsOpen] = useState(false);
+
   /* 初始化表單內所有的checkbox元素狀態 */
   useEffect(() => {
-    const newDistricts = kaohsiungDistricts.map(item => {
-      return {
-        content: item,
-        checked: false,
-      };
-    });
-    const newHouseTypes = houseTypes.map(item => {
-      return {
-        content: item,
-        checked: false,
-      };
-    });
-    const newRentRanges = rentRanges.map(item => {
-      return {
-        content: item,
-        checked: false,
-      };
-    });
-    const newHouseFeatures = houseFeatures.map(item => {
-      return {
-        content: item,
-        checked: false,
-      };
-    });
-    const newLandLordRating = landLordRating.map(item => {
-      return {
-        content: item,
-        checked: false,
-      };
-    });
-
-    const newformElementState = {
-      District: {
+    // 如果縣市欄位狀態為空，就把縣市預設為高雄市
+    if (countryState.id.length === 0) {
+      dispatch(setCountryDropdownState({ id: "64", name: "高雄市" }));
+    }
+    // 如果區域狀態在Redux裡面為空，就把區域預設為高雄市的區
+    if (districtState.districts.length === 0) {
+      const counties = dropdownCities.south;
+      const country = counties.find(
+        // 區域預設顯示高雄市
+        county => county.countryId === "64"
+      );
+      const newDistricts = country?.districts.map(item => {
+        return {
+          id: item.districtId,
+          checked: false,
+          content: item.districtName,
+        };
+      });
+      const newDistrictState = {
         noLimit: { content: "不限", checked: true, disabled: true },
         districts: newDistricts,
-      },
-      HouseType: {
+      };
+      dispatch(setDistrictNoLimitState(newDistrictState.noLimit));
+      dispatch(setDistrictItemsState(newDistrictState.districts));
+    }
+    // 如果房型狀態在Redux裡面為空，就初始化值
+    if (houseTypeState.houseTypes.length === 0) {
+      const newHouseTypes = houseTypes.map(item => {
+        return {
+          content: item,
+          checked: false,
+        };
+      });
+      const newHouseTypeState = {
         noLimit: { content: "不限", checked: true, disabled: true },
         houseTypes: newHouseTypes,
-      },
-      RentRange: {
+      };
+      dispatch(setHouseTypeNoLimitState(newHouseTypeState.noLimit));
+      dispatch(setHouseTypeItemsState(newHouseTypeState.houseTypes));
+    }
+    // 如果租金狀態在Redux裡面為空，就初始化值
+    if (rentRangeState.rentRanges.length === 0) {
+      const newRentRanges = rentRanges.map(item => {
+        return {
+          content: item,
+          checked: false,
+        };
+      });
+      const newRentRangeState = {
         noLimit: { content: "不限", checked: true, disabled: true },
         rentRanges: newRentRanges,
-      },
-      HouseFeatures: {
+      };
+      dispatch(setRentRangeNoLimitState(newRentRangeState.noLimit));
+      dispatch(setRentRangeItemsState(newRentRangeState.rentRanges));
+    }
+    // 如果房源特色狀態在Redux裡面為空，就初始化值
+    if (houseFeaturesState.houseFeatures.length === 0) {
+      const newHouseFeatures = houseFeatures.map(item => {
+        return {
+          content: item,
+          checked: false,
+        };
+      });
+      const newHouseFeaturesState = {
         noLimit: { content: "不限", checked: true, disabled: true },
         houseFeatures: newHouseFeatures,
-      },
-      LandLordRating: {
+      };
+      dispatch(setHouseFeaturesNoLimitState(newHouseFeaturesState.noLimit));
+      dispatch(setHouseFeaturesItemsState(newHouseFeaturesState.houseFeatures));
+    }
+    // 如果房東評價狀態在Redux裡面為空，就初始化值
+    if (houseFeaturesState.houseFeatures.length === 0) {
+      const newLandLordRating = landLordRating.map(item => {
+        return {
+          content: item,
+          checked: false,
+        };
+      });
+      const newLandLordRatingState = {
         noLimit: { content: "不限", checked: true, disabled: true },
-        landLordRating: newLandLordRating,
-      },
-    };
+        landLordRatings: newLandLordRating,
+      };
+      dispatch(setLandLordRatingNoLimitState(newLandLordRatingState.noLimit));
+      dispatch(
+        setLandLordRatingItemsState(newLandLordRatingState.landLordRatings)
+      );
+    }
 
-    // 初始化區域篩選狀態
-    dispatch(setDistrictNoLimitState(newformElementState.District.noLimit));
-    dispatch(setDistrictItemsState(newformElementState.District.districts));
-    // 初始化類型篩選狀態
-    dispatch(setHouseTypeNoLimitState(newformElementState.HouseType.noLimit));
-    dispatch(setHouseTypeItemsState(newformElementState.HouseType.houseTypes));
-    // 初始化租金篩選狀態
-    dispatch(setRentRangeNoLimitState(newformElementState.RentRange.noLimit));
-    dispatch(setRentRangeItemsState(newformElementState.RentRange.rentRanges));
-    // 初始化特色篩選狀態
-    dispatch(
-      setHouseFeaturesNoLimitState(newformElementState.HouseFeatures.noLimit)
-    );
-    dispatch(
-      setHouseFeaturesItemsState(
-        newformElementState.HouseFeatures.houseFeatures
-      )
-    );
-    // 初始化房東評價篩選狀態
-    dispatch(
-      setLandLordRatingNoLimitState(newformElementState.LandLordRating.noLimit)
-    );
-    dispatch(
-      setLandLordRatingItemsState(
-        newformElementState.LandLordRating.landLordRating
-      )
-    );
     // 加上滑鼠點擊的監聽事件，當使用者點擊篩選縣市的下拉選單以外的地方，就將此下拉選單收起來
     document.addEventListener("mousedown", handleClickOutside);
   }, []);
@@ -186,12 +196,37 @@ function HouseListPage() {
     setIsCityDropdownFocused(true);
     setCityDropdownModalIsOpen(true);
   };
-  const setCity = (e: any) => {
-    const cityName = e.currentTarget.name; // 獲取按鈕的 name 屬性
-    if (inputCityRef.current) {
-      // 更新縣市的 input 值
-      inputCityRef.current.value = cityName;
-    }
+  const setCity = (e: MouseEvent<HTMLButtonElement>) => {
+    const target = e.target as HTMLButtonElement;
+    const region = target.dataset.region; // 使用者選擇的縣市屬於在北部、中部、南部、東部哪一個
+    const currentChooseCountryId = target.id; // 取得使用者選擇的縣市 ID
+    const counties = dropdownCities[region as keyof typeof dropdownCities]; //先透過區域篩選出該區域的縣市
+    const country = counties.find(
+      // 再透過縣市ID找到特定的縣市
+      country => country.countryId === currentChooseCountryId
+    );
+    // 將剛剛找到的縣市所對應的區和checkbox預設的狀態組出新的資料
+    const newDistricts = country?.districts.map(item => {
+      return {
+        id: item.districtId,
+        checked: false,
+        content: item.districtName,
+      };
+    });
+    const districtState = {
+      noLimit: { content: "不限", checked: true, disabled: true },
+      districts: newDistricts,
+    };
+    dispatch(
+      setCountryDropdownState({
+        id: country?.countryId,
+        name: country?.countryName,
+      })
+    );
+    dispatch(setDistrictNoLimitState(districtState.noLimit));
+    dispatch(setDistrictItemsState(districtState.districts));
+    console.log(countryState);
+    setCityDropdownModalIsOpen(false);
   };
   const setSearchContent = (e: ChangeEvent<HTMLInputElement>) => {
     dispatch(changeContent(e.target.value));
@@ -216,7 +251,6 @@ function HouseListPage() {
       dispatch(setDistrictNoLimitState(newDistrictState.noLimit));
       dispatch(setDistrictItemsState(newDistrictState.districts));
     } else {
-      console.log(districtCheckboxDOM);
       let newDistrictState = {
         ...districtState,
         districts: districtState.districts.map((item: District) => {
@@ -232,7 +266,6 @@ function HouseListPage() {
           }
         }),
       };
-      console.log(newDistrictState);
       if (districtCheckboxDOM.checked === true) {
         newDistrictState = {
           ...newDistrictState,
@@ -557,7 +590,7 @@ function HouseListPage() {
               onSubmit={handleSubmit(onSubmit)}
               className="bg-white rounded-[20px] p-5"
             >
-              {/* drowdown & search */}
+              {/* dropdown & search */}
               <div className="flex gap-6 mb-6">
                 {/* dropdown component */}
                 <div
@@ -569,21 +602,19 @@ function HouseListPage() {
                   }`}
                 >
                   <input
-                    ref={inputCityRef}
                     type="text"
                     readOnly
-                    defaultValue={"高雄市"}
-                    id="cityDropdown"
+                    value={countryState.name}
+                    id={countryState.id}
                     className={`block w-full p-0 pl-1 text-black bg-transparent border-none appearance-none focus:ring-0 peer cursor-pointer ${
                       isCityDropdownFocused ? "caret-transparent" : ""
                     }`}
                     placeholder=""
                     onFocus={handleCityDropdownFocused}
                     onBlur={() => setIsCityDropdownFocused(false)}
-                    onChange={setSearchContent}
                   />
                   <label
-                    htmlFor="cityDropdown"
+                    htmlFor={countryState.id}
                     className="absolute text-sans-body1 text-black duration-200 transform -translate-y-4 scale-75 top-[3px] z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-Brand-30 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-[3px] peer-focus:scale-75 peer-focus:-translate-y-4 start-3"
                   >
                     縣市
@@ -599,7 +630,7 @@ function HouseListPage() {
                   {cityDropdownModalIsOpen && (
                     <div
                       ref={dropdownRef}
-                      className="absolute top-[120%] w-[375%] z-10 left-0 p-5 bg-Neutral-99 rounded-xl shadow-elevation-3"
+                      className="absolute top-[120%] w-[380%] left-0 z-10 p-5 bg-Neutral-99 rounded-xl shadow-elevation-3"
                     >
                       <ul>
                         {/* 北部縣市 */}
@@ -608,19 +639,23 @@ function HouseListPage() {
                             北部
                           </span>
                           <div className="flex gap-x-[14px]">
-                            {dropdownCities.north.map((district, index) => {
-                              return (
-                                <button
-                                  type="button"
-                                  key={index}
-                                  name={district}
-                                  className="border-b border-black hover:text-Neutral-50 hover:border-Neutral-50"
-                                  onClick={setCity}
-                                >
-                                  {district}
-                                </button>
-                              );
-                            })}
+                            {dropdownCities.north.map(
+                              (countryContent, index) => {
+                                return (
+                                  <button
+                                    type="button"
+                                    key={index}
+                                    id={countryContent.countryId}
+                                    name={countryContent.countryName}
+                                    data-region="north"
+                                    className="border-b border-black hover:text-Neutral-50 hover:border-Neutral-50"
+                                    onClick={setCity}
+                                  >
+                                    {countryContent.countryName}
+                                  </button>
+                                );
+                              }
+                            )}
                           </div>
                         </li>
                         {/* 中部縣市 */}
@@ -629,19 +664,23 @@ function HouseListPage() {
                             中部
                           </span>
                           <div className="flex gap-x-[14px]">
-                            {dropdownCities.central.map((district, index) => {
-                              return (
-                                <button
-                                  type="button"
-                                  key={index}
-                                  name={district}
-                                  className="border-b border-black hover:text-Neutral-50 hover:border-Neutral-50"
-                                  onClick={setCity}
-                                >
-                                  {district}
-                                </button>
-                              );
-                            })}
+                            {dropdownCities.central.map(
+                              (countryContent, index) => {
+                                return (
+                                  <button
+                                    type="button"
+                                    key={index}
+                                    id={countryContent.countryId}
+                                    name={countryContent.countryName}
+                                    data-region="central"
+                                    className="border-b border-black hover:text-Neutral-50 hover:border-Neutral-50"
+                                    onClick={setCity}
+                                  >
+                                    {countryContent.countryName}
+                                  </button>
+                                );
+                              }
+                            )}
                           </div>
                         </li>
                         {/* 南部縣市 */}
@@ -650,19 +689,23 @@ function HouseListPage() {
                             南部
                           </span>
                           <div className="flex gap-x-[14px]">
-                            {dropdownCities.south.map((district, index) => {
-                              return (
-                                <button
-                                  type="button"
-                                  key={index}
-                                  name={district}
-                                  className="border-b border-black hover:text-Neutral-50 hover:border-Neutral-50"
-                                  onClick={setCity}
-                                >
-                                  {district}
-                                </button>
-                              );
-                            })}
+                            {dropdownCities.south.map(
+                              (countryContent, index) => {
+                                return (
+                                  <button
+                                    type="button"
+                                    key={index}
+                                    id={countryContent.countryId}
+                                    name={countryContent.countryName}
+                                    data-region="south"
+                                    className="border-b border-black hover:text-Neutral-50 hover:border-Neutral-50"
+                                    onClick={setCity}
+                                  >
+                                    {countryContent.countryName}
+                                  </button>
+                                );
+                              }
+                            )}
                           </div>
                         </li>
                         {/* 東部縣市 */}
@@ -671,19 +714,23 @@ function HouseListPage() {
                             東部
                           </span>
                           <div className="flex gap-x-[14px]">
-                            {dropdownCities.east.map((district, index) => {
-                              return (
-                                <button
-                                  type="button"
-                                  key={index}
-                                  name={district}
-                                  className="border-b border-black hover:text-Neutral-50 hover:border-Neutral-50"
-                                  onClick={setCity}
-                                >
-                                  {district}
-                                </button>
-                              );
-                            })}
+                            {dropdownCities.east.map(
+                              (countryContent, index) => {
+                                return (
+                                  <button
+                                    type="button"
+                                    key={index}
+                                    id={countryContent.countryId}
+                                    name={countryContent.countryName}
+                                    data-region="east"
+                                    className="border-b border-black hover:text-Neutral-50 hover:border-Neutral-50"
+                                    onClick={setCity}
+                                  >
+                                    {countryContent.countryName}
+                                  </button>
+                                );
+                              }
+                            )}
                           </div>
                         </li>
                       </ul>
