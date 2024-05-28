@@ -3,7 +3,7 @@ import { useState } from 'react';
 import moment from 'moment-timezone';
 // Model-popup 所需之匯入
 import { Modal } from "flowbite-react";
-import { HiOutlineExclamationCircle } from "react-icons/hi";
+import Close from "../../../assets/imgs/icons/close.svg";
 
 export default function HouseCard({data, houseStatus}: {data:any, houseStatus:string}) {
   const { houseId, name, photo, status, reservationCount, userName, leaseStartTime, leaseEndTime} = data;
@@ -11,6 +11,7 @@ export default function HouseCard({data, houseStatus}: {data:any, houseStatus:st
 
   // 控制 Model-popup 的開關
   const [openModal, setOpenModal] = useState(false);
+  const [isPhoneFocused,setIsPhoneFocused] = useState(false)
 
   const buttonMessage = () => {
     if (houseStatus === "addingList") { // 新增中
@@ -100,18 +101,43 @@ export default function HouseCard({data, houseStatus}: {data:any, houseStatus:st
       <Modal className="z-50 backdrop-blur-md" show={openModal} size="lg" onClose={() => setOpenModal(false)} popup>
         <Modal.Body className="p-10">
           <div className="flex items-center gap-3 mb-10">
-            <HiOutlineExclamationCircle className="h-6 w-6 text-Alert-50" />
-            <h3 className="text-sans-h5 text-Alert-50">
-              警示
+            <h3 className="text-sans-h5">
+              立即更改：已承租
             </h3>
-            <span
-              className="material-symbols-outlined ml-auto cursor-pointer"
-              onClick={() => setOpenModal(false)}
-            >
-              close
-            </span>
+            <img
+              src={Close} alt="close"
+              className="ml-auto cursor-pointer"
+              onClick={() => setOpenModal(false)} 
+            />
           </div>
-          <p className="mb-10 text-sans-body1">此動作不可返回，您確定要刪除房源？</p>
+          <p className="mb-8 text-sans-body1">請填入承租資訊及合約起迄時間。</p>
+          <form>
+            <div className="w-full">
+              <div
+                tabIndex={0}
+                className={`relative flex w-full p-3 rounded ${
+                  isPhoneFocused ? "border-Brand-30 border-2 -m-[1px]"
+                  : "border-black border"
+                }`}
+                onFocus={() => setIsPhoneFocused(true)}
+                onBlur={() => setIsPhoneFocused(false)}
+              >
+                <input
+                  type="tel"
+                  id="tenantPhone"
+                  className="block w-full p-0 pl-1 text-sans-body1 text-black bg-transparent border-none appearance-none focus:ring-0 peer"
+                  placeholder=""
+                  maxLength={10}
+                />
+                <label
+                  htmlFor="tenantPhone"
+                  className="absolute text-sans-body1 text-Neutral-50 duration-200 transform -translate-y-4 scale-75 top-[3px] z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-black peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-[3px] peer-focus:scale-75 peer-focus:-translate-y-4 start-3"
+                >
+                  承租人手機
+                </label>
+              </div>
+            </div>
+          </form>
           <div className="flex justify-end gap-6">
             <button className="outline-button-m" onClick={() => setOpenModal(false)}>
               確認刪除
