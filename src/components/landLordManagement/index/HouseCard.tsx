@@ -5,12 +5,14 @@ export default function HouseCard({data, houseStatus}: {data:any, houseStatus:st
   console.log(data, houseStatus);
 
   const buttonMessage = () => {
-    if (houseStatus === "publishList") { // 刊登中
+    if (houseStatus === "addingList") { // 新增中
+      return "繼續編輯"; 
+    } else if (houseStatus === "publishList") { // 刊登中
       return "立即更改:已承租"; 
     } else if (houseStatus === "rentedList") { // 已承租
       return "下載合約"; 
-    } else if (houseStatus === "addingList") { // 新增中
-      return "繼續編輯"; 
+    } else if (houseStatus === "finishedList") { // 已完成
+      return "評價";
     }
   };
 
@@ -29,7 +31,7 @@ export default function HouseCard({data, houseStatus}: {data:any, houseStatus:st
           <span className="pl-2 border-l border-Tenant-70">{moment(leaseEndTime).tz('Asia/Taipei').format('YYYY年M月D日')}</span>
         </div>
       ); 
-    } else { // 新增中
+    } else { // 新增中、已完成
       return (
         <div className="py-6"></div>
       ); 
