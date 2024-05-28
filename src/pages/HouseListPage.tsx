@@ -218,7 +218,7 @@ function HouseListPage() {
       districts: newDistricts,
     };
     dispatch(
-      setCityDropdownState({
+      setCountryDropdownState({
         id: country?.countryId,
         name: country?.countryName,
       })
