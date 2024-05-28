@@ -1,7 +1,9 @@
-import { configureStore} from "@reduxjs/toolkit";
+import { configureStore } from "@reduxjs/toolkit";
 import inputSearchSlice from "./searchForm/inputSearchSlice";
 import districtSlice from "./searchForm/districtSlice";
 import houseTypeSlice from "./searchForm/houseTypeSlice";
+import houseFeaturesSlice from "./searchForm/houseFeaturesSlice";
+import landLordRatingSlice from "./searchForm/landLordRatingSlice";
 import rentRangeSlice from "./searchForm/rentRangeSlice";
 import stepSlice from "./signUp/stepSlice";
 import registerIdentitySlice from "./common/registerIdentitySlice";
@@ -16,10 +18,12 @@ import restrictionsSlice from "./post/restrictionsSlice";
 
 const store = configureStore({
   reducer: {
-    inputSearch: inputSearchSlice,
-    district: districtSlice,
-    houseType: houseTypeSlice,
-    rentRange: rentRangeSlice,
+    inputSearch: inputSearchSlice, // 首頁搜尋表單，搜尋框
+    district: districtSlice, // 搜尋表單，區域條件篩選
+    houseType: houseTypeSlice, // 搜尋表單，房型條件篩選
+    rentRange: rentRangeSlice, // 搜尋表單，租金條件篩選
+    landLordRating: landLordRatingSlice, // 搜尋表單，房東評分條件篩選
+    houseFeatures: houseFeaturesSlice, // 搜尋表單，房源特色條件篩選
     signUpStepState: stepSlice,
     registerIdentityState: registerIdentitySlice,
     currentIdentity: currentIdentitySlice,

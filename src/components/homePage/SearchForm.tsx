@@ -1,10 +1,4 @@
-import {
-  useState,
-  useEffect,
-  ChangeEvent,
-  MouseEvent,
-  useRef,
-} from "react";
+import { useState, useEffect, ChangeEvent, MouseEvent, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -25,8 +19,8 @@ import dropdownCities from "../../constants/locations/dropdownCities";
 import dropdownIcon from "../../assets/imgs/icons/dropdownIcon.svg";
 import searchIcon from "../../assets/imgs/icons/searchIcon.svg";
 import kaohsiungDistricts from "../../constants/locations/districts/kaohsiungDistricts";
-import houseTypes from "../../constants/houseTypes";
-import rentRanges from "../../constants/rentRange";
+import houseTypes from "../../constants/searchFormCondition/houseTypes";
+import rentRanges from "../../constants/searchFormCondition/rentRange";
 import { RootState } from "../../../redux/store";
 interface District {
   content: string;

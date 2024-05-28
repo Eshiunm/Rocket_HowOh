@@ -22,7 +22,7 @@ const registerRequest = axios.create({
 });
 // 房源相關的 api
 const houseRequest = axios.create({
-  // baseURL: 'http://98.70.102.116/api/house'
+  //baseURL: 'http://98.70.102.116/api/house'
   baseURL: '/api/house'
 });
 // 租賃相關的 api
