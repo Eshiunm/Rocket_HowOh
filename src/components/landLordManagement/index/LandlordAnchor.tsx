@@ -1,7 +1,8 @@
 import { refFnListType } from "./HouseList";
 import anchorHouse from "../../../assets/imgs/landlord-management/AnchorHouse.svg";
+import { listCountType } from "./HouseList";
 
-export default function LandlordAnchor({refFnList}: {refFnList: refFnListType}) {
+export default function LandlordAnchor({refFnList, listCount}: {refFnList: refFnListType, listCount: listCountType}) {
   return (
     <section className="pb-6 border-b border-Neutral-95">
       <ul className="layout-grid">
@@ -14,7 +15,7 @@ export default function LandlordAnchor({refFnList}: {refFnList: refFnListType}) 
             className="absolute right-0 top-9 group-hover:-translate-y-7 duration-500"
           />
           <h3 className="opacity-80 text-sans-b-h6 p-[10px]">刊登中</h3>
-          <h4 className="px-[10px] py-3 text-sans-h2">4</h4>
+          <h4 className="px-[10px] py-3 text-sans-h2">{listCount.publish}</h4>
           <button className="letter-button-dark absolute z-10 bottom-3 right-3">
             <span>查看</span>
             <span className="material-symbols-outlined">chevron_right</span>
@@ -29,7 +30,7 @@ export default function LandlordAnchor({refFnList}: {refFnList: refFnListType}) 
             className="absolute right-0 top-9 group-hover:-translate-y-7 duration-500"
           />
           <h3 className="opacity-80 text-sans-b-h6 p-[10px]">已承租</h3>
-          <h4 className="px-[10px] py-3 text-sans-h2">4</h4>
+          <h4 className="px-[10px] py-3 text-sans-h2">{listCount.rented}</h4>
           <button className="letter-button-dark absolute z-10 bottom-3 right-3">
             <span>查看</span>
             <span className="material-symbols-outlined">chevron_right</span>
@@ -44,7 +45,7 @@ export default function LandlordAnchor({refFnList}: {refFnList: refFnListType}) 
             className="absolute right-0 top-9 group-hover:-translate-y-7 duration-500"
           />
           <h3 className="opacity-80 text-sans-b-h6 p-[10px]">已完成</h3>
-          <h4 className="px-[10px] py-3 text-sans-h2">4</h4>
+          <h4 className="px-[10px] py-3 text-sans-h2">{listCount.finished}</h4>
           <button className="letter-button-dark absolute z-10 bottom-3 right-3">
             <span>查看</span>
             <span className="material-symbols-outlined">chevron_right</span>
@@ -57,7 +58,7 @@ export default function LandlordAnchor({refFnList}: {refFnList: refFnListType}) 
             className="absolute right-0 top-9 group-hover:-translate-y-7 duration-500"
           />
           <h3 className="opacity-80 text-sans-b-h6 p-[10px]">待評價</h3>
-          <h4 className="px-[10px] py-3 text-sans-h2">4</h4>
+          <h4 className="px-[10px] py-3 text-sans-h2">0</h4>
           <button className="letter-button-dark absolute z-10 bottom-3 right-3">
             <span>查看</span>
             <span className="material-symbols-outlined">chevron_right</span>
