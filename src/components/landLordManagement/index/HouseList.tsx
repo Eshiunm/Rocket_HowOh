@@ -132,7 +132,7 @@ export default function HouseList() {
                     {
                       addingList.map(item => {
                         const {houseId} = item;
-                        return <HouseCard key={houseId} data={item} />
+                        return <HouseCard key={houseId} data={item} houseStatus="addingList" />
                       })
                     }
                   </ul>
@@ -157,7 +157,7 @@ export default function HouseList() {
                     {
                       publishList.map(item => {
                         const {houseId} = item;
-                        return <HouseCard key={houseId} data={item} />
+                        return <HouseCard key={houseId} data={item} houseStatus="publishList" />
                       })
                     }
                   </ul>
@@ -182,7 +182,7 @@ export default function HouseList() {
                     {
                       rentedList.map(item => {
                         const {houseId} = item;
-                        return <HouseCard key={houseId} data={item} />
+                        return <HouseCard key={houseId} data={item} houseStatus="rentedList" />
                       })
                     }
                   </ul>
