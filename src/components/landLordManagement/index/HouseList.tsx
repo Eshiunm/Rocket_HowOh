@@ -179,7 +179,12 @@ export default function HouseList() {
                 </AccordionTitle>
                 <AccordionContent>
                   <ul className="layout-grid">
-                    {/* <HouseCard /> */}
+                    {
+                      rentedList.map(item => {
+                        const {houseId} = item;
+                        return <HouseCard key={houseId} data={item} />
+                      })
+                    }
                   </ul>
                 </AccordionContent>
               </div>
