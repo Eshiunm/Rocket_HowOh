@@ -11,11 +11,11 @@ export const cityDropdownSlice = createSlice({
   name: "cityDropdown",
   initialState,
   reducers: {
-    setCityDropdownState: (state, action) => {
+    setCountryDropdownState: (state, action) => {
       state.country = action.payload;
     },
   },
 });
 
-export const { setCityDropdownState } = cityDropdownSlice.actions;
+export const { setCountryDropdownState } = cityDropdownSlice.actions;
 export default cityDropdownSlice.reducer;

@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { changeContent } from "../../../redux/searchForm/inputSearchSlice";
-import { setCityDropdownState } from "../../../redux/searchForm/cityDropdownSlice";
+import { setCountryDropdownState } from "../../../redux/searchForm/cityDropdownSlice";
 import {
   setDistrictNoLimitState,
   setDistrictItemsState,
@@ -19,8 +19,8 @@ import {
 import dropdownCities from "../../constants/locations/dropdownCities";
 import dropdownIcon from "../../assets/imgs/icons/dropdownIcon.svg";
 import searchIcon from "../../assets/imgs/icons/searchIcon.svg";
-import houseTypes from "../../constants/houseTypes";
-import rentRanges from "../../constants/rentRange";
+import houseTypes from "../../constants/searchFormCondition/houseTypes";
+import rentRanges from "../../constants/searchFormCondition/rentRange";
 import { RootState } from "../../../redux/store";
 interface District {
   content: string;
@@ -45,7 +45,6 @@ function SearchForm() {
   const countryState = useSelector(
     (store: RootState) => store.cityDropdown.country
   );
-  console.log(countryState);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const districtState = useSelector((store: RootState) => store.district);
   const houseTypeState = useSelector((store: RootState) => store.houseType);
@@ -55,12 +54,12 @@ function SearchForm() {
   const [isSearchInputFocused, setIsSearchInputFocused] = useState(false); // 偵測搜尋框是否被 focused
   /* 初始化表單內所有的checkbox元素狀態 */
   useEffect(() => {
-    if (
-      countryState.id.length === 0 ||
-      districtState.districts.length === 0 ||
-      houseTypeState.houseTypes.length === 0 ||
-      rentRangeState.rentRanges.length === 0
-    ) {
+    // 如果縣市欄位狀態為空，就把縣市預設為高雄市
+    if (countryState.id.length === 0) {
+      dispatch(setCountryDropdownState({ id: "64", name: "高雄市" }));
+    }
+    // 如果區域狀態在Redux裡面為空，就把區域預設為高雄市的區
+    if (districtState.districts.length === 0) {
       const counties = dropdownCities.south;
       const country = counties.find(
         // 區域預設顯示高雄市
@@ -73,44 +72,42 @@ function SearchForm() {
           content: item.districtName,
         };
       });
+      const newDistrictState = {
+        noLimit: { content: "不限", checked: true, disabled: true },
+        districts: newDistricts,
+      };
+      dispatch(setDistrictNoLimitState(newDistrictState.noLimit));
+      dispatch(setDistrictItemsState(newDistrictState.districts));
+    }
+    // 如果房型狀態在Redux裡面為空，就初始化值
+    if (houseTypeState.houseTypes.length === 0) {
       const newHouseTypes = houseTypes.map(item => {
         return {
           content: item,
           checked: false,
         };
       });
+      const newHouseTypeState = {
+        noLimit: { content: "不限", checked: true, disabled: true },
+        houseTypes: newHouseTypes,
+      };
+      dispatch(setHouseTypeNoLimitState(newHouseTypeState.noLimit));
+      dispatch(setHouseTypeItemsState(newHouseTypeState.houseTypes));
+    }
+    // 如果租金狀態在Redux裡面為空，就初始化值
+    if (rentRangeState.rentRanges.length === 0) {
       const newRentRanges = rentRanges.map(item => {
         return {
           content: item,
           checked: false,
         };
       });
-
-      const newFormElementState = {
-        District: {
-          noLimit: { content: "不限", checked: true, disabled: true },
-          districts: newDistricts,
-        },
-        HouseType: {
-          noLimit: { content: "不限", checked: true, disabled: true },
-          houseTypes: newHouseTypes,
-        },
-        RentRange: {
-          noLimit: { content: "不限", checked: true, disabled: true },
-          rentRanges: newRentRanges,
-        },
+      const newRentRangeState = {
+        noLimit: { content: "不限", checked: true, disabled: true },
+        rentRanges: newRentRanges,
       };
-      dispatch(setCityDropdownState({ id: "64", name: "高雄市" }));
-      dispatch(setDistrictNoLimitState(newFormElementState.District.noLimit));
-      dispatch(setDistrictItemsState(newFormElementState.District.districts));
-      dispatch(setHouseTypeNoLimitState(newFormElementState.HouseType.noLimit));
-      dispatch(
-        setHouseTypeItemsState(newFormElementState.HouseType.houseTypes)
-      );
-      dispatch(setRentRangeNoLimitState(newFormElementState.RentRange.noLimit));
-      dispatch(
-        setRentRangeItemsState(newFormElementState.RentRange.rentRanges)
-      );
+      dispatch(setRentRangeNoLimitState(newRentRangeState.noLimit));
+      dispatch(setRentRangeItemsState(newRentRangeState.rentRanges));
     }
 
     // 加上滑鼠點擊的監聽事件，當使用者點擊篩選縣市的下拉選單以外的地方，就將此下拉選單收起來
@@ -137,7 +134,8 @@ function SearchForm() {
     const region = target.dataset.region; // 使用者選擇的縣市屬於在北部、中部、南部、東部哪一個
     const currentChooseCountryId = target.id; // 取得使用者選擇的縣市 ID
     const counties = dropdownCities[region as keyof typeof dropdownCities]; //先透過區域篩選出該區域的縣市
-    const country = counties.find(// 再透過縣市ID找到特定的縣市
+    const country = counties.find(
+      // 再透過縣市ID找到特定的縣市
       country => country.countryId === currentChooseCountryId
     );
     // 將剛剛找到的縣市所對應的區和checkbox預設的狀態組出新的資料
@@ -152,7 +150,12 @@ function SearchForm() {
       noLimit: { content: "不限", checked: true, disabled: true },
       districts: newDistricts,
     };
-    dispatch(setCityDropdownState({ id: country?.countryId, name: country?.countryName }));
+    dispatch(
+      setCountryDropdownState({
+        id: country?.countryId,
+        name: country?.countryName,
+      })
+    );
     dispatch(setDistrictNoLimitState(districtState.noLimit));
     dispatch(setDistrictItemsState(districtState.districts));
 
@@ -390,7 +393,6 @@ function SearchForm() {
               placeholder=""
               onFocus={handleCityDropdownFocused}
               onBlur={() => setIsCityDropdownFocused(false)}
-              onChange={setSearchContent}
             />
             <label
               htmlFor={countryState.id}
