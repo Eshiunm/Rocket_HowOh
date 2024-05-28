@@ -1,7 +1,7 @@
 import moment from 'moment-timezone';
 
 export default function HouseCard({data, houseStatus}: {data:any, houseStatus:string}) {
-  const { name, photo, status, reservationCount, leaseStartTime, leaseEndTime} = data;
+  const { name, photo, status, reservationCount, userName, leaseStartTime, leaseEndTime} = data;
   console.log(data, houseStatus);
 
   const buttonMessage = () => {
@@ -18,12 +18,29 @@ export default function HouseCard({data, houseStatus}: {data:any, houseStatus:st
 
   const houseMessage = () => {
     if (houseStatus === "publishList") { // 刊登中
-      return (
-        <div className="mb-6 text-sans-body1">
-          <span className="pr-2">{status}</span>
-          <span className="pl-2 border-l border-Tenant-70">{reservationCount || 0} 人</span>
-        </div>
-      ); 
+      if ( status === "申請預約看房" ){
+        return (
+          <div className="mb-6 text-sans-body1">
+            <span className="pr-2">{status}</span>
+            <span className="pl-2 border-l border-Tenant-70">{reservationCount || 0} 人</span>
+          </div>
+        ); 
+      }else if ( status === "租約邀請已送出" ){
+        return (
+          <div className="mb-6 text-sans-body1">
+            <span className="pr-2 text-Brand-40">{status}</span>
+            <span className="pl-2 border-l border-Tenant-70">{userName}</span>
+          </div>
+        ); 
+      }else if ( status === "租約邀請已拒絕" ){
+        return (
+          <div className="mb-6 text-sans-body1">
+            <span className="pr-2 text-Alert-50">{status}</span>
+            <span className="pl-2 border-l border-Tenant-70">{userName}</span>
+          </div>
+        ); 
+
+      }
     } else if (houseStatus === "rentedList") { // 已承租
       return (
         <div className="mb-6 text-sans-body1">
