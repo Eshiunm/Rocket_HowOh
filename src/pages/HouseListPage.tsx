@@ -24,7 +24,6 @@ import leftIcon_black from "../assets/imgs/icons/leftIcon_black.svg";
 import rightIcon_white from "../assets/imgs/icons/rightIcon_white.svg";
 import housePicture from "../assets/imgs/homePage/recommendation_picture_1.svg";
 import starIcon from "../assets/imgs/icons/starIcon.svg";
-import kaohsiungDistricts from "../constants/locations/districts/kaohsiungDistricts";
 import houseTypes from "../constants/houseTypes";
 import rentRanges from "../constants/rentRange";
 import Footer from "../components/footer/Footer";
