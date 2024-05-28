@@ -129,7 +129,12 @@ export default function HouseList() {
                 </AccordionTitle>
                 <AccordionContent>
                   <ul className="layout-grid">
-                    <HouseCard />
+                    {
+                      addingList.map(item => {
+                        const {houseId} = item;
+                        return <HouseCard key={houseId} data={item} />
+                      })
+                    }
                   </ul>
                 </AccordionContent>
               </div>
@@ -149,7 +154,7 @@ export default function HouseList() {
                 </AccordionTitle>
                 <AccordionContent>
                   <ul className="layout-grid">
-                    <HouseCard />
+                    {/* <HouseCard /> */}
                   </ul>
                 </AccordionContent>
               </div>
@@ -169,7 +174,7 @@ export default function HouseList() {
                 </AccordionTitle>
                 <AccordionContent>
                   <ul className="layout-grid">
-                    <HouseCard />
+                    {/* <HouseCard /> */}
                   </ul>
                 </AccordionContent>
               </div>
@@ -189,7 +194,7 @@ export default function HouseList() {
                 </AccordionTitle>
                 <AccordionContent>
                   <ul className="layout-grid">
-                    <HouseCard />
+                    {/* <HouseCard /> */}
                   </ul>
                 </AccordionContent>
               </div>
