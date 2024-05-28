@@ -1,6 +1,21 @@
-import recommendation_picture_2 from "../../assets/imgs/homePage/recommendation_picture_2.svg"
+import recommendation_picture_2 from "../../assets/imgs/homePage/recommendation_picture_2.svg";
+import { apiHouseCommonRecommendedList } from "../../apis/apis";
+import { useEffect } from "react";
 
 function Recommendation() {
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await apiHouseCommonRecommendedList();
+        console.log(res);
+      } catch (error) {
+        console.error("Failed to fetch data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   return (
     <section className="recommendation py-16">
       <div className="container mb-16">

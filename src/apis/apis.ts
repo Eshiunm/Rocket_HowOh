@@ -22,7 +22,7 @@ const registerRequest = axios.create({
 });
 // 房源相關的 api
 const houseRequest = axios.create({
-  // baseURL: 'http://98.70.102.116/api/house'
+  //baseURL: 'http://98.70.102.116/api/house'
   baseURL: '/api/house'
 });
 // 租賃相關的 api
@@ -62,8 +62,10 @@ export const apiHouseLandlordPostStep = (data: any, houseId: string|null) => hou
 export const apiHouseLandlordPostImg = (data: any, houseId: string|null) => houseRequest.post(`/landlord/img/${houseId}`, data, getToken()); // ALO-4
 export const apiHouseLandlordPostDelete = (houseId: string|null) => houseRequest.delete(`/landlord/${houseId}`, getToken()); // ALO-11
 
+// 房源-房東房源管理相關的 api
+export const apiHouseLandlordList = () => houseRequest.get('/landlord/list',getToken()); // ALO-1
+
 // 房源-房東相關的 api
-export const apiHouseLandlordList = () => houseRequest.get('/landlord/list'); // ALO-1
 export const apiHouseLandlordContract = () => houseRequest.get('/landlord/contract'); // ALO-16
 export const apiHouseLandlordSingleContract = (id: string) => houseRequest.post(`/landlord/contract/${id}`); // ALO-7
 export const apiHouseLandlordChangeStatus = (id: string) => houseRequest.patch(`/landlord/status/${id}`); // ALO-6
