@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { CustomFlowbiteTheme, Flowbite, Accordion, AccordionContent, AccordionPanel, AccordionTitle, Tooltip } from "flowbite-react";
 import LandlordAnchor from "./LandlordAnchor";
 import HouseCard from "./HouseCard";
@@ -10,6 +11,11 @@ export interface refFnListType {
   goPublishList : () => void,
   goRentedList :  () => void,
   goFinishedList : () => void,
+}
+export interface listCountType {
+  publish : number,
+  rented : number,
+  finished : number
 }
 
 export default function HouseList() {
@@ -47,19 +53,22 @@ export default function HouseList() {
     }
   };
 
-  const publishCount = useRef<HTMLDivElement>(null);
-  const rentedCount = useRef<HTMLDivElement>(null);
-  const finishedCount = useRef<HTMLDivElement>(null);
-
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [addingList, setAddingList] = useState([]);
   const [publishList, setPublishList] = useState([]);
   const [rentedList, setRentedList] = useState([]);
   const [finishedList, setFinishedList] = useState([]);
-  console.log(addingList);
-  console.log(publishList);
-  console.log(rentedList);
-  console.log(finishedList);
+  const listCount: listCountType = {
+    publish : publishList.length,
+    rented : rentedList.length,
+    finished : finishedList.length,
+  };
+  
+  // anchor
+  const publishCount = useRef<HTMLDivElement>(null);
+  const rentedCount = useRef<HTMLDivElement>(null);
+  const finishedCount = useRef<HTMLDivElement>(null);
 
   const goPublishList = () => {
     if (publishCount.current) {
@@ -104,12 +113,13 @@ export default function HouseList() {
         setFinishedList(response.data.data["已完成"]);
         setLoading(false);
       } catch (error) {
-        console.log(error);
+        localStorage.clear();
+        alert(error);
+        navigate("/");
       }
-
     }
     getHouseList();
-  },[])
+  },[navigate])
 
   return (
     <>
@@ -118,7 +128,7 @@ export default function HouseList() {
       }
       <main className="container mt-14 mb-32">
         {/* 上方 anchor 區域 */}
-        <LandlordAnchor refFnList={refFnList} />
+        <LandlordAnchor refFnList={refFnList} listCount={listCount} />
         {/* 手風琴呈現列表 */}
         <Flowbite theme={{ theme: customTheme }}>
           <Accordion alwaysOpen>
