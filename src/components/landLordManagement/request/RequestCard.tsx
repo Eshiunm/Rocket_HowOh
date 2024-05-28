@@ -98,11 +98,15 @@ export default function RequestCard({status = "none"}) {
               <div className="layout-grid gap-4 mb-32">
                 <div className="col-span-10 flex flex-col gap-6 items-end">
                   <button
+                    type="button"
                     onClick={handleClose}
                   >
                     <img src={close} alt="close" />
                   </button>
-                  <button className="outline-button-m flex items-center gap-2">
+                  <button
+                    type="button"
+                    className="outline-button-m flex items-center gap-2"
+                  >
                     隱藏租客
                     <span className="material-symbols-outlined text-base">visibility_off</span>
                   </button>
