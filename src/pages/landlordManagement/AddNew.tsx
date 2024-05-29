@@ -20,6 +20,7 @@ export const ProcedureContext = createContext<contextValueType>(
 export default function AddNew() {
   // 狀態控制刊登房源步驟目前狀況
   const location = useLocation();
+  const [isInitialLoad, setIsInitialLoad] = useState(true); // 新增初始加載狀態
   const [procedure, setProcedure] = useState<procedureListType[]>(procedureList as procedureListType[]);
 
   // 狀態控制刊登房源步驟目前所在位置
@@ -55,7 +56,7 @@ export default function AddNew() {
 
   useEffect(() => {
     // 狀態控制刊登房源步驟目前所在位置
-    if (location.state && location.state.page) {
+    if (isInitialLoad && location.state && location.state.page) {
       localStorage.setItem("houseId", location.state.houseId);
       const nextPage = location.state.page;
       // console.log(location.state);
@@ -78,9 +79,9 @@ export default function AddNew() {
         }
       });
       setProcedure(newProcedure);
-
+      setIsInitialLoad(false); // 更新初始加載狀態
     }
-  },[location.state, procedure]);
+  },[location.state, procedure, isInitialLoad]);
 
   return (
     <ProcedureContext.Provider value={contextValue}>
