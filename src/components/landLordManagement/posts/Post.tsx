@@ -74,7 +74,7 @@ export default function Post({procedure}:{procedure:procedureListType[]}) {
             刪除房源
           </button>
           {/* 點擊刪除房源跳出的 Model pop-up */}
-          <Modal className="z-30" show={openModal} size="lg" onClose={() => setOpenModal(false)} popup>
+          <Modal className="z-50 backdrop-blur-md" show={openModal} size="lg" onClose={() => setOpenModal(false)} popup>
             <Modal.Body className="p-10">
               <div className="flex items-center gap-3 mb-10">
                 <HiOutlineExclamationCircle className="h-6 w-6 text-Alert-50" />
