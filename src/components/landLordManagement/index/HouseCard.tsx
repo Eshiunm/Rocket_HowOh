@@ -112,7 +112,7 @@ export default function HouseCard({data, houseStatus}: {data:any, houseStatus:st
           </div>
           <p className="mb-8 text-sans-body1">請填入承租資訊及合約起迄時間。</p>
           <form>
-            <div className="w-full">
+            <div className="mb-5">
               <div
                 tabIndex={0}
                 className={`relative flex w-full p-3 rounded ${
@@ -137,13 +137,30 @@ export default function HouseCard({data, houseStatus}: {data:any, houseStatus:st
                 </label>
               </div>
             </div>
+            <div className="mb-6 flex gap-6 items-center">
+              
+              <div className="flex-1 relative">
+                <label htmlFor="startTime" className="text-sans-caption px-0.5 bg-white absolute -top-2 left-3">合約起始日</label>
+                <input type="date" name="startTime" id="startTime" className="w-full p-3 rounded border-black"/>
+              </div>
+              至
+              
+              <div className="flex-1 relative">
+                <label htmlFor="endTime" className="text-sans-caption px-0.5 bg-white absolute -top-2 left-3">合約結束日</label>
+                <input type="date" name="endTime" id="endTime" className="w-full p-3 rounded border-black"/>
+              </div>
+            </div>
+            <div className="mb-10 flex gap-2 text-sans-body1">
+              <p>沒有承租資訊嗎？</p>
+              <button className="underline underline-offset-2">強制更改為已完成</button>
+            </div>
           </form>
           <div className="flex justify-end gap-6">
             <button className="outline-button-m" onClick={() => setOpenModal(false)}>
-              確認刪除
+              取消
             </button>
             <button className="filled-button-m" onClick={() => setOpenModal(false)}>
-              返回
+              立即更改
             </button>
           </div>
         </Modal.Body>
