@@ -75,9 +75,6 @@ export default function HouseCard({data, houseStatus}: {data:any, houseStatus:st
     if ( houseStatus === "addingList" ) {
       try {
         const response = await apiHouseLandlordSingleInfo(houseId);
-        console.log(response.data.data);
-        console.log(response.data.message.split(" ")[1]);
-        // console.log(response.data.message);
         navigate("/landlord/post",{
           state: {
             houseId,

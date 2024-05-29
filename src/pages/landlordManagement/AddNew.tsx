@@ -1,10 +1,13 @@
 import { createContext, useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import Post from "../../components/landLordManagement/posts/Post";
 import AddNewData from "../../components/landLordManagement/posts/AddNewData";
 import AddNewProcedure from "../../components/landLordManagement/posts/AddNewProcedure";
 import { procedureList } from "../../constants/procedureList";
 import { procedureListType } from "../../types/procedureList";
-import { useLocation } from "react-router-dom";
+import { setFormData } from "../../../redux/post/basicInformationSlice";
+
 
 // 定義 ProcedureContext 的型別
 interface contextValueType {
@@ -20,6 +23,7 @@ export const ProcedureContext = createContext<contextValueType>(
 export default function AddNew() {
   // 狀態控制刊登房源步驟目前狀況
   const location = useLocation();
+  const dispatch = useDispatch();
   const [isInitialLoad, setIsInitialLoad] = useState(true); // 新增初始加載狀態
   const [procedure, setProcedure] = useState<procedureListType[]>(procedureList as procedureListType[]);
 
@@ -58,9 +62,28 @@ export default function AddNew() {
     // 狀態控制刊登房源步驟目前所在位置
     if (isInitialLoad && location.state && location.state.page) {
       localStorage.setItem("houseId", location.state.houseId);
-      const nextPage = location.state.page;
-      // console.log(location.state);
-      // handleProcedureClick(nextPage);
+      const { data, page: nextPage} = location.state;
+      console.log(location.state);
+      const step1Data = {
+        // 基本資訊欄位預設值
+        name: data.name || "",
+        city: data.city || "高雄市",
+        district: data.district || "新興區",
+        road: data.road || "",
+        lane: data.lane || "",
+        alley: data.alley || "",
+        number: data.number || "",
+        floor: data.floor || "",
+        floorTotal: data.floorTotal || "",
+        type: data.type || "整層住家",
+        ping: data.ping || "",
+        roomNumbers: data.roomNumbers || "",
+        livingRoomNumbers: data.livingRoomNumbers || "",
+        bathRoomNumbers: data.bathRoomNumbers || "",
+        balconyNumbers: data.balconyNumbers || "",
+        parkingSpaceNumbers: data.parkingSpaceNumbers || "",
+      };
+      dispatch(setFormData(step1Data));
       let continuePageIndex = 7;
       const newProcedure = procedure.map((item, pageIndex) => {
         if(item.title === nextPage) {
