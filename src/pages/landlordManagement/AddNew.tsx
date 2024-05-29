@@ -56,11 +56,31 @@ export default function AddNew() {
   useEffect(() => {
     // 狀態控制刊登房源步驟目前所在位置
     if (location.state && location.state.page) {
-      console.log(location.state);
       localStorage.setItem("houseId", location.state.houseId);
-      handleProcedureClick(location.state.page)
+      const nextPage = location.state.page;
+      // console.log(location.state);
+      // handleProcedureClick(nextPage);
+      let continuePageIndex = 7;
+      const newProcedure = procedure.map((item, pageIndex) => {
+        if(item.title === nextPage) {
+          continuePageIndex = pageIndex;
+          return {
+            title: nextPage,
+            isActive: true,
+            isDone: false
+          }
+        } else {
+          return {
+            ...item,
+            isActive: false,
+            isDone: pageIndex < continuePageIndex
+          }
+        }
+      });
+      setProcedure(newProcedure);
+
     }
-  },[location.state]);
+  },[location.state, procedure]);
 
   return (
     <ProcedureContext.Provider value={contextValue}>
