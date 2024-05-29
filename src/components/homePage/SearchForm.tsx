@@ -385,7 +385,7 @@ function SearchForm() {
             <input
               type="text"
               readOnly
-              defaultValue={countryState.name}
+              value={countryState.name}
               id={countryState.id}
               className={`block w-full p-0 pl-1 text-black bg-transparent border-none appearance-none focus:ring-0 peer cursor-pointer ${
                 isCityDropdownFocused ? "caret-transparent" : ""
