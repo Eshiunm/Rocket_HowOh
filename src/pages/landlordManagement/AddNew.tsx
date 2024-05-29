@@ -1,9 +1,10 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import Post from "../../components/landLordManagement/posts/Post";
 import AddNewData from "../../components/landLordManagement/posts/AddNewData";
 import AddNewProcedure from "../../components/landLordManagement/posts/AddNewProcedure";
 import { procedureList } from "../../constants/procedureList";
 import { procedureListType } from "../../types/procedureList";
+import { useLocation } from "react-router-dom";
 
 // 定義 ProcedureContext 的型別
 interface contextValueType {
@@ -18,6 +19,7 @@ export const ProcedureContext = createContext<contextValueType>(
 
 export default function AddNew() {
   // 狀態控制刊登房源步驟目前狀況
+  const location = useLocation();
   const [procedure, setProcedure] = useState<procedureListType[]>(procedureList as procedureListType[]);
 
   // 狀態控制刊登房源步驟目前所在位置
@@ -50,6 +52,15 @@ export default function AddNew() {
     handleProcedureDone,
     handleProcedureClick,
   };
+
+  useEffect(() => {
+    // 狀態控制刊登房源步驟目前所在位置
+    if (location.state && location.state.page) {
+      console.log(location.state);
+      localStorage.setItem("houseId", location.state.houseId);
+      handleProcedureClick(location.state.page)
+    }
+  },[location.state]);
 
   return (
     <ProcedureContext.Provider value={contextValue}>

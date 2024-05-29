@@ -3,8 +3,11 @@ import { useState } from 'react';
 import moment from 'moment-timezone';
 // 快速變更承租 Modal
 import QuickCheckModal from './QuickCheckModal';
+import { useNavigate } from 'react-router-dom';
+import { apiHouseLandlordSingleInfo } from '../../../apis/apis';
 
 export default function HouseCard({data, houseStatus}: {data:any, houseStatus:string}) {
+  const navigate = useNavigate();
   const { houseId, name, photo, status, reservationCount, userName, leaseStartTime, leaseEndTime} = data;
 
   // 控制 快速變更承租 Modal-popup 的開關
@@ -68,8 +71,32 @@ export default function HouseCard({data, houseStatus}: {data:any, houseStatus:st
     }
   }
 
+  const handleCardClick = async () => {
+    if ( houseStatus === "addingList" ) {
+      try {
+        const response = await apiHouseLandlordSingleInfo(houseId);
+        console.log(response.data.data);
+        console.log(response.data.message.split(" ")[1]);
+        // console.log(response.data.message);
+        navigate("/landlord/post",{
+          state: {
+            houseId,
+            page: response.data.message.split(" ")[1],
+            data: response.data.data
+          }
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  }
+
   return (
-    <li className="col-span-3 p-4 rounded-[20px] bg-white hover:bg-Landlord-99">
+    <li
+      data-house-id={houseId}
+      className="col-span-3 p-4 rounded-[20px] bg-white hover:bg-Landlord-99"
+      onClick={handleCardClick}
+    >
       <div className="overflow-hidden rounded-2xl mb-4 h-48">
         {
           photo ? (
