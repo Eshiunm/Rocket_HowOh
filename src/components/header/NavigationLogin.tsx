@@ -1,8 +1,9 @@
 import { Avatar, Dropdown } from "flowbite-react";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function NavigationLogin() {
+  const navigate = useNavigate();
   const [currentIdentity, setCurrentIdentity] = useState("");
   const [userProfileUrl, setUserProfileUrl] = useState("");
 
@@ -11,7 +12,7 @@ function NavigationLogin() {
     // localStorage.removeItem("currentIdentity");
     // localStorage.removeItem("userProfile");
     localStorage.clear();
-    window.location.reload();
+    navigate("/");
   };
 
   // 一直抓取當前登入身分，判斷 token 還在不在
