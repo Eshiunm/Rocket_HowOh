@@ -11,6 +11,7 @@ import { setPhotos } from "../../../redux/post/photosSlice";
 import { setFacilities } from "../../../redux/post/facilitiesSlice";
 import { setExpenses } from "../../../redux/post/expensesSlice";
 import { setDescription } from "../../../redux/post/descriptionSlice";
+import { setRestrictions } from "../../../redux/post/restrictionsSlice";
 
 // 定義 ProcedureContext 的型別
 interface contextValueType {
@@ -155,8 +156,15 @@ export default function AddNew() {
       }
       dispatch(setExpenses(step4Data));
       // 介紹復原至 redux
-      const step5Data = data.description || "";
+      const step5Data = data.description || "false";
       dispatch(setDescription(step5Data));
+      // 限制復原至 redux
+      const step6Data = {
+        hasTenantRestrictions: data.hasTenantRestrictions || "false",
+        genderRestriction: data.genderRestriction || "性別友善",
+        jobRestriction: data.jobRestriction || "",  
+      };
+      dispatch(setRestrictions(step6Data));
       let continuePageIndex = 7;
       const newProcedure = procedure.map((item, pageIndex) => {
         if(item.title === nextPage) {
