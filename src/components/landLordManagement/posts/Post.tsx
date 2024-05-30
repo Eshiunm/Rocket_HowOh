@@ -64,11 +64,19 @@ export default function Post({procedure}:{procedure:procedureListType[]}) {
       <div className="col-span-10 col-start-2 flex justify-between">
         <h2 className="text-sans-b-h5">新增房源</h2>
         <div className="flex gap-6">
-          <Link
-            to="/landlord"
+          <button
             className="outline-button-m"
-            onClick={() => localStorage.removeItem("houseId")}
-          >返回房源列表</Link>
+            onClick={() => {
+              localStorage.removeItem("houseId");
+              dispatch(resetBasicInformation());
+              dispatch(resetPhotos());
+              dispatch(resetFacilities());
+              dispatch(resetExpenses());
+              dispatch(resetIntroduction());
+              dispatch(resetRestrictions());
+              navigate('/landlord');
+            }}
+          >返回房源列表</button>
           <button
             className={`${procedure[0].isActive && !procedure[0].isDone ? "outline-button-m-disable" : "outline-button-m"} px-4`}
             disabled={ procedure[0].isActive && !procedure[0].isDone}
