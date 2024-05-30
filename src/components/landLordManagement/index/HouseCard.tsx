@@ -5,8 +5,10 @@ import moment from 'moment-timezone';
 import QuickCheckModal from './QuickCheckModal';
 import { useNavigate } from 'react-router-dom';
 import { apiHouseLandlordSingleInfo } from '../../../apis/apis';
+import BigLoading from '../../loading/BigLoading';
 
 export default function HouseCard({data, houseStatus}: {data:any, houseStatus:string}) {
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { houseId, name, photo, status, reservationCount, userName, leaseStartTime, leaseEndTime} = data;
 
@@ -71,6 +73,7 @@ export default function HouseCard({data, houseStatus}: {data:any, houseStatus:st
   }
 
   const handleCardClick = async () => {
+    setLoading(true);
     if ( houseStatus === "addingList" ) {
       try {
         const response = await apiHouseLandlordSingleInfo(houseId);
@@ -88,38 +91,44 @@ export default function HouseCard({data, houseStatus}: {data:any, houseStatus:st
       console.log(houseId);
       navigate(`/landlord/publish/${houseId}`);
     }
+    setLoading(false);
   }
 
   return (
-    <li
-      data-house-id={houseId}
-      className="col-span-3 p-4 rounded-[20px] bg-white hover:bg-Landlord-99 cursor-pointer"
-      onClick={handleCardClick}
-    >
-      <div className="overflow-hidden rounded-2xl mb-4 h-48">
-        {
-          photo ? (
-            <img
-              src={ photo }
-              alt="房源照片"
-              className="object-cover h-full w-full"
-            />
-          ): // 新增中未填至照片則為空
-          (
-            <div className="bg-Neutral-95 h-full w-full"/>
-          )
-        }
-      </div>
-      <h5 className="text-sans-b-h6 mb-2">{name}</h5>
-      {houseMessage()}
-      <button
-        className="w-full text-center outline-button-s"
-        onClick={handleButtonClick}
+    <>
+      {
+        loading && <BigLoading />
+      }
+      <li
+        data-house-id={houseId}
+        className="col-span-3 p-4 rounded-[20px] bg-white hover:bg-Landlord-99"
+        onClick={handleCardClick}
       >
-        {buttonMessage()}
-      </button>
-      {/* 點擊立即更改跳出的 Model pop-up */}
-      <QuickCheckModal openModal={openModal} setOpenModal={setOpenModal} />
-    </li>
+        <div className="overflow-hidden rounded-2xl mb-4 h-48">
+          {
+            photo ? (
+              <img
+                src={ photo }
+                alt="房源照片"
+                className="object-cover h-full w-full"
+              />
+            ): // 新增中未填至照片則為空
+            (
+              <div className="bg-Neutral-95 h-full w-full"/>
+            )
+          }
+        </div>
+        <h5 className="text-sans-b-h6 mb-2">{name}</h5>
+        {houseMessage()}
+        <button
+          className="w-full text-center outline-button-s"
+          onClick={handleButtonClick}
+        >
+          {buttonMessage()}
+        </button>
+        {/* 點擊立即更改跳出的 Model pop-up */}
+        <QuickCheckModal openModal={openModal} setOpenModal={setOpenModal} />
+      </li>
+    </>
   );
 }
