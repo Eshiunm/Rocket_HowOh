@@ -68,22 +68,22 @@ export default function AddNew() {
       console.log(location.state);
       // 基本資料復原至 redux
       const step1Data = {  
-        name: data.name,
-        city: data.city,
-        district: data.district,
-        road: data.road,
-        lane: data.lane,
-        alley: data.alley,
-        number: data.number,
-        floor: data.floor,
-        floorTotal: data.floorTotal,
-        type: data.type,
-        ping: data.ping,
-        roomNumbers: data.roomNumbers,
-        livingRoomNumbers: data.livingRoomNumbers,
-        bathRoomNumbers: data.bathRoomNumbers,
-        balconyNumbers: data.balconyNumbers,
-        parkingSpaceNumbers: data.parkingSpaceNumbers,
+        name: data.name || "",
+        city: data.city || "高雄市",
+        district: data.district || "新興區",
+        road: data.road || "",
+        lane: data.lane || "",
+        alley: data.alley || "",
+        number: data.number || "",
+        floor: data.floor || "",
+        floorTotal: data.floorTotal || "",
+        type: data.type || "整層住家",
+        ping: data.ping || "",
+        roomNumbers: data.roomNumbers || "",
+        livingRoomNumbers: data.livingRoomNumbers || "",
+        bathRoomNumbers: data.bathRoomNumbers || "",
+        balconyNumbers: data.balconyNumbers || "",
+        parkingSpaceNumbers: data.parkingSpaceNumbers || "",
       };
       dispatch(setFormData(step1Data));
       // 照片復原至 redux
@@ -105,58 +105,54 @@ export default function AddNew() {
         dispatch(setPhotos(step2Data));
       }
       // 設備設施復原至 redux
-      if ( nextPage !== "設備設施"|| nextPage === "照片" ) {
-        const step3Data = {
-          isRentSubsidy: data.isRentSubsidy,
-          isPetAllowed: data.isPetAllowed,
-          isCookAllowed: data.isCookAllowed,
-          isSTRAllowed: data.isSTRAllowed,
-          isNearByDepartmentStore: data.isNearByDepartmentStore,
-          isNearBySchool: data.isNearBySchool,
-          isNearByMorningMarket: data.isNearByMorningMarket,
-          isNearByNightMarket: data.isNearByNightMarket,
-          isNearByConvenientStore: data.isNearByConvenientStore,
-          isNearByPark: data.isNearByPark,
-          hasGarbageDisposal: data.hasGarbageDisposal,
-          hasWindowInBathroom: data.hasWindowInBathroom,
-          hasElevator: data.hasElevator,
-          hasAirConditioner: data.hasAirConditioner,
-          hasWashingMachine: data.hasWashingMachine,
-          hasRefrigerator: data.hasRefrigerator,
-          hasCloset: data.hasCloset,
-          hasTableAndChair: data.hasTableAndChair,
-          hasWaterHeater: data.hasWaterHeater,
-          hasInternet: data.hasInternet,
-          hasBed: data.hasBed,
-          hasTV: data.hasTV,
-          isNearMRT: data.isNearMRT,
-          kmAwayMRT: data.kmAwayMRT,
-          isNearLRT: data.isNearLRT,
-          kmAwayLRT: data.kmAwayLRT,
-          isNearBusStation: data.isNearBusStation,
-          kmAwayBusStation: data.kmAwayBusStation,
-          isNearHSR: data.isNearHSR,
-          kmAwayHSR: data.kmAwayHSR,
-          isNearTrainStation: data.isNearTrainStation,
-          kmAwayTrainStation: data.kmAwayTrainStation,
-        }
-        dispatch(setFacilities(step3Data));
+      const step3Data = {
+        isRentSubsidy: data.isRentSubsidy || false,
+        isPetAllowed: data.isPetAllowed || false,
+        isCookAllowed: data.isCookAllowed || false,
+        isSTRAllowed: data.isSTRAllowed || false,
+        isNearByDepartmentStore: data.isNearByDepartmentStore || false,
+        isNearBySchool: data.isNearBySchool || false,
+        isNearByMorningMarket: data.isNearByMorningMarket || false,
+        isNearByNightMarket: data.isNearByNightMarket || false,
+        isNearByConvenientStore: data.isNearByConvenientStore || false,
+        isNearByPark: data.isNearByPark || false,
+        hasGarbageDisposal: data.hasGarbageDisposal || false,
+        hasWindowInBathroom: data.hasWindowInBathroom || false,
+        hasElevator: data.hasElevator || false,
+        hasAirConditioner: data.hasAirConditioner || false,
+        hasWashingMachine: data.hasWashingMachine || false,
+        hasRefrigerator: data.hasRefrigerator || false,
+        hasCloset: data.hasCloset || false,
+        hasTableAndChair: data.hasTableAndChair || false,
+        hasWaterHeater: data.hasWaterHeater || false,
+        hasInternet: data.hasInternet || false,
+        hasBed: data.hasBed || false,
+        hasTV: data.hasTV || false,
+        isNearMRT: data.isNearMRT || false,
+        kmAwayMRT: data.kmAwayMRT || "",
+        isNearLRT: data.isNearLRT || false,
+        kmAwayLRT: data.kmAwayLRT || "",
+        isNearBusStation: data.isNearBusStation || false,
+        kmAwayBusStation: data.kmAwayBusStation || "",
+        isNearHSR: data.isNearHSR || false,
+        kmAwayHSR: data.kmAwayHSR || "",
+        isNearTrainStation: data.isNearTrainStation || false,
+        kmAwayTrainStation: data.kmAwayTrainStation || "",
       }
+      dispatch(setFacilities(step3Data));
       // 費用復原至 redux
-      if ( nextPage !== "費用" || nextPage !== "設備設施"|| nextPage === "照片" ) {
-        const step4Data = {
-          rent: data.rent,
-          securityDeposit: data.securityDeposit,
-          paymentMethodOfWaterBill: data.paymentMethodOfWaterBill,
-          waterBillPerMonth: data.waterBillPerMonth,
-          electricBill: data.electricBill,
-          electricBillPerDegree: data.electricBillPerDegree,
-          paymentMethodOfElectricBill: data.paymentMethodOfElectricBill,
-          paymentMethodOfManagementFee: data.paymentMethodOfManagementFee,
-          managementFeePerMonth: data.managementFeePerMonth,
-        }
-        dispatch(setExpenses(step4Data));
+      const step4Data = {
+        rent: data.rent || "",
+        securityDeposit: data.securityDeposit || "兩個月",
+        paymentMethodOfWaterBill: data.paymentMethodOfWaterBill || "包含於房租",
+        waterBillPerMonth: data.waterBillPerMonth || "",
+        electricBill: data.electricBill || "依台電計價",
+        electricBillPerDegree: data.electricBillPerDegree || "",
+        paymentMethodOfElectricBill: data.paymentMethodOfElectricBill || "自行繳納",
+        paymentMethodOfManagementFee: data.paymentMethodOfManagementFee || "無管理費",
+        managementFeePerMonth: data.managementFeePerMonth || "",
       }
+      dispatch(setExpenses(step4Data));
       let continuePageIndex = 7;
       const newProcedure = procedure.map((item, pageIndex) => {
         if(item.title === nextPage) {
