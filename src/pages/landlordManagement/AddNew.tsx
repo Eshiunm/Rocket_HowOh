@@ -10,6 +10,7 @@ import { setFormData } from "../../../redux/post/basicInformationSlice";
 import { setPhotos } from "../../../redux/post/photosSlice";
 import { setFacilities } from "../../../redux/post/facilitiesSlice";
 import { setExpenses } from "../../../redux/post/expensesSlice";
+import { setDescription } from "../../../redux/post/descriptionSlice";
 
 // 定義 ProcedureContext 的型別
 interface contextValueType {
@@ -153,6 +154,9 @@ export default function AddNew() {
         managementFeePerMonth: data.managementFeePerMonth || "",
       }
       dispatch(setExpenses(step4Data));
+      // 介紹復原至 redux
+      const step5Data = data.description || "";
+      dispatch(setDescription(step5Data));
       let continuePageIndex = 7;
       const newProcedure = procedure.map((item, pageIndex) => {
         if(item.title === nextPage) {
