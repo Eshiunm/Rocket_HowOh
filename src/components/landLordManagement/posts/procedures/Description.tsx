@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { ProcedureContext } from "../../../../pages/landlordManagement/AddNew";
-import { setIntroduction } from "../../../../../redux/post/introductionSlice";
+import { setDescription } from "../../../../../redux/post/descriptionSlice";
 import { RootState } from "../../../../../redux/store";
 import BigLoading from "../../../loading/BigLoading";
 import { apiHouseLandlordPostStep } from "../../../../apis/apis";
@@ -13,22 +13,22 @@ interface descriptionType {
   description: string
 }
 
-export default function Introduction() {
+export default function Description() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
-  const { introduction } = useSelector( (store: RootState) => store.description);
+  const { description } = useSelector( (store: RootState) => store.description);
   const { handleProcedureClick, handleProcedureDone } =
     useContext(ProcedureContext);
 
   const { register, handleSubmit, formState: { errors } } = useForm({
     defaultValues : {
-      description: introduction,
+      description: description,
     }
   });
   const onSubmit = (data: descriptionType) => {
     setLoading(true);
-    dispatch(setIntroduction(data.description));
+    dispatch(setDescription(data.description));
 
     const patchData = async () => {
       const houseId = localStorage.getItem("houseId");

@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { procedureListType } from "../../../types/procedureList";
 // Model-popup 所需之匯入
@@ -13,7 +13,7 @@ import { resetBasicInformation } from "../../../../redux/post/basicInformationSl
 import { resetPhotos } from "../../../../redux/post/photosSlice";
 import { resetFacilities } from "../../../../redux/post/facilitiesSlice";
 import { resetExpenses } from "../../../../redux/post/expensesSlice";
-import { resetIntroduction } from "../../../../redux/post/introductionSlice";
+import { resetDescription } from "../../../../redux/post/descriptionSlice";
 import { resetRestrictions } from "../../../../redux/post/restrictionsSlice";
 
 export default function Post({procedure}:{procedure:procedureListType[]}) {
@@ -39,7 +39,7 @@ export default function Post({procedure}:{procedure:procedureListType[]}) {
       dispatch(resetPhotos());
       dispatch(resetFacilities());
       dispatch(resetExpenses());
-      dispatch(resetIntroduction());
+      dispatch(resetDescription());
       dispatch(resetRestrictions());
       navigate('/landlord');
       window.location.reload();
@@ -72,7 +72,7 @@ export default function Post({procedure}:{procedure:procedureListType[]}) {
               dispatch(resetPhotos());
               dispatch(resetFacilities());
               dispatch(resetExpenses());
-              dispatch(resetIntroduction());
+              dispatch(resetDescription());
               dispatch(resetRestrictions());
               navigate('/landlord');
             }}

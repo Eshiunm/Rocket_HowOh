@@ -13,7 +13,7 @@ export interface houseDatasType {
   photos: photosDataType[],
   facilities: formDataType,
   expenses: expensesType,
-  introduction: string,
+  description: string,
   restrictions: restrictionType,
 }
 
@@ -21,7 +21,7 @@ export default function HouseDatas({houseDatas}: {houseDatas: houseDatasType}) {
   const location = useLocation();
   const [gridSpanWide, setGridSpanWide] = useState(true);
 
-  const { formData, photos, facilities, expenses, introduction, restrictions } = houseDatas;
+  const { formData, photos, facilities, expenses, description, restrictions } = houseDatas;
   const landlordJobRestriction = restrictions.jobRestriction.split(",");
 
   useEffect(() => {
@@ -488,7 +488,7 @@ export default function HouseDatas({houseDatas}: {houseDatas: houseDatasType}) {
         }`}>
           <p className={`whitespace-pre-line text-sans-body1 ${
             gridSpanWide ? "col-span-6" : "col-span-5"
-          }`}>{ introduction }</p>
+          }`}>{ description }</p>
         </div>
       </section>
       <section className="bg-Landlord-99 p-5 rounded-lg mb-5">
