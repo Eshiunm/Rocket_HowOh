@@ -6,7 +6,12 @@ import alertTriangle from "../../../assets/imgs/icons/alertTriangle.svg";
 import messageCloud from "../../../assets/imgs/icons/messageCloud.svg";
 import smileWink from "../../../assets/imgs/icons/smileWink.svg";
 
-export default function QuickCheckModal(props) {
+interface QuickCheckModalPropsType {
+  openModal: boolean;
+  setOpenModal: (value: boolean) => void;
+}
+
+export default function QuickCheckModal(props : QuickCheckModalPropsType) {
   const { openModal, setOpenModal } = props;
   const [isPhoneFocused,setIsPhoneFocused] = useState(false);
   return (
