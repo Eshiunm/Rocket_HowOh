@@ -1,8 +1,11 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import HouseDatas from "../../components/landLordManagement/HouseDatas";
 import Footer from "../../components/footer/Footer";
 
 export default function PublishHouse() {
+  const { houseId } = useParams();
+  console.log(houseId);
+  
   const navigate = useNavigate();
   const houseDatas = {
     formData:{
