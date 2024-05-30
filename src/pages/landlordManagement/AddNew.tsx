@@ -67,7 +67,7 @@ export default function AddNew() {
     if (isInitialLoad && location.state && location.state.page) {
       localStorage.setItem("houseId", location.state.houseId);
       const { data, page: nextPage } = location.state;
-      console.log(location.state);
+      
       // 基本資料復原至 redux
       const step1Data = {  
         name: data.name || "",
@@ -156,7 +156,7 @@ export default function AddNew() {
       }
       dispatch(setExpenses(step4Data));
       // 介紹復原至 redux
-      const step5Data = data.description || "false";
+      const step5Data = data.description || "";
       dispatch(setDescription(step5Data));
       // 限制復原至 redux
       const step6Data = {

@@ -66,7 +66,6 @@ export default function HouseCard({data, houseStatus}: {data:any, houseStatus:st
 
   const handleButtonClick = () => {
     if ( houseStatus === "publishList" ) {
-      console.log(houseId);
       setOpenModal(true)
     }
   }
