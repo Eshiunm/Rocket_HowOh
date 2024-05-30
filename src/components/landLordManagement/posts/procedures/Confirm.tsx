@@ -12,7 +12,7 @@ import { resetBasicInformation } from "../../../../../redux/post/basicInformatio
 import { resetPhotos } from "../../../../../redux/post/photosSlice";
 import { resetFacilities } from "../../../../../redux/post/facilitiesSlice";
 import { resetExpenses } from "../../../../../redux/post/expensesSlice";
-import { resetIntroduction } from "../../../../../redux/post/introductionSlice";
+import { resetDescription } from "../../../../../redux/post/descriptionSlice";
 import { resetRestrictions } from "../../../../../redux/post/restrictionsSlice";
 
 export default function Confirm() {
@@ -25,11 +25,11 @@ export default function Confirm() {
   const { photos } = useSelector((store: RootState) => store.photosUpload);
   const { facilities } = useSelector((store: RootState) => store.facilitiesContent);
   const { expenses } = useSelector((store: RootState) => store.expensesContent);
-  const { introduction } = useSelector((store: RootState) => store.description);
+  const { description } = useSelector((store: RootState) => store.description);
   const { restrictions } = useSelector((store: RootState) => store.restrictionsContent);
 
   const houseDatas = {
-    formData, photos, facilities, expenses, introduction, restrictions
+    formData, photos, facilities, expenses, description, restrictions
   };
 
   const { handleSubmit } = useForm();
@@ -50,7 +50,7 @@ export default function Confirm() {
         dispatch(resetPhotos());
         dispatch(resetFacilities());
         dispatch(resetExpenses());
-        dispatch(resetIntroduction());
+        dispatch(resetDescription());
         dispatch(resetRestrictions());
         setLoading(false);
         handleProcedureDone(5);

@@ -14,7 +14,7 @@ import photosSlice from "./post/photosSlice";
 import facilitiesSlice from "./post/facilitiesSlice";
 import expensesSlice from "./post/expensesSlice";
 import signupFormSlice from "./signUp/signupFormSlice";
-import introductionSlice from "./post/introductionSlice";
+import descriptionSlice from "./post/descriptionSlice";
 import restrictionsSlice from "./post/restrictionsSlice";
 
 const store = configureStore({
@@ -34,7 +34,7 @@ const store = configureStore({
     facilitiesContent: facilitiesSlice,
     expensesContent: expensesSlice,
     signupForm: signupFormSlice,
-    description: introductionSlice,
+    description: descriptionSlice,
     restrictionsContent: restrictionsSlice,
   },
 });

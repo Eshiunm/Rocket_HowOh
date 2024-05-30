@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { procedureListType } from "../../../types/procedureList";
 // Model-popup 所需之匯入
@@ -13,7 +13,7 @@ import { resetBasicInformation } from "../../../../redux/post/basicInformationSl
 import { resetPhotos } from "../../../../redux/post/photosSlice";
 import { resetFacilities } from "../../../../redux/post/facilitiesSlice";
 import { resetExpenses } from "../../../../redux/post/expensesSlice";
-import { resetIntroduction } from "../../../../redux/post/introductionSlice";
+import { resetDescription } from "../../../../redux/post/descriptionSlice";
 import { resetRestrictions } from "../../../../redux/post/restrictionsSlice";
 
 export default function Post({procedure}:{procedure:procedureListType[]}) {
@@ -39,7 +39,7 @@ export default function Post({procedure}:{procedure:procedureListType[]}) {
       dispatch(resetPhotos());
       dispatch(resetFacilities());
       dispatch(resetExpenses());
-      dispatch(resetIntroduction());
+      dispatch(resetDescription());
       dispatch(resetRestrictions());
       navigate('/landlord');
       window.location.reload();
@@ -64,7 +64,19 @@ export default function Post({procedure}:{procedure:procedureListType[]}) {
       <div className="col-span-10 col-start-2 flex justify-between">
         <h2 className="text-sans-b-h5">新增房源</h2>
         <div className="flex gap-6">
-          <Link to="/landlord" className="outline-button-m">返回房源列表</Link>
+          <button
+            className="outline-button-m"
+            onClick={() => {
+              localStorage.removeItem("houseId");
+              dispatch(resetBasicInformation());
+              dispatch(resetPhotos());
+              dispatch(resetFacilities());
+              dispatch(resetExpenses());
+              dispatch(resetDescription());
+              dispatch(resetRestrictions());
+              navigate('/landlord');
+            }}
+          >返回房源列表</button>
           <button
             className={`${procedure[0].isActive && !procedure[0].isDone ? "outline-button-m-disable" : "outline-button-m"} px-4`}
             disabled={ procedure[0].isActive && !procedure[0].isDone}

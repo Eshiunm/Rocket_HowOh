@@ -64,7 +64,7 @@ export default function PublishHouse() {
       paymentMethodOfManagementFee: "隨房租繳納",
       managementFeePerMonth: "1000",
     },
-    introduction: "2132132edccf",
+    description: "2132132edccf",
     restrictions:{
       hasTenantRestrictions: "true",
       genderRestriction: "女",
