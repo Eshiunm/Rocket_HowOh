@@ -77,7 +77,7 @@ export const apiHouseLandlordForceChange = (data: any) => houseRequest.post('/la
 
 // 房源-搜尋頁面相關的 api
 export const apiHouseCommonSingleInfo = (id: string) => houseRequest.get(`/common/info/${id}`); // FCO-3
-export const apiHouseCommonSearchList = () => houseRequest.get('/common/list'); // FCO-2 帶入 querystring
+export const apiHouseCommonSearchList = (querystring: string) => houseRequest.get(`/common/list/search?${querystring}`); // FCO-2 帶入 querystring
 export const apiHouseCommonRecommendedList = () => houseRequest.get('/common/list'); // FCO-1
 export const apiHouseCommonListCount = () => houseRequest.get('/common/totalNumber'); // FCO-4
 

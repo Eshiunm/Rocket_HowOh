@@ -25,7 +25,7 @@ import {
   setLandLordRatingNoLimitState,
   setLandLordRatingItemsState,
 } from "../../redux/searchForm/landLordRatingSlice";
-import dropdownCities from "../constants/locations/dropdownCities";
+import dropdownCities from "../constants/searchFormCondition/dropdownCities";
 import dropdownIcon from "../assets/imgs/icons/dropdownIcon.svg";
 import searchIcon from "../assets/imgs/icons/searchIcon.svg";
 import leftIcon_white from "../assets/imgs/icons/leftIcon_white.svg";
@@ -61,7 +61,7 @@ interface RentRange {
 // }
 
 function HouseListPage() {
-  const { handleSubmit } = useForm();
+  const { handleSubmit, reset, register } = useForm();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const searchContent = useSelector(
@@ -115,7 +115,8 @@ function HouseListPage() {
     if (houseTypeState.houseTypes.length === 0) {
       const newHouseTypes = houseTypes.map(item => {
         return {
-          content: item,
+          content: item.content,
+          typeNumber: item.typeNumber,
           checked: false,
         };
       });
@@ -130,7 +131,8 @@ function HouseListPage() {
     if (rentRangeState.rentRanges.length === 0) {
       const newRentRanges = rentRanges.map(item => {
         return {
-          content: item,
+          content: item.content,
+          priceRange: item.priceRange,
           checked: false,
         };
       });
@@ -320,7 +322,8 @@ function HouseListPage() {
         ...houseTypeState,
         houseTypes: houseTypeState.houseTypes.map((item: HouseType) => {
           if (
-            (item as { content?: string }).content === houseTypeCheckboxDOM.name
+            (item as { typeNumber?: string }).typeNumber ===
+            houseTypeCheckboxDOM.id.toString()
           ) {
             return {
               ...item,
@@ -361,6 +364,7 @@ function HouseListPage() {
       dispatch(setHouseTypeNoLimitState(newHouseTypeState.noLimit));
       dispatch(setHouseTypeItemsState(newHouseTypeState.houseTypes));
     }
+    reset();
   };
   const handleRentRangeState = (e: ChangeEvent<HTMLInputElement>) => {
     const rentRangeCheckboxDOM = e.target as HTMLInputElement;
@@ -386,7 +390,8 @@ function HouseListPage() {
         ...rentRangeState,
         rentRanges: rentRangeState.rentRanges.map((item: RentRange) => {
           if (
-            (item as { content?: string }).content === rentRangeCheckboxDOM.name
+            (item as { priceRange?: string }).priceRange ===
+            rentRangeCheckboxDOM.id
           ) {
             return {
               ...item,
@@ -427,6 +432,7 @@ function HouseListPage() {
       dispatch(setRentRangeNoLimitState(newRentRangeState.noLimit));
       dispatch(setRentRangeItemsState(newRentRangeState.rentRanges));
     }
+    reset();
   };
   const handleHouseFeaturesState = (e: ChangeEvent<HTMLInputElement>) => {
     const houseFeaturesCheckboxDOM = e.target as HTMLInputElement;
@@ -876,7 +882,7 @@ function HouseListPage() {
                     </div>
                     <div className="flex gap-x-[22px] gap-y-3 flex-wrap ">
                       {houseTypeState.houseTypes.map(
-                        ({ content, checked }, index) => {
+                        ({ content, typeNumber, checked }, index) => {
                           return (
                             <div
                               key={index}
@@ -885,13 +891,15 @@ function HouseListPage() {
                               <input
                                 className="w-5 h-5 text-black focus:ring-transparent rounded-sm border-2 border-black cursor-pointer"
                                 type="checkbox"
-                                name={content}
-                                id={content}
+                                id={typeNumber}
                                 checked={checked}
+                                {...register(
+                                  `houseTypeNumber_${typeNumber as string}`
+                                )}
                                 onChange={handleHouseTypeState}
                               />
                               <label
-                                htmlFor={content}
+                                htmlFor={typeNumber}
                                 className="pl-2 cursor-pointer"
                               >
                                 {content}
@@ -943,7 +951,7 @@ function HouseListPage() {
                     </div>
                     <div className="flex gap-x-[22px] gap-y-3 flex-wrap ">
                       {rentRangeState.rentRanges.map(
-                        ({ content, checked }, index) => {
+                        ({ content, priceRange, checked }, index) => {
                           return (
                             <div
                               key={index}
@@ -952,13 +960,15 @@ function HouseListPage() {
                               <input
                                 className="w-5 h-5 text-black focus:ring-transparent rounded-sm border-2 border-black cursor-pointer"
                                 type="checkbox"
-                                name={content}
-                                id={content}
+                                id={priceRange}
                                 checked={checked}
+                                {...register(
+                                  `priceRange_${priceRange as string}`
+                                )}
                                 onChange={handleRentRangeState}
                               />
                               <label
-                                htmlFor={content}
+                                htmlFor={priceRange}
                                 className="pl-2 cursor-pointer"
                               >
                                 {content}
@@ -1159,7 +1169,7 @@ function HouseListPage() {
               <ul>
                 <li
                   className="p-3 flex gap-x-4 cursor-pointer"
-                  data-HouseId="cfiuawehruh"
+                  data-houseid="cfiuawehruh"
                   onClick={turnToSingleHousePage}
                 >
                   <div className="rounded-2xl overflow-hidden">
