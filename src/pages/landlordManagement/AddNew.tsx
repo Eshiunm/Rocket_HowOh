@@ -8,6 +8,7 @@ import { procedureList } from "../../constants/procedureList";
 import { procedureListType } from "../../types/procedureList";
 import { setFormData } from "../../../redux/post/basicInformationSlice";
 import { setPhotos } from "../../../redux/post/photosSlice";
+import { setFacilities } from "../../../redux/post/facilitiesSlice";
 
 // 定義 ProcedureContext 的型別
 interface contextValueType {
@@ -102,7 +103,44 @@ export default function AddNew() {
         ];
         dispatch(setPhotos(step2Data));
       }
-
+      // 設備設施復原至 redux
+      if ( nextPage !== "設備設施"|| nextPage === "照片" ) {
+        const step3Data = {
+          "isRentSubsidy": data.isRentSubsidy,
+          "isPetAllowed": data.isPetAllowed,
+          "isCookAllowed": data.isCookAllowed,
+          "isSTRAllowed": data.isSTRAllowed,
+          "isNearByDepartmentStore": data.isNearByDepartmentStore,
+          "isNearBySchool": data.isNearBySchool,
+          "isNearByMorningMarket": data.isNearByMorningMarket,
+          "isNearByNightMarket": data.isNearByNightMarket,
+          "isNearByConvenientStore": data.isNearByConvenientStore,
+          "isNearByPark": data.isNearByPark,
+          "hasGarbageDisposal": data.hasGarbageDisposal,
+          "hasWindowInBathroom": data.hasWindowInBathroom,
+          "hasElevator": data.hasElevator,
+          "hasAirConditioner": data.hasAirConditioner,
+          "hasWashingMachine": data.hasWashingMachine,
+          "hasRefrigerator": data.hasRefrigerator,
+          "hasCloset": data.hasCloset,
+          "hasTableAndChair": data.hasTableAndChair,
+          "hasWaterHeater": data.hasWaterHeater,
+          "hasInternet": data.hasInternet,
+          "hasBed": data.hasBed,
+          "hasTV": data.hasTV,
+          "isNearMRT": data.isNearMRT,
+          "kmAwayMRT": data.kmAwayMRT,
+          "isNearLRT": data.isNearLRT,
+          "kmAwayLRT": data.kmAwayLRT,
+          "isNearBusStation": data.isNearBusStation,
+          "kmAwayBusStation": data.kmAwayBusStation,
+          "isNearHSR": data.isNearHSR,
+          "kmAwayHSR": data.kmAwayHSR,
+          "isNearTrainStation": data.isNearTrainStation,
+          "kmAwayTrainStation": data.kmAwayTrainStation,
+        }
+        dispatch(setFacilities(step3Data));
+      }
       let continuePageIndex = 7;
       const newProcedure = procedure.map((item, pageIndex) => {
         if(item.title === nextPage) {
