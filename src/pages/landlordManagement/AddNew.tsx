@@ -62,45 +62,47 @@ export default function AddNew() {
     // 狀態控制刊登房源步驟目前所在位置
     if (isInitialLoad && location.state && location.state.page) {
       localStorage.setItem("houseId", location.state.houseId);
-      const { data, page: nextPage} = location.state;
+      const { data, page: nextPage } = location.state;
       console.log(location.state);
       // 基本資料復原至 redux
-      const step1Data = {
-        // 基本資訊欄位預設值
-        name: data.name || "",
-        city: data.city || "高雄市",
-        district: data.district || "新興區",
-        road: data.road || "",
-        lane: data.lane || "",
-        alley: data.alley || "",
-        number: data.number || "",
-        floor: data.floor || "",
-        floorTotal: data.floorTotal || "",
-        type: data.type || "整層住家",
-        ping: data.ping || "",
-        roomNumbers: data.roomNumbers || "",
-        livingRoomNumbers: data.livingRoomNumbers || "",
-        bathRoomNumbers: data.bathRoomNumbers || "",
-        balconyNumbers: data.balconyNumbers || "",
-        parkingSpaceNumbers: data.parkingSpaceNumbers || "",
+      const step1Data = {  
+        name: data.name,
+        city: data.city,
+        district: data.district,
+        road: data.road,
+        lane: data.lane,
+        alley: data.alley,
+        number: data.number,
+        floor: data.floor,
+        floorTotal: data.floorTotal,
+        type: data.type,
+        ping: data.ping,
+        roomNumbers: data.roomNumbers,
+        livingRoomNumbers: data.livingRoomNumbers,
+        bathRoomNumbers: data.bathRoomNumbers,
+        balconyNumbers: data.balconyNumbers,
+        parkingSpaceNumbers: data.parkingSpaceNumbers,
       };
       dispatch(setFormData(step1Data));
       // 照片復原至 redux
-      const coverPhoto = {
-        path: data.pictures.firstPic || "",
-        isCover: true
-      };
-      const otherPhoto = data.pictures.restOfPic.map( photoPath => (
-        {
-          path: photoPath,
-          isCover: false
-        }
-      ));
-      const step2Data = [
-        coverPhoto,
-        ...otherPhoto
-      ];
-      dispatch(setPhotos(step2Data));
+      if ( nextPage !== "照片") {
+        const coverPhoto = {
+          path: data.pictures?.firstPic || "",
+          isCover: true
+        };
+        const otherPhoto = data.pictures.restOfPic.map( (photoPath: string) => (
+          {
+            path: photoPath,
+            isCover: false
+          }
+        ));
+        const step2Data = [
+          coverPhoto,
+          ...otherPhoto
+        ];
+        dispatch(setPhotos(step2Data));
+      }
+
       let continuePageIndex = 7;
       const newProcedure = procedure.map((item, pageIndex) => {
         if(item.title === nextPage) {
