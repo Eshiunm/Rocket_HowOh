@@ -7,7 +7,7 @@ import AddNewProcedure from "../../components/landLordManagement/posts/AddNewPro
 import { procedureList } from "../../constants/procedureList";
 import { procedureListType } from "../../types/procedureList";
 import { setFormData } from "../../../redux/post/basicInformationSlice";
-
+import { setPhotos } from "../../../redux/post/photosSlice";
 
 // 定義 ProcedureContext 的型別
 interface contextValueType {
@@ -64,6 +64,7 @@ export default function AddNew() {
       localStorage.setItem("houseId", location.state.houseId);
       const { data, page: nextPage} = location.state;
       console.log(location.state);
+      // 基本資料復原至 redux
       const step1Data = {
         // 基本資訊欄位預設值
         name: data.name || "",
@@ -84,6 +85,22 @@ export default function AddNew() {
         parkingSpaceNumbers: data.parkingSpaceNumbers || "",
       };
       dispatch(setFormData(step1Data));
+      // 照片復原至 redux
+      const coverPhoto = {
+        path: data.pictures.firstPic || "",
+        isCover: true
+      };
+      const otherPhoto = data.pictures.restOfPic.map( photoPath => (
+        {
+          path: photoPath,
+          isCover: false
+        }
+      ));
+      const step2Data = [
+        coverPhoto,
+        ...otherPhoto
+      ];
+      dispatch(setPhotos(step2Data));
       let continuePageIndex = 7;
       const newProcedure = procedure.map((item, pageIndex) => {
         if(item.title === nextPage) {
@@ -104,7 +121,7 @@ export default function AddNew() {
       setProcedure(newProcedure);
       setIsInitialLoad(false); // 更新初始加載狀態
     }
-  },[location.state, procedure, isInitialLoad]);
+  },[location.state, procedure, isInitialLoad, dispatch]);
 
   return (
     <ProcedureContext.Provider value={contextValue}>
