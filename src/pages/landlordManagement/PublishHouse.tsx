@@ -8,6 +8,7 @@ export default function PublishHouse() {
   const navigate = useNavigate();
   const { houseId } = useParams();
   const [houseDatas, setHouseDatas] = useState({
+    appointmentCount: 0,
     formData:{
       name: "房源名稱",
       city: "縣市",
@@ -97,6 +98,7 @@ export default function PublishHouse() {
           ...otherPhoto
         ];
         setHouseDatas({
+          appointmentCount:data.appointmentCount,
           formData:{
             name: data.name,
             city: data.city,
@@ -161,73 +163,6 @@ export default function PublishHouse() {
     fetchHouseData();
   },[houseId]);
 
-  // const houseDatas = {
-  //   formData:{
-  //     name: "信義國小",
-  //     city: "高雄市",
-  //     district: "新興區",
-  //     road: "五福六路",
-  //     lane: "6",
-  //     alley: "3",
-  //     number: "5",
-  //     floor: "2",
-  //     floorTotal: "5",
-  //     type: "整層住家",
-  //     ping: "20",
-  //     roomNumbers: "5",
-  //     livingRoomNumbers: "",
-  //     bathRoomNumbers: "",
-  //     balconyNumbers: "",
-  //     parkingSpaceNumbers: "",
-  //   },
-  //   photos:[
-  //     {
-  //       "path": "https://res.cloudinary.com/dstruxyyk/image/upload/v1716470077/Howoh%20house%20photos/nnmf64wcit02jhikxhpr.jpg",
-  //       "isCover": true
-  //     },
-  //     {
-  //       "path": "https://res.cloudinary.com/dstruxyyk/image/upload/v1716470077/Howoh%20house%20photos/nnmf64wcit02jhikxhpr.jpg",
-  //       "isCover": false
-  //     },
-  //   ],
-  //   facilities:{
-  //     isNearByDepartmentStore: true, 
-  //     isNearBySchool: true, 
-  //     isNearByMorningMarket: true, 
-  //     isNearByNightMarket: true, 
-  //     isNearByConvenientStore: true, 
-  //     isNearByPark: true, 
-  //     hasGarbageDisposal: true, 
-  //     hasWindowInBathroom: true, 
-  //     hasElevator: true, 
-  //     hasAirConditioner: true, 
-  //     hasWashingMachine: true, 
-  //     hasRefrigerator: true, 
-  //     hasCloset: true, 
-  //     hasTableAndChair: true, 
-  //     hasWaterHeater: true, 
-  //     hasInternet: true, 
-  //     hasBed: true, 
-  //     hasTV: true,
-  //   },
-  //   expenses:{
-  //     rent: "10393",
-  //     securityDeposit: "一個月",
-  //     paymentMethodOfWaterBill: "包含於房租",
-  //     waterBillPerMonth: "string",
-  //     electricBill: "自訂",
-  //     electricBillPerDegree: "5",
-  //     paymentMethodOfElectricBill: "string",
-  //     paymentMethodOfManagementFee: "隨房租繳納",
-  //     managementFeePerMonth: "1000",
-  //   },
-  //   description: "2132132edccf",
-  //   restrictions:{
-  //     hasTenantRestrictions: "true",
-  //     genderRestriction: "女",
-  //     jobRestriction: "123c,sdfd",
-  //   },
-  // };
   return (
     <>
       <header className="bg-Landlord-99">
@@ -253,6 +188,7 @@ export default function PublishHouse() {
                 type="button"
                 className="filled-button-m"
                 onClick={() => navigate(`/landlord/publish/${houseId}/request`)}
+                disabled={houseDatas.appointmentCount === 0}
               >查看租客預約請求</button>
             </div>
           </div>
