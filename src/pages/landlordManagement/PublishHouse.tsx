@@ -89,14 +89,13 @@ export default function PublishHouse() {
       jobRestriction: "123c,sdfd",
     },
   });
-  console.log(houseId);
   
   useEffect(() => {
     const fetchHouseData = async () => {
       try {
         const response = await apiHouseLandlordSingleInfo(houseId);
         const { data } = response.data;
-        console.log(data);
+        
         const coverPhoto = {
           path: data.pictures?.firstPic || "",
           isCover: true

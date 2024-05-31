@@ -88,7 +88,6 @@ export default function HouseCard({data, houseStatus}: {data:any, houseStatus:st
         console.log(error);
       }
     } else if ( houseStatus === "publishList" ) {
-      console.log(houseId);
       navigate(`/landlord/publish/${houseId}`);
     }
     setLoading(false);
