@@ -1,7 +1,7 @@
 import { useState, useEffect, ChangeEvent, MouseEvent, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import { apiHouseCommonSearchList } from "../../apis/apis";
+
 import { useNavigate } from "react-router-dom";
 import { changeContent } from "../../../redux/searchForm/inputSearchSlice";
 import { setCountryDropdownState } from "../../../redux/searchForm/cityDropdownSlice";
@@ -17,6 +17,7 @@ import {
   setRentRangeNoLimitState,
   setRentRangeItemsState,
 } from "../../../redux/searchForm/rentRangeSlice";
+//import { setQueryStringState } from "../../../redux/searchForm/queryStringSlice";
 import dropdownCities from "../../constants/searchFormCondition/dropdownCities";
 import dropdownIcon from "../../assets/imgs/icons/dropdownIcon.svg";
 import searchIcon from "../../assets/imgs/icons/searchIcon.svg";
@@ -371,59 +372,9 @@ function SearchForm() {
     }
     reset();
   };
-  const onSubmit = (data: any) => {
-    let queryString = "";
-    // 取出縣市ID
-    const cityId = data.city.cityId;
-    // 取出搜尋內容
-    const searchContent = data.searchContent;
-    // 將區域中有打勾的 checkbox 保留下來並取出對應數字
-    const districtNumbers = Object.entries(data)
-      .filter(
-        ([key, value]) => key.startsWith("districtNumber_") && value === true
-      )
-      .map(([key]) => parseInt(key.replace("districtNumber_", ""), 10));
-
-    // 將類型中有打勾的 checkbox 保留下來並取出對應數字
-    const houseTypeNumbers = Object.entries(data)
-      .filter(
-        ([key, value]) => key.startsWith("houseTypeNumber_") && value === true
-      )
-      .map(([key]) => parseInt(key.replace("houseTypeNumber_", ""), 10));
-
-    // 將租金中有打勾的 checkbox 保留下來並取出對應數字
-    const priceRangeNumbers = Object.entries(data)
-      .filter(([key, value]) => key.startsWith("priceRange_") && value === true)
-      .map(([key]) => key.replace("priceRange_", ""));
-    console.log(priceRangeNumbers);
-
-    //開始組 queryString
-    const cityQueryParams = "city=" + cityId;
-    queryString += cityQueryParams;
-    if (searchContent) {
-      const searchContentQueryParams = "search=" + searchContent;
-      queryString += "&" + searchContentQueryParams;
-    }
-    if (districtNumbers.length > 0) {
-      const districtQueryParams = "district=" + districtNumbers.join(",");
-      queryString += "&" + districtQueryParams;
-    }
-    if (houseTypeNumbers.length > 0) {
-      const houseTypeQueryParams = "type=" + houseTypeNumbers.join(",");
-      queryString += "&" + houseTypeQueryParams;
-    }
-    if (priceRangeNumbers.length > 0) {
-      const priceRangeQueryParams = "price=" + priceRangeNumbers.join(",");
-      queryString += "&" + priceRangeQueryParams;
-    }
-
-    // console.log(queryString);
-    // const getData = async () => {
-    //   const res = await apiHouseCommonSearchList(queryString);
-    //   console.log(res);
-    // };
-    // getData();
-    navigate(`/houseList?${queryString}`);
+  const onSubmit = () => {
+    //dispatch(setQueryStringState(queryString));
+    navigate(`/houseList`);
   };
   return (
     <>

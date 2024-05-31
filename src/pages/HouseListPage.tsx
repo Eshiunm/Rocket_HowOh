@@ -25,6 +25,7 @@ import {
   setLandLordRatingNoLimitState,
   setLandLordRatingItemsState,
 } from "../../redux/searchForm/landLordRatingSlice";
+import { apiHouseCommonSearchList } from "../apis/apis";
 import dropdownCities from "../constants/searchFormCondition/dropdownCities";
 import dropdownIcon from "../assets/imgs/icons/dropdownIcon.svg";
 import searchIcon from "../assets/imgs/icons/searchIcon.svg";
@@ -61,7 +62,7 @@ interface RentRange {
 // }
 
 function HouseListPage() {
-  const { handleSubmit, reset, register } = useForm();
+  const { handleSubmit, reset, register, watch } = useForm();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const searchContent = useSelector(
@@ -80,13 +81,18 @@ function HouseListPage() {
   const landLordRatingState = useSelector(
     (store: RootState) => store.landLordRating
   );
+  const queryString = useSelector(
+    (store: RootState) => store.queryStringState.queryString
+  );
   const [isSearchInputFocused, setIsSearchInputFocused] = useState(false); // 記錄搜尋框是否被 focused
   const [isCityDropdownFocused, setIsCityDropdownFocused] = useState(false); // 偵測縣市的Dropdown是否被 focused
   const [cityDropdownModalIsOpen, setCityDropdownModalIsOpen] = useState(false);
 
+  let newFieldsState = null;
+
   /* 初始化表單內所有的checkbox元素狀態 */
   useEffect(() => {
-    // 如果縣市欄位狀態為空，就把縣市預設為高雄市
+    // 如果縣市狀態在Redux裡為空，就把縣市預設為高雄市
     if (countryState.id.length === 0) {
       dispatch(setCountryDropdownState({ id: "64", name: "高雄市" }));
     }
@@ -147,7 +153,8 @@ function HouseListPage() {
     if (houseFeaturesState.houseFeatures.length === 0) {
       const newHouseFeatures = houseFeatures.map(item => {
         return {
-          content: item,
+          content: item.content,
+          type: item.type,
           checked: false,
         };
       });
@@ -159,10 +166,11 @@ function HouseListPage() {
       dispatch(setHouseFeaturesItemsState(newHouseFeaturesState.houseFeatures));
     }
     // 如果房東評價狀態在Redux裡面為空，就初始化值
-    if (houseFeaturesState.houseFeatures.length === 0) {
+    if (landLordRatingState.landLordRating.length === 0) {
       const newLandLordRating = landLordRating.map(item => {
         return {
-          content: item,
+          content: item.content,
+          ratingNumber: item.ratingNumber,
           checked: false,
         };
       });
@@ -178,6 +186,7 @@ function HouseListPage() {
 
     // 加上滑鼠點擊的監聽事件，當使用者點擊篩選縣市的下拉選單以外的地方，就將此下拉選單收起來
     document.addEventListener("mousedown", handleClickOutside);
+    reset();
   }, []);
 
   const turnToSingleHousePage = (e: any) => {
@@ -227,8 +236,8 @@ function HouseListPage() {
     );
     dispatch(setDistrictNoLimitState(districtState.noLimit));
     dispatch(setDistrictItemsState(districtState.districts));
-    console.log(countryState);
     setCityDropdownModalIsOpen(false);
+    reset();
   };
   const setSearchContent = (e: ChangeEvent<HTMLInputElement>) => {
     dispatch(changeContent(e.target.value));
@@ -256,9 +265,7 @@ function HouseListPage() {
       let newDistrictState = {
         ...districtState,
         districts: districtState.districts.map((item: District) => {
-          if (
-            (item as { content?: string }).content === districtCheckboxDOM.name
-          ) {
+          if ((item as { id?: string }).id === districtCheckboxDOM.id) {
             return {
               ...item,
               checked: !(item as { checked?: boolean }).checked, // 改變剛剛按下的 checkbox 勾選狀態， true 改 false、false 改 true
@@ -293,10 +300,11 @@ function HouseListPage() {
           };
         }
       }
-
+      //console.log(newDistrictState);
       dispatch(setDistrictNoLimitState(newDistrictState.noLimit));
       dispatch(setDistrictItemsState(newDistrictState.districts));
     }
+    reset();
   };
   const handleHouseTypeState = (e: ChangeEvent<HTMLInputElement>) => {
     const houseTypeCheckboxDOM = e.target as HTMLInputElement;
@@ -461,8 +469,7 @@ function HouseListPage() {
         houseFeatures: houseFeaturesState.houseFeatures.map(
           (item: RentRange) => {
             if (
-              (item as { content?: string }).content ===
-              houseFeaturesCheckboxDOM.name
+              (item as { type?: string }).type === houseFeaturesCheckboxDOM.id
             ) {
               return {
                 ...item,
@@ -501,12 +508,12 @@ function HouseListPage() {
           };
         }
       }
-
       dispatch(setHouseFeaturesNoLimitState(newHouseFeaturesState.noLimit));
       dispatch(setHouseFeaturesItemsState(newHouseFeaturesState.houseFeatures));
     }
+    reset();
   };
-  const hondleLandLordRatingState = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleLandLordRatingState = (e: ChangeEvent<HTMLInputElement>) => {
     const landLordRatingCheckboxDOM = e.target as HTMLInputElement;
     if (landLordRatingCheckboxDOM.id === "landLordRatingNoLimit") {
       const newLandLordRatingState = {
@@ -535,8 +542,8 @@ function HouseListPage() {
         landLordRating: landLordRatingState.landLordRating.map(
           (item: RentRange) => {
             if (
-              (item as { content?: string }).content ===
-              landLordRatingCheckboxDOM.name
+              (item as { ratingNumber?: string }).ratingNumber ===
+              landLordRatingCheckboxDOM.id
             ) {
               return {
                 ...item,
@@ -581,11 +588,106 @@ function HouseListPage() {
         setLandLordRatingItemsState(newLandLordRatingState.landLordRating)
       );
     }
+    reset();
   };
-  const onSubmit = () => {
-    console.log("YA");
-    navigate("/houseList");
+
+  // 當區域、類型、租金、特色、房價的 checkbox 狀態有變動時，會直接打API去取得房源列表
+  useEffect(() => {
+    if (districtState.districts.length > 0) {
+      handleSubmit(onSubmit)();
+    }
+  }, [
+    districtState,
+    houseTypeState,
+    rentRangeState,
+    houseFeaturesState,
+    landLordRatingState,
+  ]);
+
+  const onSubmit = (data: any) => {
+    let queryString = "";
+    // 取出縣市ID
+    const cityId = data?.city?.cityId;
+    // 確定縣市ID有東西才打 API
+    if (cityId) {
+      // 取出搜尋內容
+      const searchContent = data.searchContent;
+      // 將區域中有打勾的 checkbox 保留下來並取出對應數字
+      const districtNumbers = Object.entries(data)
+        .filter(
+          ([key, value]) => key.startsWith("districtNumber_") && value === true
+        )
+        .map(([key]) => parseInt(key.replace("districtNumber_", ""), 10));
+
+      // 將類型中有打勾的 checkbox 保留下來並取出對應數字
+      const houseTypeNumbers = Object.entries(data)
+        .filter(
+          ([key, value]) => key.startsWith("houseTypeNumber_") && value === true
+        )
+        .map(([key]) => parseInt(key.replace("houseTypeNumber_", ""), 10));
+
+      // 將租金中有打勾的 checkbox 保留下來並取出對應數字
+      const priceRangeNumbers = Object.entries(data)
+        .filter(
+          ([key, value]) => key.startsWith("priceRange_") && value === true
+        )
+        .map(([key]) => key.replace("priceRange_", ""));
+
+      // 將特色中有打勾的 checkbox 保留下來並取出對應數字
+      const houseFeatures = Object.entries(data)
+        .filter(
+          ([key, value]) => key.startsWith("houseFeatures_") && value === true
+        )
+        .map(([key]) => key.replace("houseFeatures_", ""));
+
+      // 房東評價中有打勾的 checkbox 保留下來並取出對應數字
+      const landLordRatingNumbers = Object.entries(data)
+        .filter(
+          ([key, value]) => key.startsWith("landLordRating_") && value === true
+        )
+        .map(([key]) => parseInt(key.replace("landLordRating_", ""), 10));
+      //開始組 queryString
+      const cityQueryParams = "city=" + cityId;
+      queryString += cityQueryParams;
+      if (searchContent) {
+        const searchContentQueryParams = "search=" + searchContent;
+        queryString += "&" + searchContentQueryParams;
+      }
+      if (districtNumbers.length > 0) {
+        const districtQueryParams = "district=" + districtNumbers.join(",");
+        queryString += "&" + districtQueryParams;
+      }
+      if (houseTypeNumbers.length > 0) {
+        const houseTypeQueryParams = "type=" + houseTypeNumbers.join(",");
+        queryString += "&" + houseTypeQueryParams;
+      }
+      if (priceRangeNumbers.length > 0) {
+        const priceRangeQueryParams = "price=" + priceRangeNumbers.join(",");
+        queryString += "&" + priceRangeQueryParams;
+      }
+      if (houseFeatures.length > 0) {
+        const houseFeaturesQueryParams = "features=" + houseFeatures.join(",");
+        queryString += "&" + houseFeaturesQueryParams;
+      }
+      if (landLordRatingNumbers.length > 0) {
+        const landLordRatingQueryParams =
+          "rating=" + landLordRatingNumbers.join(",");
+        queryString += "&" + landLordRatingQueryParams;
+      }
+
+      console.log(queryString);
+      const getData = async () => {
+        const res = await apiHouseCommonSearchList(queryString);
+        console.log(res.data.Houses);
+      };
+
+      getData();
+    }
+    // console.log(queryString);
+
+    //navigate("/houseList");
   };
+
   return (
     <>
       <div className="bg-Neutral-99 pt-6 pb-32">
@@ -616,6 +718,12 @@ function HouseListPage() {
                       isCityDropdownFocused ? "caret-transparent" : ""
                     }`}
                     placeholder=""
+                    {...register("city", {
+                      setValueAs: value => ({
+                        value: value,
+                        cityId: countryState.id,
+                      }),
+                    })}
                     onFocus={handleCityDropdownFocused}
                     onBlur={() => setIsCityDropdownFocused(false)}
                   />
@@ -815,7 +923,7 @@ function HouseListPage() {
                     </div>
                     <div className="flex gap-x-[22px] gap-y-3 flex-wrap">
                       {districtState.districts.map(
-                        ({ content, checked }, index) => {
+                        ({ content, checked, id }, index) => {
                           return (
                             <div
                               key={index}
@@ -825,12 +933,12 @@ function HouseListPage() {
                                 className="w-5 h-5 text-black focus:ring-transparent rounded-sm border-2 border-black cursor-pointer"
                                 type="checkbox"
                                 checked={checked}
-                                name={content}
-                                id={content}
+                                id={id}
+                                {...register(`districtNumber_${id as string}`)}
                                 onChange={handleDistrictState}
                               />
                               <label
-                                htmlFor={content}
+                                htmlFor={id}
                                 className="pl-2 cursor-pointer"
                               >
                                 {content}
@@ -1026,7 +1134,7 @@ function HouseListPage() {
                     </div>
                     <div className="flex gap-x-[22px] gap-y-3 flex-wrap ">
                       {houseFeaturesState.houseFeatures.map(
-                        ({ content, checked }, index) => {
+                        ({ content, type, checked }, index) => {
                           return (
                             <div
                               key={index}
@@ -1035,13 +1143,13 @@ function HouseListPage() {
                               <input
                                 className="w-5 h-5 text-black focus:ring-transparent rounded-sm border-2 border-black cursor-pointer"
                                 type="checkbox"
-                                name={content}
-                                id={content}
+                                id={type}
                                 checked={checked}
+                                {...register(`houseFeatures_${type as string}`)}
                                 onChange={handleHouseFeaturesState}
                               />
                               <label
-                                htmlFor={content}
+                                htmlFor={type}
                                 className="pl-2 cursor-pointer"
                               >
                                 {content}
@@ -1088,7 +1196,7 @@ function HouseListPage() {
                                 }
                               ).checked
                         }
-                        onChange={hondleLandLordRatingState}
+                        onChange={handleLandLordRatingState}
                       />
                       <label
                         htmlFor="landLordRatingNoLimit"
@@ -1102,7 +1210,7 @@ function HouseListPage() {
                     </div>
                     <div className="flex gap-x-[22px] gap-y-3 flex-wrap ">
                       {landLordRatingState.landLordRating.map(
-                        ({ content, checked }, index) => {
+                        ({ content, ratingNumber, checked }, index) => {
                           return (
                             <div
                               key={index}
@@ -1111,13 +1219,15 @@ function HouseListPage() {
                               <input
                                 className="w-5 h-5 text-black focus:ring-transparent rounded-sm border-2 border-black cursor-pointer"
                                 type="checkbox"
-                                name={content}
-                                id={content}
+                                id={ratingNumber}
                                 checked={checked}
-                                onChange={hondleLandLordRatingState}
+                                {...register(
+                                  `landLordRating_${ratingNumber as string}`
+                                )}
+                                onChange={handleLandLordRatingState}
                               />
                               <label
-                                htmlFor={content}
+                                htmlFor={ratingNumber}
                                 className="pl-2 cursor-pointer"
                               >
                                 {content}
