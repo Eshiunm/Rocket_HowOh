@@ -167,7 +167,7 @@ export default function PublishHouse() {
     <>
       <header className="bg-Landlord-99">
         <div className="container py-6">
-          <span className="badge-m  bg-Landlord-90">刊登中</span>
+          <span className="badge-m  bg-Alert-90">刊登中</span>
           <h2 className="text-sans-b-h5 mt-3 mb-6">信義國小套房 捷運3分鐘</h2>
           <div className="flex justify-between items-end">
             <div>
