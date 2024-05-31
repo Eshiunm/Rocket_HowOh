@@ -62,7 +62,7 @@ interface RentRange {
 // }
 
 function HouseListPage() {
-  const { handleSubmit, reset, register, watch } = useForm();
+  const { handleSubmit, reset, register } = useForm();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const searchContent = useSelector(
@@ -81,14 +81,10 @@ function HouseListPage() {
   const landLordRatingState = useSelector(
     (store: RootState) => store.landLordRating
   );
-  const queryString = useSelector(
-    (store: RootState) => store.queryStringState.queryString
-  );
+
   const [isSearchInputFocused, setIsSearchInputFocused] = useState(false); // 記錄搜尋框是否被 focused
   const [isCityDropdownFocused, setIsCityDropdownFocused] = useState(false); // 偵測縣市的Dropdown是否被 focused
   const [cityDropdownModalIsOpen, setCityDropdownModalIsOpen] = useState(false);
-
-  let newFieldsState = null;
 
   /* 初始化表單內所有的checkbox元素狀態 */
   useEffect(() => {
@@ -594,7 +590,7 @@ function HouseListPage() {
   // 當區域、類型、租金、特色、房價的 checkbox 狀態有變動時，會直接打API去取得房源列表
   useEffect(() => {
     if (districtState.districts.length > 0) {
-      handleSubmit(onSubmit)();
+      handleSubmit(onSubmit)(); // 取得表單資料打 API
     }
   }, [
     districtState,
@@ -605,7 +601,8 @@ function HouseListPage() {
   ]);
 
   const onSubmit = (data: any) => {
-    let queryString = "";
+    console.log(data);
+
     // 取出縣市ID
     const cityId = data?.city?.cityId;
     // 確定縣市ID有東西才打 API
@@ -646,7 +643,9 @@ function HouseListPage() {
           ([key, value]) => key.startsWith("landLordRating_") && value === true
         )
         .map(([key]) => parseInt(key.replace("landLordRating_", ""), 10));
+
       //開始組 queryString
+      let queryString = "";
       const cityQueryParams = "city=" + cityId;
       queryString += cityQueryParams;
       if (searchContent) {
@@ -654,7 +653,7 @@ function HouseListPage() {
         queryString += "&" + searchContentQueryParams;
       }
       if (districtNumbers.length > 0) {
-        const districtQueryParams = "district=" + districtNumbers.join(",");
+        const districtQueryParams = "districts=" + districtNumbers.join(",");
         queryString += "&" + districtQueryParams;
       }
       if (houseTypeNumbers.length > 0) {
@@ -866,8 +865,12 @@ function HouseListPage() {
                     className="block w-full p-0 pl-1 text-black bg-transparent border-none appearance-none focus:ring-0 peer"
                     placeholder=""
                     defaultValue={searchContent}
+                    {...register("searchContent")}
                     onFocus={() => setIsSearchInputFocused(true)}
-                    onBlur={() => setIsSearchInputFocused(false)}
+                    onBlur={() => {
+                      setIsSearchInputFocused(false);
+                      reset(); // 這段不能少，否則 register 抓不到這個 input value
+                    }}
                     onChange={setSearchContent}
                   />
                   <label

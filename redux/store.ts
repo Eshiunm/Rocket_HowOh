@@ -6,7 +6,6 @@ import houseTypeSlice from "./searchForm/houseTypeSlice";
 import houseFeaturesSlice from "./searchForm/houseFeaturesSlice";
 import landLordRatingSlice from "./searchForm/landLordRatingSlice";
 import rentRangeSlice from "./searchForm/rentRangeSlice";
-import queryStringSlice from "./searchForm/queryStringSlice";
 import stepSlice from "./signUp/stepSlice";
 import registerIdentitySlice from "./common/registerIdentitySlice";
 import currentIdentitySlice from "./common/currentIdentitySlice";
@@ -27,7 +26,6 @@ const store = configureStore({
     rentRange: rentRangeSlice, // 搜尋表單，租金條件篩選
     landLordRating: landLordRatingSlice, // 搜尋表單，房東評分條件篩選
     houseFeatures: houseFeaturesSlice, // 搜尋表單，房源特色條件篩選
-    queryStringState: queryStringSlice,
     signUpStepState: stepSlice,
     registerIdentityState: registerIdentitySlice,
     currentIdentity: currentIdentitySlice,
