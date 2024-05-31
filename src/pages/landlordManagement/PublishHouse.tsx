@@ -149,7 +149,7 @@ export default function PublishHouse() {
             paymentMethodOfManagementFee: data.paymentMethodOfManagementFee,
             managementFeePerMonth: data.managementFeePerMonth,
           },
-          description: "2132132edccf",
+          description: data.description,
           restrictions:{
             hasTenantRestrictions: "true",
             genderRestriction: "排除女性",
