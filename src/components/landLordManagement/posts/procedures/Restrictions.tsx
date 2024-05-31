@@ -82,7 +82,11 @@ export default function Restrictions() {
   // 當無租客限制時還原預設資料
   useEffect(() => {
     if (hasTenantRestrictions === "false") {
-      reset();
+      reset({
+        hasTenantRestrictions: "false",
+        genderRestriction: "性別友善",
+        jobRestriction: "noJobRestriction",
+      });
       setSelectedJobs([]);
     }
   }, [hasTenantRestrictions, reset]);
