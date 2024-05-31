@@ -36,8 +36,10 @@ function App() {
             </Route>
             <Route path="post" element={<AddNew />} />
             <Route path="publish">
-              <Route path=":houseId" element={<PublishHouse />} />
-              <Route path="request" element={<TenantRequest />}/>
+              <Route path=":houseId">
+                <Route index element={<PublishHouse />} />
+                <Route path="request" element={<TenantRequest />}/>
+              </Route>
             </Route>
             <Route path="comment" element={<h1>評價管理</h1>} />
           </Route>

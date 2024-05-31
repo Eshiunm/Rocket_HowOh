@@ -70,7 +70,7 @@ export default function PublishHouse() {
     description: "2132132edccf",
     restrictions:{
       hasTenantRestrictions: "true",
-      genderRestriction: "女",
+      genderRestriction: "排除女性",
       jobRestriction: "123c,sdfd",
     },
   });
@@ -150,7 +150,7 @@ export default function PublishHouse() {
           description: "2132132edccf",
           restrictions:{
             hasTenantRestrictions: "true",
-            genderRestriction: "女",
+            genderRestriction: "排除女性",
             jobRestriction: "",
           },
         });
@@ -249,7 +249,11 @@ export default function PublishHouse() {
                 onClick={() => navigate("/landlord")}
               >返回房源管理頁面</button>
               <button type="button" className="outline-button-m">查看合約</button>
-              <button type="button" className="filled-button-m">查看租客預約請求</button>
+              <button
+                type="button"
+                className="filled-button-m"
+                onClick={() => navigate(`/landlord/publish/${houseId}/request`)}
+              >查看租客預約請求</button>
             </div>
           </div>
         </div>
