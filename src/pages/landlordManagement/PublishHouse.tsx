@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { CustomFlowbiteTheme, Flowbite } from "flowbite-react";
+import { CustomFlowbiteTheme, Flowbite, Tooltip } from "flowbite-react";
 import HouseDatas from "../../components/landLordManagement/HouseDatas";
 import Footer from "../../components/footer/Footer";
 import { apiHouseLandlordSingleInfo } from "../../apis/apis";
@@ -244,12 +244,19 @@ export default function PublishHouse() {
                 onClick={() => navigate("/landlord")}
               >返回房源管理頁面</button>
               <button type="button" className="outline-button-m">查看合約</button>
-              <button
-                type="button"
-                className="filled-button-m"
-                onClick={() => navigate(`/landlord/publish/${houseId}/request`)}
-                disabled={houseDatas.appointmentCount === 0}
-              >查看租客預約請求</button>
+              <Tooltip
+                className={`bg-Landlord-30 text-sans-body2 rounded-lg py-1 px-11 text-white text-center whitespace-pre-line ${
+                  houseDatas.appointmentCount > 0 && "hidden"
+                }`}
+                content={"目前尚無預約租客"}
+              >
+                <button
+                  type="button"
+                  className="filled-button-m h-full"
+                  onClick={() => navigate(`/landlord/publish/${houseId}/request`)}
+                  disabled={houseDatas.appointmentCount === 0}
+                >查看租客預約請求</button>
+              </Tooltip>
             </div>
           </div>
         </div>
