@@ -1,10 +1,42 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { CustomFlowbiteTheme, Flowbite } from "flowbite-react";
 import HouseDatas from "../../components/landLordManagement/HouseDatas";
 import Footer from "../../components/footer/Footer";
 import { apiHouseLandlordSingleInfo } from "../../apis/apis";
 
 export default function PublishHouse() {
+  const customTheme: CustomFlowbiteTheme = {
+    drawer: {
+      "root": {
+        "base": "fixed z-40 overflow-y-auto bg-Landlord-95 px-10 pt-10 transition-transform",
+        "backdrop": "fixed inset-0 z-30 bg-transparent",
+        "edge": "bottom-16",
+        "position": {
+          "right": {
+            "on": "shadow-elevation-3 right-0 top-[64px] bottom-0 w-5/12 transform-none scrollbar-hide",
+            "off": "right-0 top-[152px] h-screen w-5/12 translate-x-full"
+          },
+        }
+      },
+      "header": {
+        "inner": {
+          "closeButton": "absolute end-2.5 top-2.5 flex h-8 w-8 items-center justify-center rounded-lg bg-transparent text-sm text-gray-400 hover:bg-gray-200 hover:text-gray-900 dark:hover:bg-gray-600 dark:hover:text-white",
+          "closeIcon": "h-4 w-4",
+          "titleIcon": "me-2.5 h-4 w-4",
+          "titleText": "mb-4 inline-flex items-center text-base font-semibold text-gray-500 dark:text-gray-400"
+        },
+        "collapsed": {
+          "on": "hidden",
+          "off": "block"
+        }
+      },
+      "items": {
+        "base": ""
+      }
+    }
+  };
+
   const navigate = useNavigate();
   const { houseId } = useParams();
   const [houseDatas, setHouseDatas] = useState({
@@ -192,6 +224,7 @@ export default function PublishHouse() {
 
   return (
     <>
+      <Flowbite theme={{ theme: customTheme }}>
       <header className="bg-Landlord-99">
         <div className="container py-6">
           <span className="badge-m  bg-Alert-90">刊登中</span>
@@ -227,6 +260,7 @@ export default function PublishHouse() {
         </div>
       </main>
       <Footer />
+      </Flowbite>
     </>
   );
 }
