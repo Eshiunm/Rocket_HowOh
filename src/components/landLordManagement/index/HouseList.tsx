@@ -55,7 +55,7 @@ export default function HouseList() {
       "root": {
         "base": "z-50 backdrop-blur-md fixed inset-x-0 top-0 z-50 h-screen overflow-y-auto overflow-x-hidden md:inset-0 md:h-full",
         "show": {
-          "on": "flex bg-gray-900 bg-opacity-50 dark:bg-opacity-80",
+          "on": "flex bg-black bg-opacity-20",
           "off": "hidden"
         },
         "sizes": {
