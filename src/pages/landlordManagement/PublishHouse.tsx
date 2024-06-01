@@ -249,7 +249,13 @@ export default function PublishHouse() {
                   className="outline-button-m"
                   onClick={() => handleRentedCanvas(true)}
                 >更改為已承租</button>
-                <button type="button" className="outline-button-m">更改為已完成</button>
+                <button
+                  type="button"
+                  className="outline-button-m"
+                  onClick={() => setOpenForceChangeModal(true)}
+                >更改為已完成</button>
+                {/* 點擊強制更改跳出的 Model pop-up */}
+                <ForcedChangeModal openForceChangeModal={openForceChangeModal} setOpenForceChangeModal={setOpenForceChangeModal} />
                 <Drawer className="bg-Neutral-99" open={isRentedOpen} onClose={() => handleRentedCanvas(false)} position="right">
                   <Drawer.Items>
                     <div className="layout-grid mb-32">
