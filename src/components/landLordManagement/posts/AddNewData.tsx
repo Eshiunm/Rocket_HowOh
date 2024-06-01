@@ -11,7 +11,7 @@ import Confirm from "./procedures/Confirm";
 
 export default function AddNewData() {
   const { procedure } = useContext(ProcedureContext);
-  console.log(procedure)
+  
   // 確認目前所在步驟標題
   const { title } = procedure.filter(item => item.isActive)[0];
 
