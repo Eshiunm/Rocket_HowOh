@@ -66,7 +66,7 @@ export default function RequestCard({status = "none"}) {
           </button>
         </div>
       </li>
-      <Drawer open={isOpen} onClose={handleClose} position="right">
+      <Drawer className="bg-Landlord-95" open={isOpen} onClose={handleClose} position="right">
         <Drawer.Items>
           <div className="layout-grid gap-4 mb-32">
             <div className="col-span-10 flex flex-col gap-6 items-end">

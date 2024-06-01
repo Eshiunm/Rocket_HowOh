@@ -1,15 +1,17 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { CustomFlowbiteTheme, Flowbite, Tooltip } from "flowbite-react";
+import { CustomFlowbiteTheme, Flowbite, Tooltip, Drawer } from "flowbite-react";
 import HouseDatas from "../../components/landLordManagement/HouseDatas";
 import Footer from "../../components/footer/Footer";
 import { apiHouseLandlordSingleInfo } from "../../apis/apis";
+import close from "../../assets/imgs/icons/close.svg";
+
 
 export default function PublishHouse() {
   const customTheme: CustomFlowbiteTheme = {
     drawer: {
       "root": {
-        "base": "fixed z-40 overflow-y-auto bg-Landlord-95 px-10 pt-10 transition-transform",
+        "base": "fixed z-40 overflow-y-auto px-10 pt-10 transition-transform",
         "backdrop": "fixed inset-0 z-30 bg-transparent",
         "edge": "bottom-16",
         "position": {
@@ -36,6 +38,10 @@ export default function PublishHouse() {
       }
     }
   };
+
+  const [isRentedOpen, setIsRentedOpen] = useState(false);
+  const handleRentedCanvasOpen = () => setIsRentedOpen(true);
+  const handleRentedCanvasClose = () => setIsRentedOpen(false);
 
   const navigate = useNavigate();
   const { houseId } = useParams();
@@ -233,8 +239,26 @@ export default function PublishHouse() {
             <div>
               <h6 className="mb-2 text-sans-body2">變更狀態</h6>
               <div className="flex gap-3">
-                <button type="button" className="outline-button-m">更改為已承租</button>
+                <button
+                  type="button"
+                  className="outline-button-m"
+                  onClick={handleRentedCanvasOpen}
+                >更改為已承租</button>
                 <button type="button" className="outline-button-m">更改為已完成</button>
+                <Drawer className="bg-Neutral-99" open={isRentedOpen} onClose={handleRentedCanvasClose} position="right">
+                  <Drawer.Items>
+                    <div className="layout-grid gap-4 mb-32">
+                      <div className="col-span-10 flex flex-col gap-6 items-end">
+                        <button
+                          type="button"
+                          onClick={handleRentedCanvasClose}
+                        >
+                          <img src={close} alt="close" />
+                        </button>
+                      </div>
+                    </div>
+                  </Drawer.Items>
+                </Drawer>
               </div>
             </div>
             <div className="flex gap-6">
