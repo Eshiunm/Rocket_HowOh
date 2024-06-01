@@ -254,8 +254,6 @@ export default function PublishHouse() {
                   className="outline-button-m"
                   onClick={() => setOpenForceChangeModal(true)}
                 >更改為已完成</button>
-                {/* 點擊強制更改跳出的 Model pop-up */}
-                <ForcedChangeModal openForceChangeModal={openForceChangeModal} setOpenForceChangeModal={setOpenForceChangeModal} />
                 <Drawer className="bg-Neutral-99" open={isRentedOpen} onClose={() => handleRentedCanvas(false)} position="right">
                   <Drawer.Items>
                     <div className="layout-grid mb-32">
@@ -298,13 +296,11 @@ export default function PublishHouse() {
                             </div>
                           </div>
                           <div className="mb-6 flex gap-6 items-center">
-                            
                             <div className="flex-1 relative">
                               <label htmlFor="startTime" className="text-sans-caption px-0.5 bg-Neutral-99 absolute -top-2 left-3">合約起始日</label>
                               <input type="date" name="startTime" id="startTime" className="w-full p-3 rounded border-black focus:ring-0 focus:border-Brand-30 bg-Neutral-99"/>
                             </div>
                             至
-                            
                             <div className="flex-1 relative">
                               <label htmlFor="endTime" className="text-sans-caption px-0.5 bg-Neutral-99 absolute -top-2 left-3">合約結束日</label>
                               <input type="date" name="endTime" id="endTime" className="w-full p-3 rounded border-black focus:ring-0 focus:border-Brand-30 bg-Neutral-99"/>
@@ -331,8 +327,6 @@ export default function PublishHouse() {
                               className="underline underline-offset-2"
                               onClick={() => setOpenForceChangeModal(true)}
                             >強制更改為已完成</button>
-                            {/* 點擊強制更改跳出的 Model pop-up */}
-                            <ForcedChangeModal openForceChangeModal={openForceChangeModal} setOpenForceChangeModal={setOpenForceChangeModal} />
                           </div>
                           <div className="flex justify-end gap-6">
                             <button
@@ -379,6 +373,7 @@ export default function PublishHouse() {
           </div>
         </div>
       </header>
+      <ForcedChangeModal openForceChangeModal={openForceChangeModal} setOpenForceChangeModal={setOpenForceChangeModal} />
       <main className="container layout-grid">
         <div className="col-span-7 pt-6 pb-52">
           <HouseDatas houseDatas={houseDatas}/>
