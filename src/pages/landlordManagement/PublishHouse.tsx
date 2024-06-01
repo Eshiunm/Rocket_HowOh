@@ -8,7 +8,7 @@ import close from "../../assets/imgs/icons/close.svg";
 import alertTriangle from "../../assets/imgs/icons/alertTriangle.svg";
 import messageCloud from "../../assets/imgs/icons/messageCloud.svg";
 import smileWink from "../../assets/imgs/icons/smileWink.svg";
-
+import ForcedChangeModal from "../../components/landLordManagement/modals/ForcedChangeModal";
 
 export default function PublishHouse() {
   const customTheme: CustomFlowbiteTheme = {
@@ -46,6 +46,7 @@ export default function PublishHouse() {
   const handleRentedCanvas = (bool: boolean) => setIsRentedOpen(bool);
   // const handleRentedCanvasClose = () => setIsRentedOpen(false);
   const [isPhoneFocused,setIsPhoneFocused] = useState(false);
+  const [openForceChangeModal, setOpenForceChangeModal] = useState(false);
 
   const navigate = useNavigate();
   const { houseId } = useParams();
@@ -248,7 +249,13 @@ export default function PublishHouse() {
                   className="outline-button-m"
                   onClick={() => handleRentedCanvas(true)}
                 >更改為已承租</button>
-                <button type="button" className="outline-button-m">更改為已完成</button>
+                <button
+                  type="button"
+                  className="outline-button-m"
+                  onClick={() => setOpenForceChangeModal(true)}
+                >更改為已完成</button>
+                {/* 點擊強制更改跳出的 Model pop-up */}
+                <ForcedChangeModal openForceChangeModal={openForceChangeModal} setOpenForceChangeModal={setOpenForceChangeModal} />
                 <Drawer className="bg-Neutral-99" open={isRentedOpen} onClose={() => handleRentedCanvas(false)} position="right">
                   <Drawer.Items>
                     <div className="layout-grid mb-32">
@@ -319,13 +326,25 @@ export default function PublishHouse() {
                           </div>
                           <div className="mb-10 flex gap-2 text-sans-body1">
                             <p>沒有承租資訊嗎？</p>
-                            <button className="underline underline-offset-2">強制更改為已完成</button>
+                            <button
+                              type="button"
+                              className="underline underline-offset-2"
+                              onClick={() => setOpenForceChangeModal(true)}
+                            >強制更改為已完成</button>
+                            {/* 點擊強制更改跳出的 Model pop-up */}
+                            <ForcedChangeModal openForceChangeModal={openForceChangeModal} setOpenForceChangeModal={setOpenForceChangeModal} />
                           </div>
                           <div className="flex justify-end gap-6">
-                            <button className="outline-button-m" onClick={() => handleRentedCanvas(false)}>
+                            <button
+                              type="button"
+                              className="outline-button-m"
+                              onClick={() => handleRentedCanvas(false)}>
                               取消
                             </button>
-                            <button className="filled-button-m" onClick={() => handleRentedCanvas(false)}>
+                            <button
+                              type="button"
+                              className="filled-button-m" 
+                              onClick={() => handleRentedCanvas(false)}>
                               寄送租約邀請
                             </button>
                           </div>

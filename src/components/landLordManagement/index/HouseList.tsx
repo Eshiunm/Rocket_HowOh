@@ -91,11 +91,11 @@ export default function HouseList() {
       },
       "header": {
         "base": "flex items-start justify-between rounded-t border-b",
-        "popup": "border-b-0 pt-7",
+        "popup": "border-b-0 pt-10",
         "title": "text-xl font-medium text-gray-900 dark:text-white",
         "close": {
-          "base": "ml-auto inline-flex items-center rounded-lg bg-transparent p-1.5 text-sm text-gray-400 hover:bg-gray-200 hover:text-gray-900 dark:hover:bg-gray-600 dark:hover:text-white",
-          "icon": "h-0 w-0"
+          "base": "hidden",
+          "icon": "h-10 w-10"
         }
       },
       "footer": {
