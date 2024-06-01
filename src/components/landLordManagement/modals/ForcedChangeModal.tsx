@@ -9,7 +9,7 @@ interface ForceChangeModalPropsType {
   setOpenForceChangeModal: (value: boolean) => void;
 }
 
-export default function ForceChangeModal(props : ForceChangeModalPropsType) {
+export default function ForcedChangeModal(props : ForceChangeModalPropsType) {
   const customTheme: CustomFlowbiteTheme = {
     modal: {
       "root": {
@@ -51,11 +51,11 @@ export default function ForceChangeModal(props : ForceChangeModalPropsType) {
       },
       "header": {
         "base": "flex items-start justify-between rounded-t border-b",
-        "popup": "border-b-0 pt-7",
+        "popup": "border-b-0 pt-10",
         "title": "text-xl font-medium text-gray-900 dark:text-white",
         "close": {
-          "base": "ml-auto inline-flex items-center rounded-lg bg-transparent p-1.5 text-sm text-gray-400 hover:bg-gray-200 hover:text-gray-900 dark:hover:bg-gray-600 dark:hover:text-white",
-          "icon": "h-0 w-0"
+          "base": "hidden",
+          "icon": "h-10 w-10"
         }
       },
       "footer": {
@@ -74,13 +74,22 @@ export default function ForceChangeModal(props : ForceChangeModalPropsType) {
         <div className="flex items-center gap-3 mb-10">
           <HiOutlineExclamationCircle className="h-6 w-6 text-Alert-50" />
           <h3 className="text-sans-h5 text-Alert-50">
-            警示
+            更改：已完成
           </h3>
           <img
             src={close} alt="close"
             className="ml-auto cursor-pointer"
             onClick={() => setOpenForceChangeModal(false)} 
           />
+        </div>
+        <p className="mb-10 text-sans-body1">若強制更改為已完成，將無法與租客相互評價和下載合約。</p>
+        <div className="flex justify-end gap-6">
+          <button type="button" className="outline-button-m" onClick={() => setOpenForceChangeModal(false)}>
+            確認強制更改
+          </button>
+          <button type="button" className="filled-button-m" onClick={() => setOpenForceChangeModal(false)}>
+            返回
+          </button>
         </div>
       </Modal.Body>
     </Modal>

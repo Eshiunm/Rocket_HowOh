@@ -66,6 +66,7 @@ export default function Post({procedure}:{procedure:procedureListType[]}) {
         <h2 className="text-sans-b-h5">新增房源</h2>
         <div className="flex gap-6">
           <button
+            type="button"
             className="outline-button-m"
             onClick={() => {
               localStorage.removeItem("houseId");
@@ -79,6 +80,7 @@ export default function Post({procedure}:{procedure:procedureListType[]}) {
             }}
           >返回房源列表</button>
           <button
+            type="button"
             className={`${procedure[0].isActive && !procedure[0].isDone ? "outline-button-m-disable" : "outline-button-m"} px-4`}
             disabled={ procedure[0].isActive && !procedure[0].isDone}
             // 在基本資訊頁面時不可點擊刪除房源
