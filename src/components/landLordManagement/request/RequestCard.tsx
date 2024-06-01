@@ -1,11 +1,42 @@
 import { useState } from "react";
-import { Tooltip, Drawer } from "flowbite-react";
+import { Tooltip, Drawer, Flowbite, CustomFlowbiteTheme } from "flowbite-react";
 import rightIcon_black from "../../../assets/imgs/icons/rightIcon_black.svg";
 import close from "../../../assets/imgs/icons/close.svg";
 import photo from "../../../assets/imgs/homePage/recommendation_picture_1.svg"
 import star from "../../../assets/imgs/icons/star.svg";
 
 export default function RequestCard({status = "none"}) {
+  const customTheme: CustomFlowbiteTheme = {
+    drawer: {
+      "root": {
+        "base": "bg-Landlord-95 fixed z-40 overflow-y-auto px-10 pt-10 transition-transform",
+        "backdrop": "fixed inset-0 z-30 bg-transparent",
+        "edge": "bottom-16",
+        "position": {
+          "right": {
+            "on": "shadow-elevation-3 right-0 top-[64px] bottom-0 w-5/12 transform-none scrollbar-hide",
+            "off": "right-0 top-[152px] h-screen w-5/12 translate-x-full"
+          },
+        }
+      },
+      "header": {
+        "inner": {
+          "closeButton": "absolute end-2.5 top-2.5 flex h-8 w-8 items-center justify-center rounded-lg bg-transparent text-sm text-gray-400 hover:bg-gray-200 hover:text-gray-900 dark:hover:bg-gray-600 dark:hover:text-white",
+          "closeIcon": "h-4 w-4",
+          "titleIcon": "me-2.5 h-4 w-4",
+          "titleText": "mb-4 inline-flex items-center text-base font-semibold text-gray-500 dark:text-gray-400"
+        },
+        "collapsed": {
+          "on": "hidden",
+          "off": "block"
+        }
+      },
+      "items": {
+        "base": ""
+      }
+    }
+  };
+
   const [isOpen, setIsOpen] = useState(false);
   const handleClose = () => setIsOpen(false);
 
@@ -66,7 +97,8 @@ export default function RequestCard({status = "none"}) {
           </button>
         </div>
       </li>
-      <Drawer className="bg-Landlord-95" open={isOpen} onClose={handleClose} position="right">
+      <Flowbite theme={{ theme: customTheme }}>
+      <Drawer open={isOpen} onClose={handleClose} position="right">
         <Drawer.Items>
           <div className="layout-grid gap-4 mb-32">
             <div className="col-span-10 flex flex-col gap-6 items-end">
@@ -139,6 +171,7 @@ export default function RequestCard({status = "none"}) {
           </div>
         </Drawer.Items>
       </Drawer>
+      </Flowbite>
     </>
   );
 }
