@@ -15,8 +15,9 @@ export default function QuickCheckModal(props : QuickCheckModalPropsType) {
   const { openModal, setOpenModal } = props;
   const [isPhoneFocused,setIsPhoneFocused] = useState(false);
   return (
-    <Modal className="z-50 backdrop-blur-md" show={openModal} size="lg" onClose={() => setOpenModal(false)} popup>
-      <Modal.Body className="w-[536px] bg-white rounded-lg p-10">
+    <Modal show={openModal} size="xl" onClose={() => setOpenModal(false)} popup>
+      <Modal.Header />
+      <Modal.Body>
         <div className="flex items-center gap-3 mb-10">
           <h3 className="text-sans-h5">
             立即更改：已承租
