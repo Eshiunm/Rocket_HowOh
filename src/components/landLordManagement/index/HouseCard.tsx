@@ -2,7 +2,7 @@ import { useState } from 'react';
 // 轉換承租時間
 import moment from 'moment-timezone';
 // 快速變更承租 Modal
-import QuickCheckModal from './QuickCheckModal';
+import QuickCheckModal from '../modals/QuickCheckModal';
 import { useNavigate } from 'react-router-dom';
 import { apiHouseLandlordSingleInfo } from '../../../apis/apis';
 import BigLoading from '../../loading/BigLoading';

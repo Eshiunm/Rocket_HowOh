@@ -8,7 +8,7 @@ import close from "../../assets/imgs/icons/close.svg";
 import alertTriangle from "../../assets/imgs/icons/alertTriangle.svg";
 import messageCloud from "../../assets/imgs/icons/messageCloud.svg";
 import smileWink from "../../assets/imgs/icons/smileWink.svg";
-
+import ForceChangeModal from "../../components/landLordManagement/modals/ForceChangeModal";
 
 export default function PublishHouse() {
   const customTheme: CustomFlowbiteTheme = {
@@ -46,6 +46,7 @@ export default function PublishHouse() {
   const handleRentedCanvas = (bool: boolean) => setIsRentedOpen(bool);
   // const handleRentedCanvasClose = () => setIsRentedOpen(false);
   const [isPhoneFocused,setIsPhoneFocused] = useState(false);
+  const [openForceChangeModal, setOpenForceChangeModal] = useState(false);
 
   const navigate = useNavigate();
   const { houseId } = useParams();
@@ -319,7 +320,13 @@ export default function PublishHouse() {
                           </div>
                           <div className="mb-10 flex gap-2 text-sans-body1">
                             <p>沒有承租資訊嗎？</p>
-                            <button className="underline underline-offset-2">強制更改為已完成</button>
+                            <button
+                              type="button"
+                              className="underline underline-offset-2"
+                              onClick={() => setOpenForceChangeModal(true)}
+                            >強制更改為已完成</button>
+                              {/* 點擊強制更改跳出的 Model pop-up */}
+                            <ForceChangeModal openForceChangeModal={openForceChangeModal} setOpenForceChangeModal={setOpenForceChangeModal} />
                           </div>
                           <div className="flex justify-end gap-6">
                             <button className="outline-button-m" onClick={() => handleRentedCanvas(false)}>
