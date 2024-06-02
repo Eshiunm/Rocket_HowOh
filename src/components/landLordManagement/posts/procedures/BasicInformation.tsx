@@ -407,8 +407,8 @@ export default function BasicInformation() {
                 })}
               >
                 {houseTypes.map(type => (
-                  <option value={type} key={type}>
-                    {type}
+                  <option value={type.content} key={type.typeNumber}>
+                    {type.content}
                   </option>
                 ))}
               </select>
