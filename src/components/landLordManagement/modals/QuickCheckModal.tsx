@@ -18,15 +18,17 @@ export default function QuickCheckModal(props : QuickCheckModalPropsType) {
   const [isPhoneFocused,setIsPhoneFocused] = useState(false);
   const [openForceChangeModal, setOpenForceChangeModal] = useState(false);
 
-  const { register, handleSubmit, formState: { errors } } = useForm({
+  const { register, handleSubmit, formState: { errors }, watch } = useForm({
     defaultValues: {
       tenantPhone: "",
       leaseStartTime: "",
       leaseEndTime: ""
     }
   });
+  const tenantPhone = watch("tenantPhone");
+  const leaseStartTime = watch("leaseStartTime");
   const onSubmit = data => console.log(data);
-
+  
   return (
     <div  onClick={(e) => e.stopPropagation()}>
       <Modal show={openModal} size="xl" onClose={() => setOpenModal(false)} popup>
@@ -109,6 +111,7 @@ export default function QuickCheckModal(props : QuickCheckModalPropsType) {
                   {...register("leaseEndTime", {
                     required: { value: true, message: "請輸入合約結束日" },
                   })}
+                  min={leaseStartTime}
                 />
                 {
                   errors.leaseEndTime?.message ? <p className="post-alert">{errors.leaseEndTime?.message}</p>

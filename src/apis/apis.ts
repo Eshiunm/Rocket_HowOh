@@ -72,7 +72,6 @@ export const apiHouseLandlordSingleContract = (id: string) => houseRequest.post(
 export const apiHouseLandlordChangeStatus = (id: string) => houseRequest.patch(`/landlord/status/${id}`); // ALO-6
 export const apiHouseLandlordAddTenant = (data: any) => houseRequest.post('/landlord/userinfo', data); // ALO-5
 export const apiHouseLandlordUnratedCount = () => houseRequest.get('/landlord/count/unrated'); // ALO-10
-export const apiHouseLandlordFindUser = (data: any) => houseRequest.post('/landlord/userinfo', data); // ALO-9
 export const apiHouseLandlordForceChange = (data: any) => houseRequest.post('/landlord/userinfo', data); // ALO-8
 
 // 房源-搜尋頁面相關的 api
