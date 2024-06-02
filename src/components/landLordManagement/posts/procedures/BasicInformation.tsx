@@ -406,9 +406,9 @@ export default function BasicInformation() {
                   required: { value: true, message: "必填欄位" },
                 })}
               >
-                {houseTypes.map(type => (
-                  <option value={type.content} key={type.typeNumber}>
-                    {type.content}
+                {houseTypes.map(house => (
+                  <option value={house.content} key={house.typeNumber}>
+                    {house.content}
                   </option>
                 ))}
               </select>
