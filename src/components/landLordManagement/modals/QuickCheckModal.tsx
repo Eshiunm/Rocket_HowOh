@@ -48,7 +48,8 @@ export default function QuickCheckModal(props : QuickCheckModalPropsType) {
               <div
                 tabIndex={0}
                 className={`relative flex w-full p-3 rounded ${
-                  isPhoneFocused ? "border-Brand-30 border-2 -m-[1px]"
+                  errors.tenantPhone ? "border-Alert-50 border"
+                  : isPhoneFocused ? "border-Brand-30 border-2 -m-[1px]"
                   : "border-black border"
                 }`}
                 onFocus={() => setIsPhoneFocused(true)}
@@ -82,7 +83,10 @@ export default function QuickCheckModal(props : QuickCheckModalPropsType) {
                 <input
                   type="date"
                   id="startTime"
-                  className="w-full p-3 rounded border-black focus:ring-0 focus:border-Brand-30"
+                  className={`w-full p-3 rounded focus:ring-0 ${
+                    errors.leaseStartTime ? "border-Alert-50 border focus:border-Alert-50"
+                    : "border-black focus:border-Brand-30 focus:border-2 focus:-m-px"
+                  }`}
                   {...register("leaseStartTime", {
                     required: { value: true, message: "請輸入合約起始日" },
                   })}
@@ -99,7 +103,10 @@ export default function QuickCheckModal(props : QuickCheckModalPropsType) {
                 <input
                   type="date"
                   id="endTime"
-                  className="w-full p-3 rounded border-black focus:ring-0 focus:border-Brand-30"
+                  className={`w-full p-3 rounded focus:ring-0 ${
+                    errors.leaseEndTime ? "border-Alert-50 border focus:border-Alert-50"
+                    : "border-black focus:border-Brand-30 focus:border-2 focus:-m-px"
+                  }`}
                   {...register("leaseEndTime", {
                     required: { value: true, message: "請輸入合約結束日" },
                   })}
