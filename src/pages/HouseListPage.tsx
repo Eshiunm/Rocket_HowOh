@@ -700,6 +700,7 @@ function HouseListPage() {
         setIsAPIProcessing(true);
         const res = await apiHouseCommonSearchList(queryString);
         setSearchResults(res.data.Houses);
+        console.log(res.data.Houses);
         setIsAPIProcessing(false);
       };
 
@@ -1307,7 +1308,7 @@ function HouseListPage() {
                       <li
                         key={index}
                         className="p-3 flex justify-between cursor-pointer"
-                        data-houseid="cfiuawehruh"
+                        data-houseid={house.houseId}
                         onClick={turnToSingleHousePage}
                       >
                         <div className="flex gap-x-4">
