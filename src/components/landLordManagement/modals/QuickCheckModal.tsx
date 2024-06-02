@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useForm } from 'react-hook-form';
 // Model-popup 所需之匯入
 import { Modal } from "flowbite-react";
 import close from "../../../assets/imgs/icons/close.svg";
@@ -16,6 +17,16 @@ export default function QuickCheckModal(props : QuickCheckModalPropsType) {
   const { openModal, setOpenModal } = props;
   const [isPhoneFocused,setIsPhoneFocused] = useState(false);
   const [openForceChangeModal, setOpenForceChangeModal] = useState(false);
+
+  const { register, handleSubmit, formState: { errors } } = useForm({
+    defaultValues: {
+      tenantPhone: "",
+      leaseStartTime: "",
+      leaseEndTime: ""
+    }
+  });
+  const onSubmit = data => console.log(data);
+
   return (
     <div  onClick={(e) => e.stopPropagation()}>
       <Modal show={openModal} size="xl" onClose={() => setOpenModal(false)} popup>
@@ -32,7 +43,7 @@ export default function QuickCheckModal(props : QuickCheckModalPropsType) {
             />
           </div>
           <p className="mb-8 text-sans-body1">請填入承租資訊及合約起迄時間。</p>
-          <form>
+          <form onSubmit={handleSubmit(onSubmit)}>
             <div className="mb-5">
               <div
                 tabIndex={0}
@@ -48,7 +59,11 @@ export default function QuickCheckModal(props : QuickCheckModalPropsType) {
                   id="tenantPhone"
                   className="block w-full p-0 pl-1 text-sans-body1 text-black bg-transparent border-none appearance-none focus:ring-0 peer"
                   placeholder=""
-                  maxLength={10}
+                  minLength={10}
+                  {...register("tenantPhone", {
+                    required: { value: true, message: "請填入承租人手機" }, 
+                    minLength: { value: 10, message: "請填入正確手機號碼" }
+                  })}
                 />
                 <label
                   htmlFor="tenantPhone"
@@ -57,18 +72,43 @@ export default function QuickCheckModal(props : QuickCheckModalPropsType) {
                   承租人手機
                 </label>
               </div>
+              {
+                errors.tenantPhone?.message && <p className="post-alert">{errors.tenantPhone?.message}</p>
+              }
             </div>
             <div className="mb-6 flex gap-6 items-center">
-              
               <div className="flex-1 relative">
                 <label htmlFor="startTime" className="text-sans-caption px-0.5 bg-white absolute -top-2 left-3">合約起始日</label>
-                <input type="date" name="startTime" id="startTime" className="w-full p-3 rounded border-black focus:ring-0 focus:border-Brand-30"/>
+                <input
+                  type="date"
+                  id="startTime"
+                  className="w-full p-3 rounded border-black focus:ring-0 focus:border-Brand-30"
+                  {...register("leaseStartTime", {
+                    required: { value: true, message: "請輸入合約起始日" },
+                  })}
+                />
+                {
+                  errors.leaseStartTime?.message ? <p className="post-alert">{errors.leaseStartTime?.message}</p>
+                  : errors.leaseEndTime?.message ? <p className="post-alert">{"\u00a0"}</p>
+                  : null
+                }
               </div>
               至
-              
               <div className="flex-1 relative">
                 <label htmlFor="endTime" className="text-sans-caption px-0.5 bg-white absolute -top-2 left-3">合約結束日</label>
-                <input type="date" name="endTime" id="endTime" className="w-full p-3 rounded border-black focus:ring-0 focus:border-Brand-30"/>
+                <input
+                  type="date"
+                  id="endTime"
+                  className="w-full p-3 rounded border-black focus:ring-0 focus:border-Brand-30"
+                  {...register("leaseEndTime", {
+                    required: { value: true, message: "請輸入合約結束日" },
+                  })}
+                />
+                {
+                  errors.leaseEndTime?.message ? <p className="post-alert">{errors.leaseEndTime?.message}</p>
+                  : errors.leaseStartTime?.message ? <p className="post-alert">{"\u00a0"}</p>
+                  : null
+                }
               </div>
             </div>
             <div className="mb-6 text-sans-body2 flex flex-col gap-2 items-start">
@@ -98,11 +138,12 @@ export default function QuickCheckModal(props : QuickCheckModalPropsType) {
             <div className="flex justify-end gap-6">
               <button
                 type="button" 
-                className="outline-button-m" onClick={() => setOpenModal(false)}
+                className="outline-button-m"
+                onClick={() => setOpenModal(false)}
               >取消</button>
               <button
-                type="button" 
-                className="filled-button-m" onClick={() => setOpenModal(false)}
+                type="submit" 
+                className="filled-button-m"
               >立即更改</button>
             </div>
           </form>
