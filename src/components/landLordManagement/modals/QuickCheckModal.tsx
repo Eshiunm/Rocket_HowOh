@@ -60,10 +60,9 @@ export default function QuickCheckModal(props : QuickCheckModalPropsType) {
                   id="tenantPhone"
                   className="block w-full p-0 pl-1 text-sans-body1 text-black bg-transparent border-none appearance-none focus:ring-0 peer"
                   placeholder=""
-                  minLength={10}
                   {...register("tenantPhone", {
                     required: { value: true, message: "請填入承租人手機" }, 
-                    minLength: { value: 10, message: "請填入正確手機號碼" }
+                    pattern: { value: /^09\d{8}$/, message: "請輸入正確手機號碼格式" }
                   })}
                 />
                 <label
