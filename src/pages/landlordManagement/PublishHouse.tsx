@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { useForm } from 'react-hook-form';
 import { CustomFlowbiteTheme, Flowbite, Tooltip, Drawer } from "flowbite-react";
 import HouseDatas from "../../components/landLordManagement/HouseDatas";
 import Footer from "../../components/footer/Footer";
@@ -44,7 +45,6 @@ export default function PublishHouse() {
 
   const [isRentedOpen, setIsRentedOpen] = useState(false);
   const handleRentedCanvas = (bool: boolean) => setIsRentedOpen(bool);
-  // const handleRentedCanvasClose = () => setIsRentedOpen(false);
   const [isPhoneFocused,setIsPhoneFocused] = useState(false);
   const [openForceChangeModal, setOpenForceChangeModal] = useState(false);
 
@@ -132,6 +132,15 @@ export default function PublishHouse() {
       jobRestriction: "123c,sdfd",
     },
   });
+
+  const { register, handleSubmit, formState: { errors } } = useForm({
+    defaultValues: {
+      tenantPhone: "",
+      leaseStartTime: "",
+      leaseEndTime: ""
+    }
+  });
+  const onSubmit = data => console.log(data);
   
   useEffect(() => {
     const fetchHouseData = async () => {
@@ -269,12 +278,13 @@ export default function PublishHouse() {
                           更改：已承租
                         </h3>
                         <p className="mb-2 text-sans-body1">請填入承租資訊及合約起迄時間。</p>
-                        <form>
+                        <form onSubmit={handleSubmit(onSubmit)}>
                           <div className="mb-5">
                             <div
                               tabIndex={0}
                               className={`relative flex w-full p-3 rounded ${
-                                isPhoneFocused ? "border-Brand-30 border-2 -m-[1px]"
+                                errors.tenantPhone ? "border-Alert-50 border"
+                                : isPhoneFocused ? "border-Brand-30 border-2 -m-[1px]"
                                 : "border-black border"
                               }`}
                               onFocus={() => setIsPhoneFocused(true)}
@@ -285,7 +295,11 @@ export default function PublishHouse() {
                                 id="tenantPhone"
                                 className="block w-full p-0 pl-1 text-sans-body1 text-black bg-transparent border-none appearance-none focus:ring-0 peer"
                                 placeholder=""
-                                maxLength={10}
+                                minLength={10}
+                                {...register("tenantPhone", {
+                                  required: { value: true, message: "請填入承租人手機" }, 
+                                  minLength: { value: 10, message: "請填入正確手機號碼" }
+                                })}
                               />
                               <label
                                 htmlFor="tenantPhone"
@@ -294,16 +308,49 @@ export default function PublishHouse() {
                                 承租人手機
                               </label>
                             </div>
+                            {
+                              errors.tenantPhone?.message && <p className="post-alert">{errors.tenantPhone?.message}</p>
+                            }
                           </div>
                           <div className="mb-6 flex gap-6 items-center">
                             <div className="flex-1 relative">
                               <label htmlFor="startTime" className="text-sans-caption px-0.5 bg-Neutral-99 absolute -top-2 left-3">合約起始日</label>
-                              <input type="date" name="startTime" id="startTime" className="w-full p-3 rounded border-black focus:ring-0 focus:border-Brand-30 bg-Neutral-99"/>
+                              <input
+                                type="date"
+                                id="startTime"
+                                className={`w-full p-3 rounded bg-transparent focus:ring-0 ${
+                                  errors.leaseStartTime ? "border-Alert-50 border focus:border-Alert-50"
+                                  : "border-black focus:border-Brand-30 focus:border-2 focus:-m-px"
+                                }`}
+                                {...register("leaseStartTime", {
+                                  required: { value: true, message: "請輸入合約起始日" },
+                                })}
+                              />
+                              {
+                                errors.leaseStartTime?.message ? <p className="post-alert">{errors.leaseStartTime?.message}</p>
+                                : errors.leaseEndTime?.message ? <p className="post-alert">{"\u00a0"}</p>
+                                : null
+                              }
                             </div>
                             至
                             <div className="flex-1 relative">
                               <label htmlFor="endTime" className="text-sans-caption px-0.5 bg-Neutral-99 absolute -top-2 left-3">合約結束日</label>
-                              <input type="date" name="endTime" id="endTime" className="w-full p-3 rounded border-black focus:ring-0 focus:border-Brand-30 bg-Neutral-99"/>
+                              <input
+                                type="date"
+                                id="endTime"
+                                className={`w-full p-3 rounded bg-transparent focus:ring-0 ${
+                                  errors.leaseEndTime ? "border-Alert-50 border focus:border-Alert-50"
+                                  : "border-black focus:border-Brand-30 focus:border-2 focus:-m-px"
+                                }`}
+                                {...register("leaseEndTime", {
+                                  required: { value: true, message: "請輸入合約結束日" },
+                                })}
+                              />
+                              {
+                                errors.leaseEndTime?.message ? <p className="post-alert">{errors.leaseEndTime?.message}</p>
+                                : errors.leaseStartTime?.message ? <p className="post-alert">{"\u00a0"}</p>
+                                : null
+                              }
                             </div>
                           </div>
                           <div className="mb-6 text-sans-body2 flex flex-col gap-2 items-start">
@@ -336,9 +383,9 @@ export default function PublishHouse() {
                               取消
                             </button>
                             <button
-                              type="button"
+                              type="submit"
                               className="filled-button-m" 
-                              onClick={() => handleRentedCanvas(false)}>
+                            >
                               寄送租約邀請
                             </button>
                           </div>
