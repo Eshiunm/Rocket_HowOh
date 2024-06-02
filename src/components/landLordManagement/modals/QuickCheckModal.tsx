@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from 'react-hook-form';
 // Model-popup 所需之匯入
 import { Modal } from "flowbite-react";
@@ -7,6 +7,7 @@ import alertTriangle from "../../../assets/imgs/icons/alertTriangle.svg";
 import messageCloud from "../../../assets/imgs/icons/messageCloud.svg";
 import smileWink from "../../../assets/imgs/icons/smileWink.svg";
 import ForcedChangeModal from "./ForcedChangeModal";
+import { apiHouseLandlordFindUser } from "../../../apis/apis";
 
 interface QuickCheckModalPropsType {
   openModal: boolean;
@@ -29,6 +30,25 @@ export default function QuickCheckModal(props : QuickCheckModalPropsType) {
   const leaseStartTime = watch("leaseStartTime");
   const onSubmit = data => console.log(data);
   
+  useEffect(() => {
+    const telRegex = /^09\d{8}$/;
+
+    const checkTenantPhone = async (phone: string) => {
+      try {
+        console.log(phone);
+        console.log(typeof phone);
+        const response = await apiHouseLandlordFindUser(phone);
+        console.log(response);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    if (telRegex.test(tenantPhone)) {
+      checkTenantPhone(tenantPhone);
+    }
+  },[tenantPhone]);
+
   return (
     <div  onClick={(e) => e.stopPropagation()}>
       <Modal show={openModal} size="xl" onClose={() => setOpenModal(false)} popup>

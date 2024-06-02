@@ -66,6 +66,9 @@ export const apiHouseLandlordPostDelete = (houseId: string|null) => houseRequest
 export const apiHouseLandlordList = () => houseRequest.get('/landlord/list',getToken()); // ALO-1
 export const apiHouseLandlordSingleInfo = (houseId: string|undefined) => houseRequest.get(`/landlord/info/${houseId}`,getToken()); // ALO-12、ALO-13、ALO-14、ALO-15
 
+// 房源-房東更改房源狀態相關
+export const apiHouseLandlordFindUser = (tenantPhone: string) => houseRequest.post('/landlord/userInfo', tenantPhone, getToken()); // ALO-9
+
 // 房源-房東相關的 api
 export const apiHouseLandlordContract = () => houseRequest.get('/landlord/contract'); // ALO-16
 export const apiHouseLandlordSingleContract = (id: string) => houseRequest.post(`/landlord/contract/${id}`); // ALO-7
