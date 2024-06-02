@@ -26,7 +26,7 @@ export default function HouseDatas({houseDatas}: {houseDatas: houseDatasType}) {
 
   useEffect(() => {
     // 判斷網址路徑所在位置，控制grid span 寬度
-    if(location.pathname === '/landlord/post') {
+    if(location.pathname === '/landlord/post' || location.pathname === '/landlord/rented') {
       setGridSpanWide(true);
     } else {
       setGridSpanWide(false);

@@ -1,9 +1,130 @@
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Drawer, Flowbite, CustomFlowbiteTheme } from "flowbite-react";
 import photo from "../../assets/imgs/homePage/recommendation_picture_1.svg"
 import star from "../../assets/imgs/icons/star.svg";
+import close from "../../assets/imgs/icons/close.svg";
+import HouseDatas from "../../components/landLordManagement/HouseDatas";
 
 export default function RentedHouse() {
+  const customTheme: CustomFlowbiteTheme = {
+    drawer: {
+      "root": {
+        "base": "bg-Landlord-95 fixed z-40 overflow-y-auto px-10 pt-10 transition-transform",
+        "backdrop": "fixed inset-0 z-30 bg-transparent",
+        "edge": "bottom-16",
+        "position": {
+          "right": {
+            "on": "shadow-elevation-3 right-0 top-[64px] bottom-0 w-5/12 transform-none scrollbar-hide",
+            "off": "right-0 top-[152px] h-screen w-5/12 translate-x-full"
+          },
+        }
+      },
+      "header": {
+        "inner": {
+          "closeButton": "absolute end-2.5 top-2.5 flex h-8 w-8 items-center justify-center rounded-lg bg-transparent text-sm text-gray-400 hover:bg-gray-200 hover:text-gray-900 dark:hover:bg-gray-600 dark:hover:text-white",
+          "closeIcon": "h-4 w-4",
+          "titleIcon": "me-2.5 h-4 w-4",
+          "titleText": "mb-4 inline-flex items-center text-base font-semibold text-gray-500 dark:text-gray-400"
+        },
+        "collapsed": {
+          "on": "hidden",
+          "off": "block"
+        }
+      },
+      "items": {
+        "base": ""
+      }
+    }
+  };
+
   const navigate = useNavigate();
+  const [isHouseDetailOpen, setIsHouseDetailOpen] = useState(false);
+  const handleHouseDetailClose = () => setIsHouseDetailOpen(false);
+
+  const [houseDatas, ] = useState({
+    appointmentCount: 0,
+    formData:{
+      name: "房源名稱",
+      city: "縣市",
+      district: "區域",
+      road: "路街",
+      lane: "巷",
+      alley: "弄",
+      number: "號",
+      floor: "樓層",
+      floorTotal: "總樓層",
+      type: "房源類別",
+      ping: "可使用坪數",
+      roomNumbers: "房",
+      livingRoomNumbers: "廳",
+      bathRoomNumbers: "衛浴",
+      balconyNumbers: "陽台",
+      parkingSpaceNumbers: "車位",
+    },
+    photos:[
+      {
+        "path": "https://res.cloudinary.com/dstruxyyk/image/upload/v1716560016/Howoh%20house%20photos/n0ficydjjhpyl50jcr9t.jpg",
+        "isCover": true
+      },
+      {
+        "path": "https://res.cloudinary.com/dstruxyyk/image/upload/v1716560016/Howoh%20house%20photos/nox5cqpr4kkzwlyjgjn1.jpg",
+        "isCover": false
+      },
+    ],
+    facilities:{
+      isRentSubsidy: false,
+      isCookAllowed: false,
+      isPetAllowed: false,
+      isSTRAllowed: false,
+      isNearByDepartmentStore: false,
+      isNearBySchool: false, 
+      isNearByMorningMarket: false, 
+      isNearByNightMarket: false, 
+      isNearByConvenientStore: false, 
+      isNearByPark: false, 
+      hasGarbageDisposal: false, 
+      hasWindowInBathroom: false, 
+      hasElevator: false, 
+      hasAirConditioner: false, 
+      hasWashingMachine: false, 
+      hasRefrigerator: false, 
+      hasCloset: false, 
+      hasTableAndChair: false, 
+      hasWaterHeater: false, 
+      hasInternet: false, 
+      hasBed: false, 
+      hasTV: false, 
+      isNearMRT: false, 
+      kmAwayMRT: "", 
+      isNearLRT: false, 
+      kmAwayLRT: "", 
+      isNearBusStation: false, 
+      kmAwayBusStation: "", 
+      isNearHSR: false, 
+      kmAwayHSR: "", 
+      isNearTrainStation: false, 
+      kmAwayTrainStation: "",
+    },
+    expenses:{
+      rent: "1000",
+      securityDeposit: "兩個月",
+      paymentMethodOfWaterBill: "包含於房租",
+      waterBillPerMonth: "string",
+      electricBill: "自訂",
+      electricBillPerDegree: "5",
+      paymentMethodOfElectricBill: "string",
+      paymentMethodOfManagementFee: "隨房租繳納",
+      managementFeePerMonth: "1000",
+    },
+    description: "2132132edccf",
+    restrictions:{
+      hasTenantRestrictions: "true",
+      genderRestriction: "排除女性",
+      jobRestriction: "123c,sdfd",
+    },
+  });
+
   return (
     <>
       <header className="bg-Landlord-99">
@@ -14,100 +135,8 @@ export default function RentedHouse() {
             <button
               type="button"
               className="outline-button-m"
+              onClick={() => setIsHouseDetailOpen(true)}
             >查看房源資訊</button>
-            {/* <Drawer className="bg-Neutral-99" open={isRentedOpen} onClose={() => handleRentedCanvas(false)} position="right">
-              <Drawer.Items>
-                <div className="layout-grid mb-32">
-                  <div className="col-span-10 flex flex-col gap-6">
-                    <button
-                      type="button"
-                      className="self-end"
-                      onClick={() => handleRentedCanvas(false)}
-                    >
-                      <img src={close} alt="close" />
-                    </button>
-                    <h3 className="text-sans-h5 mb-4">
-                      更改：已承租
-                    </h3>
-                    <p className="mb-2 text-sans-body1">請填入承租資訊及合約起迄時間。</p>
-                    <form>
-                      <div className="mb-5">
-                        <div
-                          tabIndex={0}
-                          className={`relative flex w-full p-3 rounded ${
-                            isPhoneFocused ? "border-Brand-30 border-2 -m-[1px]"
-                            : "border-black border"
-                          }`}
-                          onFocus={() => setIsPhoneFocused(true)}
-                          onBlur={() => setIsPhoneFocused(false)}
-                        >
-                          <input
-                            type="tel"
-                            id="tenantPhone"
-                            className="block w-full p-0 pl-1 text-sans-body1 text-black bg-transparent border-none appearance-none focus:ring-0 peer"
-                            placeholder=""
-                            maxLength={10}
-                          />
-                          <label
-                            htmlFor="tenantPhone"
-                            className="absolute bg-Neutral-99 text-sans-body1 text-Neutral-50 duration-200 transform -translate-y-4 scale-75 top-[3px] z-10 origin-[0] px-2 peer-focus:px-2 peer-focus:text-black peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-[3px] peer-focus:scale-75 peer-focus:-translate-y-4 start-3"
-                          >
-                            承租人手機
-                          </label>
-                        </div>
-                      </div>
-                      <div className="mb-6 flex gap-6 items-center">
-                        <div className="flex-1 relative">
-                          <label htmlFor="startTime" className="text-sans-caption px-0.5 bg-Neutral-99 absolute -top-2 left-3">合約起始日</label>
-                          <input type="date" name="startTime" id="startTime" className="w-full p-3 rounded border-black focus:ring-0 focus:border-Brand-30 bg-Neutral-99"/>
-                        </div>
-                        至
-                        <div className="flex-1 relative">
-                          <label htmlFor="endTime" className="text-sans-caption px-0.5 bg-Neutral-99 absolute -top-2 left-3">合約結束日</label>
-                          <input type="date" name="endTime" id="endTime" className="w-full p-3 rounded border-black focus:ring-0 focus:border-Brand-30 bg-Neutral-99"/>
-                        </div>
-                      </div>
-                      <div className="mb-6 text-sans-body2 flex flex-col gap-2 items-start">
-                        <p className="flex gap-2 bg-Alert-90 px-2 py-1 rounded-lg">
-                          <img src={alertTriangle} alt="alert_triangle" />
-                          請確保此用戶為您的承租客，我們將寄送租約邀請給此用戶
-                        </p>
-                        <p className="flex gap-2 bg-Brand-95 px-2 py-1 rounded-lg">
-                          <img src={messageCloud} alt="message_cloud" />
-                          當您填寫承租資訊時，您可以在合約結束後與該租客互相評價
-                        </p>
-                        <p className="flex gap-2 bg-Landlord-95 px-2 py-1 rounded-lg">
-                          <img src={smileWink} alt="smile_wink" />
-                          感謝您為友善的租屋環境付出心力，我們將在下次刊登時加強曝光
-                        </p>
-                      </div>
-                      <div className="mb-10 flex gap-2 text-sans-body1">
-                        <p>沒有承租資訊嗎？</p>
-                        <button
-                          type="button"
-                          className="underline underline-offset-2"
-                          onClick={() => setOpenForceChangeModal(true)}
-                        >強制更改為已完成</button>
-                      </div>
-                      <div className="flex justify-end gap-6">
-                        <button
-                          type="button"
-                          className="outline-button-m"
-                          onClick={() => handleRentedCanvas(false)}>
-                          取消
-                        </button>
-                        <button
-                          type="button"
-                          className="filled-button-m" 
-                          onClick={() => handleRentedCanvas(false)}>
-                          寄送租約邀請
-                        </button>
-                      </div>
-                    </form>
-                  </div>
-                </div>
-              </Drawer.Items>
-            </Drawer> */}
             <button
               type="button"
               className="outline-button-m ml-auto"
@@ -169,6 +198,24 @@ export default function RentedHouse() {
           </div>
         </section>
       </main>
+      <Flowbite theme={{ theme: customTheme }}>
+      <Drawer className="w-7/12" open={isHouseDetailOpen} onClose={handleHouseDetailClose} position="right">
+        <Drawer.Items>
+          <div className="layout-grid gap-4 mb-32">
+            <div className="col-span-12 flex flex-col gap-6">
+              <button
+                type="button"
+                className="self-end"
+                onClick={handleHouseDetailClose}
+              >
+                <img src={close} alt="close" />
+              </button>
+              <HouseDatas houseDatas={houseDatas}/>
+            </div>
+          </div>
+        </Drawer.Items>
+      </Drawer>
+      </Flowbite>
     </>
   );
 }
