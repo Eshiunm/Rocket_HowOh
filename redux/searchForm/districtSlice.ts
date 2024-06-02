@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   noLimit: {},
-  districts:[],
+  districts: [],
 };
 
 export const districtSlice = createSlice({
@@ -14,9 +14,10 @@ export const districtSlice = createSlice({
     },
     setDistrictItemsState: (state, action) => {
       state.districts = action.payload;
-    }
+    },
   },
 });
 
-export const { setDistrictNoLimitState, setDistrictItemsState} = districtSlice.actions;
+export const { setDistrictNoLimitState, setDistrictItemsState } =
+  districtSlice.actions;
 export default districtSlice.reducer;

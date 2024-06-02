@@ -25,13 +25,14 @@ import {
   setLandLordRatingNoLimitState,
   setLandLordRatingItemsState,
 } from "../../redux/searchForm/landLordRatingSlice";
-import dropdownCities from "../constants/locations/dropdownCities";
+import { apiHouseCommonSearchList } from "../apis/apis";
+import BigLoading from "../components/loading/BigLoading";
+import dropdownCities from "../constants/searchFormCondition/dropdownCities";
 import dropdownIcon from "../assets/imgs/icons/dropdownIcon.svg";
 import searchIcon from "../assets/imgs/icons/searchIcon.svg";
 import leftIcon_white from "../assets/imgs/icons/leftIcon_white.svg";
 import leftIcon_black from "../assets/imgs/icons/leftIcon_black.svg";
 import rightIcon_white from "../assets/imgs/icons/rightIcon_white.svg";
-import housePicture from "../assets/imgs/homePage/recommendation_picture_1.svg";
 import starIcon from "../assets/imgs/icons/starIcon.svg";
 import houseTypes from "../constants/searchFormCondition/houseTypes";
 import rentRanges from "../constants/searchFormCondition/rentRange";
@@ -61,7 +62,7 @@ interface RentRange {
 // }
 
 function HouseListPage() {
-  const { handleSubmit } = useForm();
+  const { handleSubmit, reset, register } = useForm();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const searchContent = useSelector(
@@ -80,13 +81,16 @@ function HouseListPage() {
   const landLordRatingState = useSelector(
     (store: RootState) => store.landLordRating
   );
+  const [isFormDataLoadingFinished, setIsFormDataLoadingFinished] =
+    useState(false);
   const [isSearchInputFocused, setIsSearchInputFocused] = useState(false); // 記錄搜尋框是否被 focused
   const [isCityDropdownFocused, setIsCityDropdownFocused] = useState(false); // 偵測縣市的Dropdown是否被 focused
   const [cityDropdownModalIsOpen, setCityDropdownModalIsOpen] = useState(false);
+  const [searchResults, setSearchResults] = useState<any[]>([]); // 房源列表清單
 
   /* 初始化表單內所有的checkbox元素狀態 */
   useEffect(() => {
-    // 如果縣市欄位狀態為空，就把縣市預設為高雄市
+    // 如果縣市狀態在Redux裡為空，就把縣市預設為高雄市
     if (countryState.id.length === 0) {
       dispatch(setCountryDropdownState({ id: "64", name: "高雄市" }));
     }
@@ -115,7 +119,8 @@ function HouseListPage() {
     if (houseTypeState.houseTypes.length === 0) {
       const newHouseTypes = houseTypes.map(item => {
         return {
-          content: item,
+          content: item.content,
+          typeNumber: item.typeNumber,
           checked: false,
         };
       });
@@ -130,7 +135,8 @@ function HouseListPage() {
     if (rentRangeState.rentRanges.length === 0) {
       const newRentRanges = rentRanges.map(item => {
         return {
-          content: item,
+          content: item.content,
+          priceRange: item.priceRange,
           checked: false,
         };
       });
@@ -145,7 +151,8 @@ function HouseListPage() {
     if (houseFeaturesState.houseFeatures.length === 0) {
       const newHouseFeatures = houseFeatures.map(item => {
         return {
-          content: item,
+          content: item.content,
+          type: item.type,
           checked: false,
         };
       });
@@ -157,10 +164,11 @@ function HouseListPage() {
       dispatch(setHouseFeaturesItemsState(newHouseFeaturesState.houseFeatures));
     }
     // 如果房東評價狀態在Redux裡面為空，就初始化值
-    if (houseFeaturesState.houseFeatures.length === 0) {
+    if (landLordRatingState.landLordRating.length === 0) {
       const newLandLordRating = landLordRating.map(item => {
         return {
-          content: item,
+          content: item.content,
+          ratingNumber: item.ratingNumber,
           checked: false,
         };
       });
@@ -176,8 +184,24 @@ function HouseListPage() {
 
     // 加上滑鼠點擊的監聽事件，當使用者點擊篩選縣市的下拉選單以外的地方，就將此下拉選單收起來
     document.addEventListener("mousedown", handleClickOutside);
+    reset();
   }, []);
 
+  const getAddress = (countryId: number, districtId: number) => {
+    for (const region of Object.values(dropdownCities)) {
+      for (const country of region) {
+        if (country.countryId === countryId.toString()) {
+          for (const district of country.districts) {
+            if (district.districtId === districtId.toString()) {
+              return `${country.countryName}${district.districtName}`;
+            }
+          }
+        }
+      }
+    }
+    return null;
+  };
+  const [isAPIProcessing, setIsAPIProcessing] = useState<boolean>(false);
   const turnToSingleHousePage = (e: any) => {
     const liElement = e.currentTarget;
     const houseId = liElement.dataset.houseid;
@@ -225,8 +249,8 @@ function HouseListPage() {
     );
     dispatch(setDistrictNoLimitState(districtState.noLimit));
     dispatch(setDistrictItemsState(districtState.districts));
-    console.log(countryState);
     setCityDropdownModalIsOpen(false);
+    reset();
   };
   const setSearchContent = (e: ChangeEvent<HTMLInputElement>) => {
     dispatch(changeContent(e.target.value));
@@ -254,9 +278,7 @@ function HouseListPage() {
       let newDistrictState = {
         ...districtState,
         districts: districtState.districts.map((item: District) => {
-          if (
-            (item as { content?: string }).content === districtCheckboxDOM.name
-          ) {
+          if ((item as { id?: string }).id === districtCheckboxDOM.id) {
             return {
               ...item,
               checked: !(item as { checked?: boolean }).checked, // 改變剛剛按下的 checkbox 勾選狀態， true 改 false、false 改 true
@@ -291,10 +313,11 @@ function HouseListPage() {
           };
         }
       }
-
+      //console.log(newDistrictState);
       dispatch(setDistrictNoLimitState(newDistrictState.noLimit));
       dispatch(setDistrictItemsState(newDistrictState.districts));
     }
+    reset();
   };
   const handleHouseTypeState = (e: ChangeEvent<HTMLInputElement>) => {
     const houseTypeCheckboxDOM = e.target as HTMLInputElement;
@@ -320,7 +343,8 @@ function HouseListPage() {
         ...houseTypeState,
         houseTypes: houseTypeState.houseTypes.map((item: HouseType) => {
           if (
-            (item as { content?: string }).content === houseTypeCheckboxDOM.name
+            (item as { typeNumber?: string }).typeNumber ===
+            houseTypeCheckboxDOM.id.toString()
           ) {
             return {
               ...item,
@@ -361,6 +385,7 @@ function HouseListPage() {
       dispatch(setHouseTypeNoLimitState(newHouseTypeState.noLimit));
       dispatch(setHouseTypeItemsState(newHouseTypeState.houseTypes));
     }
+    reset();
   };
   const handleRentRangeState = (e: ChangeEvent<HTMLInputElement>) => {
     const rentRangeCheckboxDOM = e.target as HTMLInputElement;
@@ -386,7 +411,8 @@ function HouseListPage() {
         ...rentRangeState,
         rentRanges: rentRangeState.rentRanges.map((item: RentRange) => {
           if (
-            (item as { content?: string }).content === rentRangeCheckboxDOM.name
+            (item as { priceRange?: string }).priceRange ===
+            rentRangeCheckboxDOM.id
           ) {
             return {
               ...item,
@@ -427,6 +453,7 @@ function HouseListPage() {
       dispatch(setRentRangeNoLimitState(newRentRangeState.noLimit));
       dispatch(setRentRangeItemsState(newRentRangeState.rentRanges));
     }
+    reset();
   };
   const handleHouseFeaturesState = (e: ChangeEvent<HTMLInputElement>) => {
     const houseFeaturesCheckboxDOM = e.target as HTMLInputElement;
@@ -455,8 +482,7 @@ function HouseListPage() {
         houseFeatures: houseFeaturesState.houseFeatures.map(
           (item: RentRange) => {
             if (
-              (item as { content?: string }).content ===
-              houseFeaturesCheckboxDOM.name
+              (item as { type?: string }).type === houseFeaturesCheckboxDOM.id
             ) {
               return {
                 ...item,
@@ -495,12 +521,12 @@ function HouseListPage() {
           };
         }
       }
-
       dispatch(setHouseFeaturesNoLimitState(newHouseFeaturesState.noLimit));
       dispatch(setHouseFeaturesItemsState(newHouseFeaturesState.houseFeatures));
     }
+    reset();
   };
-  const hondleLandLordRatingState = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleLandLordRatingState = (e: ChangeEvent<HTMLInputElement>) => {
     const landLordRatingCheckboxDOM = e.target as HTMLInputElement;
     if (landLordRatingCheckboxDOM.id === "landLordRatingNoLimit") {
       const newLandLordRatingState = {
@@ -529,8 +555,8 @@ function HouseListPage() {
         landLordRating: landLordRatingState.landLordRating.map(
           (item: RentRange) => {
             if (
-              (item as { content?: string }).content ===
-              landLordRatingCheckboxDOM.name
+              (item as { ratingNumber?: string }).ratingNumber ===
+              landLordRatingCheckboxDOM.id
             ) {
               return {
                 ...item,
@@ -575,13 +601,115 @@ function HouseListPage() {
         setLandLordRatingItemsState(newLandLordRatingState.landLordRating)
       );
     }
+    reset();
   };
-  const onSubmit = () => {
-    console.log("YA");
-    navigate("/houseList");
+
+  // 當區域、類型、租金、特色、房價的 checkbox 狀態有變動時，會直接打 API 取得房源列表
+  useEffect(() => {
+    if (
+      districtState.districts.length > 0 &&
+      houseTypeState.houseTypes.length > 0 &&
+      rentRangeState.rentRanges.length > 0 &&
+      houseFeaturesState.houseFeatures.length > 0 &&
+      landLordRatingState.landLordRating.length > 0
+    ) {
+      setIsFormDataLoadingFinished(true); // 這段不能刪，否則有可能無法抓到表單內容
+      handleSubmit(onSubmit)(); // 取得表單資料並打 API
+    }
+  }, [
+    districtState,
+    houseTypeState,
+    rentRangeState,
+    houseFeaturesState,
+    landLordRatingState,
+    isFormDataLoadingFinished,
+  ]);
+  const onSubmit = (data: any) => {
+    // 確定有抓到表格內容才打 API
+    if (Object.keys(data).length > 0 && isFormDataLoadingFinished) {
+      // 取出縣市ID
+      const cityId = data?.city?.cityId;
+      // 取出搜尋內容
+      const searchContent = data.searchContent;
+      // 將區域中有打勾的 checkbox 保留下來並取出對應數字
+      const districtNumbers = Object.entries(data)
+        .filter(
+          ([key, value]) => key.startsWith("districtNumber_") && value === true
+        )
+        .map(([key]) => parseInt(key.replace("districtNumber_", ""), 10));
+
+      // 將類型中有打勾的 checkbox 保留下來並取出對應數字
+      const houseTypeNumbers = Object.entries(data)
+        .filter(
+          ([key, value]) => key.startsWith("houseTypeNumber_") && value === true
+        )
+        .map(([key]) => parseInt(key.replace("houseTypeNumber_", ""), 10));
+
+      // 將租金中有打勾的 checkbox 保留下來並取出對應數字
+      const priceRangeNumbers = Object.entries(data)
+        .filter(
+          ([key, value]) => key.startsWith("priceRange_") && value === true
+        )
+        .map(([key]) => key.replace("priceRange_", ""));
+
+      // 將特色中有打勾的 checkbox 保留下來並取出對應數字
+      const houseFeatures = Object.entries(data)
+        .filter(
+          ([key, value]) => key.startsWith("houseFeatures_") && value === true
+        )
+        .map(([key]) => key.replace("houseFeatures_", ""));
+
+      // 房東評價中有打勾的 checkbox 保留下來並取出對應數字
+      const landLordRatingNumbers = Object.entries(data)
+        .filter(
+          ([key, value]) => key.startsWith("landLordRating_") && value === true
+        )
+        .map(([key]) => parseInt(key.replace("landLordRating_", ""), 10));
+
+      //開始組 queryString
+      let queryString = "";
+      const cityQueryParams = "city=" + cityId;
+      queryString += cityQueryParams;
+      if (searchContent) {
+        const searchContentQueryParams = "search=" + searchContent;
+        queryString += "&" + searchContentQueryParams;
+      }
+      if (districtNumbers.length > 0) {
+        const districtQueryParams = "districts=" + districtNumbers.join(",");
+        queryString += "&" + districtQueryParams;
+      }
+      if (houseTypeNumbers.length > 0) {
+        const houseTypeQueryParams = "type=" + houseTypeNumbers.join(",");
+        queryString += "&" + houseTypeQueryParams;
+      }
+      if (priceRangeNumbers.length > 0) {
+        const priceRangeQueryParams = "price=" + priceRangeNumbers.join(",");
+        queryString += "&" + priceRangeQueryParams;
+      }
+      if (houseFeatures.length > 0) {
+        const houseFeaturesQueryParams = "features=" + houseFeatures.join(",");
+        queryString += "&" + houseFeaturesQueryParams;
+      }
+      if (landLordRatingNumbers.length > 0) {
+        const landLordRatingQueryParams =
+          "rating=" + landLordRatingNumbers.join(",");
+        queryString += "&" + landLordRatingQueryParams;
+      }
+
+      const getHouseListData = async (queryString: any) => {
+        setIsAPIProcessing(true);
+        const res = await apiHouseCommonSearchList(queryString);
+        setSearchResults(res.data.Houses);
+        setIsAPIProcessing(false);
+      };
+
+      getHouseListData(queryString);
+    }
   };
+
   return (
     <>
+      {isAPIProcessing && <BigLoading />}
       <div className="bg-Neutral-99 pt-6 pb-32">
         <div className="container layout-grid ">
           {/* 搜尋表單 */}
@@ -610,6 +738,12 @@ function HouseListPage() {
                       isCityDropdownFocused ? "caret-transparent" : ""
                     }`}
                     placeholder=""
+                    {...register("city", {
+                      setValueAs: value => ({
+                        value: value,
+                        cityId: countryState.id,
+                      }),
+                    })}
                     onFocus={handleCityDropdownFocused}
                     onBlur={() => setIsCityDropdownFocused(false)}
                   />
@@ -752,8 +886,12 @@ function HouseListPage() {
                     className="block w-full p-0 pl-1 text-black bg-transparent border-none appearance-none focus:ring-0 peer"
                     placeholder=""
                     defaultValue={searchContent}
+                    {...register("searchContent")}
                     onFocus={() => setIsSearchInputFocused(true)}
-                    onBlur={() => setIsSearchInputFocused(false)}
+                    onBlur={() => {
+                      setIsSearchInputFocused(false);
+                      reset(); // 這段不能少，否則 register 抓不到這個 input value
+                    }}
                     onChange={setSearchContent}
                   />
                   <label
@@ -809,7 +947,7 @@ function HouseListPage() {
                     </div>
                     <div className="flex gap-x-[22px] gap-y-3 flex-wrap">
                       {districtState.districts.map(
-                        ({ content, checked }, index) => {
+                        ({ content, checked, id }, index) => {
                           return (
                             <div
                               key={index}
@@ -819,12 +957,12 @@ function HouseListPage() {
                                 className="w-5 h-5 text-black focus:ring-transparent rounded-sm border-2 border-black cursor-pointer"
                                 type="checkbox"
                                 checked={checked}
-                                name={content}
-                                id={content}
+                                id={id}
+                                {...register(`districtNumber_${id as string}`)}
                                 onChange={handleDistrictState}
                               />
                               <label
-                                htmlFor={content}
+                                htmlFor={id}
                                 className="pl-2 cursor-pointer"
                               >
                                 {content}
@@ -876,7 +1014,7 @@ function HouseListPage() {
                     </div>
                     <div className="flex gap-x-[22px] gap-y-3 flex-wrap ">
                       {houseTypeState.houseTypes.map(
-                        ({ content, checked }, index) => {
+                        ({ content, typeNumber, checked }, index) => {
                           return (
                             <div
                               key={index}
@@ -885,13 +1023,15 @@ function HouseListPage() {
                               <input
                                 className="w-5 h-5 text-black focus:ring-transparent rounded-sm border-2 border-black cursor-pointer"
                                 type="checkbox"
-                                name={content}
-                                id={content}
+                                id={typeNumber}
                                 checked={checked}
+                                {...register(
+                                  `houseTypeNumber_${typeNumber as string}`
+                                )}
                                 onChange={handleHouseTypeState}
                               />
                               <label
-                                htmlFor={content}
+                                htmlFor={typeNumber}
                                 className="pl-2 cursor-pointer"
                               >
                                 {content}
@@ -943,7 +1083,7 @@ function HouseListPage() {
                     </div>
                     <div className="flex gap-x-[22px] gap-y-3 flex-wrap ">
                       {rentRangeState.rentRanges.map(
-                        ({ content, checked }, index) => {
+                        ({ content, priceRange, checked }, index) => {
                           return (
                             <div
                               key={index}
@@ -952,13 +1092,15 @@ function HouseListPage() {
                               <input
                                 className="w-5 h-5 text-black focus:ring-transparent rounded-sm border-2 border-black cursor-pointer"
                                 type="checkbox"
-                                name={content}
-                                id={content}
+                                id={priceRange}
                                 checked={checked}
+                                {...register(
+                                  `priceRange_${priceRange as string}`
+                                )}
                                 onChange={handleRentRangeState}
                               />
                               <label
-                                htmlFor={content}
+                                htmlFor={priceRange}
                                 className="pl-2 cursor-pointer"
                               >
                                 {content}
@@ -1016,7 +1158,7 @@ function HouseListPage() {
                     </div>
                     <div className="flex gap-x-[22px] gap-y-3 flex-wrap ">
                       {houseFeaturesState.houseFeatures.map(
-                        ({ content, checked }, index) => {
+                        ({ content, type, checked }, index) => {
                           return (
                             <div
                               key={index}
@@ -1025,13 +1167,13 @@ function HouseListPage() {
                               <input
                                 className="w-5 h-5 text-black focus:ring-transparent rounded-sm border-2 border-black cursor-pointer"
                                 type="checkbox"
-                                name={content}
-                                id={content}
+                                id={type}
                                 checked={checked}
+                                {...register(`houseFeatures_${type as string}`)}
                                 onChange={handleHouseFeaturesState}
                               />
                               <label
-                                htmlFor={content}
+                                htmlFor={type}
                                 className="pl-2 cursor-pointer"
                               >
                                 {content}
@@ -1078,7 +1220,7 @@ function HouseListPage() {
                                 }
                               ).checked
                         }
-                        onChange={hondleLandLordRatingState}
+                        onChange={handleLandLordRatingState}
                       />
                       <label
                         htmlFor="landLordRatingNoLimit"
@@ -1092,7 +1234,7 @@ function HouseListPage() {
                     </div>
                     <div className="flex gap-x-[22px] gap-y-3 flex-wrap ">
                       {landLordRatingState.landLordRating.map(
-                        ({ content, checked }, index) => {
+                        ({ content, ratingNumber, checked }, index) => {
                           return (
                             <div
                               key={index}
@@ -1101,13 +1243,15 @@ function HouseListPage() {
                               <input
                                 className="w-5 h-5 text-black focus:ring-transparent rounded-sm border-2 border-black cursor-pointer"
                                 type="checkbox"
-                                name={content}
-                                id={content}
+                                id={ratingNumber}
                                 checked={checked}
-                                onChange={hondleLandLordRatingState}
+                                {...register(
+                                  `landLordRating_${ratingNumber as string}`
+                                )}
+                                onChange={handleLandLordRatingState}
                               />
                               <label
-                                htmlFor={content}
+                                htmlFor="ratingNumber"
                                 className="pl-2 cursor-pointer"
                               >
                                 {content}
@@ -1135,7 +1279,7 @@ function HouseListPage() {
                 </Link>
                 <div>
                   <p className="text-sans-b-body2 text-center text-Brand-10 mb-2">
-                    顯示 1 至 12 筆 共 118 筆
+                    顯示 1 至 12 筆 共 {searchResults.length} 筆
                   </p>
                   <div className="flex">
                     <button
@@ -1157,895 +1301,165 @@ function HouseListPage() {
               </div>
               {/* 列表 */}
               <ul>
-                <li
-                  className="p-3 flex gap-x-4 cursor-pointer"
-                  data-HouseId="cfiuawehruh"
-                  onClick={turnToSingleHousePage}
-                >
-                  <div className="rounded-2xl overflow-hidden">
-                    <img
-                      src={housePicture}
-                      alt="housePicture"
-                      className="rounded-2xl hover:scale-125 transition-all duration-300 hover:transition hover:duration-300"
-                    />
-                  </div>
-
-                  <div className="relative flex flex-col justify-between">
-                    <div className="relative flex justify-between">
-                      <div>
-                        {/* 房源名稱 */}
-                        <h3 className="text-sans-b-h6 mb-3">
-                          輕奢小資套房 近輕軌醫院公園
-                        </h3>
-                        {/* 房源特色 */}
-                        <ul className="flex gap-x-2">
-                          <li className="text-sans-body2 py-1 px-2 bg-Tenant-90 rounded-lg">
-                            可申請租屋補助
-                          </li>
-                          <li className="text-sans-body2 py-1 px-2 bg-Tenant-90 rounded-lg">
-                            寵物友善
-                          </li>
-                          <li className="text-sans-body2 py-1 px-2 bg-Tenant-90 rounded-lg">
-                            可開火
-                          </li>
-                          <li className="text-sans-body2 py-1 px-2 bg-Tenant-90 rounded-lg">
-                            可短租
-                          </li>
-                        </ul>
-                      </div>
-                      {/* 評分 */}
-                      <div className="absolute top-0 -right-[24%] flex self-start items-center gap-x-[10px] p-2 bg-Neutral-95 rounded-lg ">
-                        <span className="text-sans-body1">4.5</span>
-                        <img
-                          src={starIcon}
-                          alt="starIcon"
-                          className="w-4 h-4"
-                        />
-                      </div>
-                    </div>
-                    <div>
-                      <ul className="flex gap-x-2 mb-2">
-                        <li className="pr-2 border-r-[1px] border-r-Tenant-70">
-                          <span>獨立套房</span>
-                        </li>
-                        <li className="pr-2 border-r-[1px] border-r-Tenant-70">
-                          <span>1房1衛1廳 1陽台</span>
-                        </li>
-                        <li className="pr-2 border-r-[1px] border-r-Tenant-70">
-                          <span>15坪</span>
-                        </li>
-                        <li>
-                          <span>2/7樓</span>
-                        </li>
-                      </ul>
-                      <p className="mb-2">高雄市鼓山區美術東八街</p>
-                      <ul className="flex gap-x-2">
-                        <li className="pr-2 border-r-[1px] border-r-Tenant-70">
-                          <span>房東</span>
-                        </li>
-                        <li>
-                          <span>陳小姐</span>
-                        </li>
-                      </ul>
-                    </div>
-                    <div className="absolute bottom-0 -right-[24%]">
-                      <span className="before:block before:z-[0] before:absolute before:h-[10%] before:w-[64%] before:bg-[#bac6e6] before:bottom-[5%] before:left-0"></span>
-                      <span className="text-sans-b-h5 mr-2 relative">
-                        15,000
-                      </span>
-                      <span>元/月</span>
-                    </div>
-                  </div>
-                </li>
-                <li className="p-3 flex gap-x-4">
-                  <img
-                    src={housePicture}
-                    alt="housePicture"
-                    className="rounded-2xl"
-                  />
-                  <div className="relative flex flex-col justify-between">
-                    <div className="relative flex justify-between">
-                      <div>
-                        {/* 房源名稱 */}
-                        <h3 className="text-sans-b-h6 mb-3">
-                          輕奢小資套房 近輕軌醫院公園
-                        </h3>
-                        {/* 房源特色 */}
-                        <ul className="flex gap-x-2">
-                          <li className="text-sans-body2 py-1 px-2 bg-Tenant-90 rounded-lg">
-                            可申請租屋補助
-                          </li>
-                          <li className="text-sans-body2 py-1 px-2 bg-Tenant-90 rounded-lg">
-                            寵物友善
-                          </li>
-                          <li className="text-sans-body2 py-1 px-2 bg-Tenant-90 rounded-lg">
-                            可開火
-                          </li>
-                          <li className="text-sans-body2 py-1 px-2 bg-Tenant-90 rounded-lg">
-                            可短租
-                          </li>
-                        </ul>
-                      </div>
-                      {/* 評分 */}
-                      <div className="absolute top-0 -right-[24%] flex self-start items-center gap-x-[10px] p-2 bg-Neutral-95 rounded-lg ">
-                        <span className="text-sans-body1">4.5</span>
-                        <img
-                          src={starIcon}
-                          alt="starIcon"
-                          className="w-4 h-4"
-                        />
-                      </div>
-                    </div>
-                    <div>
-                      <ul className="flex gap-x-2 mb-2">
-                        <li className="pr-2 border-r-[1px] border-r-Tenant-70">
-                          <span>獨立套房</span>
-                        </li>
-                        <li className="pr-2 border-r-[1px] border-r-Tenant-70">
-                          <span>1房1衛1廳 1陽台</span>
-                        </li>
-                        <li className="pr-2 border-r-[1px] border-r-Tenant-70">
-                          <span>15坪</span>
-                        </li>
-                        <li>
-                          <span>2/7樓</span>
-                        </li>
-                      </ul>
-                      <p className="mb-2">高雄市鼓山區美術東八街</p>
-                      <ul className="flex gap-x-2">
-                        <li className="pr-2 border-r-[1px] border-r-Tenant-70">
-                          <span>房東</span>
-                        </li>
-                        <li>
-                          <span>陳小姐</span>
-                        </li>
-                      </ul>
-                    </div>
-                    <div className="absolute bottom-0 -right-[24%]">
-                      <span className="before:block before:z-[0] before:absolute before:h-[10%] before:w-[64%] before:bg-[#bac6e6] before:bottom-[5%] before:left-0"></span>
-                      <span className="text-sans-b-h5 mr-2 relative">
-                        15,000
-                      </span>
-                      <span>元/月</span>
-                    </div>
-                  </div>
-                </li>
-                <li className="p-3 flex gap-x-4">
-                  <img
-                    src={housePicture}
-                    alt="housePicture"
-                    className="rounded-2xl"
-                  />
-                  <div className="relative flex flex-col justify-between">
-                    <div className="relative flex justify-between">
-                      <div>
-                        {/* 房源名稱 */}
-                        <h3 className="text-sans-b-h6 mb-3">
-                          輕奢小資套房 近輕軌醫院公園
-                        </h3>
-                        {/* 房源特色 */}
-                        <ul className="flex gap-x-2">
-                          <li className="text-sans-body2 py-1 px-2 bg-Tenant-90 rounded-lg">
-                            可申請租屋補助
-                          </li>
-                          <li className="text-sans-body2 py-1 px-2 bg-Tenant-90 rounded-lg">
-                            寵物友善
-                          </li>
-                          <li className="text-sans-body2 py-1 px-2 bg-Tenant-90 rounded-lg">
-                            可開火
-                          </li>
-                          <li className="text-sans-body2 py-1 px-2 bg-Tenant-90 rounded-lg">
-                            可短租
-                          </li>
-                        </ul>
-                      </div>
-                      {/* 評分 */}
-                      <div className="absolute top-0 -right-[24%] flex self-start items-center gap-x-[10px] p-2 bg-Neutral-95 rounded-lg ">
-                        <span className="text-sans-body1">4.5</span>
-                        <img
-                          src={starIcon}
-                          alt="starIcon"
-                          className="w-4 h-4"
-                        />
-                      </div>
-                    </div>
-                    <div>
-                      <ul className="flex gap-x-2 mb-2">
-                        <li className="pr-2 border-r-[1px] border-r-Tenant-70">
-                          <span>獨立套房</span>
-                        </li>
-                        <li className="pr-2 border-r-[1px] border-r-Tenant-70">
-                          <span>1房1衛1廳 1陽台</span>
-                        </li>
-                        <li className="pr-2 border-r-[1px] border-r-Tenant-70">
-                          <span>15坪</span>
-                        </li>
-                        <li>
-                          <span>2/7樓</span>
-                        </li>
-                      </ul>
-                      <p className="mb-2">高雄市鼓山區美術東八街</p>
-                      <ul className="flex gap-x-2">
-                        <li className="pr-2 border-r-[1px] border-r-Tenant-70">
-                          <span>房東</span>
-                        </li>
-                        <li>
-                          <span>陳小姐</span>
-                        </li>
-                      </ul>
-                    </div>
-                    <div className="absolute bottom-0 -right-[24%]">
-                      <span className="before:block before:z-[0] before:absolute before:h-[10%] before:w-[64%] before:bg-[#bac6e6] before:bottom-[5%] before:left-0"></span>
-                      <span className="text-sans-b-h5 mr-2 relative">
-                        15,000
-                      </span>
-                      <span>元/月</span>
-                    </div>
-                  </div>
-                </li>
-                <li className="p-3 flex gap-x-4">
-                  <img
-                    src={housePicture}
-                    alt="housePicture"
-                    className="rounded-2xl"
-                  />
-                  <div className="relative flex flex-col justify-between">
-                    <div className="relative flex justify-between">
-                      <div>
-                        {/* 房源名稱 */}
-                        <h3 className="text-sans-b-h6 mb-3">
-                          輕奢小資套房 近輕軌醫院公園
-                        </h3>
-                        {/* 房源特色 */}
-                        <ul className="flex gap-x-2">
-                          <li className="text-sans-body2 py-1 px-2 bg-Tenant-90 rounded-lg">
-                            可申請租屋補助
-                          </li>
-                          <li className="text-sans-body2 py-1 px-2 bg-Tenant-90 rounded-lg">
-                            寵物友善
-                          </li>
-                          <li className="text-sans-body2 py-1 px-2 bg-Tenant-90 rounded-lg">
-                            可開火
-                          </li>
-                          <li className="text-sans-body2 py-1 px-2 bg-Tenant-90 rounded-lg">
-                            可短租
-                          </li>
-                        </ul>
-                      </div>
-                      {/* 評分 */}
-                      <div className="absolute top-0 -right-[24%] flex self-start items-center gap-x-[10px] p-2 bg-Neutral-95 rounded-lg ">
-                        <span className="text-sans-body1">4.5</span>
-                        <img
-                          src={starIcon}
-                          alt="starIcon"
-                          className="w-4 h-4"
-                        />
-                      </div>
-                    </div>
-                    <div>
-                      <ul className="flex gap-x-2 mb-2">
-                        <li className="pr-2 border-r-[1px] border-r-Tenant-70">
-                          <span>獨立套房</span>
-                        </li>
-                        <li className="pr-2 border-r-[1px] border-r-Tenant-70">
-                          <span>1房1衛1廳 1陽台</span>
-                        </li>
-                        <li className="pr-2 border-r-[1px] border-r-Tenant-70">
-                          <span>15坪</span>
-                        </li>
-                        <li>
-                          <span>2/7樓</span>
-                        </li>
-                      </ul>
-                      <p className="mb-2">高雄市鼓山區美術東八街</p>
-                      <ul className="flex gap-x-2">
-                        <li className="pr-2 border-r-[1px] border-r-Tenant-70">
-                          <span>房東</span>
-                        </li>
-                        <li>
-                          <span>陳小姐</span>
-                        </li>
-                      </ul>
-                    </div>
-                    <div className="absolute bottom-0 -right-[24%]">
-                      <span className="before:block before:z-[0] before:absolute before:h-[10%] before:w-[64%] before:bg-[#bac6e6] before:bottom-[5%] before:left-0"></span>
-                      <span className="text-sans-b-h5 mr-2 relative">
-                        15,000
-                      </span>
-                      <span>元/月</span>
-                    </div>
-                  </div>
-                </li>
-                <li className="p-3 flex gap-x-4">
-                  <img
-                    src={housePicture}
-                    alt="housePicture"
-                    className="rounded-2xl"
-                  />
-                  <div className="relative flex flex-col justify-between">
-                    <div className="relative flex justify-between">
-                      <div>
-                        {/* 房源名稱 */}
-                        <h3 className="text-sans-b-h6 mb-3">
-                          輕奢小資套房 近輕軌醫院公園
-                        </h3>
-                        {/* 房源特色 */}
-                        <ul className="flex gap-x-2">
-                          <li className="text-sans-body2 py-1 px-2 bg-Tenant-90 rounded-lg">
-                            可申請租屋補助
-                          </li>
-                          <li className="text-sans-body2 py-1 px-2 bg-Tenant-90 rounded-lg">
-                            寵物友善
-                          </li>
-                          <li className="text-sans-body2 py-1 px-2 bg-Tenant-90 rounded-lg">
-                            可開火
-                          </li>
-                          <li className="text-sans-body2 py-1 px-2 bg-Tenant-90 rounded-lg">
-                            可短租
-                          </li>
-                        </ul>
-                      </div>
-                      {/* 評分 */}
-                      <div className="absolute top-0 -right-[24%] flex self-start items-center gap-x-[10px] p-2 bg-Neutral-95 rounded-lg ">
-                        <span className="text-sans-body1">4.5</span>
-                        <img
-                          src={starIcon}
-                          alt="starIcon"
-                          className="w-4 h-4"
-                        />
-                      </div>
-                    </div>
-                    <div>
-                      <ul className="flex gap-x-2 mb-2">
-                        <li className="pr-2 border-r-[1px] border-r-Tenant-70">
-                          <span>獨立套房</span>
-                        </li>
-                        <li className="pr-2 border-r-[1px] border-r-Tenant-70">
-                          <span>1房1衛1廳 1陽台</span>
-                        </li>
-                        <li className="pr-2 border-r-[1px] border-r-Tenant-70">
-                          <span>15坪</span>
-                        </li>
-                        <li>
-                          <span>2/7樓</span>
-                        </li>
-                      </ul>
-                      <p className="mb-2">高雄市鼓山區美術東八街</p>
-                      <ul className="flex gap-x-2">
-                        <li className="pr-2 border-r-[1px] border-r-Tenant-70">
-                          <span>房東</span>
-                        </li>
-                        <li>
-                          <span>陳小姐</span>
-                        </li>
-                      </ul>
-                    </div>
-                    <div className="absolute bottom-0 -right-[24%]">
-                      <span className="before:block before:z-[0] before:absolute before:h-[10%] before:w-[64%] before:bg-[#bac6e6] before:bottom-[5%] before:left-0"></span>
-                      <span className="text-sans-b-h5 mr-2 relative">
-                        15,000
-                      </span>
-                      <span>元/月</span>
-                    </div>
-                  </div>
-                </li>
-                <li className="p-3 flex gap-x-4">
-                  <img
-                    src={housePicture}
-                    alt="housePicture"
-                    className="rounded-2xl"
-                  />
-                  <div className="relative flex flex-col justify-between">
-                    <div className="relative flex justify-between">
-                      <div>
-                        {/* 房源名稱 */}
-                        <h3 className="text-sans-b-h6 mb-3">
-                          輕奢小資套房 近輕軌醫院公園
-                        </h3>
-                        {/* 房源特色 */}
-                        <ul className="flex gap-x-2">
-                          <li className="text-sans-body2 py-1 px-2 bg-Tenant-90 rounded-lg">
-                            可申請租屋補助
-                          </li>
-                          <li className="text-sans-body2 py-1 px-2 bg-Tenant-90 rounded-lg">
-                            寵物友善
-                          </li>
-                          <li className="text-sans-body2 py-1 px-2 bg-Tenant-90 rounded-lg">
-                            可開火
-                          </li>
-                          <li className="text-sans-body2 py-1 px-2 bg-Tenant-90 rounded-lg">
-                            可短租
-                          </li>
-                        </ul>
-                      </div>
-                      {/* 評分 */}
-                      <div className="absolute top-0 -right-[24%] flex self-start items-center gap-x-[10px] p-2 bg-Neutral-95 rounded-lg ">
-                        <span className="text-sans-body1">4.5</span>
-                        <img
-                          src={starIcon}
-                          alt="starIcon"
-                          className="w-4 h-4"
-                        />
-                      </div>
-                    </div>
-                    <div>
-                      <ul className="flex gap-x-2 mb-2">
-                        <li className="pr-2 border-r-[1px] border-r-Tenant-70">
-                          <span>獨立套房</span>
-                        </li>
-                        <li className="pr-2 border-r-[1px] border-r-Tenant-70">
-                          <span>1房1衛1廳 1陽台</span>
-                        </li>
-                        <li className="pr-2 border-r-[1px] border-r-Tenant-70">
-                          <span>15坪</span>
-                        </li>
-                        <li>
-                          <span>2/7樓</span>
-                        </li>
-                      </ul>
-                      <p className="mb-2">高雄市鼓山區美術東八街</p>
-                      <ul className="flex gap-x-2">
-                        <li className="pr-2 border-r-[1px] border-r-Tenant-70">
-                          <span>房東</span>
-                        </li>
-                        <li>
-                          <span>陳小姐</span>
-                        </li>
-                      </ul>
-                    </div>
-                    <div className="absolute bottom-0 -right-[24%]">
-                      <span className="before:block before:z-[0] before:absolute before:h-[10%] before:w-[64%] before:bg-[#bac6e6] before:bottom-[5%] before:left-0"></span>
-                      <span className="text-sans-b-h5 mr-2 relative">
-                        15,000
-                      </span>
-                      <span>元/月</span>
-                    </div>
-                  </div>
-                </li>
-                <li className="p-3 flex gap-x-4">
-                  <img
-                    src={housePicture}
-                    alt="housePicture"
-                    className="rounded-2xl"
-                  />
-                  <div className="relative flex flex-col justify-between">
-                    <div className="relative flex justify-between">
-                      <div>
-                        {/* 房源名稱 */}
-                        <h3 className="text-sans-b-h6 mb-3">
-                          輕奢小資套房 近輕軌醫院公園
-                        </h3>
-                        {/* 房源特色 */}
-                        <ul className="flex gap-x-2">
-                          <li className="text-sans-body2 py-1 px-2 bg-Tenant-90 rounded-lg">
-                            可申請租屋補助
-                          </li>
-                          <li className="text-sans-body2 py-1 px-2 bg-Tenant-90 rounded-lg">
-                            寵物友善
-                          </li>
-                          <li className="text-sans-body2 py-1 px-2 bg-Tenant-90 rounded-lg">
-                            可開火
-                          </li>
-                          <li className="text-sans-body2 py-1 px-2 bg-Tenant-90 rounded-lg">
-                            可短租
-                          </li>
-                        </ul>
-                      </div>
-                      {/* 評分 */}
-                      <div className="absolute top-0 -right-[24%] flex self-start items-center gap-x-[10px] p-2 bg-Neutral-95 rounded-lg ">
-                        <span className="text-sans-body1">4.5</span>
-                        <img
-                          src={starIcon}
-                          alt="starIcon"
-                          className="w-4 h-4"
-                        />
-                      </div>
-                    </div>
-                    <div>
-                      <ul className="flex gap-x-2 mb-2">
-                        <li className="pr-2 border-r-[1px] border-r-Tenant-70">
-                          <span>獨立套房</span>
-                        </li>
-                        <li className="pr-2 border-r-[1px] border-r-Tenant-70">
-                          <span>1房1衛1廳 1陽台</span>
-                        </li>
-                        <li className="pr-2 border-r-[1px] border-r-Tenant-70">
-                          <span>15坪</span>
-                        </li>
-                        <li>
-                          <span>2/7樓</span>
-                        </li>
-                      </ul>
-                      <p className="mb-2">高雄市鼓山區美術東八街</p>
-                      <ul className="flex gap-x-2">
-                        <li className="pr-2 border-r-[1px] border-r-Tenant-70">
-                          <span>房東</span>
-                        </li>
-                        <li>
-                          <span>陳小姐</span>
-                        </li>
-                      </ul>
-                    </div>
-                    <div className="absolute bottom-0 -right-[24%]">
-                      <span className="before:block before:z-[0] before:absolute before:h-[10%] before:w-[64%] before:bg-[#bac6e6] before:bottom-[5%] before:left-0"></span>
-                      <span className="text-sans-b-h5 mr-2 relative">
-                        15,000
-                      </span>
-                      <span>元/月</span>
-                    </div>
-                  </div>
-                </li>
-                <li className="p-3 flex gap-x-4">
-                  <img
-                    src={housePicture}
-                    alt="housePicture"
-                    className="rounded-2xl"
-                  />
-                  <div className="relative flex flex-col justify-between">
-                    <div className="relative flex justify-between">
-                      <div>
-                        {/* 房源名稱 */}
-                        <h3 className="text-sans-b-h6 mb-3">
-                          輕奢小資套房 近輕軌醫院公園
-                        </h3>
-                        {/* 房源特色 */}
-                        <ul className="flex gap-x-2">
-                          <li className="text-sans-body2 py-1 px-2 bg-Tenant-90 rounded-lg">
-                            可申請租屋補助
-                          </li>
-                          <li className="text-sans-body2 py-1 px-2 bg-Tenant-90 rounded-lg">
-                            寵物友善
-                          </li>
-                          <li className="text-sans-body2 py-1 px-2 bg-Tenant-90 rounded-lg">
-                            可開火
-                          </li>
-                          <li className="text-sans-body2 py-1 px-2 bg-Tenant-90 rounded-lg">
-                            可短租
-                          </li>
-                        </ul>
-                      </div>
-                      {/* 評分 */}
-                      <div className="absolute top-0 -right-[24%] flex self-start items-center gap-x-[10px] p-2 bg-Neutral-95 rounded-lg ">
-                        <span className="text-sans-body1">4.5</span>
-                        <img
-                          src={starIcon}
-                          alt="starIcon"
-                          className="w-4 h-4"
-                        />
-                      </div>
-                    </div>
-                    <div>
-                      <ul className="flex gap-x-2 mb-2">
-                        <li className="pr-2 border-r-[1px] border-r-Tenant-70">
-                          <span>獨立套房</span>
-                        </li>
-                        <li className="pr-2 border-r-[1px] border-r-Tenant-70">
-                          <span>1房1衛1廳 1陽台</span>
-                        </li>
-                        <li className="pr-2 border-r-[1px] border-r-Tenant-70">
-                          <span>15坪</span>
-                        </li>
-                        <li>
-                          <span>2/7樓</span>
-                        </li>
-                      </ul>
-                      <p className="mb-2">高雄市鼓山區美術東八街</p>
-                      <ul className="flex gap-x-2">
-                        <li className="pr-2 border-r-[1px] border-r-Tenant-70">
-                          <span>房東</span>
-                        </li>
-                        <li>
-                          <span>陳小姐</span>
-                        </li>
-                      </ul>
-                    </div>
-                    <div className="absolute bottom-0 -right-[24%]">
-                      <span className="before:block before:z-[0] before:absolute before:h-[10%] before:w-[64%] before:bg-[#bac6e6] before:bottom-[5%] before:left-0"></span>
-                      <span className="text-sans-b-h5 mr-2 relative">
-                        15,000
-                      </span>
-                      <span>元/月</span>
-                    </div>
-                  </div>
-                </li>
-                <li className="p-3 flex gap-x-4">
-                  <img
-                    src={housePicture}
-                    alt="housePicture"
-                    className="rounded-2xl"
-                  />
-                  <div className="relative flex flex-col justify-between">
-                    <div className="relative flex justify-between">
-                      <div>
-                        {/* 房源名稱 */}
-                        <h3 className="text-sans-b-h6 mb-3">
-                          輕奢小資套房 近輕軌醫院公園
-                        </h3>
-                        {/* 房源特色 */}
-                        <ul className="flex gap-x-2">
-                          <li className="text-sans-body2 py-1 px-2 bg-Tenant-90 rounded-lg">
-                            可申請租屋補助
-                          </li>
-                          <li className="text-sans-body2 py-1 px-2 bg-Tenant-90 rounded-lg">
-                            寵物友善
-                          </li>
-                          <li className="text-sans-body2 py-1 px-2 bg-Tenant-90 rounded-lg">
-                            可開火
-                          </li>
-                          <li className="text-sans-body2 py-1 px-2 bg-Tenant-90 rounded-lg">
-                            可短租
-                          </li>
-                        </ul>
-                      </div>
-                      {/* 評分 */}
-                      <div className="absolute top-0 -right-[24%] flex self-start items-center gap-x-[10px] p-2 bg-Neutral-95 rounded-lg ">
-                        <span className="text-sans-body1">4.5</span>
-                        <img
-                          src={starIcon}
-                          alt="starIcon"
-                          className="w-4 h-4"
-                        />
-                      </div>
-                    </div>
-                    <div>
-                      <ul className="flex gap-x-2 mb-2">
-                        <li className="pr-2 border-r-[1px] border-r-Tenant-70">
-                          <span>獨立套房</span>
-                        </li>
-                        <li className="pr-2 border-r-[1px] border-r-Tenant-70">
-                          <span>1房1衛1廳 1陽台</span>
-                        </li>
-                        <li className="pr-2 border-r-[1px] border-r-Tenant-70">
-                          <span>15坪</span>
-                        </li>
-                        <li>
-                          <span>2/7樓</span>
-                        </li>
-                      </ul>
-                      <p className="mb-2">高雄市鼓山區美術東八街</p>
-                      <ul className="flex gap-x-2">
-                        <li className="pr-2 border-r-[1px] border-r-Tenant-70">
-                          <span>房東</span>
-                        </li>
-                        <li>
-                          <span>陳小姐</span>
-                        </li>
-                      </ul>
-                    </div>
-                    <div className="absolute bottom-0 -right-[24%]">
-                      <span className="before:block before:z-[0] before:absolute before:h-[10%] before:w-[64%] before:bg-[#bac6e6] before:bottom-[5%] before:left-0"></span>
-                      <span className="text-sans-b-h5 mr-2 relative">
-                        15,000
-                      </span>
-                      <span>元/月</span>
-                    </div>
-                  </div>
-                </li>
-                <li className="p-3 flex gap-x-4">
-                  <img
-                    src={housePicture}
-                    alt="housePicture"
-                    className="rounded-2xl"
-                  />
-                  <div className="relative flex flex-col justify-between">
-                    <div className="relative flex justify-between">
-                      <div>
-                        {/* 房源名稱 */}
-                        <h3 className="text-sans-b-h6 mb-3">
-                          輕奢小資套房 近輕軌醫院公園
-                        </h3>
-                        {/* 房源特色 */}
-                        <ul className="flex gap-x-2">
-                          <li className="text-sans-body2 py-1 px-2 bg-Tenant-90 rounded-lg">
-                            可申請租屋補助
-                          </li>
-                          <li className="text-sans-body2 py-1 px-2 bg-Tenant-90 rounded-lg">
-                            寵物友善
-                          </li>
-                          <li className="text-sans-body2 py-1 px-2 bg-Tenant-90 rounded-lg">
-                            可開火
-                          </li>
-                          <li className="text-sans-body2 py-1 px-2 bg-Tenant-90 rounded-lg">
-                            可短租
-                          </li>
-                        </ul>
-                      </div>
-                      {/* 評分 */}
-                      <div className="absolute top-0 -right-[24%] flex self-start items-center gap-x-[10px] p-2 bg-Neutral-95 rounded-lg ">
-                        <span className="text-sans-body1">4.5</span>
-                        <img
-                          src={starIcon}
-                          alt="starIcon"
-                          className="w-4 h-4"
-                        />
-                      </div>
-                    </div>
-                    <div>
-                      <ul className="flex gap-x-2 mb-2">
-                        <li className="pr-2 border-r-[1px] border-r-Tenant-70">
-                          <span>獨立套房</span>
-                        </li>
-                        <li className="pr-2 border-r-[1px] border-r-Tenant-70">
-                          <span>1房1衛1廳 1陽台</span>
-                        </li>
-                        <li className="pr-2 border-r-[1px] border-r-Tenant-70">
-                          <span>15坪</span>
-                        </li>
-                        <li>
-                          <span>2/7樓</span>
-                        </li>
-                      </ul>
-                      <p className="mb-2">高雄市鼓山區美術東八街</p>
-                      <ul className="flex gap-x-2">
-                        <li className="pr-2 border-r-[1px] border-r-Tenant-70">
-                          <span>房東</span>
-                        </li>
-                        <li>
-                          <span>陳小姐</span>
-                        </li>
-                      </ul>
-                    </div>
-                    <div className="absolute bottom-0 -right-[24%]">
-                      <span className="before:block before:z-[0] before:absolute before:h-[10%] before:w-[64%] before:bg-[#bac6e6] before:bottom-[5%] before:left-0"></span>
-                      <span className="text-sans-b-h5 mr-2 relative">
-                        15,000
-                      </span>
-                      <span>元/月</span>
-                    </div>
-                  </div>
-                </li>
-                <li className="p-3 flex gap-x-4">
-                  <img
-                    src={housePicture}
-                    alt="housePicture"
-                    className="rounded-2xl"
-                  />
-                  <div className="relative flex flex-col justify-between">
-                    <div className="relative flex justify-between">
-                      <div>
-                        {/* 房源名稱 */}
-                        <h3 className="text-sans-b-h6 mb-3">
-                          輕奢小資套房 近輕軌醫院公園
-                        </h3>
-                        {/* 房源特色 */}
-                        <ul className="flex gap-x-2">
-                          <li className="text-sans-body2 py-1 px-2 bg-Tenant-90 rounded-lg">
-                            可申請租屋補助
-                          </li>
-                          <li className="text-sans-body2 py-1 px-2 bg-Tenant-90 rounded-lg">
-                            寵物友善
-                          </li>
-                          <li className="text-sans-body2 py-1 px-2 bg-Tenant-90 rounded-lg">
-                            可開火
-                          </li>
-                          <li className="text-sans-body2 py-1 px-2 bg-Tenant-90 rounded-lg">
-                            可短租
-                          </li>
-                        </ul>
-                      </div>
-                      {/* 評分 */}
-                      <div className="absolute top-0 -right-[24%] flex self-start items-center gap-x-[10px] p-2 bg-Neutral-95 rounded-lg ">
-                        <span className="text-sans-body1">4.5</span>
-                        <img
-                          src={starIcon}
-                          alt="starIcon"
-                          className="w-4 h-4"
-                        />
-                      </div>
-                    </div>
-                    <div>
-                      <ul className="flex gap-x-2 mb-2">
-                        <li className="pr-2 border-r-[1px] border-r-Tenant-70">
-                          <span>獨立套房</span>
-                        </li>
-                        <li className="pr-2 border-r-[1px] border-r-Tenant-70">
-                          <span>1房1衛1廳 1陽台</span>
-                        </li>
-                        <li className="pr-2 border-r-[1px] border-r-Tenant-70">
-                          <span>15坪</span>
-                        </li>
-                        <li>
-                          <span>2/7樓</span>
-                        </li>
-                      </ul>
-                      <p className="mb-2">高雄市鼓山區美術東八街</p>
-                      <ul className="flex gap-x-2">
-                        <li className="pr-2 border-r-[1px] border-r-Tenant-70">
-                          <span>房東</span>
-                        </li>
-                        <li>
-                          <span>陳小姐</span>
-                        </li>
-                      </ul>
-                    </div>
-                    <div className="absolute bottom-0 -right-[24%]">
-                      <span className="before:block before:z-[0] before:absolute before:h-[10%] before:w-[64%] before:bg-[#bac6e6] before:bottom-[5%] before:left-0"></span>
-                      <span className="text-sans-b-h5 mr-2 relative">
-                        15,000
-                      </span>
-                      <span>元/月</span>
-                    </div>
-                  </div>
-                </li>
-                <li className="p-3 flex gap-x-4">
-                  <img
-                    src={housePicture}
-                    alt="housePicture"
-                    className="rounded-2xl"
-                  />
-                  <div className="relative flex flex-col justify-between">
-                    <div className="relative flex justify-between">
-                      <div>
-                        {/* 房源名稱 */}
-                        <h3 className="text-sans-b-h6 mb-3">
-                          輕奢小資套房 近輕軌醫院公園
-                        </h3>
-                        {/* 房源特色 */}
-                        <ul className="flex gap-x-2">
-                          <li className="text-sans-body2 py-1 px-2 bg-Tenant-90 rounded-lg">
-                            可申請租屋補助
-                          </li>
-                          <li className="text-sans-body2 py-1 px-2 bg-Tenant-90 rounded-lg">
-                            寵物友善
-                          </li>
-                          <li className="text-sans-body2 py-1 px-2 bg-Tenant-90 rounded-lg">
-                            可開火
-                          </li>
-                          <li className="text-sans-body2 py-1 px-2 bg-Tenant-90 rounded-lg">
-                            可短租
-                          </li>
-                        </ul>
-                      </div>
-                      {/* 評分 */}
-                      <div className="absolute top-0 -right-[24%] flex self-start items-center gap-x-[10px] p-2 bg-Neutral-95 rounded-lg ">
-                        <span className="text-sans-body1">4.5</span>
-                        <img
-                          src={starIcon}
-                          alt="starIcon"
-                          className="w-4 h-4"
-                        />
-                      </div>
-                    </div>
-                    <div>
-                      <ul className="flex gap-x-2 mb-2">
-                        <li className="pr-2 border-r-[1px] border-r-Tenant-70">
-                          <span>獨立套房</span>
-                        </li>
-                        <li className="pr-2 border-r-[1px] border-r-Tenant-70">
-                          <span>1房1衛1廳 1陽台</span>
-                        </li>
-                        <li className="pr-2 border-r-[1px] border-r-Tenant-70">
-                          <span>15坪</span>
-                        </li>
-                        <li>
-                          <span>2/7樓</span>
-                        </li>
-                      </ul>
-                      <p className="mb-2">高雄市鼓山區美術東八街</p>
-                      <ul className="flex gap-x-2">
-                        <li className="pr-2 border-r-[1px] border-r-Tenant-70">
-                          <span>房東</span>
-                        </li>
-                        <li>
-                          <span>陳小姐</span>
-                        </li>
-                      </ul>
-                    </div>
-                    <div className="absolute bottom-0 -right-[24%]">
-                      <span className="before:block before:z-[0] before:absolute before:h-[10%] before:w-[64%] before:bg-[#bac6e6] before:bottom-[5%] before:left-0"></span>
-                      <span className="text-sans-b-h5 mr-2 relative">
-                        15,000
-                      </span>
-                      <span>元/月</span>
-                    </div>
-                  </div>
-                </li>
+                {searchResults.length > 0 &&
+                  searchResults.map((house, index) => {
+                    return (
+                      <li
+                        key={index}
+                        className="p-3 flex justify-between cursor-pointer"
+                        data-houseid="cfiuawehruh"
+                        onClick={turnToSingleHousePage}
+                      >
+                        <div className="flex gap-x-4">
+                          <div className="rounded-2xl overflow-hidden w-[248px] h-[189px]">
+                            <img
+                              src={house.image[0].coverIamgePath}
+                              alt="housePicture"
+                              className="rounded-2xl hover:scale-125 transition-all duration-300 hover:transition hover:duration-300"
+                            />
+                          </div>
+                          <div className="relative flex flex-col justify-between">
+                            <div className="flex justify-between">
+                              <div>
+                                {/* 房源名稱 */}
+                                <h3 className="text-sans-b-h6 mb-3">
+                                  {house.title}
+                                </h3>
+                                {/* 房源特色 */}
+                                <ul className="flex gap-x-2">
+                                  {house.isRentSubsidy && (
+                                    <li className="text-sans-body2 py-1 px-2 bg-Tenant-90 rounded-lg">
+                                      可申請租屋補助
+                                    </li>
+                                  )}
+                                  {house.isPetAllowd && (
+                                    <li className="text-sans-body2 py-1 px-2 bg-Tenant-90 rounded-lg">
+                                      寵物友善
+                                    </li>
+                                  )}
+                                  {house.isCookAllowd && (
+                                    <li className="text-sans-body2 py-1 px-2 bg-Tenant-90 rounded-lg">
+                                      可開火
+                                    </li>
+                                  )}
+                                  {house.isSTRAllowed && (
+                                    <li className="text-sans-body2 py-1 px-2 bg-Tenant-90 rounded-lg">
+                                      可短租
+                                    </li>
+                                  )}
+                                </ul>
+                              </div>
+                            </div>
+                            <div>
+                              <ul className="flex gap-x-2 mb-2">
+                                <li className="pr-2 border-r-[1px] border-r-Tenant-70">
+                                  <span>
+                                    {house.type === 1
+                                      ? "獨立套房"
+                                      : house.type === 2
+                                      ? "分租套房"
+                                      : house.type === 3
+                                      ? "雅房"
+                                      : house.type === 4
+                                      ? "其他"
+                                      : "整層住家"}
+                                  </span>
+                                </li>
+                                <li
+                                  className={
+                                    house.roomNumber > 0 ||
+                                    house.bathRoomNumbers > 0 ||
+                                    house.livingRoomNumbers > 0 ||
+                                    house.balconyNumbers > 0
+                                      ? "pr-2 border-r-[1px] border-r-Tenant-70"
+                                      : "hidden"
+                                  }
+                                >
+                                  <span>
+                                    {house.roomNumber > 0
+                                      ? `${house.roomNumber}房`
+                                      : ""}
+                                    {house.bathRoomNumbers > 0
+                                      ? `${house.bathRoomNumbers}衛`
+                                      : ""}
+                                    {house.livingRoomNumbers > 0
+                                      ? ` ${house.livingRoomNumbers}廳`
+                                      : ""}{" "}
+                                    {house.balconyNumbers > 0
+                                      ? `${house.balconyNumbers}陽台`
+                                      : ""}
+                                  </span>
+                                </li>
+                                <li
+                                  className={
+                                    house.ping > 0
+                                      ? "pr-2 border-r-[1px] border-r-Tenant-70"
+                                      : "hidden"
+                                  }
+                                >
+                                  <span>{house.ping}坪</span>
+                                </li>
+                                <li
+                                  className={
+                                    !house.floor || !house.floorTotal
+                                      ? "hidden"
+                                      : ""
+                                  }
+                                >
+                                  <span>{`${house.floor}/${house.floorTotal}樓`}</span>
+                                </li>
+                              </ul>
+                              <p className="mb-2">
+                                {getAddress(house.city, house.district) +
+                                  `${house.road && house.road}`}
+                              </p>
+                              <ul className="flex gap-x-2">
+                                <li className="pr-2 border-r-[1px] border-r-Tenant-70">
+                                  <span>房東</span>
+                                </li>
+                                <li>
+                                  <span>{`${house.landlordlastName}${house.landlordFirstName}`}</span>
+                                </li>
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="flex flex-col justify-between">
+                          {/* 評分 */}
+                          <div className="flex justify-between">
+                            <span></span>
+                            <div className="flex items-center gap-x-[10px] p-2 bg-Neutral-95 rounded-lg ">
+                              <span className="text-sans-body1">
+                                {house.ratingDetails.AverageRating}
+                              </span>
+                              <img
+                                src={starIcon}
+                                alt="starIcon"
+                                className="w-4 h-4"
+                              />
+                            </div>
+                          </div>
+                          {/* 價格 */}
+                          <div>
+                            <span className="before:block before:absolute before:h-[10%] before:w-[95%] before:bg-[#bac6e6] before:bottom-[5%] before:right-[7%] relative">
+                              <span className="relative text-sans-b-h5 mr-2">
+                                {parseInt(house.rent).toLocaleString()}
+                              </span>
+                            </span>
+                            <span className="text-sans-caption font-normal">
+                              元/月
+                            </span>
+                          </div>
+                        </div>
+                      </li>
+                    );
+                  })}
               </ul>
               <div className="flex justify-between mt-2 pt-3 border-t border-Neutral-95">
                 <button type="button"></button>
                 <div>
                   <p className="text-sans-b-body2 text-center text-Brand-10 mb-2">
-                    顯示 1 至 12 筆 共 118 筆
+                    顯示 1 至 12 筆 共 {searchResults.length} 筆
                   </p>
                   <div className="flex">
                     <button
