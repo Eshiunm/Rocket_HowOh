@@ -314,6 +314,80 @@ export default function RentedHouse() {
                     <p className="text-sans-caption pt-1 pl-3">請完整填寫，包含樓層、室</p>
                   </div>
                 </section>
+                <section className="py-6 mb-10">
+                  <p className="flex items-center gap-3 mb-6">
+                    <span>承租者必須在每月</span>
+                    <input
+                      type="number"
+                      max={31}
+                      min={1}
+                      className="w-24 h-12 p-3 rounded border-black focus:ring-Brand-30 focus:border-Brand-30"
+                    />
+                    <span>日前繳納房租</span>
+                  </p>
+                  <p className="flex items-center gap-2 mb-6">
+                    <span>若需提前終止本約，需於</span>
+                    <fieldset className="flex gap-2">
+                      <div className="flex gap-2 items-center">
+                        <input 
+                          type="radio" 
+                          className="w-6 h-6 text-black bg-transparent border-black focus:ring-0 focus:ring-transparent"
+                          name="earlyTermination" 
+                          id="oneMonthEarly" 
+                          value="一個月" 
+                        />
+                        <label htmlFor="oneMonthEarly" className="pr-3.5">一個月</label>
+                      </div>
+                      <div className="flex gap-2 items-center">
+                        <input 
+                          type="radio" 
+                          className="w-6 h-6 text-black bg-transparent border-black focus:ring-0 focus:ring-transparent"
+                          name="earlyTermination" 
+                          id="twoMonthEarly" 
+                          value="兩個月" 
+                        />
+                        <label htmlFor="twoMonthEarly" className="pr-3.5">兩個月</label>
+                      </div>
+                    </fieldset>
+                    <span>前通知他方</span>
+                  </p>
+                  <p className="flex items-center gap-2 mb-6">
+                    <span>若需提前終止本約，需於繳納</span>
+                    <fieldset className="flex gap-2">
+                      <div className="flex gap-2 items-center">
+                        <input 
+                          type="radio" 
+                          className="w-6 h-6 text-black bg-transparent border-black focus:ring-0 focus:ring-transparent"
+                          name="penalty" 
+                          id="oneMonthPenalty" 
+                          value="一個月" 
+                        />
+                        <label htmlFor="oneMonthPenalty" className="pr-3.5">一個月</label>
+                      </div>
+                      <div className="flex gap-2 items-center">
+                        <input 
+                          type="radio" 
+                          className="w-6 h-6 text-black bg-transparent border-black focus:ring-0 focus:ring-transparent"
+                          name="penalty" 
+                          id="twoMonthPenalty" 
+                          value="兩個月" 
+                        />
+                        <label htmlFor="twoMonthPenalty" className="pr-3.5">兩個月</label>
+                      </div>
+                    </fieldset>
+                    <span>違約金</span>
+                  </p>
+                </section>
+                <div className="flex justify-end gap-6">
+                  <button
+                    type="button"
+                    className="outline-button-m ml-auto"
+                  >不儲存，直接下載</button>
+                  <button
+                    type="button"
+                    className="filled-button-m"
+                  >儲存，建立合約</button>
+                </div>
               </form>
             </div>
           </div>
