@@ -53,7 +53,7 @@ function HouseViewingManagementPage() {
               <h4 className="px-[10px] py-3 text-sans-h2 text-black">{0}</h4>
               <button
                 className="letter-button-dark absolute z-10 bottom-3 right-3 text-black"
-                onClick={() => setIsDrawdOpen(true)}
+                onClick={handleRouteSetting}
               >
                 <span>查看</span>
                 <span className="material-symbols-outlined">chevron_right</span>

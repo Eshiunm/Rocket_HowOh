@@ -67,7 +67,7 @@ function SingleHousePage() {
   const [isSeeMoreHousePicturesOpen, setIsSeeMoreHousePicturesOpen] =
     useState(false);
   useEffect(() => {
-    // 使用 houseId 進行相關操作，例如獲取數據
+    // 使用 houseId 進行相關操作，例如去打 API 獲取數據
     console.log(houseId);
   }, []);
 
