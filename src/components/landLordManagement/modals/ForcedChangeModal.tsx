@@ -1,12 +1,15 @@
+import { useNavigate } from "react-router-dom";
 // Model-popup 所需之匯入
 import { Modal } from "flowbite-react";
 import close from "../../../assets/imgs/icons/close.svg";
 import { CustomFlowbiteTheme, Flowbite } from "flowbite-react";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
+import { apiHouseLandlordChangeFinish } from "../../../apis/apis";
 
 interface ForceChangeModalPropsType {
   openForceChangeModal: boolean;
   setOpenForceChangeModal: (value: boolean) => void;
+  setOpenQuickCheckModal: (value: boolean) => void;
 }
 
 export default function ForcedChangeModal(props : ForceChangeModalPropsType) {
@@ -65,7 +68,33 @@ export default function ForcedChangeModal(props : ForceChangeModalPropsType) {
     },
   };
 
-  const { openForceChangeModal, setOpenForceChangeModal } = props;
+  const { openForceChangeModal, setOpenForceChangeModal, setOpenQuickCheckModal } = props;
+  const navigate = useNavigate();
+
+  const forcedChangeAPI = async (houseId: string|null) => {
+    try {
+      console.log(houseId);
+      const response = await apiHouseLandlordChangeFinish(houseId);
+      console.log(response);
+      setOpenForceChangeModal(false);
+      setOpenQuickCheckModal(false);
+      window.location.reload();
+    } catch (error: any) {
+      if (error.response.status === 401) {
+        localStorage.clear();
+        alert("操作失敗，請重新登入(錯誤：401)");
+        navigate("/");
+      } else {
+        console.error("Failed to fetch data:", error);
+      }
+    }
+  }
+  
+  const handleForcedChangeFinish = () => {
+    const houseId = localStorage.getItem("houseId");
+    forcedChangeAPI(houseId);
+  }
+
   return (
     <Flowbite theme={{ theme: customTheme }}>
     <Modal show={openForceChangeModal} size="xl" onClose={() => setOpenForceChangeModal(false)} popup>
@@ -84,7 +113,7 @@ export default function ForcedChangeModal(props : ForceChangeModalPropsType) {
         </div>
         <p className="mb-10 text-sans-body1">若強制更改為已完成，將無法與租客相互評價和下載合約。</p>
         <div className="flex justify-end gap-6">
-          <button type="button" className="outline-button-m" onClick={() => setOpenForceChangeModal(false)}>
+          <button type="button" className="outline-button-m" onClick={handleForcedChangeFinish}>
             確認強制更改
           </button>
           <button type="button" className="filled-button-m" onClick={() => setOpenForceChangeModal(false)}>

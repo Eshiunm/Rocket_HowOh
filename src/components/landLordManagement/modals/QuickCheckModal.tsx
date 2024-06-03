@@ -96,7 +96,7 @@ export default function QuickCheckModal(props : QuickCheckModalPropsType) {
                 onClick={() => setOpenForceChangeModal(true)}
               >強制更改為已完成</button>
               {/* 點擊強制更改跳出的 Model pop-up */}
-              <ForcedChangeModal openForceChangeModal={openForceChangeModal} setOpenForceChangeModal={setOpenForceChangeModal} />
+              <ForcedChangeModal setOpenQuickCheckModal={setOpenModal} openForceChangeModal={openForceChangeModal} setOpenForceChangeModal={setOpenForceChangeModal} />
             </div>
             <div className="flex justify-end gap-6">
               <button
