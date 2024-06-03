@@ -69,6 +69,7 @@ export default function HouseCard({data, houseStatus}: {data:any, houseStatus:st
   const handleButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     if ( houseStatus === "publishList" ) {
       event.stopPropagation();
+      localStorage.setItem("houseId", houseId);
       setOpenModal(true);
     }
   }

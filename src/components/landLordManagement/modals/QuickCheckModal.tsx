@@ -28,7 +28,10 @@ export default function QuickCheckModal(props : QuickCheckModalPropsType) {
             <img
               src={close} alt="close"
               className="ml-auto cursor-pointer"
-              onClick={() => setOpenModal(false)} 
+              onClick={() => {
+                localStorage.removeItem("houseId");
+                setOpenModal(false)
+              }} 
             />
           </div>
           <p className="mb-8 text-sans-body1">請填入承租資訊及合約起迄時間。</p>
@@ -98,11 +101,17 @@ export default function QuickCheckModal(props : QuickCheckModalPropsType) {
             <div className="flex justify-end gap-6">
               <button
                 type="button" 
-                className="outline-button-m" onClick={() => setOpenModal(false)}
+                className="outline-button-m" onClick={() => {
+                  localStorage.removeItem("houseId");
+                  setOpenModal(false)
+                }}
               >取消</button>
               <button
                 type="button" 
-                className="filled-button-m" onClick={() => setOpenModal(false)}
+                className="filled-button-m" onClick={() => {
+                  localStorage.removeItem("houseId");
+                  setOpenModal(false)
+                }}
               >立即更改</button>
             </div>
           </form>
