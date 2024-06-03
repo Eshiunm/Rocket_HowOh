@@ -8,15 +8,23 @@ import messageCloud from "../../../assets/imgs/icons/messageCloud.svg";
 import smileWink from "../../../assets/imgs/icons/smileWink.svg";
 import ForcedChangeModal from "./ForcedChangeModal";
 import { apiHouseLandlordFindUser } from "../../../apis/apis";
+import { Spinner } from "flowbite-react";
 
 interface QuickCheckModalPropsType {
   openModal: boolean;
   setOpenModal: (value: boolean) => void;
 }
+interface tenantInfoType {
+  photo: string;
+  name: string;
+  userId: number;
+}
 
 export default function QuickCheckModal(props : QuickCheckModalPropsType) {
   const { openModal, setOpenModal } = props;
   const [isPhoneFocused,setIsPhoneFocused] = useState(false);
+  const [tenantInfo,setTenantInfo] = useState<tenantInfoType | null>(null);// 是否正在打 API
+  const [isPosting, setPosting] = useState(false);
   const [openForceChangeModal, setOpenForceChangeModal] = useState(false);
 
   const { register, handleSubmit, formState: { errors }, watch } = useForm({
@@ -34,16 +42,22 @@ export default function QuickCheckModal(props : QuickCheckModalPropsType) {
     const telRegex = /^09\d{8}$/;
 
     const checkTenantPhone = async (phone: string) => {
+      setPosting(true);
       try {
         const response = await apiHouseLandlordFindUser(phone);
-        console.log(response);
-      } catch (error) {
-        console.log(error);
+        setTenantInfo(response.data.data);
+      } catch (error: any) {
+        if ( error.response.status === 401 ) {
+          console.log(error);
+        }
       }
+      setPosting(false);
     }
 
     if (telRegex.test(tenantPhone)) {
       checkTenantPhone(tenantPhone);
+    } else {
+      setTenantInfo(null);
     }
   },[tenantPhone]);
 
@@ -95,6 +109,29 @@ export default function QuickCheckModal(props : QuickCheckModalPropsType) {
               {
                 errors.tenantPhone?.message && <p className="post-alert">{errors.tenantPhone?.message}</p>
               }
+              {isPosting ? (
+                <div role="status" className="bg-Landlord-95 rounded-lg p-3 my-3 flex items-center gap-6">
+                  <div className="animate-pulse w-16 h-16 rounded-lg flex items-center justify-center bg-Neutral-90">
+                    <Spinner color="info" size="xl" />
+                  </div>
+                  <div className="animate-pulse w-3/5 h-6 bg-Neutral-90 rounded-full me-3"></div>
+                </div>
+                ) 
+                : tenantInfo ? (
+                  <div className="bg-Landlord-95 rounded-lg p-3 my-3 flex items-center gap-6">
+                    <div className="w-16 h-16 rounded-lg overflow-hidden">
+                      <img src={tenantInfo.photo} alt="" />
+                    </div>
+                    <h6 className="text-sans-h5">{tenantInfo.name}</h6>
+                  </div>
+                )
+                : null
+              }
+              {
+                tenantInfo === null && tenantPhone.length === 10 && isPosting === false && (
+                  <p className="post-alert pl-3">此承租人非系統用戶，您們將無法相互評價</p>
+                )
+              }
             </div>
             <div className="mb-6 flex gap-6 items-center">
               <div className="flex-1 relative">
@@ -139,20 +176,24 @@ export default function QuickCheckModal(props : QuickCheckModalPropsType) {
                 }
               </div>
             </div>
-            <div className="mb-6 text-sans-body2 flex flex-col gap-2 items-start">
-              <p className="flex gap-2 bg-Alert-90 px-2 py-1 rounded-lg">
-                <img src={alertTriangle} alt="alert_triangle" />
-                請確保此用戶為您的承租客，我們將寄送租約邀請給此用戶
-              </p>
-              <p className="flex gap-2 bg-Brand-95 px-2 py-1 rounded-lg">
-                <img src={messageCloud} alt="message_cloud" />
-                當您填寫承租資訊時，您可以在合約結束後與該租客互相評價
-              </p>
-              <p className="flex gap-2 bg-Landlord-95 px-2 py-1 rounded-lg">
-                <img src={smileWink} alt="smile_wink" />
-                感謝您為友善的租屋環境付出心力，我們將在下次刊登時加強曝光
-              </p>
-            </div>
+            {
+              tenantInfo && (
+                <div className="mb-6 text-sans-body2 flex flex-col gap-2 items-start">
+                  <p className="flex gap-2 bg-Alert-90 px-2 py-1 rounded-lg">
+                    <img src={alertTriangle} alt="alert_triangle" />
+                    請確保此用戶為您的承租客，我們將寄送租約邀請給此用戶
+                  </p>
+                  <p className="flex gap-2 bg-Brand-95 px-2 py-1 rounded-lg">
+                    <img src={messageCloud} alt="message_cloud" />
+                    當您填寫承租資訊時，您可以在合約結束後與該租客互相評價
+                  </p>
+                  <p className="flex gap-2 bg-Landlord-95 px-2 py-1 rounded-lg">
+                    <img src={smileWink} alt="smile_wink" />
+                    感謝您為友善的租屋環境付出心力，我們將在下次刊登時加強曝光
+                  </p>
+                </div>
+              )
+            }
             <div className="mb-10 flex gap-2 text-sans-body1">
               <p>沒有承租資訊嗎？</p>
               <button
