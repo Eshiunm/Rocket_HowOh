@@ -68,7 +68,7 @@ export default {
           80: "#BAC6E6",
           90: "#D8E2FF",
           95: "#F4F6FF",
-          99: "#FBFCFF",
+          99: "#F6F8FE",
         },
         Alert: {
           10: "#410002",
