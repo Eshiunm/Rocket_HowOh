@@ -4,7 +4,8 @@ const getToken = () => {
   const token = localStorage.getItem("authToken");
   const config = {
     headers: {
-      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${token}`,
     },
   };
   return config;
