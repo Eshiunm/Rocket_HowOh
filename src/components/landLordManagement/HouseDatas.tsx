@@ -363,7 +363,7 @@ export default function HouseDatas({houseDatas}: {houseDatas: houseDatasType}) {
                     expenses.paymentMethodOfWaterBill === "自訂" && id === "customWater" && (
                       <div className="flex items-center gap-2 mt-3">
                         <p className="confirm-data flex-1">{ expenses.waterBillPerMonth || "\u00A0" }</p>
-                        <span className="text-sans-body1 shrink-0">元/人</span>
+                        <span className="text-sans-body1 shrink-0">月/人</span>
                       </div>
                     )
                   }

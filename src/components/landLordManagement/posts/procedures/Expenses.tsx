@@ -175,7 +175,7 @@ export default function Expenses() {
                                 required: { value: true, message: "必填欄位" },
                               })}
                             />
-                            <span className="text-sans-body1 shrink-0">元/人</span>
+                            <span className="text-sans-body1 shrink-0">月/人</span>
                           </div>
                           <>
                             {
