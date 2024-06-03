@@ -9,7 +9,7 @@ import { apiHouseLandlordChangeFinish } from "../../../apis/apis";
 interface ForceChangeModalPropsType {
   openForceChangeModal: boolean;
   setOpenForceChangeModal: (value: boolean) => void;
-  setOpenQuickCheckModal: (value: boolean) => void;
+  setOpenQuickCheckModal: ((value: boolean) => void) | null;
 }
 
 export default function ForcedChangeModal(props : ForceChangeModalPropsType) {
@@ -73,11 +73,10 @@ export default function ForcedChangeModal(props : ForceChangeModalPropsType) {
 
   const forcedChangeAPI = async (houseId: string|null) => {
     try {
-      console.log(houseId);
-      const response = await apiHouseLandlordChangeFinish(houseId);
-      console.log(response);
+      await apiHouseLandlordChangeFinish(houseId);
       setOpenForceChangeModal(false);
       setOpenQuickCheckModal(false);
+      localStorage.removeItem("houseId");
       window.location.reload();
     } catch (error: any) {
       if (error.response.status === 401) {

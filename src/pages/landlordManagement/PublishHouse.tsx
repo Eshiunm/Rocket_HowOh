@@ -353,7 +353,10 @@ export default function PublishHouse() {
               <button
                 type="button"
                 className="outline-button-m"
-                onClick={() => navigate("/landlord")}
+                onClick={() => {
+                  localStorage.removeItem("houseId");
+                  navigate("/landlord")
+                }}
               >返回房源管理頁面</button>
               <button type="button" className="outline-button-m">查看合約</button>
               <Tooltip
@@ -373,7 +376,7 @@ export default function PublishHouse() {
           </div>
         </div>
       </header>
-      <ForcedChangeModal openForceChangeModal={openForceChangeModal} setOpenForceChangeModal={setOpenForceChangeModal} />
+      <ForcedChangeModal setOpenQuickCheckModal={null} openForceChangeModal={openForceChangeModal} setOpenForceChangeModal={setOpenForceChangeModal} />
       <main className="container layout-grid">
         <div className="col-span-7 pt-6 pb-52">
           <HouseDatas houseDatas={houseDatas}/>
