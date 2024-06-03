@@ -41,8 +41,12 @@ export default function RentedHouse() {
   const navigate = useNavigate();
   const [isHouseDetailOpen, setIsHouseDetailOpen] = useState(false);
   const handleHouseDetailClose = () => setIsHouseDetailOpen(false);
+
   const [isCreateContractOpen, setIsCreateContractOpen] = useState(false);
   const handleCreateContractClose = () => setIsCreateContractOpen(false);
+  const [isLandlordNameFocused,setIsLandlordNameFocused] = useState(false);
+  const [isTenantNameFocused,setIsTenantNameFocused] = useState(false);
+  const [isHouseAddressFocused,setIsHouseAddressFocused] = useState(false);
 
   const [houseDatas, ] = useState({
     appointmentCount: 0,
@@ -221,10 +225,10 @@ export default function RentedHouse() {
           </div>
         </Drawer.Items>
       </Drawer>
-      <Drawer className="w-5/12" open={isCreateContractOpen} onClose={handleCreateContractClose} position="right">
+      <Drawer className="w-5/12 bg-white" open={isCreateContractOpen} onClose={handleCreateContractClose} position="right">
         <Drawer.Items>
           <div className="layout-grid gap-4 mb-32">
-            <div className="col-span-12 flex flex-col gap-6">
+            <div className="col-span-10 flex flex-col gap-6">
               <button
                 type="button"
                 className="self-end"
@@ -232,8 +236,85 @@ export default function RentedHouse() {
               >
                 <img src={close} alt="close" />
               </button>
-              {/* <HouseDatas houseDatas={houseDatas}/> */}
-              <p>建立合約 offcanvas</p>
+              <h4 className="text-sans-h5 mb-4">建立合約</h4>
+              <p className="text-sans-body2 mb-[10px]">在生成合約前，請確實填寫以下資訊，以保障您與租客的權益</p>
+              <form>
+                <section className="border-b border-Neutral-95">
+                  <div className="mb-[34px]">
+                    <div
+                      tabIndex={0}
+                      className={`relative flex w-full rounded ${
+                        isLandlordNameFocused ? "border-Brand-30 border-2 -m-[1px]"
+                        : "border-black border"
+                      }`}
+                      onFocus={() => setIsLandlordNameFocused(true)}
+                      onBlur={() => setIsLandlordNameFocused(false)}
+                    >
+                      <input
+                        type="tel"
+                        id="landlordName"
+                        className="block w-full p-3 text-sans-body1 text-black bg-transparent border-none appearance-none focus:ring-0 peer"
+                        placeholder=""
+                      />
+                      <label
+                        htmlFor="landlordName"
+                        className="absolute bg-white text-sans-body1 text-Neutral-50 duration-200 transform -translate-y-4 scale-75 top-[3px] z-10 origin-[0] peer-focus:px-1 peer-focus:text-black peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-[3px] peer-focus:scale-75 peer-focus:-translate-y-4 start-3"
+                      >
+                        出租人
+                      </label>
+                    </div>
+                  </div>
+                  <div className="mb-[34px]">
+                    <div
+                      tabIndex={0}
+                      className={`relative flex w-full rounded ${
+                        isTenantNameFocused ? "border-Brand-30 border-2 -m-[1px]"
+                        : "border-black border"
+                      }`}
+                      onFocus={() => setIsTenantNameFocused(true)}
+                      onBlur={() => setIsTenantNameFocused(false)}
+                    >
+                      <input
+                        type="tel"
+                        id="tenantName"
+                        className="block w-full p-3 text-sans-body1 text-black bg-transparent border-none appearance-none focus:ring-0 peer"
+                        placeholder=""
+                      />
+                      <label
+                        htmlFor="tenantName"
+                        className="absolute bg-white text-sans-body1 text-Neutral-50 duration-200 transform -translate-y-4 scale-75 top-[3px] z-10 origin-[0] peer-focus:px-1 peer-focus:text-black peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-[3px] peer-focus:scale-75 peer-focus:-translate-y-4 start-3"
+                      >
+                        承租人
+                      </label>
+                    </div>
+                  </div>
+                  <div className="mb-6">
+                    <div
+                      tabIndex={0}
+                      className={`relative flex w-full rounded ${
+                        isHouseAddressFocused ? "border-Brand-30 border-2 -m-[1px]"
+                        : "border-black border"
+                      }`}
+                      onFocus={() => setIsHouseAddressFocused(true)}
+                      onBlur={() => setIsHouseAddressFocused(false)}
+                    >
+                      <input
+                        type="tel"
+                        id="tenantPhone"
+                        className="block w-full p-3 text-sans-body1 text-black bg-transparent border-none appearance-none focus:ring-0 peer"
+                        placeholder=""
+                      />
+                      <label
+                        htmlFor="tenantPhone"
+                        className="absolute bg-white text-sans-body1 text-Neutral-50 duration-200 transform -translate-y-4 scale-75 top-[3px] z-10 origin-[0] peer-focus:px-1 peer-focus:text-black peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-[3px] peer-focus:scale-75 peer-focus:-translate-y-4 start-3"
+                      >
+                        完整地址
+                      </label>
+                    </div>
+                    <p className="text-sans-caption pt-1 pl-3">請完整填寫，包含樓層、室</p>
+                  </div>
+                </section>
+              </form>
             </div>
           </div>
         </Drawer.Items>
