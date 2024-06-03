@@ -198,7 +198,7 @@ export default function HouseDatas({houseDatas}: {houseDatas: houseDatasType}) {
                     disabled
                     type="checkbox"
                     checked={facilities[id as keyof formDataType] === true}
-                    className="hover:cursor-auto w-5 h-5 text-black focus:ring-transparent rounded-sm border-2 border-black cursor-pointer"
+                    className="bg-transparent hover:cursor-auto w-5 h-5 text-black focus:ring-transparent rounded-sm border-2 border-black cursor-pointer"
                   />
                   {title}
                 </label>
@@ -219,7 +219,7 @@ export default function HouseDatas({houseDatas}: {houseDatas: houseDatasType}) {
                     disabled
                     type="checkbox"
                     checked={facilities[id as keyof formDataType] === true}
-                    className="hover:cursor-auto w-5 h-5 text-black focus:ring-transparent rounded-sm border-2 border-black cursor-pointer"
+                    className="bg-transparent hover:cursor-auto w-5 h-5 text-black focus:ring-transparent rounded-sm border-2 border-black cursor-pointer"
                   />
                   {title}
                 </label>
@@ -240,7 +240,7 @@ export default function HouseDatas({houseDatas}: {houseDatas: houseDatasType}) {
                     disabled
                     type="checkbox"
                     checked={facilities[id as keyof formDataType] === true}
-                    className="hover:cursor-auto w-5 h-5 text-black focus:ring-transparent rounded-sm border-2 border-black cursor-pointer"
+                    className="bg-transparent hover:cursor-auto w-5 h-5 text-black focus:ring-transparent rounded-sm border-2 border-black cursor-pointer"
                   />
                   {title}
                 </label>
@@ -257,11 +257,11 @@ export default function HouseDatas({houseDatas}: {houseDatas: houseDatasType}) {
                   <label
                     className="col-span-3 text-sans-body1"
                   >
-                    <div className="flex items-cente gap-2">
+                    <div className="flex items-center gap-2">
                       <input
                         disabled
                         type="checkbox"
-                        className="hover:cursor-auto w-5 h-5 text-black focus:ring-transparent rounded-sm border-2 border-black cursor-pointer"
+                        className="bg-transparent hover:cursor-auto w-5 h-5 text-black focus:ring-transparent rounded-sm border-2 border-black cursor-pointer"
                         checked={facilities[id as keyof formDataType] === true}
                       />
                       {title}
