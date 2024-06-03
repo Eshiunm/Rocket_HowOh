@@ -1282,7 +1282,7 @@ function HouseListPage() {
                   <p className="text-sans-b-body2 text-center text-Brand-10 mb-2">
                     顯示 1 至 12 筆 共 {searchResults.length} 筆
                   </p>
-                  <div className="flex">
+                  <div className="flex gap-x-1">
                     <button
                       type="button"
                       className="flex gap-x-[10px] rounded-l-lg items-center text-sans-b-body1 text-white p-2 hover:opacity-80 bg-Neutral-90"
@@ -1462,7 +1462,7 @@ function HouseListPage() {
                   <p className="text-sans-b-body2 text-center text-Brand-10 mb-2">
                     顯示 1 至 12 筆 共 {searchResults.length} 筆
                   </p>
-                  <div className="flex">
+                  <div className="flex gap-x-1">
                     <button
                       type="button"
                       className="flex gap-x-[10px] rounded-l-lg items-center text-sans-b-body1 text-white p-2 hover:opacity-80 bg-Neutral-90"

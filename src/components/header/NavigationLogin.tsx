@@ -52,8 +52,11 @@ function NavigationLogin() {
                   className="w-[240px] rounded-lg"
                 >
                   <Dropdown.Item>
-                    <Link to={"/"} className="w-full text-sans-b-body1">
-                      看房管理
+                    <Link
+                      to={"/tenant/houseViewingManagement/houseViewingList"}
+                      className="w-full text-sans-b-body1"
+                    >
+                      租屋管理
                     </Link>
                   </Dropdown.Item>
                   <Dropdown.Item>
