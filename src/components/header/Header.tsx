@@ -25,8 +25,8 @@ function Header() {
     <nav
       className={`${
         currentIdentity === "tenant" || !isLogin
-          ? " bg-white"
-          : "bg-Landlord-95"
+          ? " bg-white border-b border-Neutral-95"
+          : "bg-Landlord-95 border-b border-Landlord-90"
       } sticky top-0 z-50`}
     >
       <div
