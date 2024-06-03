@@ -41,6 +41,8 @@ export default function RentedHouse() {
   const navigate = useNavigate();
   const [isHouseDetailOpen, setIsHouseDetailOpen] = useState(false);
   const handleHouseDetailClose = () => setIsHouseDetailOpen(false);
+  const [isCreateContractOpen, setIsCreateContractOpen] = useState(false);
+  const handleCreateContractClose = () => setIsCreateContractOpen(false);
 
   const [houseDatas, ] = useState({
     appointmentCount: 0,
@@ -142,7 +144,11 @@ export default function RentedHouse() {
               className="outline-button-m ml-auto"
               onClick={() => navigate("/landlord")}
             >返回房源管理頁面</button>
-            <button type="button" className="filled-button-m h-full">建立合約</button>
+            <button
+              type="button"
+              className="filled-button-m h-full"
+              onClick={() => setIsCreateContractOpen(true)}
+            >建立合約</button>
           </div>
         </div>
       </header>
@@ -211,6 +217,23 @@ export default function RentedHouse() {
                 <img src={close} alt="close" />
               </button>
               <HouseDatas houseDatas={houseDatas}/>
+            </div>
+          </div>
+        </Drawer.Items>
+      </Drawer>
+      <Drawer className="w-5/12" open={isCreateContractOpen} onClose={handleCreateContractClose} position="right">
+        <Drawer.Items>
+          <div className="layout-grid gap-4 mb-32">
+            <div className="col-span-12 flex flex-col gap-6">
+              <button
+                type="button"
+                className="self-end"
+                onClick={handleCreateContractClose}
+              >
+                <img src={close} alt="close" />
+              </button>
+              {/* <HouseDatas houseDatas={houseDatas}/> */}
+              <p>建立合約 offcanvas</p>
             </div>
           </div>
         </Drawer.Items>
