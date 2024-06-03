@@ -35,8 +35,6 @@ export default function QuickCheckModal(props : QuickCheckModalPropsType) {
 
     const checkTenantPhone = async (phone: string) => {
       try {
-        console.log(phone);
-        console.log(typeof phone);
         const response = await apiHouseLandlordFindUser(phone);
         console.log(response);
       } catch (error) {
@@ -69,7 +67,7 @@ export default function QuickCheckModal(props : QuickCheckModalPropsType) {
             <div className="mb-5">
               <div
                 tabIndex={0}
-                className={`relative flex w-full p-3 rounded ${
+                className={`relative flex w-full rounded ${
                   errors.tenantPhone ? "border-Alert-50 border"
                   : isPhoneFocused ? "border-Brand-30 border-2 -m-[1px]"
                   : "border-black border"
@@ -80,7 +78,7 @@ export default function QuickCheckModal(props : QuickCheckModalPropsType) {
                 <input
                   type="tel"
                   id="tenantPhone"
-                  className="block w-full p-0 pl-1 text-sans-body1 text-black bg-transparent border-none appearance-none focus:ring-0 peer"
+                  className="block w-full p-3 text-sans-body1 text-black bg-transparent border-none appearance-none focus:ring-0 peer"
                   placeholder=""
                   {...register("tenantPhone", {
                     required: { value: true, message: "請填入承租人手機" }, 
@@ -89,7 +87,7 @@ export default function QuickCheckModal(props : QuickCheckModalPropsType) {
                 />
                 <label
                   htmlFor="tenantPhone"
-                  className="absolute text-sans-body1 text-Neutral-50 duration-200 transform -translate-y-4 scale-75 top-[3px] z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-black peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-[3px] peer-focus:scale-75 peer-focus:-translate-y-4 start-3"
+                  className="absolute text-sans-body1 text-Neutral-50 duration-200 transform -translate-y-4 scale-75 top-[3px] z-10 origin-[0] bg-white px-1 peer-focus:text-black peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-[3px] peer-focus:scale-75 peer-focus:-translate-y-4 start-3"
                 >
                   承租人手機
                 </label>
@@ -132,6 +130,7 @@ export default function QuickCheckModal(props : QuickCheckModalPropsType) {
                     required: { value: true, message: "請輸入合約結束日" },
                   })}
                   min={leaseStartTime}
+                  disabled={!leaseStartTime}
                 />
                 {
                   errors.leaseEndTime?.message ? <p className="post-alert">{errors.leaseEndTime?.message}</p>
