@@ -101,7 +101,7 @@ export default function HouseCard({data, houseStatus}: {data:any, houseStatus:st
       }
       <li
         data-house-id={houseId}
-        className="col-span-3 p-4 rounded-[20px] bg-white hover:bg-Landlord-99"
+        className="col-span-3 p-4 rounded-[20px] bg-white hover:bg-Landlord-95"
         onClick={handleCardClick}
       >
         <div className="overflow-hidden rounded-2xl mb-4 h-48">
