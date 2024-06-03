@@ -1,14 +1,13 @@
 import { useEffect, useState } from "react";
 import { useForm } from 'react-hook-form';
 // Model-popup 所需之匯入
-import { Modal } from "flowbite-react";
+import { Modal, Spinner } from "flowbite-react";
 import close from "../../../assets/imgs/icons/close.svg";
 import alertTriangle from "../../../assets/imgs/icons/alertTriangle.svg";
 import messageCloud from "../../../assets/imgs/icons/messageCloud.svg";
 import smileWink from "../../../assets/imgs/icons/smileWink.svg";
 import ForcedChangeModal from "./ForcedChangeModal";
 import { apiHouseLandlordFindUser } from "../../../apis/apis";
-import { Spinner } from "flowbite-react";
 
 interface QuickCheckModalPropsType {
   openModal: boolean;
@@ -129,7 +128,7 @@ export default function QuickCheckModal(props : QuickCheckModalPropsType) {
               }
               {
                 tenantInfo === null && tenantPhone.length === 10 && isPosting === false && (
-                  <p className="post-alert pl-3">此承租人非系統用戶，您們將無法相互評價</p>
+                  <p className="post-alert pl-3">此承租人非租客系統用戶，您們將無法相互評價</p>
                 )
               }
             </div>
