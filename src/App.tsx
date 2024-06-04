@@ -17,6 +17,7 @@ import RentalInviteList from "./components/tenantManagement/houseViewingManageme
 import RentalHistoryList from "./components/tenantManagement/houseViewingManagement/RentalHistoryList";
 import FeedbackPendingList from "./components/tenantManagement/houseViewingManagement/FeedbackPendingList";
 import RentedHouse from "./pages/landlordManagement/RentedHouse";
+import FinishHouse from "./pages/landlordManagement/FinishHouse";
 
 function App() {
   return (
@@ -48,6 +49,7 @@ function App() {
               </Route>
             </Route>
             <Route path="rented" element={<RentedHouse />} />
+            <Route path="finish" element={<FinishHouse />} />
             <Route path="comment" element={<h1>評價管理</h1>} />
           </Route>
           <Route path="tenant">
