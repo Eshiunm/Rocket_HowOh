@@ -1,14 +1,21 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { CustomFlowbiteTheme, Flowbite, Tooltip, Drawer } from "flowbite-react";
+import { useForm } from 'react-hook-form';
+import { CustomFlowbiteTheme, Flowbite, Tooltip, Drawer, Spinner } from "flowbite-react";
 import HouseDatas from "../../components/landLordManagement/HouseDatas";
 import Footer from "../../components/footer/Footer";
-import { apiHouseLandlordSingleInfo } from "../../apis/apis";
+import { apiHouseLandlordFindUser, apiHouseLandlordSingleInfo } from "../../apis/apis";
 import close from "../../assets/imgs/icons/close.svg";
 import alertTriangle from "../../assets/imgs/icons/alertTriangle.svg";
 import messageCloud from "../../assets/imgs/icons/messageCloud.svg";
 import smileWink from "../../assets/imgs/icons/smileWink.svg";
 import ForcedChangeModal from "../../components/landLordManagement/modals/ForcedChangeModal";
+
+interface tenantInfoType {
+  photo: string;
+  name: string;
+  userId: number;
+}
 
 export default function PublishHouse() {
   const customTheme: CustomFlowbiteTheme = {
@@ -44,8 +51,9 @@ export default function PublishHouse() {
 
   const [isRentedOpen, setIsRentedOpen] = useState(false);
   const handleRentedCanvas = (bool: boolean) => setIsRentedOpen(bool);
-  // const handleRentedCanvasClose = () => setIsRentedOpen(false);
   const [isPhoneFocused,setIsPhoneFocused] = useState(false);
+  const [tenantInfo,setTenantInfo] = useState<tenantInfoType | null>(null);// 是否正在打 API
+  const [isPosting, setPosting] = useState(false);
   const [openForceChangeModal, setOpenForceChangeModal] = useState(false);
 
   const navigate = useNavigate();
@@ -132,6 +140,17 @@ export default function PublishHouse() {
       jobRestriction: "123c,sdfd",
     },
   });
+
+  const { register, handleSubmit, formState: { errors }, watch } = useForm({
+    defaultValues: {
+      tenantPhone: "",
+      leaseStartTime: "",
+      leaseEndTime: ""
+    }
+  });
+  const tenantPhone = watch("tenantPhone");
+  const leaseStartTime = watch("leaseStartTime");
+  const onSubmit = data => console.log(data);
   
   useEffect(() => {
     const fetchHouseData = async () => {
@@ -233,9 +252,31 @@ export default function PublishHouse() {
     fetchHouseData();
   },[houseId]);
 
+  useEffect(() => {
+    const telRegex = /^09\d{8}$/;
+
+    const checkTenantPhone = async (phone: string) => {
+      setPosting(true);
+      try {
+        const response = await apiHouseLandlordFindUser(phone);
+        setTenantInfo(response.data.data);
+      } catch (error: any) {
+        if ( error.response.status === 401 ) {
+          console.log(error);
+        }
+      }
+      setPosting(false);
+    }
+
+    if (telRegex.test(tenantPhone)) {
+      checkTenantPhone(tenantPhone);
+    } else {
+      setTenantInfo(null);
+    }
+  },[tenantPhone]);
+
   return (
     <>
-      <Flowbite theme={{ theme: customTheme }}>
       <header className="bg-Landlord-99">
         <div className="container py-6">
           <span className="badge-m  bg-Alert-90">刊登中</span>
@@ -254,99 +295,6 @@ export default function PublishHouse() {
                   className="outline-button-m"
                   onClick={() => setOpenForceChangeModal(true)}
                 >更改為已完成</button>
-                <Drawer className="bg-Neutral-99" open={isRentedOpen} onClose={() => handleRentedCanvas(false)} position="right">
-                  <Drawer.Items>
-                    <div className="layout-grid mb-32">
-                      <div className="col-span-10 flex flex-col gap-6">
-                        <button
-                          type="button"
-                          className="self-end"
-                          onClick={() => handleRentedCanvas(false)}
-                        >
-                          <img src={close} alt="close" />
-                        </button>
-                        <h3 className="text-sans-h5 mb-4">
-                          更改：已承租
-                        </h3>
-                        <p className="mb-2 text-sans-body1">請填入承租資訊及合約起迄時間。</p>
-                        <form>
-                          <div className="mb-5">
-                            <div
-                              tabIndex={0}
-                              className={`relative flex w-full p-3 rounded ${
-                                isPhoneFocused ? "border-Brand-30 border-2 -m-[1px]"
-                                : "border-black border"
-                              }`}
-                              onFocus={() => setIsPhoneFocused(true)}
-                              onBlur={() => setIsPhoneFocused(false)}
-                            >
-                              <input
-                                type="tel"
-                                id="tenantPhone"
-                                className="block w-full p-0 pl-1 text-sans-body1 text-black bg-transparent border-none appearance-none focus:ring-0 peer"
-                                placeholder=""
-                                maxLength={10}
-                              />
-                              <label
-                                htmlFor="tenantPhone"
-                                className="absolute bg-Neutral-99 text-sans-body1 text-Neutral-50 duration-200 transform -translate-y-4 scale-75 top-[3px] z-10 origin-[0] px-2 peer-focus:px-2 peer-focus:text-black peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-[3px] peer-focus:scale-75 peer-focus:-translate-y-4 start-3"
-                              >
-                                承租人手機
-                              </label>
-                            </div>
-                          </div>
-                          <div className="mb-6 flex gap-6 items-center">
-                            <div className="flex-1 relative">
-                              <label htmlFor="startTime" className="text-sans-caption px-0.5 bg-Neutral-99 absolute -top-2 left-3">合約起始日</label>
-                              <input type="date" name="startTime" id="startTime" className="w-full p-3 rounded border-black focus:ring-0 focus:border-Brand-30 bg-Neutral-99"/>
-                            </div>
-                            至
-                            <div className="flex-1 relative">
-                              <label htmlFor="endTime" className="text-sans-caption px-0.5 bg-Neutral-99 absolute -top-2 left-3">合約結束日</label>
-                              <input type="date" name="endTime" id="endTime" className="w-full p-3 rounded border-black focus:ring-0 focus:border-Brand-30 bg-Neutral-99"/>
-                            </div>
-                          </div>
-                          <div className="mb-6 text-sans-body2 flex flex-col gap-2 items-start">
-                            <p className="flex gap-2 bg-Alert-90 px-2 py-1 rounded-lg">
-                              <img src={alertTriangle} alt="alert_triangle" />
-                              請確保此用戶為您的承租客，我們將寄送租約邀請給此用戶
-                            </p>
-                            <p className="flex gap-2 bg-Brand-95 px-2 py-1 rounded-lg">
-                              <img src={messageCloud} alt="message_cloud" />
-                              當您填寫承租資訊時，您可以在合約結束後與該租客互相評價
-                            </p>
-                            <p className="flex gap-2 bg-Landlord-95 px-2 py-1 rounded-lg">
-                              <img src={smileWink} alt="smile_wink" />
-                              感謝您為友善的租屋環境付出心力，我們將在下次刊登時加強曝光
-                            </p>
-                          </div>
-                          <div className="mb-10 flex gap-2 text-sans-body1">
-                            <p>沒有承租資訊嗎？</p>
-                            <button
-                              type="button"
-                              className="underline underline-offset-2"
-                              onClick={() => setOpenForceChangeModal(true)}
-                            >強制更改為已完成</button>
-                          </div>
-                          <div className="flex justify-end gap-6">
-                            <button
-                              type="button"
-                              className="outline-button-m"
-                              onClick={() => handleRentedCanvas(false)}>
-                              取消
-                            </button>
-                            <button
-                              type="button"
-                              className="filled-button-m" 
-                              onClick={() => handleRentedCanvas(false)}>
-                              寄送租約邀請
-                            </button>
-                          </div>
-                        </form>
-                      </div>
-                    </div>
-                  </Drawer.Items>
-                </Drawer>
               </div>
             </div>
             <div className="flex gap-6">
@@ -383,6 +331,165 @@ export default function PublishHouse() {
         </div>
       </main>
       <Footer />
+      <Flowbite theme={{ theme: customTheme }}>
+        <Drawer className="bg-Neutral-99" open={isRentedOpen} onClose={() => handleRentedCanvas(false)} position="right">
+          <Drawer.Items>
+            <div className="layout-grid mb-32">
+              <div className="col-span-10 flex flex-col gap-6">
+                <button
+                  type="button"
+                  className="self-end"
+                  onClick={() => handleRentedCanvas(false)}
+                >
+                  <img src={close} alt="close" />
+                </button>
+                <h3 className="text-sans-h5 mb-4">
+                  更改：已承租
+                </h3>
+                <p className="mb-8 text-sans-body1">請填入承租資訊及合約起迄時間。</p>
+                <form onSubmit={handleSubmit(onSubmit)}>
+                  <div className="mb-5">
+                    <div
+                      tabIndex={0}
+                      className={`relative flex w-full rounded ${
+                        errors.tenantPhone ? "border-Alert-50 border"
+                        : isPhoneFocused ? "border-Brand-30 border-2 -m-[1px]"
+                        : "border-black border"
+                      }`}
+                      onFocus={() => setIsPhoneFocused(true)}
+                      onBlur={() => setIsPhoneFocused(false)}
+                    >
+                      <input
+                        type="tel"
+                        id="tenantPhone"
+                        className="block w-full p-3 text-sans-body1 text-black bg-transparent border-none appearance-none focus:ring-0 peer"
+                        placeholder=""
+                        {...register("tenantPhone", {
+                          required: { value: true, message: "請填入承租人手機" }, 
+                          pattern: { value: /^09\d{8}$/, message: "請輸入正確手機號碼格式" }
+                        })}
+                      />
+                      <label
+                        htmlFor="tenantPhone"
+                        className="absolute text-sans-body1 text-Neutral-50 duration-200 transform -translate-y-4 scale-75 top-[3px] z-10 origin-[0] bg-Neutral-99 px-1 peer-focus:text-black peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-[3px] peer-focus:scale-75 peer-focus:-translate-y-4 start-3"
+                      >
+                        承租人手機
+                      </label>
+                    </div>
+                    {
+                      errors.tenantPhone?.message && <p className="post-alert">{errors.tenantPhone?.message}</p>
+                    }
+                    {isPosting ? (
+                      <div role="status" className="bg-Landlord-95 rounded-lg p-3 my-3 flex items-center gap-6">
+                        <div className="animate-pulse w-16 h-16 rounded-lg flex items-center justify-center bg-Neutral-90">
+                          <Spinner color="info" size="xl" />
+                        </div>
+                        <div className="animate-pulse w-3/5 h-6 bg-Neutral-90 rounded-full me-3"></div>
+                      </div>
+                      ) 
+                      : tenantInfo ? (
+                        <div className="bg-Landlord-95 rounded-lg p-3 my-3 flex items-center gap-6">
+                          <div className="w-16 h-16 rounded-lg overflow-hidden">
+                            <img src={tenantInfo.photo} alt="" />
+                          </div>
+                          <h6 className="text-sans-h5">{tenantInfo.name}</h6>
+                        </div>
+                      )
+                      : null
+                    }
+                    {
+                      tenantInfo === null && tenantPhone.length === 10 && isPosting === false && (
+                        <p className="post-alert pl-3">此承租人非租客系統用戶，您們將無法相互評價</p>
+                      )
+                    }
+                  </div>
+                  <div className="mb-6 flex gap-6 items-center">
+                    <div className="flex-1 relative">
+                      <label htmlFor="startTime" className="text-sans-caption px-0.5 bg-Neutral-99 absolute -top-2 left-3">合約起始日</label>
+                      <input
+                        type="date"
+                        id="startTime"
+                        className={`w-full bg-Neutral-99 p-3 rounded focus:ring-0 ${
+                          errors.leaseStartTime ? "border-Alert-50 border focus:border-Alert-50"
+                          : "border-black focus:border-Brand-30 focus:border-2 focus:-m-px"
+                        }`}
+                        {...register("leaseStartTime", {
+                          required: { value: true, message: "請輸入合約起始日" },
+                        })}
+                      />
+                      {
+                        errors.leaseStartTime?.message ? <p className="post-alert">{errors.leaseStartTime?.message}</p>
+                        : errors.leaseEndTime?.message ? <p className="post-alert">{"\u00a0"}</p>
+                        : null
+                      }
+                    </div>
+                    至
+                    <div className="flex-1 relative">
+                      <label htmlFor="endTime" className="text-sans-caption px-0.5 bg-Neutral-99 absolute -top-2 left-3">合約結束日</label>
+                      <input
+                        type="date"
+                        id="endTime"
+                        className={`w-full bg-Neutral-99 p-3 rounded focus:ring-0 ${
+                          errors.leaseEndTime ? "border-Alert-50 border focus:border-Alert-50"
+                          : "border-black focus:border-Brand-30 focus:border-2 focus:-m-px"
+                        }`}
+                        {...register("leaseEndTime", {
+                          required: { value: true, message: "請輸入合約結束日" },
+                        })}
+                        min={leaseStartTime}
+                        disabled={!leaseStartTime}
+                      />
+                      {
+                        errors.leaseEndTime?.message ? <p className="post-alert">{errors.leaseEndTime?.message}</p>
+                        : errors.leaseStartTime?.message ? <p className="post-alert">{"\u00a0"}</p>
+                        : null
+                      }
+                    </div>
+                  </div>
+                  {
+                    tenantInfo && (
+                      <div className="mb-6 text-sans-body2 flex flex-col gap-2 items-start">
+                        <p className="flex gap-2 bg-Alert-90 px-2 py-1 rounded-lg">
+                          <img src={alertTriangle} alt="alert_triangle" />
+                          請確保此用戶為您的承租客，我們將寄送租約邀請給此用戶
+                        </p>
+                        <p className="flex gap-2 bg-Brand-95 px-2 py-1 rounded-lg">
+                          <img src={messageCloud} alt="message_cloud" />
+                          當您填寫承租資訊時，您可以在合約結束後與該租客互相評價
+                        </p>
+                        <p className="flex gap-2 bg-Landlord-95 px-2 py-1 rounded-lg">
+                          <img src={smileWink} alt="smile_wink" />
+                          感謝您為友善的租屋環境付出心力，我們將在下次刊登時加強曝光
+                        </p>
+                      </div>
+                    )
+                  }
+                  <div className="mb-10 flex gap-2 text-sans-body1">
+                    <p>沒有承租資訊嗎？</p>
+                    <button
+                      type="button" 
+                      className="underline underline-offset-2"
+                      onClick={() => setOpenForceChangeModal(true)}
+                    >強制更改為已完成</button>
+                    {/* 點擊強制更改跳出的 Model pop-up */}
+                    <ForcedChangeModal openForceChangeModal={openForceChangeModal} setOpenForceChangeModal={setOpenForceChangeModal} />
+                  </div>
+                  <div className="flex justify-end gap-6">
+                    <button
+                      type="button" 
+                      className="outline-button-m"
+                      onClick={() => handleRentedCanvas(false)}
+                    >取消</button>
+                    <button
+                      type="submit" 
+                      className="filled-button-m"
+                    >立即更改</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </Drawer.Items>
+        </Drawer>
       </Flowbite>
     </>
   );

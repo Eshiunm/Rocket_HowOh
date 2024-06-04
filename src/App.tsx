@@ -11,6 +11,7 @@ import LandlordManagement from "./pages/landlordManagement/LandlordManagement";
 import HouseList from "./components/landLordManagement/index/HouseList";
 import PublishHouse from "./pages/landlordManagement/PublishHouse";
 import TenantRequest from "./pages/landlordManagement/TenantRequest";
+import RentedHouse from "./pages/landlordManagement/RentedHouse";
 
 function App() {
   return (
@@ -41,6 +42,7 @@ function App() {
                 <Route path="request" element={<TenantRequest />}/>
               </Route>
             </Route>
+            <Route path="rented" element={<RentedHouse />} />
             <Route path="comment" element={<h1>評價管理</h1>} />
           </Route>
         </Routes>
