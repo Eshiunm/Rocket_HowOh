@@ -1,3 +1,4 @@
+import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 // Model-popup 所需之匯入
 import { Modal } from "flowbite-react";
@@ -5,6 +6,7 @@ import close from "../../../assets/imgs/icons/close.svg";
 import { CustomFlowbiteTheme, Flowbite } from "flowbite-react";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
 import { apiHouseLandlordChangeFinish } from "../../../apis/apis";
+import { ForcedChangeReload } from "../index/HouseList";
 
 interface ForceChangeModalPropsType {
   openForceChangeModal: boolean;
@@ -71,11 +73,14 @@ export default function ForcedChangeModal(props : ForceChangeModalPropsType) {
   const { openForceChangeModal, setOpenForceChangeModal, setOpenQuickCheckModal } = props;
   const navigate = useNavigate();
 
+  const { setIsforcedChangeAPITriggered } = useContext(ForcedChangeReload);
+
   const forcedChangeAPI = async (houseId: string|null) => {
     try {
       await apiHouseLandlordChangeFinish(houseId);
       setOpenForceChangeModal(false);
       if (setOpenQuickCheckModal) {
+        setIsforcedChangeAPITriggered(true);
         setOpenQuickCheckModal(false);
       }
       localStorage.removeItem("houseId");
@@ -84,6 +89,7 @@ export default function ForcedChangeModal(props : ForceChangeModalPropsType) {
           toastMessage: "房源狀態已更改"
         }
       });
+      
     } catch (error: any) {
       if (error.response.status === 401) {
         localStorage.clear();

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, createContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { CustomFlowbiteTheme, Flowbite, Accordion, AccordionContent, AccordionPanel, AccordionTitle, Tooltip } from "flowbite-react";
 import LandlordAnchor from "./LandlordAnchor";
@@ -17,6 +17,16 @@ export interface listCountType {
   rented : number,
   finished : number
 }
+
+// 定義 ForcedChangeReload 的型別
+interface contextValueType {
+  isforcedChangeAPITriggered: boolean;
+  setIsforcedChangeAPITriggered: (value: boolean) => void;
+}
+
+export const ForcedChangeReload = createContext<contextValueType>(
+  {} as contextValueType
+);
 
 export default function HouseList() {
   const customTheme: CustomFlowbiteTheme = {
@@ -153,6 +163,13 @@ export default function HouseList() {
     goFinishedList,
   }
 
+  // 當強制變更觸發時，更改 false 為 true
+  const [isforcedChangeAPITriggered, setIsforcedChangeAPITriggered] = useState(false);
+  const contextValue = {
+    isforcedChangeAPITriggered,
+    setIsforcedChangeAPITriggered,
+  };
+
   useEffect(() => {
     const getHouseList = async () => {
       setLoading(true);
@@ -170,7 +187,8 @@ export default function HouseList() {
       }
     }
     getHouseList();
-  },[navigate])
+    return setIsforcedChangeAPITriggered(false);
+  },[navigate,isforcedChangeAPITriggered])
 
   return (
     <>
@@ -178,6 +196,7 @@ export default function HouseList() {
         loading && <BigLoading />
       }
       <main className="container mt-14 mb-32">
+      <ForcedChangeReload.Provider value={contextValue}>
         {/* 上方 anchor 區域 */}
         <LandlordAnchor refFnList={refFnList} listCount={listCount} />
         {/* 手風琴呈現列表 */}
@@ -277,6 +296,7 @@ export default function HouseList() {
             </AccordionPanel>
           </Accordion>
         </Flowbite>
+      </ForcedChangeReload.Provider>
       </main>
     </>
   );
