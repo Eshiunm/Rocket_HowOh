@@ -51,9 +51,19 @@ export default function AddNew() {
 
   // 狀態控制刊登房源已完成步驟
   const handleProcedureDone = (num: number) => {
-    const newProcedure = [...procedure];
-    newProcedure[num].isDone = true;
-    setProcedure(newProcedure);
+    if (num === -1) {
+      const newProcedure = procedure.map(item => {
+        return {
+          ...item,
+          isDone: false,
+        };
+      })
+      setProcedure(newProcedure);
+    } else {
+      const newProcedure = [...procedure];
+      newProcedure[num].isDone = true;
+      setProcedure(newProcedure);
+    }
   };
 
   const contextValue = {

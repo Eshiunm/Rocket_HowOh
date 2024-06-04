@@ -69,6 +69,7 @@ export default function HouseCard({data, houseStatus}: {data:any, houseStatus:st
   const handleButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     if ( houseStatus === "publishList" ) {
       event.stopPropagation();
+      localStorage.setItem("houseId", houseId);
       setOpenModal(true);
     }
   }
@@ -89,6 +90,7 @@ export default function HouseCard({data, houseStatus}: {data:any, houseStatus:st
         console.log(error);
       }
     } else if ( houseStatus === "publishList" ) {
+      localStorage.setItem("houseId", houseId);
       navigate(`/landlord/publish/${houseId}`);
     }
     setLoading(false);
@@ -101,7 +103,7 @@ export default function HouseCard({data, houseStatus}: {data:any, houseStatus:st
       }
       <li
         data-house-id={houseId}
-        className="col-span-3 p-4 rounded-[20px] bg-white hover:bg-Landlord-99"
+        className="cursor-pointer col-span-3 p-4 rounded-[20px] bg-white hover:bg-Landlord-95"
         onClick={handleCardClick}
       >
         <div className="overflow-hidden rounded-2xl mb-4 h-48">

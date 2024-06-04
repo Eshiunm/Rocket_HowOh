@@ -4,7 +4,8 @@ const getToken = () => {
   const token = localStorage.getItem("authToken");
   const config = {
     headers: {
-      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${token}`,
     },
   };
   return config;
@@ -66,13 +67,15 @@ export const apiHouseLandlordPostDelete = (houseId: string|null) => houseRequest
 export const apiHouseLandlordList = () => houseRequest.get('/landlord/list',getToken()); // ALO-1
 export const apiHouseLandlordSingleInfo = (houseId: string|undefined) => houseRequest.get(`/landlord/info/${houseId}`,getToken()); // ALO-12、ALO-13、ALO-14、ALO-15
 
+// 房源-房東更改房源狀態相關
+export const apiHouseLandlordFindUser = (tenantPhone: string) => houseRequest.post('/landlord/userInfo', tenantPhone, getToken()); // ALO-9
+export const apiHouseLandlordChangeFinish = (houseId: string|null) => houseRequest.patch(`/landlord/status/${houseId}`, {}, getToken()); // ALO-6
+
 // 房源-房東相關的 api
 export const apiHouseLandlordContract = () => houseRequest.get('/landlord/contract'); // ALO-16
 export const apiHouseLandlordSingleContract = (id: string) => houseRequest.post(`/landlord/contract/${id}`); // ALO-7
-export const apiHouseLandlordChangeStatus = (id: string) => houseRequest.patch(`/landlord/status/${id}`); // ALO-6
 export const apiHouseLandlordAddTenant = (data: any) => houseRequest.post('/landlord/userinfo', data); // ALO-5
 export const apiHouseLandlordUnratedCount = () => houseRequest.get('/landlord/count/unrated'); // ALO-10
-export const apiHouseLandlordFindUser = (data: any) => houseRequest.post('/landlord/userinfo', data); // ALO-9
 export const apiHouseLandlordForceChange = (data: any) => houseRequest.post('/landlord/userinfo', data); // ALO-8
 
 // 房源-搜尋頁面相關的 api
