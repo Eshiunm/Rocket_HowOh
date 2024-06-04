@@ -1,6 +1,8 @@
 import { Tooltip } from "flowbite-react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import HouseDatas from "../../components/landLordManagement/HouseDatas";
+import Footer from "../../components/footer/Footer";
 
 export default function FinishHouse() {
   const [houseDatas, ] = useState({
@@ -123,6 +125,12 @@ export default function FinishHouse() {
           </div>
         </div>
       </header>
+      <main className="container layout-grid">
+        <div className="col-span-7 pt-6 pb-32">
+          <HouseDatas houseDatas={houseDatas}/>
+        </div>
+      </main>
+      <Footer />
     </>
   );
 }
