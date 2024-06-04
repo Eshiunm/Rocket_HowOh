@@ -4,7 +4,6 @@ import landLordProfile from "../../../assets/imgs/SingleHousePage/landLordProfil
 import ratingStarIcon from "../../../assets/imgs/SingleHousePage/ratingStarIcon.svg";
 import landLordIcon from "../../../assets/imgs/SingleHousePage/landLordIcon.svg";
 import NoResults from "./NoResults";
-import messageIcon from "../../../assets/imgs/tenantManagement/messageIcon.svg";
 import close from "../../../assets/imgs/icons/close.svg";
 import { useEffect, useState } from "react";
 function RentalHistoryList() {
