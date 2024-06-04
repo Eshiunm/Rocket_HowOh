@@ -1282,7 +1282,7 @@ function HouseListPage() {
                   <p className="text-sans-b-body2 text-center text-Brand-10 mb-2">
                     顯示 1 至 12 筆 共 {searchResults.length} 筆
                   </p>
-                  <div className="flex">
+                  <div className="flex gap-x-1">
                     <button
                       type="button"
                       className="flex gap-x-[10px] rounded-l-lg items-center text-sans-b-body1 text-white p-2 hover:opacity-80 bg-Neutral-90"
@@ -1320,37 +1320,33 @@ function HouseListPage() {
                             />
                           </div>
                           <div className="relative flex flex-col justify-between">
-                            <div className="flex justify-between">
-                              <div>
-                                {/* 房源名稱 */}
-                                <h3 className="text-sans-b-h6 mb-3">
-                                  {house.title}
-                                </h3>
-                                {/* 房源特色 */}
-                                <ul className="flex gap-x-2">
-                                  {house.isRentSubsidy && (
-                                    <li className="text-sans-body2 py-1 px-2 bg-Tenant-90 rounded-lg">
-                                      可申請租屋補助
-                                    </li>
-                                  )}
-                                  {house.isPetAllowd && (
-                                    <li className="text-sans-body2 py-1 px-2 bg-Tenant-90 rounded-lg">
-                                      寵物友善
-                                    </li>
-                                  )}
-                                  {house.isCookAllowd && (
-                                    <li className="text-sans-body2 py-1 px-2 bg-Tenant-90 rounded-lg">
-                                      可開火
-                                    </li>
-                                  )}
-                                  {house.isSTRAllowed && (
-                                    <li className="text-sans-body2 py-1 px-2 bg-Tenant-90 rounded-lg">
-                                      可短租
-                                    </li>
-                                  )}
-                                </ul>
-                              </div>
-                            </div>
+                            {/* 房源名稱 */}
+                            <h3 className="text-sans-b-h6 mb-3">
+                              {house.title}
+                            </h3>
+                            {/* 房源特色 */}
+                            <ul className="flex gap-x-2 mb-[15px]">
+                              {house.isRentSubsidy && (
+                                <li className="text-sans-body2 py-1 px-2 bg-Tenant-90 rounded-lg">
+                                  可申請租屋補助
+                                </li>
+                              )}
+                              {house.isPetAllowd && (
+                                <li className="text-sans-body2 py-1 px-2 bg-Tenant-90 rounded-lg">
+                                  寵物友善
+                                </li>
+                              )}
+                              {house.isCookAllowd && (
+                                <li className="text-sans-body2 py-1 px-2 bg-Tenant-90 rounded-lg">
+                                  可開火
+                                </li>
+                              )}
+                              {house.isSTRAllowed && (
+                                <li className="text-sans-body2 py-1 px-2 bg-Tenant-90 rounded-lg">
+                                  可短租
+                                </li>
+                              )}
+                            </ul>
                             <div>
                               <ul className="flex gap-x-2 mb-2">
                                 <li className="pr-2 border-r-[1px] border-r-Tenant-70">
@@ -1410,10 +1406,12 @@ function HouseListPage() {
                                   <span>{`${house.floor}/${house.floorTotal}樓`}</span>
                                 </li>
                               </ul>
+                              {/* 地址 */}
                               <p className="mb-2">
                                 {getAddress(house.city, house.district) +
                                   `${house.road && house.road}`}
                               </p>
+                              {/* 房東姓名 */}
                               <ul className="flex gap-x-2">
                                 <li className="pr-2 border-r-[1px] border-r-Tenant-70">
                                   <span>房東</span>
@@ -1462,7 +1460,7 @@ function HouseListPage() {
                   <p className="text-sans-b-body2 text-center text-Brand-10 mb-2">
                     顯示 1 至 12 筆 共 {searchResults.length} 筆
                   </p>
-                  <div className="flex">
+                  <div className="flex gap-x-1">
                     <button
                       type="button"
                       className="flex gap-x-[10px] rounded-l-lg items-center text-sans-b-body1 text-white p-2 hover:opacity-80 bg-Neutral-90"
