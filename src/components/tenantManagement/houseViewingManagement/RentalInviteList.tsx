@@ -91,6 +91,40 @@ function RentalInviteList() {
                     </svg>
                   </button>
                 </div>
+                {/* 承租資訊 */}
+                <div className="flex flex-col gap-y-6 bg-white rounded-2xl p-6">
+                  <h3 className="text-sans-b-h5">承租資訊</h3>
+                  <h4 className="text-sans-b-h6">費用</h4>
+                  <div className="flex gap-x-6">
+                    <div className="w-full">
+                      <span className="text-sans-body1">租金</span>
+                      <p className="p-3 text-sans-body1 border-b border-Neutral-70">
+                        15,000
+                      </p>
+                    </div>
+                    <div className="w-full">
+                      <span className="text-sans-body1">押金</span>
+                      <p className="p-3 text-sans-body1 border-b border-Neutral-70">
+                        2個月
+                      </p>
+                    </div>
+                  </div>
+                  <h4 className="text-sans-b-h6">租約起迄時間</h4>
+                  <div className="flex gap-x-6">
+                    <div className="w-full">
+                      <span className="text-sans-body1">合約起始日</span>
+                      <p className="p-3 text-sans-body1 border-b border-Neutral-70">
+                        2024年4月23日
+                      </p>
+                    </div>
+                    <div className="w-full">
+                      <span className="text-sans-body1">合約終止日</span>
+                      <p className="p-3 text-sans-body1 border-b border-Neutral-70">
+                        2025年4月21日
+                      </p>
+                    </div>
+                  </div>
+                </div>
                 {/* 房東基本資訊 */}
                 <div className="bg-white rounded-2xl p-6">
                   <ul className="flex flex-col gap-y-6">

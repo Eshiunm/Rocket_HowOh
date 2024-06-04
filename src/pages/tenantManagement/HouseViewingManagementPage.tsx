@@ -23,7 +23,7 @@ function HouseViewingManagementPage() {
   };
   return (
     <>
-      <section className="py-6 border-b border-Neutral-95">
+      <section className="py-6 border-b border-t border-Neutral-95">
         <div className="container">
           <h2 className="text-sans-b-h5 mb-6">租屋管理</h2>
           <ul className="flex gap-x-6">
