@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useForm } from 'react-hook-form';
-import { CustomFlowbiteTheme, Flowbite, Tooltip, Drawer, Spinner } from "flowbite-react";
+import { CustomFlowbiteTheme, Flowbite, Tooltip, Drawer } from "flowbite-react";
 import HouseDatas from "../../components/landLordManagement/HouseDatas";
 import Footer from "../../components/footer/Footer";
 import { apiHouseLandlordFindUser, apiHouseLandlordSingleInfo } from "../../apis/apis";
