@@ -150,7 +150,7 @@ export default function PublishHouse() {
   });
   const tenantPhone = watch("tenantPhone");
   const leaseStartTime = watch("leaseStartTime");
-  const onSubmit = data => console.log(data);
+  const onSubmit = (data: any) => console.log(data);
   
   useEffect(() => {
     const fetchHouseData = async () => {
@@ -472,7 +472,7 @@ export default function PublishHouse() {
                       onClick={() => setOpenForceChangeModal(true)}
                     >強制更改為已完成</button>
                     {/* 點擊強制更改跳出的 Model pop-up */}
-                    <ForcedChangeModal openForceChangeModal={openForceChangeModal} setOpenForceChangeModal={setOpenForceChangeModal} />
+                    <ForcedChangeModal setOpenQuickCheckModal={null} openForceChangeModal={openForceChangeModal} setOpenForceChangeModal={setOpenForceChangeModal} />
                   </div>
                   <div className="flex justify-end gap-6">
                     <button
