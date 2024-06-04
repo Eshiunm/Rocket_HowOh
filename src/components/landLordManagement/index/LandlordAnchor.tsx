@@ -1,11 +1,26 @@
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { refFnListType } from "./HouseList";
 import anchorHouse from "../../../assets/imgs/landlord-management/AnchorHouse.svg";
 import { listCountType } from "./HouseList";
-import { useNavigate } from "react-router-dom";
+import { apiHouseLandlordUnratedCount } from "../../../apis/apis";
 
 export default function LandlordAnchor({refFnList, listCount}: {refFnList: refFnListType, listCount: listCountType}) {
   const navigate = useNavigate();
-
+  const [unratedCount, setUnratedCount] = useState(0);
+  useEffect(() => {
+    const getUnratedCount = async () => {
+      try {
+        const response = await apiHouseLandlordUnratedCount();
+        setUnratedCount(response.data.data.count);
+      } catch (error) {
+        localStorage.clear();
+        alert("您不是房東，請先登入房東帳號");
+        navigate("/");
+      }
+    }
+    getUnratedCount();
+  });
   return (
     <section className="pb-6 border-b border-Neutral-95">
       <ul className="layout-grid">
@@ -64,7 +79,7 @@ export default function LandlordAnchor({refFnList, listCount}: {refFnList: refFn
             className="absolute right-0 top-9 group-hover:-translate-y-7 duration-500"
           />
           <h3 className="opacity-80 text-sans-b-h6 p-[10px]">待評價</h3>
-          <h4 className="px-[10px] py-3 text-sans-h2">5</h4>
+          <h4 className="px-[10px] py-3 text-sans-h2">{unratedCount || 0}</h4>
           <button className="letter-button-dark absolute z-10 bottom-3 right-3">
             <span>查看</span>
             <span className="material-symbols-outlined">chevron_right</span>
