@@ -53,9 +53,13 @@ export default function Confirm() {
         dispatch(resetDescription());
         dispatch(resetRestrictions());
         setLoading(false);
-        handleProcedureDone(5);
-        navigate("/landlord");
-        window.location.reload();
+        handleProcedureDone(-1);
+        navigate("/landlord",{
+          state: {
+            toastMessage: "房源已成功刊登"
+          }
+        });
+        // window.location.reload();
         // 完成刊登後跳轉回房源管理頁面
       } catch (error: any) {
         localStorage.clear();
