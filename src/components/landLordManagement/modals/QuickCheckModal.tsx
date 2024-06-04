@@ -35,7 +35,7 @@ export default function QuickCheckModal(props : QuickCheckModalPropsType) {
   });
   const tenantPhone = watch("tenantPhone");
   const leaseStartTime = watch("leaseStartTime");
-  const onSubmit = data => console.log(data);
+  const onSubmit = (data: any) => console.log(data);
   
   useEffect(() => {
     const telRegex = /^09\d{8}$/;

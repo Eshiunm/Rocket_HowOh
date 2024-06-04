@@ -150,7 +150,7 @@ export default function PublishHouse() {
   });
   const tenantPhone = watch("tenantPhone");
   const leaseStartTime = watch("leaseStartTime");
-  const onSubmit = data => console.log(data);
+  const onSubmit = (data: any) => console.log(data);
   
   useEffect(() => {
     const fetchHouseData = async () => {
