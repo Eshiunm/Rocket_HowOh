@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useForm } from 'react-hook-form';
 // Model-popup 所需之匯入
-import { Modal, Spinner } from "flowbite-react";
+import { Modal } from "flowbite-react";
 import close from "../../../assets/imgs/icons/close.svg";
 import alertTriangle from "../../../assets/imgs/icons/alertTriangle.svg";
 import messageCloud from "../../../assets/imgs/icons/messageCloud.svg";
