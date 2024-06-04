@@ -75,9 +75,15 @@ export default function ForcedChangeModal(props : ForceChangeModalPropsType) {
     try {
       await apiHouseLandlordChangeFinish(houseId);
       setOpenForceChangeModal(false);
-      setOpenQuickCheckModal(false);
+      if (setOpenQuickCheckModal) {
+        setOpenQuickCheckModal(false);
+      }
       localStorage.removeItem("houseId");
-      window.location.reload();
+      navigate("/landlord",{
+        state: {
+          toastMessage: "房源狀態已更改"
+        }
+      });
     } catch (error: any) {
       if (error.response.status === 401) {
         localStorage.clear();
