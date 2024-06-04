@@ -1,12 +1,12 @@
-import { useState } from "react";
-import { CustomFlowbiteTheme, Flowbite, Tooltip, Drawer } from "flowbite-react";
+import { useEffect, useState } from "react";
+import { CustomFlowbiteTheme, Flowbite, Drawer } from "flowbite-react";
 import picture from "../../../assets/imgs/tenantManagement/Rectangle 17.jpg";
 import close from "../../../assets/imgs/icons/close.svg";
 import houseFeatureCheckIcon from "../../../assets/imgs/SingleHousePage/houseFeatureCheckIcon.svg";
 import ratingStarIcon from "../../../assets/imgs/SingleHousePage/ratingStarIcon.svg";
 import landLordIcon from "../../../assets/imgs/SingleHousePage/landLordIcon.svg";
 import landLordProfile from "../../../assets/imgs/SingleHousePage/landLordProfile.jpg";
-import "flowbite";
+import NoResults from "./NoResults";
 
 function HouseViewingList() {
   // offCanvas 樣式
@@ -44,7 +44,13 @@ function HouseViewingList() {
   };
   const [isDrawdOpen, setIsDrawdOpen] = useState(false);
   const [rentalListTypeState, setRentalListTypeState] = useState("rented"); // 預設渲染已出租清單
-  //const [rentalList, setRentalList] = useState([]);
+  const [rentalList, setRentalList] = useState(0);
+
+  // 初始化出租清單(預設渲染未出租)
+  useEffect(() => {
+    setRentalList(10);
+  }, []);
+
   const handleRentalListType = (e: any) => {
     const rentalType = e.currentTarget.dataset.rentaltype;
     if (rentalType === "rented") {
@@ -755,7 +761,7 @@ function HouseViewingList() {
           </Drawer.Items>
         </Drawer>
       </Flowbite>
-      <section className="bg-Neutral-99 pt-8 pb-28 h-screen">
+      <section className="bg-Neutral-99 pt-8 pb-28">
         <div className="container layout-grid">
           <div className="col-span-7">
             <div className="p-5 bg-white rounded-xl">
@@ -830,446 +836,472 @@ function HouseViewingList() {
                   </div>
                 </div>
               </div>
-              <ul>
-                <li className="p-3">
-                  <div className="flex justify-between">
-                    <div className="flex gap-x-4">
-                      <img src={picture} alt="picture" />
+              {/* 列表 */}
+              {rentalList === 0 ? (
+                <NoResults />
+              ) : (
+                <ul>
+                  <li
+                    className={`p-3 rounded-xl cursor-pointer hover:bg-Neutral-99 ${isDrawdOpen && "bg-Neutral-95"}`}
+                    onClick={() => setIsDrawdOpen(true)}
+                  >
+                    <div className="flex justify-between">
+                      <div className="flex gap-x-4">
+                        <img src={picture} alt="picture" />
+                        <div className="flex flex-col justify-between">
+                          <h3 className="text-sans-b-h6">
+                            信義國小套房 捷運3分鐘
+                          </h3>
+                          <p className="flex gap-x-2">
+                            <span className="pr-2 border-r border-Tenant-70">
+                              房東
+                            </span>
+                            <span>陳先生</span>
+                          </p>
+                          <p className="flex gap-x-2">
+                            <span className="pr-2 border-r border-Tenant-70">
+                              租金
+                            </span>
+                            <span>15,000</span>
+                          </p>
+                          <p className="flex gap-x-2">
+                            <span className="pr-2 border-r border-Tenant-70">
+                              電話
+                            </span>
+                            <span>0936-123-123</span>
+                          </p>
+                        </div>
+                      </div>
                       <div className="flex flex-col justify-between">
-                        <h3 className="text-sans-b-h6">
-                          信義國小套房 捷運3分鐘
-                        </h3>
-                        <p className="flex gap-x-2">
-                          <span className="pr-2 border-r border-Tenant-70">
-                            房東
-                          </span>
-                          <span>陳先生</span>
-                        </p>
-                        <p className="flex gap-x-2">
-                          <span className="pr-2 border-r border-Tenant-70">
-                            租金
-                          </span>
-                          <span>15,000</span>
-                        </p>
-                        <p className="flex gap-x-2">
-                          <span className="pr-2 border-r border-Tenant-70">
-                            電話
-                          </span>
-                          <span>0936-123-123</span>
-                        </p>
-                      </div>
-                    </div>
-                    <div className="flex flex-col justify-between">
-                      <p
-                        className="flex gap-x-2 cursor-pointer"
-                        data-tooltip-target="tooltip-default-1"
-                      >
-                        <span className="pr-2 border-r border-Tenant-70">
-                          2024年5月18日
-                        </span>
-                        <span>14:40</span>
-                      </p>
-                      {/* tooltip */}
-                      <div
-                        id="tooltip-default-1"
-                        role="tooltip"
-                        className="absolute z-10 invisible inline-block  w-[200px] px-3 py-2 text-center text-sans-body2 text-white transition-opacity duration-300 bg-Tenant-30 rounded-lg shadow-sm opacity-0 tooltip"
-                      >
-                        申請預約的時間
-                        <div className="tooltip-arrow" data-popper-arrow></div>
-                      </div>
-                      {/* 查看更多 */}
-                      <div className="flex justify-between hover:opacity-75">
-                        <span></span>
-                        <button
-                          type="button"
-                          className="flex items-center gap-x-[10px] py-1 text-sans-body1 border-b border-black"
-                          onClick={() => setIsDrawdOpen(true)}
+                        <p
+                          className="flex gap-x-2 cursor-pointer"
+                          data-tooltip-target="tooltip-default-1"
                         >
-                          <span className="text-sans-b-body1">查看更多</span>
-                          <svg
-                            className="fill-black"
-                            width="16"
-                            height="16"
-                            viewBox="0 0 16 16"
+                          <span className="pr-2 border-r border-Tenant-70">
+                            2024年5月18日
+                          </span>
+                          <span>14:40</span>
+                        </p>
+                        {/* tooltip */}
+                        <div
+                          id="tooltip-default-1"
+                          role="tooltip"
+                          className="absolute z-10 invisible inline-block  w-[200px] px-3 py-2 text-center text-sans-body2 text-white transition-opacity duration-300 bg-Tenant-30 rounded-lg shadow-sm opacity-0 tooltip"
+                        >
+                          申請預約的時間
+                          <div
+                            className="tooltip-arrow"
+                            data-popper-arrow
+                          ></div>
+                        </div>
+                        {/* 查看更多 */}
+                        <div className="flex justify-between hover:opacity-75">
+                          <span></span>
+                          <button
+                            type="button"
+                            className="flex items-center gap-x-[10px] py-1 text-sans-body1 border-b border-black"
                           >
-                            <path
-                              fillRule="evenodd"
-                              clipRule="evenodd"
-                              d="M4.64592 2.14689C4.69236 2.10033 4.74754 2.06339 4.80828 2.03818C4.86903 2.01297 4.93415 2 4.99992 2C5.06568 2 5.13081 2.01297 5.19155 2.03818C5.2523 2.06339 5.30747 2.10033 5.35392 2.14689L11.3539 8.14689C11.4005 8.19334 11.4374 8.24852 11.4626 8.30926C11.4878 8.37001 11.5008 8.43513 11.5008 8.50089C11.5008 8.56666 11.4878 8.63178 11.4626 8.69253C11.4374 8.75327 11.4005 8.80845 11.3539 8.85489L5.35392 14.8549C5.26003 14.9488 5.13269 15.0015 4.99992 15.0015C4.86714 15.0015 4.7398 14.9488 4.64592 14.8549C4.55203 14.761 4.49929 14.6337 4.49929 14.5009C4.49929 14.3681 4.55203 14.2408 4.64592 14.1469L10.2929 8.50089L4.64592 2.85489C4.59935 2.80845 4.56241 2.75327 4.5372 2.69253C4.512 2.63178 4.49902 2.56666 4.49902 2.50089C4.49902 2.43513 4.512 2.37001 4.5372 2.30926C4.56241 2.24852 4.59935 2.19334 4.64592 2.14689Z"
-                            />
-                          </svg>
-                        </button>
+                            <span className="text-sans-b-body1">查看更多</span>
+                            <svg
+                              className="fill-black"
+                              width="16"
+                              height="16"
+                              viewBox="0 0 16 16"
+                            >
+                              <path
+                                fillRule="evenodd"
+                                clipRule="evenodd"
+                                d="M4.64592 2.14689C4.69236 2.10033 4.74754 2.06339 4.80828 2.03818C4.86903 2.01297 4.93415 2 4.99992 2C5.06568 2 5.13081 2.01297 5.19155 2.03818C5.2523 2.06339 5.30747 2.10033 5.35392 2.14689L11.3539 8.14689C11.4005 8.19334 11.4374 8.24852 11.4626 8.30926C11.4878 8.37001 11.5008 8.43513 11.5008 8.50089C11.5008 8.56666 11.4878 8.63178 11.4626 8.69253C11.4374 8.75327 11.4005 8.80845 11.3539 8.85489L5.35392 14.8549C5.26003 14.9488 5.13269 15.0015 4.99992 15.0015C4.86714 15.0015 4.7398 14.9488 4.64592 14.8549C4.55203 14.761 4.49929 14.6337 4.49929 14.5009C4.49929 14.3681 4.55203 14.2408 4.64592 14.1469L10.2929 8.50089L4.64592 2.85489C4.59935 2.80845 4.56241 2.75327 4.5372 2.69253C4.512 2.63178 4.49902 2.56666 4.49902 2.50089C4.49902 2.43513 4.512 2.37001 4.5372 2.30926C4.56241 2.24852 4.59935 2.19334 4.64592 2.14689Z"
+                              />
+                            </svg>
+                          </button>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </li>
-                <li className="p-3">
-                  <div className="flex justify-between">
-                    <div className="flex gap-x-4">
-                      <img src={picture} alt="picture" />
+                  </li>
+                  <li className="p-3">
+                    <div className="flex justify-between">
+                      <div className="flex gap-x-4">
+                        <img src={picture} alt="picture" />
+                        <div className="flex flex-col justify-between">
+                          <h3 className="text-sans-b-h6">
+                            信義國小套房 捷運3分鐘
+                          </h3>
+                          <p className="flex gap-x-2">
+                            <span className="pr-2 border-r border-Tenant-70">
+                              房東
+                            </span>
+                            <span>陳先生</span>
+                          </p>
+                          <p className="flex gap-x-2">
+                            <span className="pr-2 border-r border-Tenant-70">
+                              租金
+                            </span>
+                            <span>15,000</span>
+                          </p>
+                          <p className="flex gap-x-2">
+                            <span className="pr-2 border-r border-Tenant-70">
+                              電話
+                            </span>
+                            <span>0936-123-123</span>
+                          </p>
+                        </div>
+                      </div>
                       <div className="flex flex-col justify-between">
-                        <h3 className="text-sans-b-h6">
-                          信義國小套房 捷運3分鐘
-                        </h3>
-                        <p className="flex gap-x-2">
-                          <span className="pr-2 border-r border-Tenant-70">
-                            房東
-                          </span>
-                          <span>陳先生</span>
-                        </p>
-                        <p className="flex gap-x-2">
-                          <span className="pr-2 border-r border-Tenant-70">
-                            租金
-                          </span>
-                          <span>15,000</span>
-                        </p>
-                        <p className="flex gap-x-2">
-                          <span className="pr-2 border-r border-Tenant-70">
-                            電話
-                          </span>
-                          <span>0936-123-123</span>
-                        </p>
-                      </div>
-                    </div>
-                    <div className="flex flex-col justify-between">
-                      <p
-                        className="flex gap-x-2 cursor-pointer"
-                        data-tooltip-target="tooltip-default-1"
-                      >
-                        <span className="pr-2 border-r border-Tenant-70">
-                          2024年5月18日
-                        </span>
-                        <span>14:40</span>
-                      </p>
-                      {/* tooltip */}
-                      <div
-                        id="tooltip-default-1"
-                        role="tooltip"
-                        className="absolute z-10 invisible inline-block  w-[200px] px-3 py-2 text-center text-sans-body2 text-white transition-opacity duration-300 bg-Tenant-30 rounded-lg shadow-sm opacity-0 tooltip"
-                      >
-                        申請預約的時間
-                        <div className="tooltip-arrow" data-popper-arrow></div>
-                      </div>
-                      {/* 查看更多 */}
-                      <div className="flex justify-between hover:opacity-75">
-                        <span></span>
-                        <button
-                          type="button"
-                          className="flex items-center gap-x-[10px] py-1 text-sans-body1 border-b border-black"
-                          onClick={() => setIsDrawdOpen(true)}
+                        <p
+                          className="flex gap-x-2 cursor-pointer"
+                          data-tooltip-target="tooltip-default-1"
                         >
-                          <span className="text-sans-b-body1">查看更多</span>
-                          <svg
-                            className="fill-black"
-                            width="16"
-                            height="16"
-                            viewBox="0 0 16 16"
+                          <span className="pr-2 border-r border-Tenant-70">
+                            2024年5月18日
+                          </span>
+                          <span>14:40</span>
+                        </p>
+                        {/* tooltip */}
+                        <div
+                          id="tooltip-default-1"
+                          role="tooltip"
+                          className="absolute z-10 invisible inline-block  w-[200px] px-3 py-2 text-center text-sans-body2 text-white transition-opacity duration-300 bg-Tenant-30 rounded-lg shadow-sm opacity-0 tooltip"
+                        >
+                          申請預約的時間
+                          <div
+                            className="tooltip-arrow"
+                            data-popper-arrow
+                          ></div>
+                        </div>
+                        {/* 查看更多 */}
+                        <div className="flex justify-between hover:opacity-75">
+                          <span></span>
+                          <button
+                            type="button"
+                            className="flex items-center gap-x-[10px] py-1 text-sans-body1 border-b border-black"
+                            onClick={() => setIsDrawdOpen(true)}
                           >
-                            <path
-                              fillRule="evenodd"
-                              clipRule="evenodd"
-                              d="M4.64592 2.14689C4.69236 2.10033 4.74754 2.06339 4.80828 2.03818C4.86903 2.01297 4.93415 2 4.99992 2C5.06568 2 5.13081 2.01297 5.19155 2.03818C5.2523 2.06339 5.30747 2.10033 5.35392 2.14689L11.3539 8.14689C11.4005 8.19334 11.4374 8.24852 11.4626 8.30926C11.4878 8.37001 11.5008 8.43513 11.5008 8.50089C11.5008 8.56666 11.4878 8.63178 11.4626 8.69253C11.4374 8.75327 11.4005 8.80845 11.3539 8.85489L5.35392 14.8549C5.26003 14.9488 5.13269 15.0015 4.99992 15.0015C4.86714 15.0015 4.7398 14.9488 4.64592 14.8549C4.55203 14.761 4.49929 14.6337 4.49929 14.5009C4.49929 14.3681 4.55203 14.2408 4.64592 14.1469L10.2929 8.50089L4.64592 2.85489C4.59935 2.80845 4.56241 2.75327 4.5372 2.69253C4.512 2.63178 4.49902 2.56666 4.49902 2.50089C4.49902 2.43513 4.512 2.37001 4.5372 2.30926C4.56241 2.24852 4.59935 2.19334 4.64592 2.14689Z"
-                            />
-                          </svg>
-                        </button>
+                            <span className="text-sans-b-body1">查看更多</span>
+                            <svg
+                              className="fill-black"
+                              width="16"
+                              height="16"
+                              viewBox="0 0 16 16"
+                            >
+                              <path
+                                fillRule="evenodd"
+                                clipRule="evenodd"
+                                d="M4.64592 2.14689C4.69236 2.10033 4.74754 2.06339 4.80828 2.03818C4.86903 2.01297 4.93415 2 4.99992 2C5.06568 2 5.13081 2.01297 5.19155 2.03818C5.2523 2.06339 5.30747 2.10033 5.35392 2.14689L11.3539 8.14689C11.4005 8.19334 11.4374 8.24852 11.4626 8.30926C11.4878 8.37001 11.5008 8.43513 11.5008 8.50089C11.5008 8.56666 11.4878 8.63178 11.4626 8.69253C11.4374 8.75327 11.4005 8.80845 11.3539 8.85489L5.35392 14.8549C5.26003 14.9488 5.13269 15.0015 4.99992 15.0015C4.86714 15.0015 4.7398 14.9488 4.64592 14.8549C4.55203 14.761 4.49929 14.6337 4.49929 14.5009C4.49929 14.3681 4.55203 14.2408 4.64592 14.1469L10.2929 8.50089L4.64592 2.85489C4.59935 2.80845 4.56241 2.75327 4.5372 2.69253C4.512 2.63178 4.49902 2.56666 4.49902 2.50089C4.49902 2.43513 4.512 2.37001 4.5372 2.30926C4.56241 2.24852 4.59935 2.19334 4.64592 2.14689Z"
+                              />
+                            </svg>
+                          </button>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </li>
-                <li className="p-3">
-                  <div className="flex justify-between">
-                    <div className="flex gap-x-4">
-                      <img src={picture} alt="picture" />
+                  </li>
+                  <li className="p-3">
+                    <div className="flex justify-between">
+                      <div className="flex gap-x-4">
+                        <img src={picture} alt="picture" />
+                        <div className="flex flex-col justify-between">
+                          <h3 className="text-sans-b-h6">
+                            信義國小套房 捷運3分鐘
+                          </h3>
+                          <p className="flex gap-x-2">
+                            <span className="pr-2 border-r border-Tenant-70">
+                              房東
+                            </span>
+                            <span>陳先生</span>
+                          </p>
+                          <p className="flex gap-x-2">
+                            <span className="pr-2 border-r border-Tenant-70">
+                              租金
+                            </span>
+                            <span>15,000</span>
+                          </p>
+                          <p className="flex gap-x-2">
+                            <span className="pr-2 border-r border-Tenant-70">
+                              電話
+                            </span>
+                            <span>0936-123-123</span>
+                          </p>
+                        </div>
+                      </div>
                       <div className="flex flex-col justify-between">
-                        <h3 className="text-sans-b-h6">
-                          信義國小套房 捷運3分鐘
-                        </h3>
-                        <p className="flex gap-x-2">
-                          <span className="pr-2 border-r border-Tenant-70">
-                            房東
-                          </span>
-                          <span>陳先生</span>
-                        </p>
-                        <p className="flex gap-x-2">
-                          <span className="pr-2 border-r border-Tenant-70">
-                            租金
-                          </span>
-                          <span>15,000</span>
-                        </p>
-                        <p className="flex gap-x-2">
-                          <span className="pr-2 border-r border-Tenant-70">
-                            電話
-                          </span>
-                          <span>0936-123-123</span>
-                        </p>
-                      </div>
-                    </div>
-                    <div className="flex flex-col justify-between">
-                      <p
-                        className="flex gap-x-2 cursor-pointer"
-                        data-tooltip-target="tooltip-default-1"
-                      >
-                        <span className="pr-2 border-r border-Tenant-70">
-                          2024年5月18日
-                        </span>
-                        <span>14:40</span>
-                      </p>
-                      {/* tooltip */}
-                      <div
-                        id="tooltip-default-1"
-                        role="tooltip"
-                        className="absolute z-10 invisible inline-block  w-[200px] px-3 py-2 text-center text-sans-body2 text-white transition-opacity duration-300 bg-Tenant-30 rounded-lg shadow-sm opacity-0 tooltip"
-                      >
-                        申請預約的時間
-                        <div className="tooltip-arrow" data-popper-arrow></div>
-                      </div>
-                      {/* 查看更多 */}
-                      <div className="flex justify-between hover:opacity-75">
-                        <span></span>
-                        <button
-                          type="button"
-                          className="flex items-center gap-x-[10px] py-1 text-sans-body1 border-b border-black"
-                          onClick={() => setIsDrawdOpen(true)}
+                        <p
+                          className="flex gap-x-2 cursor-pointer"
+                          data-tooltip-target="tooltip-default-1"
                         >
-                          <span className="text-sans-b-body1">查看更多</span>
-                          <svg
-                            className="fill-black"
-                            width="16"
-                            height="16"
-                            viewBox="0 0 16 16"
+                          <span className="pr-2 border-r border-Tenant-70">
+                            2024年5月18日
+                          </span>
+                          <span>14:40</span>
+                        </p>
+                        {/* tooltip */}
+                        <div
+                          id="tooltip-default-1"
+                          role="tooltip"
+                          className="absolute z-10 invisible inline-block  w-[200px] px-3 py-2 text-center text-sans-body2 text-white transition-opacity duration-300 bg-Tenant-30 rounded-lg shadow-sm opacity-0 tooltip"
+                        >
+                          申請預約的時間
+                          <div
+                            className="tooltip-arrow"
+                            data-popper-arrow
+                          ></div>
+                        </div>
+                        {/* 查看更多 */}
+                        <div className="flex justify-between hover:opacity-75">
+                          <span></span>
+                          <button
+                            type="button"
+                            className="flex items-center gap-x-[10px] py-1 text-sans-body1 border-b border-black"
+                            onClick={() => setIsDrawdOpen(true)}
                           >
-                            <path
-                              fillRule="evenodd"
-                              clipRule="evenodd"
-                              d="M4.64592 2.14689C4.69236 2.10033 4.74754 2.06339 4.80828 2.03818C4.86903 2.01297 4.93415 2 4.99992 2C5.06568 2 5.13081 2.01297 5.19155 2.03818C5.2523 2.06339 5.30747 2.10033 5.35392 2.14689L11.3539 8.14689C11.4005 8.19334 11.4374 8.24852 11.4626 8.30926C11.4878 8.37001 11.5008 8.43513 11.5008 8.50089C11.5008 8.56666 11.4878 8.63178 11.4626 8.69253C11.4374 8.75327 11.4005 8.80845 11.3539 8.85489L5.35392 14.8549C5.26003 14.9488 5.13269 15.0015 4.99992 15.0015C4.86714 15.0015 4.7398 14.9488 4.64592 14.8549C4.55203 14.761 4.49929 14.6337 4.49929 14.5009C4.49929 14.3681 4.55203 14.2408 4.64592 14.1469L10.2929 8.50089L4.64592 2.85489C4.59935 2.80845 4.56241 2.75327 4.5372 2.69253C4.512 2.63178 4.49902 2.56666 4.49902 2.50089C4.49902 2.43513 4.512 2.37001 4.5372 2.30926C4.56241 2.24852 4.59935 2.19334 4.64592 2.14689Z"
-                            />
-                          </svg>
-                        </button>
+                            <span className="text-sans-b-body1">查看更多</span>
+                            <svg
+                              className="fill-black"
+                              width="16"
+                              height="16"
+                              viewBox="0 0 16 16"
+                            >
+                              <path
+                                fillRule="evenodd"
+                                clipRule="evenodd"
+                                d="M4.64592 2.14689C4.69236 2.10033 4.74754 2.06339 4.80828 2.03818C4.86903 2.01297 4.93415 2 4.99992 2C5.06568 2 5.13081 2.01297 5.19155 2.03818C5.2523 2.06339 5.30747 2.10033 5.35392 2.14689L11.3539 8.14689C11.4005 8.19334 11.4374 8.24852 11.4626 8.30926C11.4878 8.37001 11.5008 8.43513 11.5008 8.50089C11.5008 8.56666 11.4878 8.63178 11.4626 8.69253C11.4374 8.75327 11.4005 8.80845 11.3539 8.85489L5.35392 14.8549C5.26003 14.9488 5.13269 15.0015 4.99992 15.0015C4.86714 15.0015 4.7398 14.9488 4.64592 14.8549C4.55203 14.761 4.49929 14.6337 4.49929 14.5009C4.49929 14.3681 4.55203 14.2408 4.64592 14.1469L10.2929 8.50089L4.64592 2.85489C4.59935 2.80845 4.56241 2.75327 4.5372 2.69253C4.512 2.63178 4.49902 2.56666 4.49902 2.50089C4.49902 2.43513 4.512 2.37001 4.5372 2.30926C4.56241 2.24852 4.59935 2.19334 4.64592 2.14689Z"
+                              />
+                            </svg>
+                          </button>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </li>
-                <li className="p-3">
-                  <div className="flex justify-between">
-                    <div className="flex gap-x-4">
-                      <img src={picture} alt="picture" />
+                  </li>
+                  <li className="p-3">
+                    <div className="flex justify-between">
+                      <div className="flex gap-x-4">
+                        <img src={picture} alt="picture" />
+                        <div className="flex flex-col justify-between">
+                          <h3 className="text-sans-b-h6">
+                            信義國小套房 捷運3分鐘
+                          </h3>
+                          <p className="flex gap-x-2">
+                            <span className="pr-2 border-r border-Tenant-70">
+                              房東
+                            </span>
+                            <span>陳先生</span>
+                          </p>
+                          <p className="flex gap-x-2">
+                            <span className="pr-2 border-r border-Tenant-70">
+                              租金
+                            </span>
+                            <span>15,000</span>
+                          </p>
+                          <p className="flex gap-x-2">
+                            <span className="pr-2 border-r border-Tenant-70">
+                              電話
+                            </span>
+                            <span>0936-123-123</span>
+                          </p>
+                        </div>
+                      </div>
                       <div className="flex flex-col justify-between">
-                        <h3 className="text-sans-b-h6">
-                          信義國小套房 捷運3分鐘
-                        </h3>
-                        <p className="flex gap-x-2">
-                          <span className="pr-2 border-r border-Tenant-70">
-                            房東
-                          </span>
-                          <span>陳先生</span>
-                        </p>
-                        <p className="flex gap-x-2">
-                          <span className="pr-2 border-r border-Tenant-70">
-                            租金
-                          </span>
-                          <span>15,000</span>
-                        </p>
-                        <p className="flex gap-x-2">
-                          <span className="pr-2 border-r border-Tenant-70">
-                            電話
-                          </span>
-                          <span>0936-123-123</span>
-                        </p>
-                      </div>
-                    </div>
-                    <div className="flex flex-col justify-between">
-                      <p
-                        className="flex gap-x-2 cursor-pointer"
-                        data-tooltip-target="tooltip-default-1"
-                      >
-                        <span className="pr-2 border-r border-Tenant-70">
-                          2024年5月18日
-                        </span>
-                        <span>14:40</span>
-                      </p>
-                      {/* tooltip */}
-                      <div
-                        id="tooltip-default-1"
-                        role="tooltip"
-                        className="absolute z-10 invisible inline-block  w-[200px] px-3 py-2 text-center text-sans-body2 text-white transition-opacity duration-300 bg-Tenant-30 rounded-lg shadow-sm opacity-0 tooltip"
-                      >
-                        申請預約的時間
-                        <div className="tooltip-arrow" data-popper-arrow></div>
-                      </div>
-                      {/* 查看更多 */}
-                      <div className="flex justify-between hover:opacity-75">
-                        <span></span>
-                        <button
-                          type="button"
-                          className="flex items-center gap-x-[10px] py-1 text-sans-body1 border-b border-black"
-                          onClick={() => setIsDrawdOpen(true)}
+                        <p
+                          className="flex gap-x-2 cursor-pointer"
+                          data-tooltip-target="tooltip-default-1"
                         >
-                          <span className="text-sans-b-body1">查看更多</span>
-                          <svg
-                            className="fill-black"
-                            width="16"
-                            height="16"
-                            viewBox="0 0 16 16"
+                          <span className="pr-2 border-r border-Tenant-70">
+                            2024年5月18日
+                          </span>
+                          <span>14:40</span>
+                        </p>
+                        {/* tooltip */}
+                        <div
+                          id="tooltip-default-1"
+                          role="tooltip"
+                          className="absolute z-10 invisible inline-block  w-[200px] px-3 py-2 text-center text-sans-body2 text-white transition-opacity duration-300 bg-Tenant-30 rounded-lg shadow-sm opacity-0 tooltip"
+                        >
+                          申請預約的時間
+                          <div
+                            className="tooltip-arrow"
+                            data-popper-arrow
+                          ></div>
+                        </div>
+                        {/* 查看更多 */}
+                        <div className="flex justify-between hover:opacity-75">
+                          <span></span>
+                          <button
+                            type="button"
+                            className="flex items-center gap-x-[10px] py-1 text-sans-body1 border-b border-black"
+                            onClick={() => setIsDrawdOpen(true)}
                           >
-                            <path
-                              fillRule="evenodd"
-                              clipRule="evenodd"
-                              d="M4.64592 2.14689C4.69236 2.10033 4.74754 2.06339 4.80828 2.03818C4.86903 2.01297 4.93415 2 4.99992 2C5.06568 2 5.13081 2.01297 5.19155 2.03818C5.2523 2.06339 5.30747 2.10033 5.35392 2.14689L11.3539 8.14689C11.4005 8.19334 11.4374 8.24852 11.4626 8.30926C11.4878 8.37001 11.5008 8.43513 11.5008 8.50089C11.5008 8.56666 11.4878 8.63178 11.4626 8.69253C11.4374 8.75327 11.4005 8.80845 11.3539 8.85489L5.35392 14.8549C5.26003 14.9488 5.13269 15.0015 4.99992 15.0015C4.86714 15.0015 4.7398 14.9488 4.64592 14.8549C4.55203 14.761 4.49929 14.6337 4.49929 14.5009C4.49929 14.3681 4.55203 14.2408 4.64592 14.1469L10.2929 8.50089L4.64592 2.85489C4.59935 2.80845 4.56241 2.75327 4.5372 2.69253C4.512 2.63178 4.49902 2.56666 4.49902 2.50089C4.49902 2.43513 4.512 2.37001 4.5372 2.30926C4.56241 2.24852 4.59935 2.19334 4.64592 2.14689Z"
-                            />
-                          </svg>
-                        </button>
+                            <span className="text-sans-b-body1">查看更多</span>
+                            <svg
+                              className="fill-black"
+                              width="16"
+                              height="16"
+                              viewBox="0 0 16 16"
+                            >
+                              <path
+                                fillRule="evenodd"
+                                clipRule="evenodd"
+                                d="M4.64592 2.14689C4.69236 2.10033 4.74754 2.06339 4.80828 2.03818C4.86903 2.01297 4.93415 2 4.99992 2C5.06568 2 5.13081 2.01297 5.19155 2.03818C5.2523 2.06339 5.30747 2.10033 5.35392 2.14689L11.3539 8.14689C11.4005 8.19334 11.4374 8.24852 11.4626 8.30926C11.4878 8.37001 11.5008 8.43513 11.5008 8.50089C11.5008 8.56666 11.4878 8.63178 11.4626 8.69253C11.4374 8.75327 11.4005 8.80845 11.3539 8.85489L5.35392 14.8549C5.26003 14.9488 5.13269 15.0015 4.99992 15.0015C4.86714 15.0015 4.7398 14.9488 4.64592 14.8549C4.55203 14.761 4.49929 14.6337 4.49929 14.5009C4.49929 14.3681 4.55203 14.2408 4.64592 14.1469L10.2929 8.50089L4.64592 2.85489C4.59935 2.80845 4.56241 2.75327 4.5372 2.69253C4.512 2.63178 4.49902 2.56666 4.49902 2.50089C4.49902 2.43513 4.512 2.37001 4.5372 2.30926C4.56241 2.24852 4.59935 2.19334 4.64592 2.14689Z"
+                              />
+                            </svg>
+                          </button>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </li>
-                <li className="p-3">
-                  <div className="flex justify-between">
-                    <div className="flex gap-x-4">
-                      <img src={picture} alt="picture" />
+                  </li>
+                  <li className="p-3">
+                    <div className="flex justify-between">
+                      <div className="flex gap-x-4">
+                        <img src={picture} alt="picture" />
+                        <div className="flex flex-col justify-between">
+                          <h3 className="text-sans-b-h6">
+                            信義國小套房 捷運3分鐘
+                          </h3>
+                          <p className="flex gap-x-2">
+                            <span className="pr-2 border-r border-Tenant-70">
+                              房東
+                            </span>
+                            <span>陳先生</span>
+                          </p>
+                          <p className="flex gap-x-2">
+                            <span className="pr-2 border-r border-Tenant-70">
+                              租金
+                            </span>
+                            <span>15,000</span>
+                          </p>
+                          <p className="flex gap-x-2">
+                            <span className="pr-2 border-r border-Tenant-70">
+                              電話
+                            </span>
+                            <span>0936-123-123</span>
+                          </p>
+                        </div>
+                      </div>
                       <div className="flex flex-col justify-between">
-                        <h3 className="text-sans-b-h6">
-                          信義國小套房 捷運3分鐘
-                        </h3>
-                        <p className="flex gap-x-2">
-                          <span className="pr-2 border-r border-Tenant-70">
-                            房東
-                          </span>
-                          <span>陳先生</span>
-                        </p>
-                        <p className="flex gap-x-2">
-                          <span className="pr-2 border-r border-Tenant-70">
-                            租金
-                          </span>
-                          <span>15,000</span>
-                        </p>
-                        <p className="flex gap-x-2">
-                          <span className="pr-2 border-r border-Tenant-70">
-                            電話
-                          </span>
-                          <span>0936-123-123</span>
-                        </p>
-                      </div>
-                    </div>
-                    <div className="flex flex-col justify-between">
-                      <p
-                        className="flex gap-x-2 cursor-pointer"
-                        data-tooltip-target="tooltip-default-1"
-                      >
-                        <span className="pr-2 border-r border-Tenant-70">
-                          2024年5月18日
-                        </span>
-                        <span>14:40</span>
-                      </p>
-                      {/* tooltip */}
-                      <div
-                        id="tooltip-default-1"
-                        role="tooltip"
-                        className="absolute z-10 invisible inline-block  w-[200px] px-3 py-2 text-center text-sans-body2 text-white transition-opacity duration-300 bg-Tenant-30 rounded-lg shadow-sm opacity-0 tooltip"
-                      >
-                        申請預約的時間
-                        <div className="tooltip-arrow" data-popper-arrow></div>
-                      </div>
-                      {/* 查看更多 */}
-                      <div className="flex justify-between hover:opacity-75">
-                        <span></span>
-                        <button
-                          type="button"
-                          className="flex items-center gap-x-[10px] py-1 text-sans-body1 border-b border-black"
-                          onClick={() => setIsDrawdOpen(true)}
+                        <p
+                          className="flex gap-x-2 cursor-pointer"
+                          data-tooltip-target="tooltip-default-1"
                         >
-                          <span className="text-sans-b-body1">查看更多</span>
-                          <svg
-                            className="fill-black"
-                            width="16"
-                            height="16"
-                            viewBox="0 0 16 16"
+                          <span className="pr-2 border-r border-Tenant-70">
+                            2024年5月18日
+                          </span>
+                          <span>14:40</span>
+                        </p>
+                        {/* tooltip */}
+                        <div
+                          id="tooltip-default-1"
+                          role="tooltip"
+                          className="absolute z-10 invisible inline-block  w-[200px] px-3 py-2 text-center text-sans-body2 text-white transition-opacity duration-300 bg-Tenant-30 rounded-lg shadow-sm opacity-0 tooltip"
+                        >
+                          申請預約的時間
+                          <div
+                            className="tooltip-arrow"
+                            data-popper-arrow
+                          ></div>
+                        </div>
+                        {/* 查看更多 */}
+                        <div className="flex justify-between hover:opacity-75">
+                          <span></span>
+                          <button
+                            type="button"
+                            className="flex items-center gap-x-[10px] py-1 text-sans-body1 border-b border-black"
+                            onClick={() => setIsDrawdOpen(true)}
                           >
-                            <path
-                              fillRule="evenodd"
-                              clipRule="evenodd"
-                              d="M4.64592 2.14689C4.69236 2.10033 4.74754 2.06339 4.80828 2.03818C4.86903 2.01297 4.93415 2 4.99992 2C5.06568 2 5.13081 2.01297 5.19155 2.03818C5.2523 2.06339 5.30747 2.10033 5.35392 2.14689L11.3539 8.14689C11.4005 8.19334 11.4374 8.24852 11.4626 8.30926C11.4878 8.37001 11.5008 8.43513 11.5008 8.50089C11.5008 8.56666 11.4878 8.63178 11.4626 8.69253C11.4374 8.75327 11.4005 8.80845 11.3539 8.85489L5.35392 14.8549C5.26003 14.9488 5.13269 15.0015 4.99992 15.0015C4.86714 15.0015 4.7398 14.9488 4.64592 14.8549C4.55203 14.761 4.49929 14.6337 4.49929 14.5009C4.49929 14.3681 4.55203 14.2408 4.64592 14.1469L10.2929 8.50089L4.64592 2.85489C4.59935 2.80845 4.56241 2.75327 4.5372 2.69253C4.512 2.63178 4.49902 2.56666 4.49902 2.50089C4.49902 2.43513 4.512 2.37001 4.5372 2.30926C4.56241 2.24852 4.59935 2.19334 4.64592 2.14689Z"
-                            />
-                          </svg>
-                        </button>
+                            <span className="text-sans-b-body1">查看更多</span>
+                            <svg
+                              className="fill-black"
+                              width="16"
+                              height="16"
+                              viewBox="0 0 16 16"
+                            >
+                              <path
+                                fillRule="evenodd"
+                                clipRule="evenodd"
+                                d="M4.64592 2.14689C4.69236 2.10033 4.74754 2.06339 4.80828 2.03818C4.86903 2.01297 4.93415 2 4.99992 2C5.06568 2 5.13081 2.01297 5.19155 2.03818C5.2523 2.06339 5.30747 2.10033 5.35392 2.14689L11.3539 8.14689C11.4005 8.19334 11.4374 8.24852 11.4626 8.30926C11.4878 8.37001 11.5008 8.43513 11.5008 8.50089C11.5008 8.56666 11.4878 8.63178 11.4626 8.69253C11.4374 8.75327 11.4005 8.80845 11.3539 8.85489L5.35392 14.8549C5.26003 14.9488 5.13269 15.0015 4.99992 15.0015C4.86714 15.0015 4.7398 14.9488 4.64592 14.8549C4.55203 14.761 4.49929 14.6337 4.49929 14.5009C4.49929 14.3681 4.55203 14.2408 4.64592 14.1469L10.2929 8.50089L4.64592 2.85489C4.59935 2.80845 4.56241 2.75327 4.5372 2.69253C4.512 2.63178 4.49902 2.56666 4.49902 2.50089C4.49902 2.43513 4.512 2.37001 4.5372 2.30926C4.56241 2.24852 4.59935 2.19334 4.64592 2.14689Z"
+                              />
+                            </svg>
+                          </button>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </li>
-                <li className="p-3">
-                  <div className="flex justify-between">
-                    <div className="flex gap-x-4">
-                      <img src={picture} alt="picture" />
+                  </li>
+                  <li className="p-3">
+                    <div className="flex justify-between">
+                      <div className="flex gap-x-4">
+                        <img src={picture} alt="picture" />
+                        <div className="flex flex-col justify-between">
+                          <h3 className="text-sans-b-h6">
+                            信義國小套房 捷運3分鐘
+                          </h3>
+                          <p className="flex gap-x-2">
+                            <span className="pr-2 border-r border-Tenant-70">
+                              房東
+                            </span>
+                            <span>陳先生</span>
+                          </p>
+                          <p className="flex gap-x-2">
+                            <span className="pr-2 border-r border-Tenant-70">
+                              租金
+                            </span>
+                            <span>15,000</span>
+                          </p>
+                          <p className="flex gap-x-2">
+                            <span className="pr-2 border-r border-Tenant-70">
+                              電話
+                            </span>
+                            <span>0936-123-123</span>
+                          </p>
+                        </div>
+                      </div>
                       <div className="flex flex-col justify-between">
-                        <h3 className="text-sans-b-h6">
-                          信義國小套房 捷運3分鐘
-                        </h3>
-                        <p className="flex gap-x-2">
-                          <span className="pr-2 border-r border-Tenant-70">
-                            房東
-                          </span>
-                          <span>陳先生</span>
-                        </p>
-                        <p className="flex gap-x-2">
-                          <span className="pr-2 border-r border-Tenant-70">
-                            租金
-                          </span>
-                          <span>15,000</span>
-                        </p>
-                        <p className="flex gap-x-2">
-                          <span className="pr-2 border-r border-Tenant-70">
-                            電話
-                          </span>
-                          <span>0936-123-123</span>
-                        </p>
-                      </div>
-                    </div>
-                    <div className="flex flex-col justify-between">
-                      <p
-                        className="flex gap-x-2 cursor-pointer"
-                        data-tooltip-target="tooltip-default-1"
-                      >
-                        <span className="pr-2 border-r border-Tenant-70">
-                          2024年5月18日
-                        </span>
-                        <span>14:40</span>
-                      </p>
-                      {/* tooltip */}
-                      <div
-                        id="tooltip-default-1"
-                        role="tooltip"
-                        className="absolute z-10 invisible inline-block  w-[200px] px-3 py-2 text-center text-sans-body2 text-white transition-opacity duration-300 bg-Tenant-30 rounded-lg shadow-sm opacity-0 tooltip"
-                      >
-                        申請預約的時間
-                        <div className="tooltip-arrow" data-popper-arrow></div>
-                      </div>
-                      {/* 查看更多 */}
-                      <div className="flex justify-between hover:opacity-75">
-                        <span></span>
-                        <button
-                          type="button"
-                          className="flex items-center gap-x-[10px] py-1 text-sans-body1 border-b border-black"
-                          onClick={() => setIsDrawdOpen(true)}
+                        <p
+                          className="flex gap-x-2 cursor-pointer"
+                          data-tooltip-target="tooltip-default-1"
                         >
-                          <span className="text-sans-b-body1">查看更多</span>
-                          <svg
-                            className="fill-black"
-                            width="16"
-                            height="16"
-                            viewBox="0 0 16 16"
+                          <span className="pr-2 border-r border-Tenant-70">
+                            2024年5月18日
+                          </span>
+                          <span>14:40</span>
+                        </p>
+                        {/* tooltip */}
+                        <div
+                          id="tooltip-default-1"
+                          role="tooltip"
+                          className="absolute z-10 invisible inline-block  w-[200px] px-3 py-2 text-center text-sans-body2 text-white transition-opacity duration-300 bg-Tenant-30 rounded-lg shadow-sm opacity-0 tooltip"
+                        >
+                          申請預約的時間
+                          <div
+                            className="tooltip-arrow"
+                            data-popper-arrow
+                          ></div>
+                        </div>
+                        {/* 查看更多 */}
+                        <div className="flex justify-between hover:opacity-75">
+                          <span></span>
+                          <button
+                            type="button"
+                            className="flex items-center gap-x-[10px] py-1 text-sans-body1 border-b border-black"
+                            onClick={() => setIsDrawdOpen(true)}
                           >
-                            <path
-                              fillRule="evenodd"
-                              clipRule="evenodd"
-                              d="M4.64592 2.14689C4.69236 2.10033 4.74754 2.06339 4.80828 2.03818C4.86903 2.01297 4.93415 2 4.99992 2C5.06568 2 5.13081 2.01297 5.19155 2.03818C5.2523 2.06339 5.30747 2.10033 5.35392 2.14689L11.3539 8.14689C11.4005 8.19334 11.4374 8.24852 11.4626 8.30926C11.4878 8.37001 11.5008 8.43513 11.5008 8.50089C11.5008 8.56666 11.4878 8.63178 11.4626 8.69253C11.4374 8.75327 11.4005 8.80845 11.3539 8.85489L5.35392 14.8549C5.26003 14.9488 5.13269 15.0015 4.99992 15.0015C4.86714 15.0015 4.7398 14.9488 4.64592 14.8549C4.55203 14.761 4.49929 14.6337 4.49929 14.5009C4.49929 14.3681 4.55203 14.2408 4.64592 14.1469L10.2929 8.50089L4.64592 2.85489C4.59935 2.80845 4.56241 2.75327 4.5372 2.69253C4.512 2.63178 4.49902 2.56666 4.49902 2.50089C4.49902 2.43513 4.512 2.37001 4.5372 2.30926C4.56241 2.24852 4.59935 2.19334 4.64592 2.14689Z"
-                            />
-                          </svg>
-                        </button>
+                            <span className="text-sans-b-body1">查看更多</span>
+                            <svg
+                              className="fill-black"
+                              width="16"
+                              height="16"
+                              viewBox="0 0 16 16"
+                            >
+                              <path
+                                fillRule="evenodd"
+                                clipRule="evenodd"
+                                d="M4.64592 2.14689C4.69236 2.10033 4.74754 2.06339 4.80828 2.03818C4.86903 2.01297 4.93415 2 4.99992 2C5.06568 2 5.13081 2.01297 5.19155 2.03818C5.2523 2.06339 5.30747 2.10033 5.35392 2.14689L11.3539 8.14689C11.4005 8.19334 11.4374 8.24852 11.4626 8.30926C11.4878 8.37001 11.5008 8.43513 11.5008 8.50089C11.5008 8.56666 11.4878 8.63178 11.4626 8.69253C11.4374 8.75327 11.4005 8.80845 11.3539 8.85489L5.35392 14.8549C5.26003 14.9488 5.13269 15.0015 4.99992 15.0015C4.86714 15.0015 4.7398 14.9488 4.64592 14.8549C4.55203 14.761 4.49929 14.6337 4.49929 14.5009C4.49929 14.3681 4.55203 14.2408 4.64592 14.1469L10.2929 8.50089L4.64592 2.85489C4.59935 2.80845 4.56241 2.75327 4.5372 2.69253C4.512 2.63178 4.49902 2.56666 4.49902 2.50089C4.49902 2.43513 4.512 2.37001 4.5372 2.30926C4.56241 2.24852 4.59935 2.19334 4.64592 2.14689Z"
+                              />
+                            </svg>
+                          </button>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </li>
-              </ul>
+                  </li>
+                </ul>
+              )}
+
               <div className="flex justify-between mt-2 pt-3 border-t border-Neutral-95">
                 <div></div>
                 <div>
