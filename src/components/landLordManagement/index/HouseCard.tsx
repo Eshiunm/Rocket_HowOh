@@ -92,6 +92,8 @@ export default function HouseCard({data, houseStatus}: {data:any, houseStatus:st
     } else if ( houseStatus === "publishList" ) {
       localStorage.setItem("houseId", houseId);
       navigate(`/landlord/publish/${houseId}`);
+    } else if ( houseStatus === "finishedList" ) {
+      navigate(`/landlord/finished/${houseId}`);
     }
     setLoading(false);
   }

@@ -216,7 +216,10 @@ export default function FinishHouse() {
               <button
                 type="button"
                 className="outline-button-m"
-                onClick={() => navigate("/landlord")}
+                onClick={() => {
+                  localStorage.removeItem("houseId");
+                  navigate("/landlord")
+                }}
                 >返回房源管理頁面</button>
               <button
                 type="button"
