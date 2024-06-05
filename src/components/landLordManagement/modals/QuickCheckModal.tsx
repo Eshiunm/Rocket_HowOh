@@ -23,7 +23,7 @@ export default function QuickCheckModal(props : QuickCheckModalPropsType) {
   const { openModal, setOpenModal } = props;
   const [isPhoneFocused,setIsPhoneFocused] = useState(false);
   const [tenantInfo,setTenantInfo] = useState<tenantInfoType | null>(null);// 是否正在打 API
-  const [isPosting, setPosting] = useState(false);
+  const [isSearchingUser, setIsSearchingUser] = useState(false);
   const [openForceChangeModal, setOpenForceChangeModal] = useState(false);
 
   const { register, handleSubmit, formState: { errors }, watch } = useForm({
@@ -69,11 +69,12 @@ export default function QuickCheckModal(props : QuickCheckModalPropsType) {
     submitUserInfo(userInfo);
   };
   
+  // 檢查承租人電話是否為系統用戶
   useEffect(() => {
     const telRegex = /^09\d{8}$/;
 
     const checkTenantPhone = async (phone: string) => {
-      setPosting(true);
+      setIsSearchingUser(true);
       try {
         const response = await apiHouseLandlordFindUser(phone);
         setTenantInfo(response.data.data);
@@ -82,7 +83,7 @@ export default function QuickCheckModal(props : QuickCheckModalPropsType) {
           console.log(error);
         }
       }
-      setPosting(false);
+      setIsSearchingUser(false);
     }
 
     if (telRegex.test(tenantPhone)) {
@@ -143,7 +144,7 @@ export default function QuickCheckModal(props : QuickCheckModalPropsType) {
               {
                 errors.tenantPhone?.message && <p className="post-alert">{errors.tenantPhone?.message}</p>
               }
-              {isPosting ? (
+              {isSearchingUser ? (
                 <div role="status" className="bg-Landlord-95 rounded-lg p-3 my-3 flex items-center gap-6">
                   <div className="animate-pulse flex items-center justify-center w-16 h-16 bg-gray-300 rounded">
                     <svg className="w-10 h-10 text-gray-200 dark:text-gray-600" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
@@ -168,7 +169,7 @@ export default function QuickCheckModal(props : QuickCheckModalPropsType) {
                 : null
               }
               {
-                tenantInfo === null && tenantPhone.length === 10 && isPosting === false && (
+                tenantInfo === null && tenantPhone.length === 10 && isSearchingUser === false && (
                   <p className="post-alert pl-3">此承租人非租客系統用戶，您們將無法相互評價</p>
                 )
               }
