@@ -7,7 +7,7 @@ import alertTriangle from "../../../assets/imgs/icons/alertTriangle.svg";
 import messageCloud from "../../../assets/imgs/icons/messageCloud.svg";
 import smileWink from "../../../assets/imgs/icons/smileWink.svg";
 import ForcedChangeModal from "./ForcedChangeModal";
-import { apiHouseLandlordFindUser } from "../../../apis/apis";
+import { apiHouseLandlordFindUser, apiOrderLandlordAssignTenant } from "../../../apis/apis";
 
 interface QuickCheckModalPropsType {
   openModal: boolean;
@@ -36,15 +36,37 @@ export default function QuickCheckModal(props : QuickCheckModalPropsType) {
   const tenantPhone = watch("tenantPhone");
   const leaseStartTime = watch("leaseStartTime");
   const onSubmit = (data: any) => {
-    console.log(data)
-    const userInfo = {
-      houseId: localStorage.getItem("houseId"),
-      userId: tenantInfo?.userId ? tenantInfo.userId : "",
-      leaseStartTime: data.leaseStartTime,
-      leaseEndTime: data.leaseEndTime,
-      tenantTelphone: data.tenantPhone,
+    let userInfo = {};
+    if (tenantInfo?.userId) {
+      userInfo = {
+        houseId: localStorage.getItem("houseId"),
+        userId: tenantInfo?.userId ? tenantInfo.userId : undefined,
+        leaseStartTime: data.leaseStartTime,
+        leaseEndTime: data.leaseEndTime,
+        tenantTelphone: data.tenantPhone,
+      }
+    } else {
+      userInfo = {
+        houseId: localStorage.getItem("houseId"),
+        leaseStartTime: data.leaseStartTime,
+        leaseEndTime: data.leaseEndTime,
+        tenantTelphone: data.tenantPhone,
+      }
     }
     console.log(userInfo);
+    const submitUserInfo = async (userInfo: any) => {
+      try {
+        const response = await apiOrderLandlordAssignTenant(userInfo);
+        console.log(response);
+      } catch (error: any) {
+        if ( error.response.status === 400 ) {
+          alert(error.message);
+          console.log(error);
+        }
+      }
+    }
+
+    submitUserInfo(userInfo);
   };
   
   useEffect(() => {
