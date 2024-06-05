@@ -50,7 +50,7 @@ function HousePicturesModal({ closeModal, housePicturesData }: ModalProps) {
               >
                 {housePicturesData.map((item, index) => {
                   return (
-                    <SwiperSlide key={index} className=" w-[500px]">
+                    <SwiperSlide key={index} className="w-[500px]">
                       <img src={item} className="object-cover h-[500px]" />
                     </SwiperSlide>
                   );
