@@ -86,6 +86,7 @@ export const apiHouseCommonListCount = () => houseRequest.get('/common/totalNumb
 
 // 租賃-房東相關的 api
 export const apiOrderLandlordListExpired = () => orderRequest.get('/landlord/list/expired'); // ALH-1
+export const apiOrderLandlordAssignTenant = (userInfo: any) => orderRequest.post('/landlord/userInfo', userInfo, getToken()); // ALO-5、ALO-8
 
 // 租賃-租客相關的 api
 export const apiOrderTenantListExpired = () => orderRequest.get('/tenant/list/expired'); // ATH-2

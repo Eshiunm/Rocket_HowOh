@@ -35,7 +35,17 @@ export default function QuickCheckModal(props : QuickCheckModalPropsType) {
   });
   const tenantPhone = watch("tenantPhone");
   const leaseStartTime = watch("leaseStartTime");
-  const onSubmit = (data: any) => console.log(data);
+  const onSubmit = (data: any) => {
+    console.log(data)
+    const userInfo = {
+      houseId: localStorage.getItem("houseId"),
+      userId: tenantInfo?.userId ? tenantInfo.userId : "",
+      leaseStartTime: data.leaseStartTime,
+      leaseEndTime: data.leaseEndTime,
+      tenantTelphone: data.tenantPhone,
+    }
+    console.log(userInfo);
+  };
   
   useEffect(() => {
     const telRegex = /^09\d{8}$/;
@@ -222,11 +232,8 @@ export default function QuickCheckModal(props : QuickCheckModalPropsType) {
                 }}
               >取消</button>
               <button
-                type="button" 
-                className="filled-button-m" onClick={() => {
-                  localStorage.removeItem("houseId");
-                  setOpenModal(false)
-                }}
+                type="submit" 
+                className="filled-button-m"
               >立即更改</button>
             </div>
           </form>
