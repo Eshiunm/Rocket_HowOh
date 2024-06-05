@@ -10,12 +10,9 @@ import "../components/singleHousePage/mainPicture_carousel.css"; //客製化上�
 // import required modules
 import { Navigation, Pagination } from "swiper/modules";
 import { apiHouseCommonSingleInfo } from "../apis/apis";
+import BigLoading from "../components/loading/BigLoading";
 import HousePicturesModal from "../components/singleHousePage/HousePicturesModal";
 import SeeMoreHousePicturesModal from "../components/singleHousePage/SeeMoreHousePicturesModal";
-import singleHousePage_secondaryPicture1 from "../assets/imgs/SingleHousePage/singleHousePage_secondaryPicture1.jpg";
-import singleHousePage_secondaryPicture2 from "../assets/imgs/SingleHousePage/singleHousePage_secondaryPicture2.jpg";
-import singleHousePage_secondaryPicture3 from "../assets/imgs/SingleHousePage/singleHousePage_secondaryPicture3.jpg";
-import singleHousePage_secondaryPicture4 from "../assets/imgs/SingleHousePage/singleHousePage_secondaryPicture4.jpg";
 import handShakeIcon from "../assets/imgs/SingleHousePage/handShakeIcon.svg";
 import homeAndGardenIcon from "../assets/imgs/SingleHousePage/homeAndGardenIcon.svg";
 import grandMoneyIcon from "../assets/imgs/SingleHousePage/grandMoney.svg";
@@ -35,6 +32,7 @@ function SingleHousePage() {
   const [singleHouseData, setSingleHouseData] = useState<any>({});
   //取得去掉首圖url後的array
   const [isfilterPhotos, setIsFilterPhotos] = useState<any>([]);
+  const [isAPIProcessing, setIsAPIProcessing] = useState<boolean>(false);
   const goIntroductionRef = () => {
     window.scrollTo({
       top: introductionRef.current!.offsetTop - 100,
@@ -79,6 +77,7 @@ function SingleHousePage() {
   useEffect(() => {
     const getData = async (houseId: any) => {
       try {
+        setIsAPIProcessing(true);
         const response = await apiHouseCommonSingleInfo(houseId);
         setSingleHouseData(response.data.data);
         console.log(response.data.data);
@@ -88,6 +87,7 @@ function SingleHousePage() {
             response.data.data.photos.firstPic
           )
         );
+        setIsAPIProcessing(false);
       } catch (error) {
         console.log(error);
       }
@@ -98,6 +98,7 @@ function SingleHousePage() {
 
   return (
     <>
+      {isAPIProcessing && <BigLoading />}
       {/* 等待 API 抓到資料再渲染 */}
       {Object.keys(singleHouseData).length > 0 && (
         <div className="wrap bg-Neutral-99 pb-32">
