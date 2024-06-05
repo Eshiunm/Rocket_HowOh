@@ -307,7 +307,7 @@ function SingleHousePage() {
                   {singleHouseData.features.isPetAllowed && (
                     <li className="flex items-center px-4 py-2 bg-Tenant-90 rounded-full">
                       <span className="material-symbols-outlined mr-1">
-                        <span class="material-symbols-outlined">
+                        <span className="material-symbols-outlined">
                           pet_supplies
                         </span>
                       </span>
