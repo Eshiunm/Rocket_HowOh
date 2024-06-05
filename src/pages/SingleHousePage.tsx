@@ -12,7 +12,6 @@ import { Navigation, Pagination } from "swiper/modules";
 import { apiHouseCommonSingleInfo } from "../apis/apis";
 import HousePicturesModal from "../components/singleHousePage/HousePicturesModal";
 import SeeMoreHousePicturesModal from "../components/singleHousePage/SeeMoreHousePicturesModal";
-import singleHousePage_MainPicture from "../assets/imgs/SingleHousePage/singleHousePage_MainPicture.jpg";
 import singleHousePage_secondaryPicture1 from "../assets/imgs/SingleHousePage/singleHousePage_secondaryPicture1.jpg";
 import singleHousePage_secondaryPicture2 from "../assets/imgs/SingleHousePage/singleHousePage_secondaryPicture2.jpg";
 import singleHousePage_secondaryPicture3 from "../assets/imgs/SingleHousePage/singleHousePage_secondaryPicture3.jpg";
@@ -25,7 +24,6 @@ import houseFeatureCheckIcon from "../assets/imgs/SingleHousePage/houseFeatureCh
 import ratingStarIcon from "../assets/imgs/SingleHousePage/ratingStarIcon.svg";
 import rightIcon_white from "../assets/imgs/icons/rightIcon_white.svg";
 import landLordIcon from "../assets/imgs/SingleHousePage/landLordIcon.svg";
-import landLordProfile from "../assets/imgs/SingleHousePage/landLordProfile.jpg";
 import Footer from "../components/footer/Footer";
 
 function SingleHousePage() {
@@ -35,7 +33,8 @@ function SingleHousePage() {
   const usageFeeRef = useRef<HTMLDivElement>(null);
   const evaluateRef = useRef<HTMLDivElement>(null);
   const [singleHouseData, setSingleHouseData] = useState<any>({});
-
+  //取得去掉首圖url後的array
+  const [isfilterPhotos, setIsFilterPhotos] = useState<any>([]);
   const goIntroductionRef = () => {
     window.scrollTo({
       top: introductionRef.current!.offsetTop - 100,
@@ -64,6 +63,14 @@ function SingleHousePage() {
     });
   };
 
+  // 將首圖過濾掉
+  const filterPhotos = (photos: any, firstPhotoUrl: any) => {
+    if (photos.length > 0) {
+      return photos.filter((photo: any) => photo !== firstPhotoUrl);
+    }
+    return [];
+  };
+
   const [isHousePicturesCarouselOpen, setIsHousePicturesCarouselOpen] =
     useState(false);
   const [isSeeMoreHousePicturesOpen, setIsSeeMoreHousePicturesOpen] =
@@ -75,6 +82,12 @@ function SingleHousePage() {
         const response = await apiHouseCommonSingleInfo(houseId);
         setSingleHouseData(response.data.data);
         console.log(response.data.data);
+        setIsFilterPhotos(
+          filterPhotos(
+            response.data.data.photos.restOfPic,
+            response.data.data.photos.firstPic
+          )
+        );
       } catch (error) {
         console.log(error);
       }
@@ -85,13 +98,14 @@ function SingleHousePage() {
 
   return (
     <>
+      {/* 等待 API 抓到資料再渲染 */}
       {Object.keys(singleHouseData).length > 0 && (
         <div className="wrap bg-Neutral-99 pb-32">
           {/* 房源圖片 */}
           <div className="container layout-grid pt-6 mb-6">
             {/* 首圖 */}
             <div className="col-span-6 col-start-2 overflow-hidden">
-              {/* 首圖輪播 */}
+              {/* 首圖位置輪播特效 */}
               <Swiper
                 slidesPerView={1}
                 spaceBetween={30}
@@ -101,66 +115,173 @@ function SingleHousePage() {
                 className="mainImgSwiper cursor-pointer"
                 onClick={() => setIsHousePicturesCarouselOpen(true)}
               >
+                {/* 輪播首圖 */}
                 <SwiperSlide>
-                  <img
-                    src={singleHousePage_MainPicture}
-                    alt="mainImg"
-                    className="w-full h-full"
-                  />
+                  <div className="w-[648px] h-[425px]">
+                    <img
+                      src={singleHouseData.photos.firstPic}
+                      alt="mainImg"
+                      className="object-scale-down"
+                    />
+                  </div>
                 </SwiperSlide>
-                <SwiperSlide>
-                  <img
-                    src={singleHousePage_MainPicture}
-                    alt="mainImg"
-                    className="w-full h-full"
-                  />
-                </SwiperSlide>
+                {/* 輪播次要圖片 */}
+                {filterPhotos(
+                  singleHouseData.photos.restOfPic,
+                  singleHouseData.photos.firstPic
+                ).map((photo: any) => (
+                  <SwiperSlide key={photo}>
+                    <div className="w-[648px] h-[425px]">
+                      <img
+                        src={photo}
+                        alt="mainImg"
+                        className="object-scale-down"
+                      />
+                    </div>
+                  </SwiperSlide>
+                ))}
               </Swiper>
             </div>
             {/* 次要圖片 */}
             <div className="col-span-4">
-              <div className="sideImg flex">
+              <div className="sideImg">
                 <ul className="flex flex-wrap justify-between gap-y-6">
-                  <li
-                    className="w-[48%] h-[200px] overflow-hidden"
-                    onClick={() => setIsHousePicturesCarouselOpen(true)}
-                  >
-                    <img
-                      src={singleHousePage_secondaryPicture1}
-                      alt="houseImg"
-                      className="h-full hover:scale-110 transition-all duration-300 cursor-pointer"
-                    />
-                  </li>
-                  <li
-                    className="w-[48%] h-[200px] overflow-hidden"
-                    onClick={() => setIsHousePicturesCarouselOpen(true)}
-                  >
-                    <img
-                      src={singleHousePage_secondaryPicture2}
-                      alt="houseImg"
-                      className="h-full hover:scale-110 transition-all duration-300 cursor-pointer"
-                    />
-                  </li>
-                  <li
-                    className="w-[48%] h-[200px] overflow-hidden"
-                    onClick={() => setIsHousePicturesCarouselOpen(true)}
-                  >
-                    <img
-                      src={singleHousePage_secondaryPicture3}
-                      alt="houseImg"
-                      className="h-full hover:scale-110 transition-all duration-300 cursor-pointer"
-                    />
-                  </li>
-                  <li
-                    className="w-[48%] h-[200px] overflow-hidden"
-                    onClick={() => setIsHousePicturesCarouselOpen(true)}
-                  >
-                    <img
-                      src={singleHousePage_secondaryPicture4}
-                      alt="houseImg"
-                      className="h-full hover:scale-110 transition-all duration-300 cursor-pointer"
-                    />
-                  </li>
+                  {isfilterPhotos[0] ? (
+                    <li
+                      className="h-[200px] overflow-hidden"
+                      onClick={() => setIsHousePicturesCarouselOpen(true)}
+                    >
+                      <img
+                        src={isfilterPhotos[0]}
+                        alt="houseImg"
+                        className="h-full w-full hover:scale-110 transition-all duration-300 cursor-pointer"
+                      />
+                    </li>
+                  ) : (
+                    <li
+                      className="h-[200px] overflow-hidden"
+                      onClick={() => setIsHousePicturesCarouselOpen(true)}
+                    >
+                      <svg
+                        width="200"
+                        height="200"
+                        viewBox="200 0 200 400"
+                        className="object-cover hover:scale-110 transition-all duration-300 cursor-pointer"
+                      >
+                        <rect width="600" height="400" fill="#E7E7E7" />
+                        <path
+                          d="M251 197.254L267 184L283 197.254V216H251V197.254Z"
+                          fill="#C0C8C9"
+                        />
+                        <path
+                          d="M321.242 198.84V203.627H318.349V206.571C318.349 207.817 318.204 208.739 317.914 209.336C317.623 209.916 316.992 210.334 316.019 210.59C315.063 210.846 313.527 210.974 311.411 210.974C310.609 210.974 309.986 210.966 309.542 210.949C309.577 210.539 309.594 210.232 309.594 210.027C309.594 208.884 309.346 207.646 308.851 206.315L306.061 209.874L305.6 209.49C305.156 209.08 304.73 208.713 304.32 208.389C302.938 209.635 301.18 210.616 299.046 211.333C298.671 210.445 298.261 209.652 297.818 208.952C297.374 208.235 296.777 207.459 296.026 206.622C297.766 206.247 299.166 205.769 300.224 205.189C299.183 204.455 298.185 203.798 297.229 203.218C297.792 201.511 298.202 199.574 298.458 197.406H296.87V193.208H298.816L298.918 191.365H303.834L303.808 191.979C303.808 192.252 303.791 192.662 303.757 193.208H308.621V191.877H319.654L320.832 195.973C320.081 197.082 319.339 198.038 318.605 198.84H321.242ZM310.029 205.675C311.07 205.795 311.727 205.854 312 205.854C312.444 205.854 312.725 205.769 312.845 205.598C312.964 205.411 313.024 205.027 313.024 204.446V203.627H308.954V198.84H313.024V197.406H313.894C314.253 197.133 314.594 196.818 314.918 196.459H308.621C308.518 198.081 308.348 199.54 308.109 200.837C307.87 202.117 307.529 203.294 307.085 204.37L308.851 205.522L310.029 205.675ZM303.296 197.406C303.091 198.806 302.784 200.137 302.374 201.4L303.142 201.861C303.569 200.769 303.876 199.284 304.064 197.406H303.296ZM346.074 203.166H347.507V209.003C347.507 209.583 347.345 210.01 347.021 210.283C346.697 210.556 346.082 210.744 345.178 210.846C344.29 210.949 342.882 211 340.954 211C340.919 210.625 340.877 210.326 340.826 210.104H335.219V210.718H330.099V205.598H341.133V208.107C341.423 208.124 341.602 208.099 341.67 208.03C341.739 207.945 341.773 207.749 341.773 207.442V205.291H329.357V210.898H323.418V203.166H324.774V198.994H327.539C327.061 198.584 326.507 198.217 325.875 197.893C325.261 197.551 324.493 197.21 323.571 196.869C325.892 196.681 327.565 196.451 328.589 196.178H323.955V191.826H332.275V191.211H338.573V191.826H346.893V195.87H341.901V195.384H341.107V196.434C341.107 196.502 341.141 196.553 341.21 196.587C341.278 196.604 341.431 196.613 341.67 196.613C341.841 196.613 341.961 196.596 342.029 196.562C342.097 196.527 342.131 196.459 342.131 196.357C342.131 196.306 342.114 196.212 342.08 196.075C343.565 196.178 345.289 196.246 347.251 196.28C347.251 196.826 347.217 197.193 347.149 197.381C347.098 197.569 346.961 197.765 346.739 197.97C346.5 198.191 346.176 198.337 345.766 198.405C345.374 198.473 344.845 198.524 344.179 198.558C343.906 198.558 343.71 198.567 343.59 198.584C342.839 198.618 342.225 198.635 341.747 198.635L339.443 198.61C339.255 198.593 338.965 198.584 338.573 198.584C337.549 198.567 336.841 198.482 336.448 198.328C336.055 198.174 335.859 197.918 335.859 197.56V195.998C334.938 196.801 333.931 197.398 332.838 197.79C331.763 198.166 330.202 198.567 328.154 198.994H346.074V203.166ZM328.947 195.384V196.075C329.545 195.905 330.014 195.674 330.355 195.384H328.947ZM332.506 195.384L335.859 195.947V195.384H332.506ZM340.083 200.914H330.739V203.166H331.43V201.246H340.083V200.914ZM336.499 203.166H340.083V202.808H336.499V203.166ZM335.219 207.339V208.21H336.32V207.339H335.219Z"
+                          fill="#C0C8C9"
+                        />
+                      </svg>
+                    </li>
+                  )}
+                  {isfilterPhotos[1] ? (
+                    <li
+                      className="h-[200px] overflow-hidden"
+                      onClick={() => setIsHousePicturesCarouselOpen(true)}
+                    >
+                      <img
+                        src={isfilterPhotos[1]}
+                        alt="houseImg"
+                        className="h-full w-full hover:scale-110 transition-all duration-300 cursor-pointer"
+                      />
+                    </li>
+                  ) : (
+                    <li
+                      className="h-[200px] overflow-hidden"
+                      onClick={() => setIsHousePicturesCarouselOpen(true)}
+                    >
+                      <svg
+                        width="200"
+                        height="200"
+                        viewBox="200 0 200 400"
+                        className="object-cover hover:scale-110 transition-all duration-300 cursor-pointer"
+                      >
+                        <rect width="600" height="400" fill="#E7E7E7" />
+                        <path
+                          d="M251 197.254L267 184L283 197.254V216H251V197.254Z"
+                          fill="#C0C8C9"
+                        />
+                        <path
+                          d="M321.242 198.84V203.627H318.349V206.571C318.349 207.817 318.204 208.739 317.914 209.336C317.623 209.916 316.992 210.334 316.019 210.59C315.063 210.846 313.527 210.974 311.411 210.974C310.609 210.974 309.986 210.966 309.542 210.949C309.577 210.539 309.594 210.232 309.594 210.027C309.594 208.884 309.346 207.646 308.851 206.315L306.061 209.874L305.6 209.49C305.156 209.08 304.73 208.713 304.32 208.389C302.938 209.635 301.18 210.616 299.046 211.333C298.671 210.445 298.261 209.652 297.818 208.952C297.374 208.235 296.777 207.459 296.026 206.622C297.766 206.247 299.166 205.769 300.224 205.189C299.183 204.455 298.185 203.798 297.229 203.218C297.792 201.511 298.202 199.574 298.458 197.406H296.87V193.208H298.816L298.918 191.365H303.834L303.808 191.979C303.808 192.252 303.791 192.662 303.757 193.208H308.621V191.877H319.654L320.832 195.973C320.081 197.082 319.339 198.038 318.605 198.84H321.242ZM310.029 205.675C311.07 205.795 311.727 205.854 312 205.854C312.444 205.854 312.725 205.769 312.845 205.598C312.964 205.411 313.024 205.027 313.024 204.446V203.627H308.954V198.84H313.024V197.406H313.894C314.253 197.133 314.594 196.818 314.918 196.459H308.621C308.518 198.081 308.348 199.54 308.109 200.837C307.87 202.117 307.529 203.294 307.085 204.37L308.851 205.522L310.029 205.675ZM303.296 197.406C303.091 198.806 302.784 200.137 302.374 201.4L303.142 201.861C303.569 200.769 303.876 199.284 304.064 197.406H303.296ZM346.074 203.166H347.507V209.003C347.507 209.583 347.345 210.01 347.021 210.283C346.697 210.556 346.082 210.744 345.178 210.846C344.29 210.949 342.882 211 340.954 211C340.919 210.625 340.877 210.326 340.826 210.104H335.219V210.718H330.099V205.598H341.133V208.107C341.423 208.124 341.602 208.099 341.67 208.03C341.739 207.945 341.773 207.749 341.773 207.442V205.291H329.357V210.898H323.418V203.166H324.774V198.994H327.539C327.061 198.584 326.507 198.217 325.875 197.893C325.261 197.551 324.493 197.21 323.571 196.869C325.892 196.681 327.565 196.451 328.589 196.178H323.955V191.826H332.275V191.211H338.573V191.826H346.893V195.87H341.901V195.384H341.107V196.434C341.107 196.502 341.141 196.553 341.21 196.587C341.278 196.604 341.431 196.613 341.67 196.613C341.841 196.613 341.961 196.596 342.029 196.562C342.097 196.527 342.131 196.459 342.131 196.357C342.131 196.306 342.114 196.212 342.08 196.075C343.565 196.178 345.289 196.246 347.251 196.28C347.251 196.826 347.217 197.193 347.149 197.381C347.098 197.569 346.961 197.765 346.739 197.97C346.5 198.191 346.176 198.337 345.766 198.405C345.374 198.473 344.845 198.524 344.179 198.558C343.906 198.558 343.71 198.567 343.59 198.584C342.839 198.618 342.225 198.635 341.747 198.635L339.443 198.61C339.255 198.593 338.965 198.584 338.573 198.584C337.549 198.567 336.841 198.482 336.448 198.328C336.055 198.174 335.859 197.918 335.859 197.56V195.998C334.938 196.801 333.931 197.398 332.838 197.79C331.763 198.166 330.202 198.567 328.154 198.994H346.074V203.166ZM328.947 195.384V196.075C329.545 195.905 330.014 195.674 330.355 195.384H328.947ZM332.506 195.384L335.859 195.947V195.384H332.506ZM340.083 200.914H330.739V203.166H331.43V201.246H340.083V200.914ZM336.499 203.166H340.083V202.808H336.499V203.166ZM335.219 207.339V208.21H336.32V207.339H335.219Z"
+                          fill="#C0C8C9"
+                        />
+                      </svg>
+                    </li>
+                  )}
+                  {isfilterPhotos[2] ? (
+                    <li
+                      className="h-[200px] overflow-hidden"
+                      onClick={() => setIsHousePicturesCarouselOpen(true)}
+                    >
+                      <img
+                        src={isfilterPhotos[2]}
+                        alt="houseImg"
+                        className="h-full w-full hover:scale-110 transition-all duration-300 cursor-pointer"
+                      />
+                    </li>
+                  ) : (
+                    <li
+                      className="h-[200px] overflow-hidden"
+                      onClick={() => setIsHousePicturesCarouselOpen(true)}
+                    >
+                      <svg
+                        width="200"
+                        height="200"
+                        viewBox="200 0 200 400"
+                        className="object-cover hover:scale-110 transition-all duration-300 cursor-pointer"
+                      >
+                        <rect width="600" height="400" fill="#E7E7E7" />
+                        <path
+                          d="M251 197.254L267 184L283 197.254V216H251V197.254Z"
+                          fill="#C0C8C9"
+                        />
+                        <path
+                          d="M321.242 198.84V203.627H318.349V206.571C318.349 207.817 318.204 208.739 317.914 209.336C317.623 209.916 316.992 210.334 316.019 210.59C315.063 210.846 313.527 210.974 311.411 210.974C310.609 210.974 309.986 210.966 309.542 210.949C309.577 210.539 309.594 210.232 309.594 210.027C309.594 208.884 309.346 207.646 308.851 206.315L306.061 209.874L305.6 209.49C305.156 209.08 304.73 208.713 304.32 208.389C302.938 209.635 301.18 210.616 299.046 211.333C298.671 210.445 298.261 209.652 297.818 208.952C297.374 208.235 296.777 207.459 296.026 206.622C297.766 206.247 299.166 205.769 300.224 205.189C299.183 204.455 298.185 203.798 297.229 203.218C297.792 201.511 298.202 199.574 298.458 197.406H296.87V193.208H298.816L298.918 191.365H303.834L303.808 191.979C303.808 192.252 303.791 192.662 303.757 193.208H308.621V191.877H319.654L320.832 195.973C320.081 197.082 319.339 198.038 318.605 198.84H321.242ZM310.029 205.675C311.07 205.795 311.727 205.854 312 205.854C312.444 205.854 312.725 205.769 312.845 205.598C312.964 205.411 313.024 205.027 313.024 204.446V203.627H308.954V198.84H313.024V197.406H313.894C314.253 197.133 314.594 196.818 314.918 196.459H308.621C308.518 198.081 308.348 199.54 308.109 200.837C307.87 202.117 307.529 203.294 307.085 204.37L308.851 205.522L310.029 205.675ZM303.296 197.406C303.091 198.806 302.784 200.137 302.374 201.4L303.142 201.861C303.569 200.769 303.876 199.284 304.064 197.406H303.296ZM346.074 203.166H347.507V209.003C347.507 209.583 347.345 210.01 347.021 210.283C346.697 210.556 346.082 210.744 345.178 210.846C344.29 210.949 342.882 211 340.954 211C340.919 210.625 340.877 210.326 340.826 210.104H335.219V210.718H330.099V205.598H341.133V208.107C341.423 208.124 341.602 208.099 341.67 208.03C341.739 207.945 341.773 207.749 341.773 207.442V205.291H329.357V210.898H323.418V203.166H324.774V198.994H327.539C327.061 198.584 326.507 198.217 325.875 197.893C325.261 197.551 324.493 197.21 323.571 196.869C325.892 196.681 327.565 196.451 328.589 196.178H323.955V191.826H332.275V191.211H338.573V191.826H346.893V195.87H341.901V195.384H341.107V196.434C341.107 196.502 341.141 196.553 341.21 196.587C341.278 196.604 341.431 196.613 341.67 196.613C341.841 196.613 341.961 196.596 342.029 196.562C342.097 196.527 342.131 196.459 342.131 196.357C342.131 196.306 342.114 196.212 342.08 196.075C343.565 196.178 345.289 196.246 347.251 196.28C347.251 196.826 347.217 197.193 347.149 197.381C347.098 197.569 346.961 197.765 346.739 197.97C346.5 198.191 346.176 198.337 345.766 198.405C345.374 198.473 344.845 198.524 344.179 198.558C343.906 198.558 343.71 198.567 343.59 198.584C342.839 198.618 342.225 198.635 341.747 198.635L339.443 198.61C339.255 198.593 338.965 198.584 338.573 198.584C337.549 198.567 336.841 198.482 336.448 198.328C336.055 198.174 335.859 197.918 335.859 197.56V195.998C334.938 196.801 333.931 197.398 332.838 197.79C331.763 198.166 330.202 198.567 328.154 198.994H346.074V203.166ZM328.947 195.384V196.075C329.545 195.905 330.014 195.674 330.355 195.384H328.947ZM332.506 195.384L335.859 195.947V195.384H332.506ZM340.083 200.914H330.739V203.166H331.43V201.246H340.083V200.914ZM336.499 203.166H340.083V202.808H336.499V203.166ZM335.219 207.339V208.21H336.32V207.339H335.219Z"
+                          fill="#C0C8C9"
+                        />
+                      </svg>
+                    </li>
+                  )}
+                  {isfilterPhotos[3] ? (
+                    <li
+                      className="h-[200px] overflow-hidden"
+                      onClick={() => setIsHousePicturesCarouselOpen(true)}
+                    >
+                      <img
+                        src={isfilterPhotos[3]}
+                        alt="houseImg"
+                        className="h-full w-full hover:scale-110 transition-all duration-300 cursor-pointer"
+                      />
+                    </li>
+                  ) : (
+                    <li
+                      className="h-[200px] overflow-hidden"
+                      onClick={() => setIsHousePicturesCarouselOpen(true)}
+                    >
+                      <svg
+                        width="200"
+                        height="200"
+                        viewBox="200 0 200 400"
+                        className="object-cover hover:scale-110 transition-all duration-300 cursor-pointer"
+                      >
+                        <rect width="600" height="400" fill="#E7E7E7" />
+                        <path
+                          d="M251 197.254L267 184L283 197.254V216H251V197.254Z"
+                          fill="#C0C8C9"
+                        />
+                        <path
+                          d="M321.242 198.84V203.627H318.349V206.571C318.349 207.817 318.204 208.739 317.914 209.336C317.623 209.916 316.992 210.334 316.019 210.59C315.063 210.846 313.527 210.974 311.411 210.974C310.609 210.974 309.986 210.966 309.542 210.949C309.577 210.539 309.594 210.232 309.594 210.027C309.594 208.884 309.346 207.646 308.851 206.315L306.061 209.874L305.6 209.49C305.156 209.08 304.73 208.713 304.32 208.389C302.938 209.635 301.18 210.616 299.046 211.333C298.671 210.445 298.261 209.652 297.818 208.952C297.374 208.235 296.777 207.459 296.026 206.622C297.766 206.247 299.166 205.769 300.224 205.189C299.183 204.455 298.185 203.798 297.229 203.218C297.792 201.511 298.202 199.574 298.458 197.406H296.87V193.208H298.816L298.918 191.365H303.834L303.808 191.979C303.808 192.252 303.791 192.662 303.757 193.208H308.621V191.877H319.654L320.832 195.973C320.081 197.082 319.339 198.038 318.605 198.84H321.242ZM310.029 205.675C311.07 205.795 311.727 205.854 312 205.854C312.444 205.854 312.725 205.769 312.845 205.598C312.964 205.411 313.024 205.027 313.024 204.446V203.627H308.954V198.84H313.024V197.406H313.894C314.253 197.133 314.594 196.818 314.918 196.459H308.621C308.518 198.081 308.348 199.54 308.109 200.837C307.87 202.117 307.529 203.294 307.085 204.37L308.851 205.522L310.029 205.675ZM303.296 197.406C303.091 198.806 302.784 200.137 302.374 201.4L303.142 201.861C303.569 200.769 303.876 199.284 304.064 197.406H303.296ZM346.074 203.166H347.507V209.003C347.507 209.583 347.345 210.01 347.021 210.283C346.697 210.556 346.082 210.744 345.178 210.846C344.29 210.949 342.882 211 340.954 211C340.919 210.625 340.877 210.326 340.826 210.104H335.219V210.718H330.099V205.598H341.133V208.107C341.423 208.124 341.602 208.099 341.67 208.03C341.739 207.945 341.773 207.749 341.773 207.442V205.291H329.357V210.898H323.418V203.166H324.774V198.994H327.539C327.061 198.584 326.507 198.217 325.875 197.893C325.261 197.551 324.493 197.21 323.571 196.869C325.892 196.681 327.565 196.451 328.589 196.178H323.955V191.826H332.275V191.211H338.573V191.826H346.893V195.87H341.901V195.384H341.107V196.434C341.107 196.502 341.141 196.553 341.21 196.587C341.278 196.604 341.431 196.613 341.67 196.613C341.841 196.613 341.961 196.596 342.029 196.562C342.097 196.527 342.131 196.459 342.131 196.357C342.131 196.306 342.114 196.212 342.08 196.075C343.565 196.178 345.289 196.246 347.251 196.28C347.251 196.826 347.217 197.193 347.149 197.381C347.098 197.569 346.961 197.765 346.739 197.97C346.5 198.191 346.176 198.337 345.766 198.405C345.374 198.473 344.845 198.524 344.179 198.558C343.906 198.558 343.71 198.567 343.59 198.584C342.839 198.618 342.225 198.635 341.747 198.635L339.443 198.61C339.255 198.593 338.965 198.584 338.573 198.584C337.549 198.567 336.841 198.482 336.448 198.328C336.055 198.174 335.859 197.918 335.859 197.56V195.998C334.938 196.801 333.931 197.398 332.838 197.79C331.763 198.166 330.202 198.567 328.154 198.994H346.074V203.166ZM328.947 195.384V196.075C329.545 195.905 330.014 195.674 330.355 195.384H328.947ZM332.506 195.384L335.859 195.947V195.384H332.506ZM340.083 200.914H330.739V203.166H331.43V201.246H340.083V200.914ZM336.499 203.166H340.083V202.808H336.499V203.166ZM335.219 207.339V208.21H336.32V207.339H335.219Z"
+                          fill="#C0C8C9"
+                        />
+                      </svg>
+                    </li>
+                  )}
                 </ul>
               </div>
             </div>
@@ -185,7 +306,9 @@ function SingleHousePage() {
                   {singleHouseData.features.isPetAllowed && (
                     <li className="flex items-center px-4 py-2 bg-Tenant-90 rounded-full">
                       <span className="material-symbols-outlined mr-1">
-                        savings
+                        <span class="material-symbols-outlined">
+                          pet_supplies
+                        </span>
                       </span>
                       <span className="text-sans-b-body1">可養寵</span>
                     </li>
@@ -193,7 +316,7 @@ function SingleHousePage() {
                   {singleHouseData.features.isCookAllowed && (
                     <li className="flex items-center px-4 py-2 bg-Tenant-90 rounded-full">
                       <span className="material-symbols-outlined mr-1">
-                        savings
+                        skillet
                       </span>
                       <span className="text-sans-b-body1">可開伙</span>
                     </li>
@@ -201,7 +324,7 @@ function SingleHousePage() {
                   {singleHouseData.features.isSTRAllowed && (
                     <li className="flex items-center px-4 py-2 bg-Tenant-90 rounded-full">
                       <span className="material-symbols-outlined mr-1">
-                        savings
+                        event
                       </span>
                       <span className="text-sans-b-body1">可短租</span>
                     </li>
@@ -1116,17 +1239,22 @@ function SingleHousePage() {
                           房東
                         </h4>
                         <p>
-                          <span className="text-sans-b-h3">王</span>{" "}
+                          <span className="text-sans-b-h3">
+                            {singleHouseData.landlord.lastName}
+                          </span>{" "}
                           {singleHouseData.landlord.gender === "女"
                             ? "小姐"
                             : "先生"}
                         </p>
                       </div>
-                      <img
-                        src={landLordProfile}
-                        alt="landLordProfile"
-                        className="rounded-2xl"
-                      />
+                      <div className="w-[116px] h-[116px] rounded-2xl overflow-hidden">
+                        {singleHouseData.landlord.photo && (
+                          <img
+                            src={singleHouseData.landlord.photo}
+                            alt="landLordProfile"
+                          />
+                        )}
+                      </div>
                     </li>
                     <li className="flex justify-between gap-x-3">
                       <div className="w-full shadow-elevation-2 rounded-lg p-4">
@@ -1134,7 +1262,9 @@ function SingleHousePage() {
                           評價
                         </h5>
                         <p className="flex justify-between items-end">
-                          <span className="text-sans-h4">4.8</span>
+                          <span className="text-sans-h4">
+                            {singleHouseData.landlord.ratingAvg}
+                          </span>
                           <img src={ratingStarIcon} alt="ratingStarIcon" />
                         </p>
                       </div>
@@ -1143,7 +1273,9 @@ function SingleHousePage() {
                           則數
                         </h5>
                         <p className="flex justify-between items-end">
-                          <span className="text-sans-h4">4</span>
+                          <span className="text-sans-h4">
+                            {singleHouseData.landlord.ratingCount}
+                          </span>
                           <span>則</span>
                         </p>
                       </div>
@@ -1152,9 +1284,7 @@ function SingleHousePage() {
                       <h5 className="text-sans-b-body1 text-Landlord-50 mb-3">
                         自我介紹
                       </h5>
-                      <p>
-                        租客您好，我平日是一名忙碌的菜販，在高雄有一間出租套房。雖然房源不華美，但非常乾淨。若房間有問題，會即時修理，不用擔心。
-                      </p>
+                      <p>{singleHouseData.landlord.description}</p>
                     </li>
                   </ul>
                 </div>
