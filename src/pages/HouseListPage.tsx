@@ -700,7 +700,6 @@ function HouseListPage() {
         setIsAPIProcessing(true);
         const res = await apiHouseCommonSearchList(queryString);
         setSearchResults(res.data.Houses);
-        console.log(res.data.Houses);
         setIsAPIProcessing(false);
       };
 
