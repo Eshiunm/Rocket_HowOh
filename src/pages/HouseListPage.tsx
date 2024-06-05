@@ -39,6 +39,7 @@ import rentRanges from "../constants/searchFormCondition/rentRange";
 import houseFeatures from "../constants/searchFormCondition/houseFeatures";
 import landLordRating from "../constants/searchFormCondition/landLordRating";
 import Footer from "../components/footer/Footer";
+import NoResults from "../components/tenantManagement/houseViewingManagement/NoResults";
 
 interface District {
   content: string;
@@ -1303,7 +1304,7 @@ function HouseListPage() {
               </div>
               {/* 列表 */}
               <ul>
-                {searchResults.length > 0 &&
+                {searchResults.length > 0 ? (
                   searchResults.map((house, index) => {
                     return (
                       <li
@@ -1453,7 +1454,10 @@ function HouseListPage() {
                         </div>
                       </li>
                     );
-                  })}
+                  })
+                ) : (
+                  <NoResults />
+                )}
               </ul>
               <div className="flex justify-between mt-2 pt-3 border-t border-Neutral-95">
                 <button type="button"></button>

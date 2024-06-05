@@ -11,17 +11,14 @@ import "./housePictureModal.css";
 import { FreeMode, Navigation, Thumbs } from "swiper/modules";
 import CloseIcon from "../../components/signUp/imgUpload/CloseIcon";
 import { useState } from "react";
-import singleHousePage_MainPicture from "../../assets/imgs/SingleHousePage/singleHousePage_MainPicture.jpg";
-import singleHousePage_secondaryPicture1 from "../../assets/imgs/SingleHousePage/singleHousePage_secondaryPicture1.jpg";
-import singleHousePage_secondaryPicture2 from "../../assets/imgs/SingleHousePage/singleHousePage_secondaryPicture2.jpg";
-import singleHousePage_secondaryPicture3 from "../../assets/imgs/SingleHousePage/singleHousePage_secondaryPicture3.jpg";
-import singleHousePage_secondaryPicture4 from "../../assets/imgs/SingleHousePage/singleHousePage_secondaryPicture4.jpg";
 
 interface ModalProps {
   closeModal: () => void;
+  housePicturesData: string[];
 }
 
-function HousePicturesModal({ closeModal }: ModalProps) {
+function HousePicturesModal({ closeModal, housePicturesData }: ModalProps) {
+  console.log(housePicturesData);
   const [thumbsSwiper, setThumbsSwiper] = useState<SwiperClass | null>(null);
   return (
     <div className="relative z-[60]">
@@ -51,21 +48,13 @@ function HousePicturesModal({ closeModal }: ModalProps) {
                 modules={[FreeMode, Navigation, Thumbs]}
                 className="housePicturesModalSwiper"
               >
-                <SwiperSlide className="">
-                  <img src={singleHousePage_MainPicture} />
-                </SwiperSlide>
-                <SwiperSlide className="">
-                  <img src={singleHousePage_secondaryPicture1} />
-                </SwiperSlide>
-                <SwiperSlide className="">
-                  <img src={singleHousePage_secondaryPicture2} />
-                </SwiperSlide>
-                <SwiperSlide className="">
-                  <img src={singleHousePage_secondaryPicture3} />
-                </SwiperSlide>
-                <SwiperSlide className="">
-                  <img src={singleHousePage_secondaryPicture4} />
-                </SwiperSlide>
+                {housePicturesData.map((item, index) => {
+                  return (
+                    <SwiperSlide key={index} className=" w-[500px]">
+                      <img src={item} className="object-cover h-[500px]" />
+                    </SwiperSlide>
+                  );
+                })}
               </Swiper>
               <Swiper
                 onSwiper={setThumbsSwiper}
@@ -77,15 +66,13 @@ function HousePicturesModal({ closeModal }: ModalProps) {
                 modules={[FreeMode, Navigation, Thumbs]}
                 className="mySwiper"
               >
-                <SwiperSlide>
-                  <img src={singleHousePage_MainPicture} />
-                </SwiperSlide>
-                <SwiperSlide>
-                  <img src={singleHousePage_secondaryPicture1} />
-                </SwiperSlide>
-                <SwiperSlide>
-                  <img src={singleHousePage_secondaryPicture2} />
-                </SwiperSlide>
+                {housePicturesData.map((item, index) => {
+                  return (
+                    <SwiperSlide key={index}>
+                      <img src={item} />
+                    </SwiperSlide>
+                  );
+                })}
               </Swiper>
             </div>
           </div>
