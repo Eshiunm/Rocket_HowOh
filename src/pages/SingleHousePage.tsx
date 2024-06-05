@@ -118,7 +118,7 @@ function SingleHousePage() {
               >
                 {/* 輪播首圖 */}
                 <SwiperSlide>
-                  <div className="w-[648px] h-[425px]">
+                  <div className="singleHousePageSwiper w-[648px] h-[425px]">
                     <img
                       src={singleHouseData.photos.firstPic}
                       alt="mainImg"
@@ -131,7 +131,7 @@ function SingleHousePage() {
                   singleHouseData.photos.firstPic
                 ).map((photo: any) => (
                   <SwiperSlide key={photo}>
-                    <div className="w-[648px] h-[425px]">
+                    <div className="singleHousePageSwiper w-[648px] h-[425px]">
                       <img
                         src={photo}
                         alt="restImg"

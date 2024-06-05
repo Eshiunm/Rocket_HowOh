@@ -2,6 +2,10 @@
   display: block;
   object-fit: cover;
 }
+.singleHousePageSwiper img {
+  width: 100%;
+  height: 100%;
+}
 
 .housePicturesModalSwiper {
   width: 100%;
