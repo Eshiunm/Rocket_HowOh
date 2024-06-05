@@ -122,7 +122,6 @@ function SingleHousePage() {
                     <img
                       src={singleHouseData.photos.firstPic}
                       alt="mainImg"
-                      className="object-scale-down"
                     />
                   </div>
                 </SwiperSlide>
@@ -135,8 +134,7 @@ function SingleHousePage() {
                     <div className="w-[648px] h-[425px]">
                       <img
                         src={photo}
-                        alt="mainImg"
-                        className="object-scale-down"
+                        alt="restImg"
                       />
                     </div>
                   </SwiperSlide>
@@ -1298,6 +1296,7 @@ function SingleHousePage() {
       {isHousePicturesCarouselOpen && (
         <HousePicturesModal
           closeModal={() => setIsHousePicturesCarouselOpen(false)}
+          housePicturesData={singleHouseData.photos.restOfPic}
         />
       )}
       {isSeeMoreHousePicturesOpen && (
