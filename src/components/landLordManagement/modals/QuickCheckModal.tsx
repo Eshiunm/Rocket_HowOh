@@ -1,5 +1,7 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useForm } from 'react-hook-form';
+import { useNavigate } from "react-router-dom";
+import { ForcedChangeReload } from "../index/HouseList";
 // Model-popup 所需之匯入
 import { Modal } from "flowbite-react";
 import close from "../../../assets/imgs/icons/close.svg";
@@ -19,14 +21,30 @@ interface tenantInfoType {
   userId: number;
 }
 
+type FormDataType = {
+  tenantPhone: string;
+  leaseStartTime: string;
+  leaseEndTime: string;
+}
+
+type UserInfoType = {
+  houseId: string | null; 
+  userId?: number;
+  leaseStartTime: string;
+  leaseEndTime: string;
+  tenantTelphone: string;
+}
+
 export default function QuickCheckModal(props : QuickCheckModalPropsType) {
+  const navigate = useNavigate();
   const { openModal, setOpenModal } = props;
   const [isPhoneFocused,setIsPhoneFocused] = useState(false);
-  const [tenantInfo,setTenantInfo] = useState<tenantInfoType | null>(null);// 是否正在打 API
+  const [tenantInfo,setTenantInfo] = useState<tenantInfoType | null>(null);
   const [isSearchingUser, setIsSearchingUser] = useState(false);
   const [openForceChangeModal, setOpenForceChangeModal] = useState(false);
+  const { setReloadHouseList } = useContext(ForcedChangeReload);
 
-  const { register, handleSubmit, formState: { errors }, watch } = useForm({
+  const { register, handleSubmit, formState: { errors }, watch } = useForm<FormDataType>({
     defaultValues: {
       tenantPhone: "",
       leaseStartTime: "",
@@ -35,29 +53,28 @@ export default function QuickCheckModal(props : QuickCheckModalPropsType) {
   });
   const tenantPhone = watch("tenantPhone");
   const leaseStartTime = watch("leaseStartTime");
-  const onSubmit = (data: any) => {
-    let userInfo = {};
+  const onSubmit = (data: FormDataType) => {
+    const userInfo: UserInfoType = {
+      houseId: localStorage.getItem("houseId"),
+      leaseStartTime: data.leaseStartTime,
+      leaseEndTime: data.leaseEndTime,
+      tenantTelphone: data.tenantPhone,
+    };
     if (tenantInfo?.userId) {
-      userInfo = {
-        houseId: localStorage.getItem("houseId"),
-        userId: tenantInfo?.userId ? tenantInfo.userId : undefined,
-        leaseStartTime: data.leaseStartTime,
-        leaseEndTime: data.leaseEndTime,
-        tenantTelphone: data.tenantPhone,
-      }
-    } else {
-      userInfo = {
-        houseId: localStorage.getItem("houseId"),
-        leaseStartTime: data.leaseStartTime,
-        leaseEndTime: data.leaseEndTime,
-        tenantTelphone: data.tenantPhone,
-      }
+      userInfo.userId = tenantInfo.userId;
     }
-    console.log(userInfo);
-    const submitUserInfo = async (userInfo: any) => {
+    
+    const submitUserInfo = async (userInfo: UserInfoType) => {
       try {
-        const response = await apiOrderLandlordAssignTenant(userInfo);
-        console.log(response);
+        await apiOrderLandlordAssignTenant(userInfo);
+        setOpenModal(false);
+        setReloadHouseList(true);
+        localStorage.removeItem("houseId");
+        navigate("/landlord",{
+          state: {
+            toastMessage: userInfo.userId ? "租約邀請已送出" : "房源狀態已更改"
+          }
+        });
       } catch (error: any) {
         if ( error.response.status === 400 ) {
           alert(error.message);
@@ -65,7 +82,6 @@ export default function QuickCheckModal(props : QuickCheckModalPropsType) {
         }
       }
     }
-
     submitUserInfo(userInfo);
   };
   
@@ -257,7 +273,10 @@ export default function QuickCheckModal(props : QuickCheckModalPropsType) {
               <button
                 type="submit" 
                 className="filled-button-m"
-              >立即更改</button>
+              >{
+                tenantInfo === null && tenantPhone.length === 10 && isSearchingUser === false ?
+                "確認" : "立即更改"
+              }</button>
             </div>
           </form>
         </Modal.Body>
