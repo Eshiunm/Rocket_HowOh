@@ -11,6 +11,7 @@ export default function TenantRequest() {
   const [requestTotalNumber, setRequestTotalNumber] = useState(0);
   const [sortOrder, setSortOrder] = useState('oldFirst'); // 默認排序為舊至新
   const [pageNumberControl, setPageNumberControl] = useState(1);
+  const totalPage = Math.ceil(requestTotalNumber / 12)
 
   const handleSortOrderChange = (e: React.MouseEvent<HTMLButtonElement>) => {
     const sortType = e.currentTarget.getAttribute('data-sort');
@@ -119,15 +120,17 @@ export default function TenantRequest() {
               </div>
               <div className="flex gap-[1px]">
                 <button
+                  type="button"
                   className="text-sans-b-body2 filled-button-s rounded-r-none flex items-center gap-1"
-                  disabled={requestTotalNumber < 12}
+                  disabled={pageNumberControl === 1}
                 >
                   <img src={leftIcon_white} alt="left-icon" />
                   上一頁
                 </button>
                 <button
+                  type="button"
                   className="text-sans-b-body2 filled-button-s rounded-l-none flex items-center gap-1"
-                  disabled={requestTotalNumber < 12}  
+                  disabled={totalPage === pageNumberControl}  
                 >
                   下一頁
                   <img src={rightIcon_white} alt="right-icon" />
@@ -156,15 +159,17 @@ export default function TenantRequest() {
               </div>
               <div className="flex gap-[1px]">
                 <button
+                  type="button"
                   className="text-sans-b-body2 filled-button-s rounded-r-none flex items-center gap-1"
-                  disabled={requestTotalNumber < 12}  
+                  disabled={pageNumberControl === 1}  
                 >
                   <img src={leftIcon_white} alt="left-icon" />
                   上一頁
                 </button>
                 <button
+                  type="button"
                   className="text-sans-b-body2 filled-button-s rounded-l-none flex items-center gap-1"
-                  disabled={requestTotalNumber < 12}
+                  disabled={totalPage === pageNumberControl}
                 >
                   下一頁
                   <img src={rightIcon_white} alt="right-icon" />
