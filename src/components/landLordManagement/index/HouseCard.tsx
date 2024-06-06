@@ -71,6 +71,11 @@ export default function HouseCard({data, houseStatus}: {data:any, houseStatus:st
       event.stopPropagation();
       localStorage.setItem("houseId", houseId);
       setOpenModal(true);
+    } else if ( houseStatus === "rentedList" ) {
+      console.log("點擊已承租的房源案件");
+    } else if ( houseStatus === "finishedList" ) {
+      event.stopPropagation();
+      navigate("/landlord/review");
     }
   }
 
@@ -92,6 +97,8 @@ export default function HouseCard({data, houseStatus}: {data:any, houseStatus:st
     } else if ( houseStatus === "publishList" ) {
       localStorage.setItem("houseId", houseId);
       navigate(`/landlord/publish/${houseId}`);
+    } else if ( houseStatus === "rentedList" ) {
+      navigate(`/landlord/rented/${houseId}`);
     } else if ( houseStatus === "finishedList" ) {
       navigate(`/landlord/finished/${houseId}`);
     }
@@ -127,6 +134,7 @@ export default function HouseCard({data, houseStatus}: {data:any, houseStatus:st
         <button
           className="w-full text-center outline-button-s"
           onClick={handleButtonClick}
+          disabled={ houseStatus === "finishedList" && data.canComment === false }
         >
           {buttonMessage()}
         </button>
