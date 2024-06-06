@@ -55,6 +55,7 @@ export default function PublishHouse() {
   const [tenantInfo,setTenantInfo] = useState<tenantInfoType | null>(null);// 是否正在打 API
   const [isPosting, setPosting] = useState(false);
   const [openForceChangeModal, setOpenForceChangeModal] = useState(false);
+  const [canChangeHouseStatus, setCanChangeHouseStatus] = useState(true);
 
   const navigate = useNavigate();
   const { houseId } = useParams();
@@ -157,7 +158,7 @@ export default function PublishHouse() {
       try {
         const response = await apiHouseLandlordSingleInfo(houseId);
         const { data } = response.data;
-        
+        setCanChangeHouseStatus(response.data.data.canChangeHouseStatus);
         const coverPhoto = {
           path: data.pictures?.firstPic || "",
           isCover: true
@@ -289,11 +290,13 @@ export default function PublishHouse() {
                   type="button"
                   className="outline-button-m"
                   onClick={() => handleRentedCanvas(true)}
+                  disabled={!canChangeHouseStatus}
                 >更改為已承租</button>
                 <button
                   type="button"
                   className="outline-button-m"
                   onClick={() => setOpenForceChangeModal(true)}
+                  disabled={!canChangeHouseStatus}
                 >更改為已完成</button>
               </div>
             </div>
