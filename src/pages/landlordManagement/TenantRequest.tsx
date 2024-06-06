@@ -117,11 +117,17 @@ export default function TenantRequest() {
                 </h6>
               </div>
               <div className="flex gap-[1px]">
-                <button className="text-sans-b-body2 filled-button-s rounded-r-none flex items-center gap-1">
+                <button
+                  className="text-sans-b-body2 filled-button-s rounded-r-none flex items-center gap-1"
+                  disabled={requestTotalNumber < 12}
+                >
                   <img src={leftIcon_white} alt="left-icon" />
                   上一頁
                 </button>
-                <button className="text-sans-b-body2 filled-button-s rounded-l-none flex items-center gap-1">
+                <button
+                  className="text-sans-b-body2 filled-button-s rounded-l-none flex items-center gap-1"
+                  disabled={requestTotalNumber < 12}  
+                >
                   下一頁
                   <img src={rightIcon_white} alt="right-icon" />
                 </button>
@@ -148,11 +154,17 @@ export default function TenantRequest() {
                 </h6>
               </div>
               <div className="flex gap-[1px]">
-                <button className="text-sans-b-body2 filled-button-s rounded-r-none flex items-center gap-1">
+                <button
+                  className="text-sans-b-body2 filled-button-s rounded-r-none flex items-center gap-1"
+                  disabled={requestTotalNumber < 12}  
+                >
                   <img src={leftIcon_white} alt="left-icon" />
                   上一頁
                 </button>
-                <button className="text-sans-b-body2 filled-button-s rounded-l-none flex items-center gap-1">
+                <button
+                  className="text-sans-b-body2 filled-button-s rounded-l-none flex items-center gap-1"
+                  disabled={requestTotalNumber < 12}
+                >
                   下一頁
                   <img src={rightIcon_white} alt="right-icon" />
                 </button>
