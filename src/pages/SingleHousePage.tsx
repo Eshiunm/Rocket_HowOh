@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
+import { Spinner } from "flowbite-react";
 // Import Swiper styles
 import "swiper/css";
 import "swiper/css/navigation";
@@ -11,7 +12,7 @@ import "swiper/css/pagination";
 import { Navigation, Pagination } from "swiper/modules";
 import { apiHouseCommonSingleInfo } from "../apis/apis";
 import { CustomFlowbiteTheme, Modal, Flowbite } from "flowbite-react";
-import { apiUserInfoGet } from "../apis/apis";
+import { apiUserInfoGet, apiUserInfoCompare } from "../apis/apis";
 import BigLoading from "../components/loading/BigLoading";
 import HousePicturesModal from "../components/singleHousePage/HousePicturesModal";
 import SeeMoreHousePicturesModal from "../components/singleHousePage/SeeMoreHousePicturesModal";
@@ -93,10 +94,14 @@ function SingleHousePage() {
   const [isAPIProcessing, setIsAPIProcessing] = useState<boolean>(false);
   const [isReserveModalOpen, setIsReserveModalOpen] = useState(false);
   const [reserveModalData, setReserveModalData] = useState<any>({});
+  const [isComparePassModalOpen, setIsComparePassModalOpen] = useState(false);
+  const [isCompareFalseModalOpen, setIsCompareFalseModalOpen] = useState(false);
   const [isHousePicturesCarouselOpen, setIsHousePicturesCarouselOpen] =
     useState(false);
   const [isSeeMoreHousePicturesOpen, setIsSeeMoreHousePicturesOpen] =
     useState(false);
+  const [isConfirmAPIProcessing, setConfirmIsAPIProcessing] =
+    useState<boolean>(false);
   const goIntroductionRef = () => {
     window.scrollTo({
       top: introductionRef.current!.offsetTop - 100,
@@ -133,6 +138,38 @@ function SingleHousePage() {
     return [];
   };
 
+  // 租客提確定提供資訊給房東，並進行條件比對
+  const provideTenantInfo = () => {
+    console.log("您已提供基本資訊給房東");
+    const conditionMatching = async () => {
+      try {
+        const response = await apiUserInfoCompare(houseId as string);
+        console.log(response);
+        if (response.status === 200) {
+          setIsReserveModalOpen(false);
+          setIsComparePassModalOpen(true);
+        }
+        setConfirmIsAPIProcessing(false);
+      } catch (errors: any) {
+        if (errors.response.data.Message === "使用者不符此房源之租客限制") {
+          setIsReserveModalOpen(false);
+          setIsCompareFalseModalOpen(true);
+        }
+        if (errors.response.data.Message === "使用者角色並非租客") {
+          alert("使用者角色並非租客，正在導向到登入頁");
+          navigate("/login");
+        }
+        if (errors.response.data.Message === "該房源不存在") {
+          alert("該房源不存在，正在導向到房源列表");
+          navigate("/houseList");
+        }
+        setConfirmIsAPIProcessing(false);
+      }
+    };
+    setConfirmIsAPIProcessing(true);
+    conditionMatching();
+  };
+
   // 秀租客基本資訊
   const showTenantInfo = () => {
     const getTenantData = async () => {
@@ -156,7 +193,6 @@ function SingleHousePage() {
 
     setIsReserveModalOpen(true);
     getTenantData();
-    console.log("HI");
   };
 
   useEffect(() => {
@@ -183,7 +219,8 @@ function SingleHousePage() {
   return (
     <>
       {isAPIProcessing && <BigLoading />}
-      {/* 等待 API 抓到資料再渲染 */}
+
+      {/* 等待 API 抓到資料再渲染資料 */}
       {Object.keys(singleHouseData).length > 0 && (
         <div className="wrap bg-Neutral-99 pb-32">
           {/* 房源圖片 */}
@@ -1373,6 +1410,7 @@ function SingleHousePage() {
           </div>
         </div>
       )}
+
       {/* 預約看房 pop-up */}
       <Flowbite theme={{ theme: customTheme }}>
         {Object.keys(reserveModalData).length > 0 ? (
@@ -1406,7 +1444,7 @@ function SingleHousePage() {
                       <h4 className="text-sans-b-body1 text-Landlord-40 mb-4">
                         租客
                       </h4>
-                      <span className="text-sans-b-h3 mb-3">
+                      <span className="inline-block text-sans-b-h3 mb-3">
                         {reserveModalData.lastName + reserveModalData.firstName}
                       </span>
                       <p className="mb-2">
@@ -1468,8 +1506,25 @@ function SingleHousePage() {
               </div>
               <p className="mb-10">若您的資料有誤，請於照帳號管理更新</p>
               <div className="flex justify-end gap-x-6">
-                <button className="outline-button-m">不提供</button>
-                <button className="filled-button-m">確定提供</button>
+                <button
+                  type="button"
+                  className="outline-button-m"
+                  onClick={() => setIsReserveModalOpen(false)}
+                >
+                  不提供
+                </button>
+                <button
+                  type="button"
+                  className="filled-button-m"
+                  onClick={provideTenantInfo}
+                  disabled={isConfirmAPIProcessing}
+                >
+                  {isConfirmAPIProcessing ? (
+                    <Spinner color="info" size="md" className="mr-4" />
+                  ) : (
+                    "確認提供"
+                  )}
+                </button>
               </div>
             </Modal.Body>
           </Modal>
@@ -1525,6 +1580,89 @@ function SingleHousePage() {
             </Modal.Body>
           </Modal>
         )}
+
+        {/* 租客條件與房東設定的條件匹配失敗時，會跳此 Modal */}
+        {
+          <Modal
+            show={isCompareFalseModalOpen}
+            size="xl"
+            onClose={() => setIsCompareFalseModalOpen(false)}
+            popup
+          >
+            <Modal.Header className="p-0" />
+            <Modal.Body className="p-10">
+              <div className="flex items-center justify-between mb-10">
+                <h3 className="text-sans-h5">很抱歉，房東有設定條件限制</h3>
+                <img
+                  src={close}
+                  alt="close"
+                  className=" cursor-pointer"
+                  onClick={() => setIsCompareFalseModalOpen(false)}
+                />
+              </div>
+              <p className="mb-10">
+                房東因個人考量有設定租客限制，我們不會將您的資料提供給他。
+              </p>
+              <button
+                type="button"
+                className="ml-auto filled-button-m"
+                onClick={() => setIsCompareFalseModalOpen(false)}
+              >
+                沒關係，繼續找好房東
+              </button>
+            </Modal.Body>
+          </Modal>
+        }
+
+        {/* 租客條件與房東設定的條件匹配成功時，會跳此 Modal */}
+        {
+          <Modal
+            show={isComparePassModalOpen}
+            size="xl"
+            onClose={() => setIsComparePassModalOpen(false)}
+            popup
+          >
+            <Modal.Header className="p-0" />
+            <Modal.Body className="p-10">
+              <div className="flex items-center justify-between mb-10">
+                <h3 className="text-sans-h5">房東聯絡資訊</h3>
+                <img
+                  src={close}
+                  alt="close"
+                  className=" cursor-pointer"
+                  onClick={() => setIsComparePassModalOpen(false)}
+                />
+              </div>
+              <p className="mb-10">請參考以下範例聯繫房東的方式</p>
+              <span className="inline-block mb-1">電話</span>
+              <p className="p-3 mb-10 border-b border-Neutral-70">
+                0929-239-238
+              </p>
+              <span className="inline-block mb-1">Line</span>
+              <p className="p-3 mb-10 border-b border-Neutral-70">
+                Wanginthehouse
+              </p>
+              <div className="flex justify-end gap-x-6">
+                <button
+                  type="button"
+                  className="outline-button-m"
+                  onClick={() =>
+                    navigate("/tenant/houseViewingManagement/houseViewingList")
+                  }
+                >
+                  我的預約
+                </button>
+                <button
+                  type="button"
+                  className="filled-button-m"
+                  onClick={() => setIsComparePassModalOpen(false)}
+                >
+                  繼續找房
+                </button>
+              </div>
+            </Modal.Body>
+          </Modal>
+        }
       </Flowbite>
 
       {isHousePicturesCarouselOpen && (
