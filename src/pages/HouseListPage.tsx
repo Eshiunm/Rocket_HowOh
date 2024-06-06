@@ -39,6 +39,7 @@ import rentRanges from "../constants/searchFormCondition/rentRange";
 import houseFeatures from "../constants/searchFormCondition/houseFeatures";
 import landLordRating from "../constants/searchFormCondition/landLordRating";
 import Footer from "../components/footer/Footer";
+import NoResults from "../components/tenantManagement/houseViewingManagement/NoResults";
 
 interface District {
   content: string;
@@ -687,7 +688,7 @@ function HouseListPage() {
         queryString += "&" + priceRangeQueryParams;
       }
       if (houseFeatures.length > 0) {
-        const houseFeaturesQueryParams = "features=" + houseFeatures.join(",");
+        const houseFeaturesQueryParams = "feature=" + houseFeatures.join(",");
         queryString += "&" + houseFeaturesQueryParams;
       }
       if (landLordRatingNumbers.length > 0) {
@@ -700,7 +701,6 @@ function HouseListPage() {
         setIsAPIProcessing(true);
         const res = await apiHouseCommonSearchList(queryString);
         setSearchResults(res.data.Houses);
-        console.log(res.data.Houses);
         setIsAPIProcessing(false);
       };
 
@@ -1280,7 +1280,9 @@ function HouseListPage() {
                 </Link>
                 <div>
                   <p className="text-sans-b-body2 text-center text-Brand-10 mb-2">
-                    顯示 1 至 12 筆 共 {searchResults.length} 筆
+                    顯示 {searchResults.length > 0 ? 1 : 0} 至{" "}
+                    {searchResults.length >= 12 ? 12 : searchResults.length} 筆
+                    共 {searchResults.length} 筆
                   </p>
                   <div className="flex gap-x-1">
                     <button
@@ -1302,7 +1304,7 @@ function HouseListPage() {
               </div>
               {/* 列表 */}
               <ul>
-                {searchResults.length > 0 &&
+                {searchResults.length > 0 ? (
                   searchResults.map((house, index) => {
                     return (
                       <li
@@ -1452,13 +1454,18 @@ function HouseListPage() {
                         </div>
                       </li>
                     );
-                  })}
+                  })
+                ) : (
+                  <NoResults />
+                )}
               </ul>
               <div className="flex justify-between mt-2 pt-3 border-t border-Neutral-95">
                 <button type="button"></button>
                 <div>
                   <p className="text-sans-b-body2 text-center text-Brand-10 mb-2">
-                    顯示 1 至 12 筆 共 {searchResults.length} 筆
+                    顯示 {searchResults.length > 0 ? 1 : 0} 至{" "}
+                    {searchResults.length >= 12 ? 12 : searchResults.length} 筆
+                    共 {searchResults.length} 筆
                   </p>
                   <div className="flex gap-x-1">
                     <button

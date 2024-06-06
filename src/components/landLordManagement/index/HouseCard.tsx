@@ -127,6 +127,7 @@ export default function HouseCard({data, houseStatus}: {data:any, houseStatus:st
         <button
           className="w-full text-center outline-button-s"
           onClick={handleButtonClick}
+          disabled={ houseStatus === "publishList" && status === "租約邀請已送出" }
         >
           {buttonMessage()}
         </button>
