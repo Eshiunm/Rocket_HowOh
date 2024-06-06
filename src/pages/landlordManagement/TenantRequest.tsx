@@ -10,6 +10,7 @@ export default function TenantRequest() {
   const navigate = useNavigate();
   const [requestTotalNumber, setRequestTotalNumber] = useState(0);
   const [sortOrder, setSortOrder] = useState('oldFirst'); // 默認排序為舊至新
+  const [pageNumberControl, setPageNumberControl] = useState(1);
 
   const handleSortOrderChange = (e: React.MouseEvent<HTMLButtonElement>) => {
     const sortType = e.currentTarget.getAttribute('data-sort');
@@ -105,9 +106,9 @@ export default function TenantRequest() {
               <div className="flex gap-[10px] text-sans-body2">
                 <h6>
                   顯示
-                  <span className="text-sans-b-body2"> 1 </span>
+                  <span className="text-sans-b-body2"> {(pageNumberControl - 1) * 12 + 1} </span>
                   至
-                  <span className="text-sans-b-body2"> 12 </span>
+                  <span className="text-sans-b-body2"> {requestTotalNumber%12 + (pageNumberControl - 1) * 12} </span>
                   筆
                 </h6>
                 <h6>
@@ -135,16 +136,16 @@ export default function TenantRequest() {
             </div>
           </section>
           <section>
-            <RequestList sort={sortOrder} />
+            <RequestList sort={sortOrder} pageNumberControl={pageNumberControl} />
           </section>
           <section className="flex justify-end pt-3 border-t border-Neutral-95">
             <div className="flex flex-col items-center gap-2">
               <div className="flex gap-[10px] text-sans-body2">
                 <h6>
                   顯示
-                  <span className="text-sans-b-body2"> 1 </span>
+                  <span className="text-sans-b-body2"> {(pageNumberControl - 1) * 12 + 1} </span>
                   至
-                  <span className="text-sans-b-body2"> 12 </span>
+                  <span className="text-sans-b-body2"> {requestTotalNumber%12 + (pageNumberControl - 1) * 12} </span>
                   筆
                 </h6>
                 <h6>

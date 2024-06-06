@@ -26,9 +26,15 @@ export type RequestListType = {
   }
 }
 
-export default function RequestList({sort}: {sort: string}) {
+type RequestListProps = {
+  sort: string;
+  pageNumberControl: number;
+}
+
+export default function RequestList(prop : RequestListProps) {
+  const { sort, pageNumberControl } = prop;
   const [getListLoading, setGetListLoading] = useState(false);
-  const [pageNumberControl, setPageNumberControl] = useState(1);
+  // const [pageNumberControl, setPageNumberControl] = useState(1);
   const [requestList, setRequestList] = useState<RequestListType[]>([]);
   console.log(requestList);
 
