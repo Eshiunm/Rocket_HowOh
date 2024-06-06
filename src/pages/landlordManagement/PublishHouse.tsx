@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import { CustomFlowbiteTheme, Flowbite, Tooltip, Drawer } from "flowbite-react";
 import HouseDatas from "../../components/landLordManagement/HouseDatas";
 import Footer from "../../components/footer/Footer";
-import { apiHouseLandlordFindUser, apiHouseLandlordSingleInfo } from "../../apis/apis";
+import { apiHouseLandlordFindUser, apiHouseLandlordSingleInfo, apiOrderLandlordAssignTenant } from "../../apis/apis";
 import close from "../../assets/imgs/icons/close.svg";
 import alertTriangle from "../../assets/imgs/icons/alertTriangle.svg";
 import messageCloud from "../../assets/imgs/icons/messageCloud.svg";
@@ -15,6 +15,20 @@ interface tenantInfoType {
   photo: string;
   name: string;
   userId: number;
+}
+
+type FormDataType = {
+  tenantPhone: string;
+  leaseStartTime: string;
+  leaseEndTime: string;
+}
+
+type UserInfoType = {
+  houseId: string | null; 
+  userId?: number;
+  leaseStartTime: string;
+  leaseEndTime: string;
+  tenantTelphone: string;
 }
 
 export default function PublishHouse() {
@@ -150,8 +164,36 @@ export default function PublishHouse() {
   });
   const tenantPhone = watch("tenantPhone");
   const leaseStartTime = watch("leaseStartTime");
-  const onSubmit = (data: any) => console.log(data);
-  
+  const onSubmit = (data: FormDataType) => {
+    const userInfo: UserInfoType = {
+      houseId: localStorage.getItem("houseId"),
+      leaseStartTime: data.leaseStartTime,
+      leaseEndTime: data.leaseEndTime,
+      tenantTelphone: data.tenantPhone,
+    };
+    if (tenantInfo?.userId) {
+      userInfo.userId = tenantInfo.userId;
+    }
+    
+    const submitUserInfo = async (userInfo: UserInfoType) => {
+      try {
+        await apiOrderLandlordAssignTenant(userInfo);
+        localStorage.removeItem("houseId");
+        navigate("/landlord",{
+          state: {
+            toastMessage: userInfo.userId ? "租約邀請已送出" : "房源狀態已更改"
+          }
+        });
+      } catch (error: any) {
+        if ( error.response.status === 400 ) {
+          alert(error.message);
+          console.log(error);
+        }
+      }
+    }
+    submitUserInfo(userInfo);
+  };
+
   useEffect(() => {
     const fetchHouseData = async () => {
       try {
@@ -489,7 +531,10 @@ export default function PublishHouse() {
                     <button
                       type="submit" 
                       className="filled-button-m"
-                    >立即更改</button>
+                    >{
+                      tenantInfo === null && tenantPhone.length === 10 && isSearchingUser === false ?
+                      "確認" : "寄送租約邀請"
+                    }</button>
                   </div>
                 </form>
               </div>
