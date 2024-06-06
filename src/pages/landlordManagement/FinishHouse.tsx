@@ -1,11 +1,12 @@
 import { Tooltip } from "flowbite-react";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import HouseDatas from "../../components/landLordManagement/HouseDatas";
 import Footer from "../../components/footer/Footer";
+import { apiHouseLandlordSingleInfo } from "../../apis/apis";
 
 export default function FinishHouse() {
-  const [houseDatas, ] = useState({
+  const [houseDatas, setHouseDatas ] = useState({
     appointmentCount: 0,
     formData:{
       name: "房源名稱",
@@ -87,8 +88,109 @@ export default function FinishHouse() {
       jobRestriction: "123c,sdfd",
     },
   });
-
+  
   const navigate = useNavigate();
+  const { houseId } = useParams();
+
+  useEffect(() => {
+    const fetchHouseData = async () => {
+      try {
+        const response = await apiHouseLandlordSingleInfo(houseId);
+        const { data } = response.data;
+        
+        const coverPhoto = {
+          path: data.pictures?.firstPic || "",
+          isCover: true
+        };
+        const otherPhoto = data.pictures.restOfPic.map( (photoPath: string) => (
+          {
+            path: photoPath,
+            isCover: false
+          }
+        ));
+        const photos = [
+          coverPhoto,
+          ...otherPhoto
+        ];
+        setHouseDatas({
+          appointmentCount:data.appointmentCount,
+          formData:{
+            name: data.name,
+            city: data.city,
+            district: data.district,
+            road: data.road,
+            lane: data.lane,
+            alley: data.alley,
+            number: data.number,
+            floor: data.floor,
+            floorTotal: data.floorTotal,
+            type: data.type,
+            ping: data.ping,
+            roomNumbers: data.roomNumbers,
+            livingRoomNumbers: data.livingRoomNumbers,
+            bathRoomNumbers: data.bathRoomNumbers,
+            balconyNumbers: data.balconyNumbers,
+            parkingSpaceNumbers: data.parkingSpaceNumbers,
+          },
+          photos,
+          facilities:{
+            isRentSubsidy: data.isRentSubsidy,
+            isCookAllowed: data.isCookAllowed,
+            isPetAllowed: data.isPetAllowed,
+            isSTRAllowed: data.isSTRAllowed,
+            isNearByDepartmentStore: data.isNearByDepartmentStore,
+            isNearBySchool: data.isNearBySchool, 
+            isNearByMorningMarket: data.isNearByMorningMarket, 
+            isNearByNightMarket: data.isNearByNightMarket, 
+            isNearByConvenientStore: data.isNearByConvenientStore, 
+            isNearByPark: data.isNearByPark, 
+            hasGarbageDisposal: data.hasGarbageDisposal, 
+            hasWindowInBathroom: data.hasWindowInBathroom, 
+            hasElevator: data.hasElevator, 
+            hasAirConditioner: data.hasAirConditioner, 
+            hasWashingMachine: data.hasWashingMachine, 
+            hasRefrigerator: data.hasRefrigerator, 
+            hasCloset: data.hasCloset, 
+            hasTableAndChair: data.hasTableAndChair, 
+            hasWaterHeater: data.hasWaterHeater, 
+            hasInternet: data.hasInternet, 
+            hasBed: data.hasBed, 
+            hasTV: data.hasTV, 
+            isNearMRT: data.isNearMRT, 
+            kmAwayMRT: data.kmAwayMRT, 
+            isNearLRT: data.isNearLRT, 
+            kmAwayLRT: data.kmAwayLRT, 
+            isNearBusStation: data.isNearBusStation, 
+            kmAwayBusStation: data.kmAwayBusStation, 
+            isNearHSR: data.isNearHSR, 
+            kmAwayHSR: data.kmAwayHSR, 
+            isNearTrainStation: data.isNearTrainStation, 
+            kmAwayTrainStation: data.kmAwayTrainStation,
+          },
+          expenses:{
+            rent: data.rent,
+            securityDeposit: data.securityDeposit,
+            paymentMethodOfWaterBill: data.paymentMethodOfWaterBill,
+            waterBillPerMonth: data.waterBillPerMonth,
+            electricBill: data.electricBill,
+            electricBillPerDegree: data.electricBillPerDegree,
+            paymentMethodOfElectricBill: data.paymentMethodOfElectricBill,
+            paymentMethodOfManagementFee: data.paymentMethodOfManagementFee,
+            managementFeePerMonth: data.managementFeePerMonth,
+          },
+          description: data.description,
+          restrictions:{
+            hasTenantRestrictions: data.hasTenantRestrictions,
+            genderRestriction: data.genderRestriction,
+            jobRestriction: data.jobRestriction,
+          },
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    fetchHouseData();
+  },[houseId]);
 
   return (
     <>
@@ -114,7 +216,10 @@ export default function FinishHouse() {
               <button
                 type="button"
                 className="outline-button-m"
-                onClick={() => navigate("/landlord")}
+                onClick={() => {
+                  localStorage.removeItem("houseId");
+                  navigate("/landlord")
+                }}
                 >返回房源管理頁面</button>
               <button
                 type="button"

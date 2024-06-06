@@ -50,8 +50,10 @@ function App() {
               </Route>
             </Route>
             <Route path="rented" element={<RentedHouse />} />
-            <Route path="finish" element={<FinishHouse />} />
-            <Route path="review" element={<h1>評價管理</h1>} />
+            <Route path="finished">
+              <Route path=":houseId" element={<FinishHouse />} />
+            </Route>
+            <Route path="comment" element={<h1>評價管理</h1>} />
           </Route>
           <Route path="tenant">
             <Route
