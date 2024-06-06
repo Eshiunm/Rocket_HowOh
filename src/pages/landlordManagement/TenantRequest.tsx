@@ -1,18 +1,39 @@
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import leftIcon_white from "../../assets/imgs/icons/leftIcon_white.svg";
 import rightIcon_white from "../../assets/imgs/icons/rightIcon_white.svg";
-import Footer from "../../components/footer/Footer";
-import { useNavigate } from "react-router-dom";
 import RequestList from "../../components/landLordManagement/request/RequestList";
-import { useEffect, useState } from "react";
+import Footer from "../../components/footer/Footer";
 import { apiAppointmentCommonTotalNumber } from "../../apis/apis";
 
 export default function TenantRequest() {
   const navigate = useNavigate();
   const [requestTotalNumber, setRequestTotalNumber] = useState(0);
+  const [sortOrder, setSortOrder] = useState('oldFirst'); // 默認排序為舊至新
+
+  const handleSortOrderChange = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const sortType = e.currentTarget.getAttribute('data-sort');
+    if (sortType) {
+      setSortOrder(sortType);
+    }
+  };
 
   useEffect(() => {
     const houseId = localStorage.getItem("houseId")  || "-1";
-    const orderMethod = "1";
+    let orderMethod = "1";
+    switch (sortOrder) {
+      case "oldFirst":
+        orderMethod = "1";
+        break;
+      case "newFirst":
+        orderMethod = "2";
+        break;
+      case "hidden":
+        orderMethod = "3";
+        break;
+      default:
+        break;
+    }
 
     const getRequestTotalNumber = async () => {
       const queryString = new URLSearchParams({
@@ -22,7 +43,6 @@ export default function TenantRequest() {
   
       try {
         const request = await apiAppointmentCommonTotalNumber(queryString);
-        console.log(request);
         setRequestTotalNumber(request.data.totalNumber);
       } catch (error: any) {
         if(error.response.status === 401) {
@@ -33,7 +53,7 @@ export default function TenantRequest() {
       }
     }
     getRequestTotalNumber();
-  }, []);
+  }, [sortOrder]);
 
   return (
     <>
@@ -54,20 +74,29 @@ export default function TenantRequest() {
           <section className="flex items-start gap-6 pb-3 pt-6 border-b border-Neutral-95 mb-6">
             <div className="flex gap-3 pt-4">
               <button
-                className="tab-button-m py-1"
+                className={`tab-button-m py-1 ${
+                  sortOrder === "oldFirst" && "tab-button-m-select"
+                }`}
                 data-sort="oldFirst"
+                onClick={handleSortOrderChange}
               >
                 舊至新
               </button>
               <button
-                className="tab-button-m py-1"
+                className={`tab-button-m py-1 ${
+                  sortOrder === "newFirst" && "tab-button-m-select"
+                }`}
                 data-sort="newFirst"
+                onClick={handleSortOrderChange}
               >
                 新至舊
               </button>
               <button
-                className="tab-button-m py-1"
+                className={`tab-button-m py-1 ${
+                  sortOrder === "hidden" && "tab-button-m-select"
+                }`}
                 data-sort="hidden"
+                onClick={handleSortOrderChange}
               >
                 已隱藏
               </button>
@@ -114,7 +143,7 @@ export default function TenantRequest() {
                 </h6>
                 <h6>
                   共
-                  <span className="text-sans-b-body2"> 32 </span>
+                  <span className="text-sans-b-body2"> {requestTotalNumber} </span>
                   筆
                 </h6>
               </div>
