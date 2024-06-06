@@ -4,7 +4,16 @@ import rightIcon_black from "../../../assets/imgs/icons/rightIcon_black.svg";
 
 export default function HistoryCard({canReview} : {canReview: boolean}) {
   return (
-    <li className="p-3 mb-4 flex gap-4 rounded-xl hover:bg-Landlord-99">
+    <li
+      className={`p-3 mb-4 flex gap-4 rounded-xl ${
+        canReview && "cursor-pointer hover:bg-Landlord-95"
+      }`}
+      onClick={() => {
+        if (canReview) {
+          window.open("/landlord/review","_blank")
+        }
+      }}
+    >
       <div className="w-32 h-32 rounded-2xl overflow-hidden">
         <img
           src={house}
