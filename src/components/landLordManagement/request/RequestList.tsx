@@ -2,9 +2,35 @@ import { useEffect, useState } from "react";
 import RequestCard from "./RequestCard";
 import { apiAppointmentCommonList } from "../../../apis/apis";
 
+type RequestListType = {
+  "appointmentId": number; //預約Id
+  "userId": number; //預約租客Id
+  "appointmentTime": string; //預約時間
+  "descrption": {
+    "tenantInfo": {
+      "firstName": string; //租客名
+      "lastName": string; //租客姓
+      "photo": string; //租客照片
+      "email": string; //租客信箱
+      "gender": string; //租客性別
+      "job": string; //租客職業
+      "phoneNumber": string //租客手機號碼
+    };
+    "orderInfo": [
+      {
+        "orderId": number; //訂單Id
+        "status": string; //訂單狀態
+        "createTime": string//訂單建立時間
+      }
+    ]
+  }
+}
+
 export default function RequestList({sort}: {sort: string}) {
   const [getListLoading, setGetListLoading] = useState(false);
   const [pageNumberControl, setPageNumberControl] = useState(1);
+  const [requestList, setRequestList] = useState<RequestListType[]>([]);
+  console.log(requestList);
 
   useEffect(() => {
     const houseId = localStorage.getItem("houseId") || "-1";
@@ -32,7 +58,7 @@ export default function RequestList({sort}: {sort: string}) {
       
       try {
         const response = await apiAppointmentCommonList(queryString);
-        console.log(response);
+        setRequestList(response.data.result);
         setGetListLoading(false);
       } catch (error) {
         console.log(error);
@@ -65,9 +91,35 @@ export default function RequestList({sort}: {sort: string}) {
           </li>
         ))
       }
-      <RequestCard status="send" />
-      <RequestCard status="reject" />
-      <RequestCard status="none" />
+      {
+        requestList.map((request: RequestListType) => {
+          console.log(request);
+          // 後端 enum
+          // 待租客回覆租約 = 1,
+          // 租客已確認租約 = 2,
+          // 租客已拒絕租約 = 3,
+          // 租客非系統用戶 = 4
+          if ( request.descrption.orderInfo[0]?.status === "待租客回覆租約" ) {
+            return (
+              <RequestCard
+                key={`appointment-${request?.appointmentId}`}
+                status="send" />
+            )
+          } else if ( request.descrption.orderInfo[0]?.status === "租客已拒絕租約" ) {
+            return (
+              <RequestCard
+                key={`appointment-${request.appointmentId}`} 
+                status="reject" />
+            )
+          } else {
+            return (
+              <RequestCard
+                key={`appointment-${request.appointmentId}`}
+                status="none" />
+            )
+          }
+        })
+      }
     </ul>
   );
 }
