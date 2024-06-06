@@ -1,15 +1,15 @@
 .swiper-button-prev {
-  color: transparent; /* 下一張投影片的按鈕預設透明 */
+  color: transparent !important; /* 下一張投影片的按鈕預設透明 */
 }
 .swiper:hover .swiper-button-prev {
-  color: gray; /* hover 時顯示 */
+  color: gray !important; /* hover 時顯示 */
 }
 
 .swiper-button-next {
-  color: transparent; /* 上一張投影片的按鈕預設透明 */
+  color: transparent !important; /* 上一張投影片的按鈕預設透明 */
 }
 .swiper:hover .swiper-button-next {
-  color: gray; /* hover 時顯示 */
+  color: gray !important; /* hover 時顯示 */
 }
 
 /* 首圖的 hover 動畫 */
