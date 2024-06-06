@@ -18,6 +18,7 @@ import RentalHistoryList from "./components/tenantManagement/houseViewingManagem
 import FeedbackPendingList from "./components/tenantManagement/houseViewingManagement/FeedbackPendingList";
 import RentedHouse from "./pages/landlordManagement/RentedHouse";
 import FinishHouse from "./pages/landlordManagement/FinishHouse";
+import RentedHistory from "./pages/landlordManagement/RentedHistory";
 
 function App() {
   return (
@@ -39,7 +40,7 @@ function App() {
           <Route path="landlord">
             <Route element={<LandlordManagement />}>
               <Route index element={<HouseList />} />
-              <Route path="history" element={<h1>出租歷史</h1>} />
+              <Route path="history" element={<RentedHistory />} />
             </Route>
             <Route path="post" element={<AddNew />} />
             <Route path="publish">
