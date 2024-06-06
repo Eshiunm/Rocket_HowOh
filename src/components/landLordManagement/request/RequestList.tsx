@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import RequestCard from "./RequestCard";
 import { apiAppointmentCommonList } from "../../../apis/apis";
 
-type RequestListType = {
+export type RequestListType = {
   "appointmentId": number; //預約Id
   "userId": number; //預約租客Id
   "appointmentTime": string; //預約時間
@@ -103,18 +103,21 @@ export default function RequestList({sort}: {sort: string}) {
             return (
               <RequestCard
                 key={`appointment-${request?.appointmentId}`}
+                data={request}
                 status="send" />
             )
           } else if ( request.descrption.orderInfo[0]?.status === "租客已拒絕租約" ) {
             return (
               <RequestCard
                 key={`appointment-${request.appointmentId}`} 
+                data={request}
                 status="reject" />
             )
           } else {
             return (
               <RequestCard
                 key={`appointment-${request.appointmentId}`}
+                data={request}
                 status="none" />
             )
           }

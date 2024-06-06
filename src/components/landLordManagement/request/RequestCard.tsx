@@ -4,8 +4,11 @@ import rightIcon_black from "../../../assets/imgs/icons/rightIcon_black.svg";
 import close from "../../../assets/imgs/icons/close.svg";
 import photo from "../../../assets/imgs/homePage/recommendation_picture_1.svg"
 import star from "../../../assets/imgs/icons/star.svg";
+import { RequestListType } from "../request/RequestList";
+// 轉換承租時間
+import moment from 'moment-timezone';
 
-export default function RequestCard({status = "none"}) {
+export default function RequestCard({data, status = "none"}: {data: RequestListType, status: string}) {
   const customTheme: CustomFlowbiteTheme = {
     drawer: {
       "root": {
@@ -40,23 +43,31 @@ export default function RequestCard({status = "none"}) {
   const [isOpen, setIsOpen] = useState(false);
   const handleClose = () => setIsOpen(false);
 
+  const { appointmentId, userId, appointmentTime, descrption } = data;
+  const { tenantInfo, orderInfo } = descrption;
+
   return (
     <>
       <li
         className={`p-3 mb-4 flex gap-4 rounded-xl hover:bg-Landlord-99 ${isOpen && "bg-Landlord-95"}`}
         onClick={() => setIsOpen(true)}
+        data-appointmentId={appointmentId}
       >
-        <div className="w-36 h-24 rounded-2xl bg-Landlord-60">
-
+        <div className="w-36 h-24 rounded-2xl overflow-hidden">
+          <img
+            src={tenantInfo.photo}
+            alt={tenantInfo.lastName + tenantInfo.firstName}
+            className="w-full h-full object-cover"
+          />
         </div>
         <div>
           <div className="flex gap-3 mb-4">
-            <h3 className="text-sans-b-h6">詹小美</h3>
+            <h3 className="text-sans-b-h6">{tenantInfo.lastName + tenantInfo.firstName}</h3>
             {
               status === "send" && (
                 <div className="badge-s bg-Tenant-90">
                   <h5 className="pr-2 mr-2 border-r border-Tenant-70">租約邀請已送出</h5>
-                  <time>2024年5月24日</time>
+                  <time>{moment(orderInfo[0].createTime).tz('Asia/Taipei').format('YYYY年M月D日')}</time>
                 </div>
               )
             }
@@ -64,7 +75,7 @@ export default function RequestCard({status = "none"}) {
               status === "reject" && (
                 <div className="badge-s bg-Alert-95">
                   <h5 className="pr-2 mr-2 border-r border-Tenant-70">租約邀請已拒絕</h5>
-                  <time>2024年5月24日</time>
+                  <time>{orderInfo[0].createTime}</time>
                 </div>
               )
             }
@@ -73,10 +84,14 @@ export default function RequestCard({status = "none"}) {
             }
           </div>
           <div className="text-sans-body1 flex mb-2">
-            <h4 className="pr-2 mr-2 border-r border-Tenant-70">女</h4>
-            <h4>文教類</h4>
+            <h4 className="pr-2 mr-2 border-r border-Tenant-70">{tenantInfo.gender}</h4>
+            <h4>{tenantInfo.job}</h4>
           </div>
-          <a href="tel:+886-958-230-1239" className="text-sans-body1">0958-230-1239</a>
+          <a
+            href={`+886-${tenantInfo.phoneNumber.replace(/^0/, '').replace(/(\d{3})(\d{3})(\d{3})/, '$1-$2-$3')}`}
+            className="text-sans-body1">
+            {tenantInfo.phoneNumber.replace(/(\d{4})(\d{3})(\d{3})/, '$1-$2-$3')}
+          </a>
         </div>
         <div className="ml-auto flex flex-col items-end">
           <Tooltip
@@ -84,8 +99,8 @@ export default function RequestCard({status = "none"}) {
             content={"租客申請預約時間"}
           >
             <time className="cursor-pointer">
-              <span className="pr-2 mr-2 border-r border-Tenant-70">2024年5月18日</span>
-              <span>12:00</span>
+              <span className="pr-2 mr-2 border-r border-Tenant-70">{moment(appointmentTime).tz('Asia/Taipei').format('YYYY年M月D日')}</span>
+              <span>{moment(appointmentTime).format('HH:mm')}</span>
             </time>
           </Tooltip>
           <button
