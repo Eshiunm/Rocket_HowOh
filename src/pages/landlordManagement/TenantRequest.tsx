@@ -3,11 +3,12 @@ import rightIcon_white from "../../assets/imgs/icons/rightIcon_white.svg";
 import Footer from "../../components/footer/Footer";
 import { useNavigate } from "react-router-dom";
 import RequestList from "../../components/landLordManagement/request/RequestList";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { apiAppointmentCommonTotalNumber } from "../../apis/apis";
 
 export default function TenantRequest() {
   const navigate = useNavigate();
+  const [requestTotalNumber, setRequestTotalNumber] = useState(0);
 
   useEffect(() => {
     const houseId = localStorage.getItem("houseId")  || "-1";
@@ -22,8 +23,13 @@ export default function TenantRequest() {
       try {
         const request = await apiAppointmentCommonTotalNumber(queryString);
         console.log(request);
-      } catch (error) {
-        console.log(error);
+        setRequestTotalNumber(request.data.totalNumber);
+      } catch (error: any) {
+        if(error.response.status === 401) {
+          alert("登入已過期，請重新登入");
+        } else if (error.response.status === 400) {
+          alert("資料錯誤，請確認身分後重新登入");
+        }
       }
     }
     getRequestTotalNumber();
@@ -77,7 +83,7 @@ export default function TenantRequest() {
                 </h6>
                 <h6>
                   共
-                  <span className="text-sans-b-body2"> 32 </span>
+                  <span className="text-sans-b-body2"> {requestTotalNumber} </span>
                   筆
                 </h6>
               </div>
