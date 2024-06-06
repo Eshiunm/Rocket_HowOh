@@ -101,6 +101,7 @@ export const apiAppointmentTenantHouseDetail = (id: string) => appointmentReques
 
 // 預約-共用相關的 api
 export const apiAppointmentCommonList = (id: string) => appointmentRequest.get(`/common/list/${id}`); // ACA-1
+export const apiAppointmentCommonTotalNumber = (querystring: string) => appointmentRequest.get(`/common/totalNumber?${querystring}`,getToken()); // ACA-2 
 
 // 租客身分比對相關的 api
 export const apiUserInfoCompare = (id: string) => userRequest.get(`/tenant/info/${id}`); // FTU-2

@@ -1,11 +1,59 @@
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import leftIcon_white from "../../assets/imgs/icons/leftIcon_white.svg";
 import rightIcon_white from "../../assets/imgs/icons/rightIcon_white.svg";
-import Footer from "../../components/footer/Footer";
-import { useNavigate } from "react-router-dom";
 import RequestList from "../../components/landLordManagement/request/RequestList";
+import Footer from "../../components/footer/Footer";
+import { apiAppointmentCommonTotalNumber } from "../../apis/apis";
 
 export default function TenantRequest() {
   const navigate = useNavigate();
+  const [requestTotalNumber, setRequestTotalNumber] = useState(0);
+  const [sortOrder, setSortOrder] = useState('oldFirst'); // 默認排序為舊至新
+
+  const handleSortOrderChange = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const sortType = e.currentTarget.getAttribute('data-sort');
+    if (sortType) {
+      setSortOrder(sortType);
+    }
+  };
+
+  useEffect(() => {
+    const houseId = localStorage.getItem("houseId")  || "-1";
+    let orderMethod = "1";
+    switch (sortOrder) {
+      case "oldFirst":
+        orderMethod = "1";
+        break;
+      case "newFirst":
+        orderMethod = "2";
+        break;
+      case "hidden":
+        orderMethod = "3";
+        break;
+      default:
+        break;
+    }
+
+    const getRequestTotalNumber = async () => {
+      const queryString = new URLSearchParams({
+        houseId: houseId,
+        orderMethod: orderMethod,
+      }).toString();
+  
+      try {
+        const request = await apiAppointmentCommonTotalNumber(queryString);
+        setRequestTotalNumber(request.data.totalNumber);
+      } catch (error: any) {
+        if(error.response.status === 401) {
+          alert("登入已過期，請重新登入");
+        } else if (error.response.status === 400) {
+          alert("資料錯誤，請確認身分後重新登入");
+        }
+      }
+    }
+    getRequestTotalNumber();
+  }, [sortOrder]);
 
   return (
     <>
@@ -24,68 +72,31 @@ export default function TenantRequest() {
       <main className="container layout-grid mb-40">
         <div className="col-span-7 px-5">
           <section className="flex items-start gap-6 pb-3 pt-6 border-b border-Neutral-95 mb-6">
-            {/* <div className="flex gap-3 items-center pt-[14px]">
-              <input
-                type="checkbox"
-                name=""
-                id="checkAllTenant"
-                className="checkBox-black"
-              />
-              <label
-                htmlFor="checkAllTenant"
-                className="letter-button-light cursor-pointer"
-              >
-                全選
-              </label>
-              <button
-                type="button"
-                className="text-sans-b-body1 text-Neutral-30"
-              >
-                刪除租客
-              </button>
-            </div>
-            <div className="pt-[14px] ml-auto">
-              <div
-                className={`relative rounded ${
-                  isOrderFocused ? "border-Brand-30 border-2 -m-[1px]"
-                  : "border-black border"
-                }`}
-                onFocus={() => setIsOrderFocused(true)}
-                onBlur={() => setIsOrderFocused(false)}
-              >
-                <select
-                  id="city"
-                  className="block p-3 text-sans-body1 text-black bg-transparent border-none appearance-none focus:ring-0"
-                >
-                  <option value="oldList">舊至新</option>
-                  <option value="newList">新至舊</option>
-                  <option value="hasView">已查看</option>
-                  <option value="noView">未查看</option>
-                </select>
-                <label
-                  htmlFor="city"
-                  className="absolute text-sans-caption -translate-y-4 top-[6px] z-10 bg-white px-0.5 start-3"
-                >
-                  排序
-                </label>
-              </div>
-            </div> */}
             <div className="flex gap-3 pt-4">
               <button
-                className="tab-button-m py-1"
+                className={`tab-button-m py-1 ${
+                  sortOrder === "oldFirst" && "tab-button-m-select"
+                }`}
                 data-sort="oldFirst"
+                onClick={handleSortOrderChange}
               >
                 舊至新
               </button>
               <button
-                className="tab-button-m py-1"
+                className={`tab-button-m py-1 ${
+                  sortOrder === "newFirst" && "tab-button-m-select"
+                }`}
                 data-sort="newFirst"
+                onClick={handleSortOrderChange}
               >
                 新至舊
               </button>
               <button
-                className="tab-button-m py-1"
+                className={`tab-button-m py-1 ${
+                  sortOrder === "hidden" && "tab-button-m-select"
+                }`}
                 data-sort="hidden"
+                onClick={handleSortOrderChange}
               >
                 已隱藏
               </button>
@@ -101,16 +112,22 @@ export default function TenantRequest() {
                 </h6>
                 <h6>
                   共
-                  <span className="text-sans-b-body2"> 32 </span>
+                  <span className="text-sans-b-body2"> {requestTotalNumber} </span>
                   筆
                 </h6>
               </div>
               <div className="flex gap-[1px]">
-                <button className="text-sans-b-body2 filled-button-s rounded-r-none flex items-center gap-1">
+                <button
+                  className="text-sans-b-body2 filled-button-s rounded-r-none flex items-center gap-1"
+                  disabled={requestTotalNumber < 12}
+                >
                   <img src={leftIcon_white} alt="left-icon" />
                   上一頁
                 </button>
-                <button className="text-sans-b-body2 filled-button-s rounded-l-none flex items-center gap-1">
+                <button
+                  className="text-sans-b-body2 filled-button-s rounded-l-none flex items-center gap-1"
+                  disabled={requestTotalNumber < 12}  
+                >
                   下一頁
                   <img src={rightIcon_white} alt="right-icon" />
                 </button>
@@ -132,16 +149,22 @@ export default function TenantRequest() {
                 </h6>
                 <h6>
                   共
-                  <span className="text-sans-b-body2"> 32 </span>
+                  <span className="text-sans-b-body2"> {requestTotalNumber} </span>
                   筆
                 </h6>
               </div>
               <div className="flex gap-[1px]">
-                <button className="text-sans-b-body2 filled-button-s rounded-r-none flex items-center gap-1">
+                <button
+                  className="text-sans-b-body2 filled-button-s rounded-r-none flex items-center gap-1"
+                  disabled={requestTotalNumber < 12}  
+                >
                   <img src={leftIcon_white} alt="left-icon" />
                   上一頁
                 </button>
-                <button className="text-sans-b-body2 filled-button-s rounded-l-none flex items-center gap-1">
+                <button
+                  className="text-sans-b-body2 filled-button-s rounded-l-none flex items-center gap-1"
+                  disabled={requestTotalNumber < 12}
+                >
                   下一頁
                   <img src={rightIcon_white} alt="right-icon" />
                 </button>
