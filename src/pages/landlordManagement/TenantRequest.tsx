@@ -37,8 +37,8 @@ export default function TenantRequest() {
 
     const getRequestTotalNumber = async () => {
       const queryString = new URLSearchParams({
-        houseId: houseId,
-        orderMethod: orderMethod,
+        houseId,
+        orderMethod,
       }).toString();
   
       try {
@@ -135,7 +135,7 @@ export default function TenantRequest() {
             </div>
           </section>
           <section>
-            <RequestList />
+            <RequestList sort={sortOrder} />
           </section>
           <section className="flex justify-end pt-3 border-t border-Neutral-95">
             <div className="flex flex-col items-center gap-2">
