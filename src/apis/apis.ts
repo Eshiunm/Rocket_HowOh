@@ -100,7 +100,7 @@ export const apiAppointmentTenantInvitedHouseDetail = (id: string) => appointmen
 export const apiAppointmentTenantHouseDetail = (id: string) => appointmentRequest.get(`/tenant/${id}`); // ATA-3
 
 // 預約-共用相關的 api
-export const apiAppointmentCommonList = (id: string) => appointmentRequest.get(`/common/list/${id}`); // ACA-1
+export const apiAppointmentCommonList = (querystring: string) => appointmentRequest.get(`/common/list/${querystring}`,getToken()); // ACA-1
 export const apiAppointmentCommonTotalNumber = (querystring: string) => appointmentRequest.get(`/common/totalNumber?${querystring}`,getToken()); // ACA-2 
 
 // 租客身分比對相關的 api
