@@ -1,10 +1,11 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { Drawer, Flowbite, CustomFlowbiteTheme } from "flowbite-react";
 import photo from "../../assets/imgs/homePage/recommendation_picture_1.svg"
 import star from "../../assets/imgs/icons/star.svg";
 import close from "../../assets/imgs/icons/close.svg";
 import HouseDatas from "../../components/landLordManagement/HouseDatas";
+import { apiHouseLandlordSingleInfo } from "../../apis/apis";
 
 export default function RentedHouse() {
   const customTheme: CustomFlowbiteTheme = {
@@ -39,6 +40,8 @@ export default function RentedHouse() {
   };
 
   const navigate = useNavigate();
+  const { houseId } = useParams();
+  console.log(houseId)
   const [isHouseDetailOpen, setIsHouseDetailOpen] = useState(false);
   const handleHouseDetailClose = () => setIsHouseDetailOpen(false);
 
@@ -48,7 +51,8 @@ export default function RentedHouse() {
   const [isTenantNameFocused,setIsTenantNameFocused] = useState(false);
   const [isHouseAddressFocused,setIsHouseAddressFocused] = useState(false);
 
-  const [houseDatas, ] = useState({
+  const [tenantData, setTenantData] = useState()
+  const [houseDatas, setHouseDatas] = useState({
     appointmentCount: 0,
     formData:{
       name: "房源名稱",
@@ -130,6 +134,21 @@ export default function RentedHouse() {
       jobRestriction: "123c,sdfd",
     },
   });
+
+  useEffect(() => {
+    const fetchHouseData = async () => {
+      try {
+        const response = await apiHouseLandlordSingleInfo(houseId);
+        const { houseInfo, tenantInfo } = response.data.data;
+        console.log(response);
+        // setTenantData(data);
+        // setHouseDatas(data.house);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    fetchHouseData();
+  },[houseId]);
 
   return (
     <>
