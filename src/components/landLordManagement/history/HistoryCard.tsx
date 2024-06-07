@@ -1,15 +1,17 @@
 import { Link } from "react-router-dom";
 import house from "../../../assets/imgs/homePage/recommendation_picture_1.svg";
 import rightIcon_black from "../../../assets/imgs/icons/rightIcon_black.svg";
+import { ExpiredListType } from "../../../pages/landlordManagement/RentedHistory";
 
-export default function HistoryCard({canReview} : {canReview: boolean}) {
+export default function HistoryCard({data} : {data: ExpiredListType}) {
+  const {photo, tenant, tenantTel, leaseStartTime, leaseEndTime, canComment} = data;
   return (
     <li
       className={`p-3 mb-4 flex gap-4 rounded-xl ${
-        canReview && "cursor-pointer hover:bg-Landlord-95"
+        canComment && "cursor-pointer hover:bg-Landlord-95"
       }`}
       onClick={() => {
-        if (canReview) {
+        if (canComment) {
           window.open("/landlord/review","_blank")
         }
       }}
@@ -40,14 +42,14 @@ export default function HistoryCard({canReview} : {canReview: boolean}) {
       </div>
       <div className="ml-auto flex flex-col justify-between items-end">
         {
-          canReview ? (
+          canComment ? (
             <div className="badge-m bg-Neutral-50 text-white">待評價</div>
           ) : (
             <div className="badge-m bg-Neutral-99 text-Neutral-80">已完成</div>
           )
         }
         {
-          canReview && (
+          canComment && (
             <Link
               to="/landlord/review" target="_blank"
               className="mt-auto mb-1 mr-2 letter-button-light border-b border-black hover:border-Neutral-30"

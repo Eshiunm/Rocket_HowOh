@@ -4,7 +4,7 @@ import rightIcon_white from "../../assets/imgs/icons/rightIcon_white.svg";
 import { useEffect, useState } from "react";
 import { apiOrderLandlordListExpired } from "../../apis/apis";
 
-type ExpiredListType = {
+export type ExpiredListType = {
     orderId: number;
     photo: string;
     tenant: string;
@@ -35,10 +35,15 @@ export default function RentedHistory() {
       <div className="col-span-7 p-5">
         <section>
           <ul>
-            <HistoryCard canReview={true} />
-            <HistoryCard canReview={false} />
-            <HistoryCard canReview={true} />
-            <HistoryCard canReview={false} />
+            {
+              expiredList.map((list, index) => {
+                return <HistoryCard key={`expiredlist+${index}`} data={list} />;
+                // if (list.canComment) {
+                // } else {
+                //   return <HistoryCard key={`expiredlist+${index}`} data={list} canReview={false} />
+                // }
+              })
+            }
           </ul>
         </section>
         <section className="flex justify-end pt-3 border-t border-Neutral-95">
