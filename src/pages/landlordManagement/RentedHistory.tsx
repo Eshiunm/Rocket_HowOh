@@ -5,18 +5,18 @@ import { useEffect, useState } from "react";
 import { apiOrderLandlordListExpired } from "../../apis/apis";
 
 export type ExpiredListType = {
-    orderId: number;
-    photo: string;
-    tenant: string;
-    tenantTel: string;
-    leaseStartTime: string;
-    leaseEndTime: string;
-    canComment: boolean;
+  name: string;
+  orderId: number;
+  photo: string;
+  tenant: string;
+  tenantTel: string;
+  leaseStartTime: string;
+  leaseEndTime: string;
+  canComment: boolean;
 };
 
 export default function RentedHistory() {
   const [expiredList, setExpiredList] = useState<ExpiredListType[]>([]);
-  console.log(expiredList);
 
   useEffect(() => {
     const getExpiredList = async () => {
@@ -36,13 +36,7 @@ export default function RentedHistory() {
         <section>
           <ul>
             {
-              expiredList.map((list, index) => {
-                return <HistoryCard key={`expiredlist+${index}`} data={list} />;
-                // if (list.canComment) {
-                // } else {
-                //   return <HistoryCard key={`expiredlist+${index}`} data={list} canReview={false} />
-                // }
-              })
+              expiredList.map((list, index) => <HistoryCard key={`expiredlist+${index}`} data={list} />)
             }
           </ul>
         </section>
