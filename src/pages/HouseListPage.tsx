@@ -26,7 +26,6 @@ import {
   setLandLordRatingItemsState,
 } from "../../redux/searchForm/landLordRatingSlice";
 import { apiHouseCommonSearchList } from "../apis/apis";
-import BigLoading from "../components/loading/BigLoading";
 import dropdownCities from "../constants/searchFormCondition/dropdownCities";
 import dropdownIcon from "../assets/imgs/icons/dropdownIcon.svg";
 import searchIcon from "../assets/imgs/icons/searchIcon.svg";
