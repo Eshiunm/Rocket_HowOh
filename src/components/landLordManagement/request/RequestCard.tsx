@@ -7,6 +7,62 @@ import star from "../../../assets/imgs/icons/star.svg";
 import { RequestListType } from "../request/RequestList";
 // 轉換承租時間
 import moment from 'moment-timezone';
+import { apiAppointmentLandlordSingleInfo } from "../../../apis/apis";
+
+type TenantInfoType = {
+  lastName: string; //租客名
+  firstName: string; //租客姓
+  job: string; //租客職業
+  gender: string; //租客性別
+  phonenumber: string; //租客手機
+  intro: string; //租客自介
+  photo: string; //租客照片
+};
+
+type TenantRatingInfoType = {
+  Sum: number; //分數總和
+  Count: number; //評價筆數
+  Average: number//平均分數
+};
+
+type OrderInfoType = {
+  orderId: number; //訂單Id
+  ratingList ?: [
+    {
+      orderRatingId: number; //評分資料Id
+      ratingRole: string; //房東評分
+      orderRating: number; //評分
+      ratingDate: string; //評價日期
+      ratingUserInfo: [
+        {
+            userLastName: string; //房東名
+            userFirstName: string; //房東姓
+            userGender: string; //房東性別
+            userJob: string //房東職業
+        }
+      ];
+      replyInfo ?: [
+      //針對評分的回覆: 租客評語的版本
+        {
+          orderRatingId: number; //評分Id
+          commentUserRole: string; //租客評語
+          userInfo: null; //由於屬於[租客評語]，因此不帶入使用者資訊
+          replyComment: string; //租客評論內容
+          date: string //回覆評論時間
+        }
+      ]
+    }
+  ]
+} ;
+
+type TenantDetailsType = {
+  tenantId: number; //租客User Id
+  tenantInfo: TenantInfoType[];
+  tenantRatingInfo: TenantRatingInfoType;
+  orderList: {
+    orderInfo: OrderInfoType[]
+  }
+};
 
 export default function RequestCard({data, status = "none"}: {data: RequestListType, status: string}) {
   const customTheme: CustomFlowbiteTheme = {
@@ -42,14 +98,23 @@ export default function RequestCard({data, status = "none"}: {data: RequestListT
 
   const [isOpen, setIsOpen] = useState(false);
   const [getInfoLoading, setGetInfoLoading] = useState(false);
+  const [tenantDetails, setTenantDetails] = useState<TenantDetailsType | null>(null);
+  console.log(tenantDetails);
   const handleClose = () => setIsOpen(false);
 
   const { appointmentId, appointmentTime, descrption } = data;
   const { tenantInfo, orderInfo } = descrption;
 
-  const getSingleTenantInfo = (appointmentId: number) => {
+  const getSingleTenantInfo = async (appointmentId: number) => {
     setGetInfoLoading(true);
     console.log(appointmentId);
+    try {
+      const response = await apiAppointmentLandlordSingleInfo(appointmentId);
+      setTenantDetails(response.data[0]);
+      setGetInfoLoading(false);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleCardClick = () => {
@@ -188,15 +253,29 @@ export default function RequestCard({data, status = "none"}: {data: RequestListT
                         <div>
                           <span className="material-symbols-outlined text-Tenant-50 mb-6">face</span>
                           <h4 className="text-sans-b-body1 text-Tenant-50 mb-3">租客</h4>
-                          <h3 className="text-sans-b-h4 mb-3">詹小美</h3>
+                          <h3 className="text-sans-b-h4 mb-3">{
+                            `${tenantDetails?.tenantInfo[0].lastName}${tenantDetails?.tenantInfo[0].firstName}`
+                          }</h3>
                           <div className="text-sans-body1 flex mb-2">
-                            <h4 className="pr-2 mr-2 border-r border-Tenant-70">女</h4>
-                            <h4>文教類</h4>
+                            <h4 className="pr-2 mr-2 border-r border-Tenant-70">{
+                              tenantDetails?.tenantInfo[0].gender
+                            }</h4>
+                            <h4>{
+                              tenantDetails?.tenantInfo[0].job
+                            }</h4>
                           </div>
-                          <a href="tel:+886-958-230-1239" className="text-sans-body1">0958-230-1239</a>
+                          <a
+                            href={`+886-${tenantDetails?.tenantInfo[0].phonenumber.replace(/^0/, '').replace(/(\d{3})(\d{3})(\d{3})/, '$1-$2-$3')}`}
+                            className="text-sans-body1">
+                            {tenantDetails?.tenantInfo[0].phonenumber.replace(/(\d{4})(\d{3})(\d{3})/, '$1-$2-$3')}
+                          </a>
                         </div>
                         <div className="w-[186px] rounded-lg overflow-hidden">
-                          <img src={photo} alt="tenant" className="w-full aspect-square block object-cover" />
+                          <img
+                            src={tenantDetails?.tenantInfo[0].photo}
+                            alt="tenant"
+                            className="w-full aspect-square block object-cover"
+                          />
                         </div>
                       </div>
                       <div className="flex gap-3 mb-6">
