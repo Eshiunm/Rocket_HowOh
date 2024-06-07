@@ -7,7 +7,6 @@ function LoginPage() {
   const registerIdentityState = useSelector(
     (store: RootState) => store.registerIdentityState.registerIdentity
   );
-  console.log(registerIdentityState);
   return (
     <div
       className={

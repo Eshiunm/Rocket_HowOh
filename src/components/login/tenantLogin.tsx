@@ -46,14 +46,15 @@ function TenantLogin() {
     setApiErrorMessage("");
     setPosting(true);
     try {
-      const resopnse = await apiLogin(newFormData);
-      const token = resopnse.data.token;
+      const response = await apiLogin(newFormData);
+      const token = response.data.token;
+      const userId = response.data.data.userId;
       localStorage.setItem("authToken", token);
       localStorage.setItem("currentIdentity", "tenant");
-      localStorage.setItem("userProfile", resopnse.data.data.photo);
+      localStorage.setItem("userId", userId);
+      localStorage.setItem("userProfile", response.data.data.photo);
       navigate("/");
     } catch (errors: any) {
-      console.log(errors);
       let errorMessage = errors.response.data;
       if (errorMessage === "尚未註冊手機號碼") {
         errorMessage = "手機號碼尚未註冊，請點擊下方建立帳號";
