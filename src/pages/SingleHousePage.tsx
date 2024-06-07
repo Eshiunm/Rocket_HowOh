@@ -1411,7 +1411,7 @@ function SingleHousePage() {
         </div>
       )}
 
-      {/* 預約看房 pop-up */}
+      {/* 預約看房按鈕 pop-up */}
       <Flowbite theme={{ theme: customTheme }}>
         {Object.keys(reserveModalData).length > 0 ? (
           <Modal
@@ -1465,7 +1465,7 @@ function SingleHousePage() {
                     </div>
                   </li>
                   <li className="flex justify-between gap-x-3">
-                    <div className="w-full bg-Neutral-95 rounded-lg p-4">
+                    <div className="flex flex-col justify-between w-full bg-Neutral-95 rounded-lg p-4">
                       <h5 className="text-sans-b-body1 text-Landlord-50 mb-4">
                         評價
                       </h5>
@@ -1484,7 +1484,7 @@ function SingleHousePage() {
                         <img src={ratingStarIcon} alt="ratingStarIcon" />
                       </p>
                     </div>
-                    <div className="w-full bg-Neutral-95 rounded-lg p-4">
+                    <div className="flex flex-col justify-between w-full bg-Neutral-95 rounded-lg p-4">
                       <h5 className="text-sans-b-body1 text-Landlord-50 mb-4">
                         則數
                       </h5>
@@ -1500,11 +1500,11 @@ function SingleHousePage() {
                     <h5 className="text-sans-b-body1 text-Landlord-50 mb-3">
                       自我介紹
                     </h5>
-                    <p>您好，{reserveModalData.userIntro}</p>
+                    <p>您好，{reserveModalData.userIntro.trim()}</p>
                   </li>
                 </ul>
               </div>
-              <p className="mb-10">若您的資料有誤，請於照帳號管理更新</p>
+              <p className="mb-10">若您的資料有誤，請於帳號管理更新</p>
               <div className="flex justify-end gap-x-6">
                 <button
                   type="button"
