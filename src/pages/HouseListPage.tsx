@@ -1318,7 +1318,7 @@ function HouseListPage() {
                             <img
                               src={house.image[0].coverIamgePath}
                               alt="housePicture"
-                              className="rounded-2xl hover:scale-125 transition-all duration-300 hover:transition hover:duration-300"
+                              className="w-full h-full hover:scale-125 transition-all duration-300 hover:transition hover:duration-300"
                             />
                           </div>
                           <div className="relative flex flex-col justify-between">
