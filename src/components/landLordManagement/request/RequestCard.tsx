@@ -281,18 +281,18 @@ export default function RequestCard({data, status = "none"}: {data: RequestListT
                       <div className="flex gap-3 mb-6">
                         <div className="flex-1 p-4 rounded-lg bg-Neutral-95 flex gap-4 flex-wrap justify-between">
                           <h5 className="w-full text-Tenant-50 text-sans-b-body1">評價</h5>
-                          <h4 className="text-sans-h4">4.8</h4>
+                          <h4 className="text-sans-h4">{tenantDetails?.tenantRatingInfo.Average || "尚無評價"}</h4>
                           <img src={star} alt="star" className="self-end" />
                         </div>
                         <div className="flex-1 p-4 rounded-lg bg-Neutral-95 flex gap-4 flex-wrap justify-between">
                           <h5 className="w-full text-Tenant-50 text-sans-b-body1">則數</h5>
-                          <h4 className="text-sans-h4">3</h4>
+                          <h4 className="text-sans-h4">{tenantDetails?.tenantRatingInfo.Count}</h4>
                           <h6 className="self-end">則</h6>
                         </div>
                       </div>
                       <div>
                         <h4 className="text-Landlord-40 text-sans-b-body1 mb-3">自我介紹</h4>
-                        <p className="text-sans-body1">我是來自台中的補習班老師。最近決定轉職成為前端工程師，於是報名參加了高雄六角的培訓營！我希望能在開課前找到便宜、便利，而且能申請租屋補助的房源，同時也希望能遇到一位優質的房東。</p>
+                        <p className="text-sans-body1">{tenantDetails?.tenantInfo[0].intro}</p>
                       </div>
                     </div>
                     <div className="w-full">
