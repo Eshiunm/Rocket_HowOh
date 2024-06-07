@@ -1,8 +1,35 @@
 import HistoryCard from "../../components/landLordManagement/history/HistoryCard";
 import leftIcon_white from "../../assets/imgs/icons/leftIcon_white.svg";
 import rightIcon_white from "../../assets/imgs/icons/rightIcon_white.svg";
+import { useEffect, useState } from "react";
+import { apiOrderLandlordListExpired } from "../../apis/apis";
+
+type ExpiredListType = {
+    orderId: number;
+    photo: string;
+    tenant: string;
+    tenantTel: string;
+    leaseStartTime: string;
+    leaseEndTime: string;
+    canComment: boolean;
+};
 
 export default function RentedHistory() {
+  const [expiredList, setExpiredList] = useState<ExpiredListType[]>([]);
+  console.log(expiredList);
+
+  useEffect(() => {
+    const getExpiredList = async () => {
+      try {
+        const response = await apiOrderLandlordListExpired();
+        setExpiredList(response.data.data);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    getExpiredList();
+  },[])
+
   return (
     <main className="container layout-grid pt-6 mb-40">
       <div className="col-span-7 p-5">
