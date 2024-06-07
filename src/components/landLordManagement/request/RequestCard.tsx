@@ -2,7 +2,6 @@ import { useState } from "react";
 import { Tooltip, Drawer, Flowbite, CustomFlowbiteTheme } from "flowbite-react";
 import rightIcon_black from "../../../assets/imgs/icons/rightIcon_black.svg";
 import close from "../../../assets/imgs/icons/close.svg";
-import photo from "../../../assets/imgs/homePage/recommendation_picture_1.svg"
 import star from "../../../assets/imgs/icons/star.svg";
 import { RequestListType } from "../request/RequestList";
 // 轉換承租時間
@@ -25,34 +24,35 @@ type TenantRatingInfoType = {
   Average: number//平均分數
 };
 
+type RatingUserInfoType = {
+  userLastName: string; //房東名
+  userFirstName: string; //房東姓
+  userGender: string; //房東性別
+  userJob: string //房東職業
+}
+
+type ReplyInfo = {
+  //針對評分的回覆: 租客評語的版本
+  orderRatingId: number; //評分Id
+  commentUserRole: string; //租客評語
+  userInfo: null; //由於屬於[租客評語]，因此不帶入使用者資訊
+  replyComment: string; //租客評論內容
+  date: string //回覆評論時間
+};
+
+type RatingListType = {
+  orderRatingId: number; //評分資料Id
+  ratingRole: string; //房東評分
+  orderRating: number; //評分
+  ratingDate: string; //評價日期
+  ratingComment: string; //房東評價內容
+  ratingUserInfo: RatingUserInfoType[];
+  replyInfo : ReplyInfo[]
+};
+
 type OrderInfoType = {
   orderId: number; //訂單Id
-  ratingList ?: [
-    {
-      orderRatingId: number; //評分資料Id
-      ratingRole: string; //房東評分
-      orderRating: number; //評分
-      ratingDate: string; //評價日期
-      ratingUserInfo: [
-        {
-            userLastName: string; //房東名
-            userFirstName: string; //房東姓
-            userGender: string; //房東性別
-            userJob: string //房東職業
-        }
-      ];
-      replyInfo ?: [
-      //針對評分的回覆: 租客評語的版本
-        {
-          orderRatingId: number; //評分Id
-          commentUserRole: string; //租客評語
-          userInfo: null; //由於屬於[租客評語]，因此不帶入使用者資訊
-          replyComment: string; //租客評論內容
-          date: string //回覆評論時間
-        }
-      ]
-    }
-  ]
+  ratingList: RatingListType[];
 } ;
 
 type TenantDetailsType = {
@@ -99,7 +99,10 @@ export default function RequestCard({data, status = "none"}: {data: RequestListT
   const [isOpen, setIsOpen] = useState(false);
   const [getInfoLoading, setGetInfoLoading] = useState(false);
   const [tenantDetails, setTenantDetails] = useState<TenantDetailsType | null>(null);
-  console.log(tenantDetails);
+  const orderList = tenantDetails?.orderList?.orderInfo;
+  console.log(orderList);
+  const hasAnyRating = orderList?.filter((order: OrderInfoType) => order.ratingList.length === 1);
+  console.log(hasAnyRating);
   const handleClose = () => setIsOpen(false);
 
   const { appointmentId, appointmentTime, descrption } = data;
@@ -107,7 +110,6 @@ export default function RequestCard({data, status = "none"}: {data: RequestListT
 
   const getSingleTenantInfo = async (appointmentId: number) => {
     setGetInfoLoading(true);
-    console.log(appointmentId);
     try {
       const response = await apiAppointmentLandlordSingleInfo(appointmentId);
       setTenantDetails(response.data[0]);
@@ -295,25 +297,51 @@ export default function RequestCard({data, status = "none"}: {data: RequestListT
                         <p className="text-sans-body1">{tenantDetails?.tenantInfo[0].intro}</p>
                       </div>
                     </div>
-                    <div className="w-full">
-                      <h4 className="text-sans-b-h6 mb-4">房東評價</h4>
-                      <div className="bg-white rounded-lg p-4">
-                        <div className="flex flex-col gap-2">
-                          <h5 className="text-sans-b-body1 text-Landlord-50">王太太</h5>
-                          <time className="text-sans-body1">2023年4月22日</time>
-                          <div className="flex gap-2">
-                            <img src={star} alt="star" />
-                            <img src={star} alt="star" />
-                            <img src={star} alt="star" />
-                          </div>
-                          <p className="mt-2 text-sans-body1">黃同學乾淨有禮貌，好租客！</p>
+                    {
+                      hasAnyRating?.length && (
+                        <div className="w-full">
+                          <h4 className="text-sans-b-h6 mb-4">房東評價</h4>
+                          {
+                            hasAnyRating.map((comment, index) => {
+                              const lastName = comment.ratingList[0].ratingUserInfo[0].userLastName;
+                              const gender = comment.ratingList[0].ratingUserInfo[0].userGender === "男" ? "先生" : "小姐";
+                              const ratingDate = moment(comment.ratingList[0].ratingDate).tz('Asia/Taipei').format('YYYY年M月D日');
+                              const rate = comment.ratingList[0].orderRating;
+                              const commentContent = comment.ratingList[0].ratingComment;
+                              const replyComment = comment.ratingList[0].replyInfo[0]?.replyComment;
+                              
+                              return (
+                                <div
+                                  key={"userReview" + index}
+                                  className="bg-white rounded-lg p-4 mb-4"
+                                >
+                                  <div className="flex flex-col gap-2">
+                                    <h5 className="text-sans-b-body1 text-Landlord-50">{lastName + gender}</h5>
+                                    <time className="text-sans-body1">{ratingDate}</time>
+                                    <div className="flex gap-2">
+                                      {
+                                        [...Array(rate)].map((_, index) => {
+                                          return <img src={star} alt="star" key={"star" + index} />
+                                        })
+                                      }
+                                    </div>
+                                    <p className="mt-2 text-sans-body1">{commentContent}</p>
+                                  </div>
+                                  {
+                                    replyComment && (
+                                      <div className="mt-4 pt-6 border-t border-Neutral-95">
+                                        <h5 className="text-sans-b-body1 text-Landlord-50 mb-4">租客回覆</h5>
+                                        <p className="mt-2 text-sans-body1">{replyComment}</p>
+                                      </div>
+                                    )
+                                  }
+                                </div>
+                              )
+                            })
+                          }
                         </div>
-                        <div className="mt-4 pt-6 border-t border-Neutral-95">
-                          <h5 className="text-sans-b-body1 text-Landlord-50 mb-4">租客回覆</h5>
-                          <p className="mt-2 text-sans-body1">謝謝王媽媽照顧！</p>
-                        </div>
-                      </div>
-                    </div>
+                      )
+                    }
                   </>
                 )
               }
