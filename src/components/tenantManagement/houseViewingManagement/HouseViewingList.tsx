@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { CustomFlowbiteTheme, Flowbite, Drawer } from "flowbite-react";
+import { apiAppointmentCommonList } from "../../../apis/apis";
 import picture from "../../../assets/imgs/tenantManagement/Rectangle 17.jpg";
 import close from "../../../assets/imgs/icons/close.svg";
 import houseFeatureCheckIcon from "../../../assets/imgs/SingleHousePage/houseFeatureCheckIcon.svg";
@@ -48,6 +49,10 @@ function HouseViewingList() {
 
   // 初始化出租清單(預設渲染未出租)
   useEffect(() => {
+    const getRentalListData = async () => {
+      const response = await apiAppointmentCommonList();
+    }
+    getRentalListData();
     setRentalList(10);
   }, []);
 
