@@ -1,5 +1,7 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useForm } from 'react-hook-form';
+import { useNavigate } from "react-router-dom";
+import { ForcedChangeReload } from "../index/HouseList";
 // Model-popup 所需之匯入
 import { Modal } from "flowbite-react";
 import close from "../../../assets/imgs/icons/close.svg";
@@ -7,7 +9,7 @@ import alertTriangle from "../../../assets/imgs/icons/alertTriangle.svg";
 import messageCloud from "../../../assets/imgs/icons/messageCloud.svg";
 import smileWink from "../../../assets/imgs/icons/smileWink.svg";
 import ForcedChangeModal from "./ForcedChangeModal";
-import { apiHouseLandlordFindUser } from "../../../apis/apis";
+import { apiHouseLandlordFindUser, apiOrderLandlordAssignTenant } from "../../../apis/apis";
 
 interface QuickCheckModalPropsType {
   openModal: boolean;
@@ -19,14 +21,30 @@ interface tenantInfoType {
   userId: number;
 }
 
+type FormDataType = {
+  tenantPhone: string;
+  leaseStartTime: string;
+  leaseEndTime: string;
+}
+
+type UserInfoType = {
+  houseId: string | null; 
+  userId?: number;
+  leaseStartTime: string;
+  leaseEndTime: string;
+  tenantTelphone: string;
+}
+
 export default function QuickCheckModal(props : QuickCheckModalPropsType) {
+  const navigate = useNavigate();
   const { openModal, setOpenModal } = props;
   const [isPhoneFocused,setIsPhoneFocused] = useState(false);
-  const [tenantInfo,setTenantInfo] = useState<tenantInfoType | null>(null);// 是否正在打 API
-  const [isPosting, setPosting] = useState(false);
+  const [tenantInfo,setTenantInfo] = useState<tenantInfoType | null>(null);
+  const [isSearchingUser, setIsSearchingUser] = useState(false);
   const [openForceChangeModal, setOpenForceChangeModal] = useState(false);
+  const { setReloadHouseList } = useContext(ForcedChangeReload);
 
-  const { register, handleSubmit, formState: { errors }, watch } = useForm({
+  const { register, handleSubmit, formState: { errors }, watch } = useForm<FormDataType>({
     defaultValues: {
       tenantPhone: "",
       leaseStartTime: "",
@@ -35,13 +53,44 @@ export default function QuickCheckModal(props : QuickCheckModalPropsType) {
   });
   const tenantPhone = watch("tenantPhone");
   const leaseStartTime = watch("leaseStartTime");
-  const onSubmit = (data: any) => console.log(data);
+  const onSubmit = (data: FormDataType) => {
+    const userInfo: UserInfoType = {
+      houseId: localStorage.getItem("houseId"),
+      leaseStartTime: data.leaseStartTime,
+      leaseEndTime: data.leaseEndTime,
+      tenantTelphone: data.tenantPhone,
+    };
+    if (tenantInfo?.userId) {
+      userInfo.userId = tenantInfo.userId;
+    }
+    
+    const submitUserInfo = async (userInfo: UserInfoType) => {
+      try {
+        await apiOrderLandlordAssignTenant(userInfo);
+        setOpenModal(false);
+        setReloadHouseList(true);
+        localStorage.removeItem("houseId");
+        navigate("/landlord",{
+          state: {
+            toastMessage: userInfo.userId ? "租約邀請已送出" : "房源狀態已更改"
+          }
+        });
+      } catch (error: any) {
+        if ( error.response.status === 400 ) {
+          alert(error.message);
+          console.log(error);
+        }
+      }
+    }
+    submitUserInfo(userInfo);
+  };
   
+  // 檢查承租人電話是否為系統用戶
   useEffect(() => {
     const telRegex = /^09\d{8}$/;
 
     const checkTenantPhone = async (phone: string) => {
-      setPosting(true);
+      setIsSearchingUser(true);
       try {
         const response = await apiHouseLandlordFindUser(phone);
         setTenantInfo(response.data.data);
@@ -50,7 +99,7 @@ export default function QuickCheckModal(props : QuickCheckModalPropsType) {
           console.log(error);
         }
       }
-      setPosting(false);
+      setIsSearchingUser(false);
     }
 
     if (telRegex.test(tenantPhone)) {
@@ -111,7 +160,7 @@ export default function QuickCheckModal(props : QuickCheckModalPropsType) {
               {
                 errors.tenantPhone?.message && <p className="post-alert">{errors.tenantPhone?.message}</p>
               }
-              {isPosting ? (
+              {isSearchingUser ? (
                 <div role="status" className="bg-Landlord-95 rounded-lg p-3 my-3 flex items-center gap-6">
                   <div className="animate-pulse flex items-center justify-center w-16 h-16 bg-gray-300 rounded">
                     <svg className="w-10 h-10 text-gray-200 dark:text-gray-600" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
@@ -136,7 +185,7 @@ export default function QuickCheckModal(props : QuickCheckModalPropsType) {
                 : null
               }
               {
-                tenantInfo === null && tenantPhone.length === 10 && isPosting === false && (
+                tenantInfo === null && tenantPhone.length === 10 && isSearchingUser === false && (
                   <p className="post-alert pl-3">此承租人非租客系統用戶，您們將無法相互評價</p>
                 )
               }
@@ -222,12 +271,12 @@ export default function QuickCheckModal(props : QuickCheckModalPropsType) {
                 }}
               >取消</button>
               <button
-                type="button" 
-                className="filled-button-m" onClick={() => {
-                  localStorage.removeItem("houseId");
-                  setOpenModal(false)
-                }}
-              >立即更改</button>
+                type="submit" 
+                className="filled-button-m"
+              >{
+                tenantInfo === null && tenantPhone.length === 10 && isSearchingUser === false ?
+                "確認" : "立即更改"
+              }</button>
             </div>
           </form>
         </Modal.Body>

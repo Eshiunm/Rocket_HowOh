@@ -20,8 +20,8 @@ export interface listCountType {
 
 // 定義 ForcedChangeReload 的型別
 interface contextValueType {
-  isforcedChangeAPITriggered: boolean;
-  setIsforcedChangeAPITriggered: (value: boolean) => void;
+  reloadHouseList: boolean;
+  setReloadHouseList: (value: boolean) => void;
 }
 
 export const ForcedChangeReload = createContext<contextValueType>(
@@ -163,11 +163,11 @@ export default function HouseList() {
     goFinishedList,
   }
 
-  // 當強制變更觸發時，更改 false 為 true
-  const [isforcedChangeAPITriggered, setIsforcedChangeAPITriggered] = useState(false);
+  // 當更改為已承租、強制變更觸發時，更改 false 為 true
+  const [reloadHouseList, setReloadHouseList] = useState(false);
   const contextValue = {
-    isforcedChangeAPITriggered,
-    setIsforcedChangeAPITriggered,
+    reloadHouseList,
+    setReloadHouseList,
   };
 
   useEffect(() => {
@@ -187,8 +187,8 @@ export default function HouseList() {
       }
     }
     getHouseList();
-    return setIsforcedChangeAPITriggered(false);
-  },[navigate,isforcedChangeAPITriggered])
+    return setReloadHouseList(false);
+  },[navigate, reloadHouseList])
 
   return (
     <>

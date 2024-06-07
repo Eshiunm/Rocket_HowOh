@@ -73,14 +73,14 @@ export default function ForcedChangeModal(props : ForceChangeModalPropsType) {
   const { openForceChangeModal, setOpenForceChangeModal, setOpenQuickCheckModal } = props;
   const navigate = useNavigate();
 
-  const { setIsforcedChangeAPITriggered } = useContext(ForcedChangeReload);
+  const { setReloadHouseList } = useContext(ForcedChangeReload);
 
   const forcedChangeAPI = async (houseId: string|null) => {
     try {
       await apiHouseLandlordChangeFinish(houseId);
       setOpenForceChangeModal(false);
       if (setOpenQuickCheckModal) {
-        setIsforcedChangeAPITriggered(true);
+        setReloadHouseList(true);
         setOpenQuickCheckModal(false);
       }
       localStorage.removeItem("houseId");

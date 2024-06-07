@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import { CustomFlowbiteTheme, Flowbite, Tooltip, Drawer } from "flowbite-react";
 import HouseDatas from "../../components/landLordManagement/HouseDatas";
 import Footer from "../../components/footer/Footer";
-import { apiHouseLandlordFindUser, apiHouseLandlordSingleInfo } from "../../apis/apis";
+import { apiHouseLandlordFindUser, apiHouseLandlordSingleInfo, apiOrderLandlordAssignTenant } from "../../apis/apis";
 import close from "../../assets/imgs/icons/close.svg";
 import alertTriangle from "../../assets/imgs/icons/alertTriangle.svg";
 import messageCloud from "../../assets/imgs/icons/messageCloud.svg";
@@ -15,6 +15,20 @@ interface tenantInfoType {
   photo: string;
   name: string;
   userId: number;
+}
+
+type FormDataType = {
+  tenantPhone: string;
+  leaseStartTime: string;
+  leaseEndTime: string;
+}
+
+type UserInfoType = {
+  houseId: string | null; 
+  userId?: number;
+  leaseStartTime: string;
+  leaseEndTime: string;
+  tenantTelphone: string;
 }
 
 export default function PublishHouse() {
@@ -53,7 +67,7 @@ export default function PublishHouse() {
   const handleRentedCanvas = (bool: boolean) => setIsRentedOpen(bool);
   const [isPhoneFocused,setIsPhoneFocused] = useState(false);
   const [tenantInfo,setTenantInfo] = useState<tenantInfoType | null>(null);// 是否正在打 API
-  const [isPosting, setPosting] = useState(false);
+  const [isSearchingUser, setIsSearchingUser] = useState(false);
   const [openForceChangeModal, setOpenForceChangeModal] = useState(false);
 
   const navigate = useNavigate();
@@ -150,8 +164,36 @@ export default function PublishHouse() {
   });
   const tenantPhone = watch("tenantPhone");
   const leaseStartTime = watch("leaseStartTime");
-  const onSubmit = (data: any) => console.log(data);
-  
+  const onSubmit = (data: FormDataType) => {
+    const userInfo: UserInfoType = {
+      houseId: localStorage.getItem("houseId"),
+      leaseStartTime: data.leaseStartTime,
+      leaseEndTime: data.leaseEndTime,
+      tenantTelphone: data.tenantPhone,
+    };
+    if (tenantInfo?.userId) {
+      userInfo.userId = tenantInfo.userId;
+    }
+    
+    const submitUserInfo = async (userInfo: UserInfoType) => {
+      try {
+        await apiOrderLandlordAssignTenant(userInfo);
+        localStorage.removeItem("houseId");
+        navigate("/landlord",{
+          state: {
+            toastMessage: userInfo.userId ? "租約邀請已送出" : "房源狀態已更改"
+          }
+        });
+      } catch (error: any) {
+        if ( error.response.status === 400 ) {
+          alert(error.message);
+          console.log(error);
+        }
+      }
+    }
+    submitUserInfo(userInfo);
+  };
+
   useEffect(() => {
     const fetchHouseData = async () => {
       try {
@@ -256,7 +298,7 @@ export default function PublishHouse() {
     const telRegex = /^09\d{8}$/;
 
     const checkTenantPhone = async (phone: string) => {
-      setPosting(true);
+      setIsSearchingUser(true);
       try {
         const response = await apiHouseLandlordFindUser(phone);
         setTenantInfo(response.data.data);
@@ -265,7 +307,7 @@ export default function PublishHouse() {
           console.log(error);
         }
       }
-      setPosting(false);
+      setIsSearchingUser(false);
     }
 
     if (telRegex.test(tenantPhone)) {
@@ -379,7 +421,7 @@ export default function PublishHouse() {
                     {
                       errors.tenantPhone?.message && <p className="post-alert">{errors.tenantPhone?.message}</p>
                     }
-                    {isPosting ? (
+                    {isSearchingUser ? (
                         <div role="status" className="bg-Landlord-95 rounded-lg p-3 my-3 flex items-center gap-6">
                           <div className="animate-pulse flex items-center justify-center w-16 h-16 bg-gray-300 rounded">
                             <svg className="w-10 h-10 text-gray-200" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
@@ -404,7 +446,7 @@ export default function PublishHouse() {
                       : null
                     }
                     {
-                      tenantInfo === null && tenantPhone.length === 10 && isPosting === false && (
+                      tenantInfo === null && tenantPhone.length === 10 && isSearchingUser === false && (
                         <p className="post-alert pl-3">此承租人非租客系統用戶，您們將無法相互評價</p>
                       )
                     }
@@ -489,7 +531,10 @@ export default function PublishHouse() {
                     <button
                       type="submit" 
                       className="filled-button-m"
-                    >立即更改</button>
+                    >{
+                      tenantInfo === null && tenantPhone.length === 10 && isSearchingUser === false ?
+                      "確認" : "寄送租約邀請"
+                    }</button>
                   </div>
                 </form>
               </div>
