@@ -39,6 +39,7 @@ import rentRanges from "../constants/searchFormCondition/rentRange";
 import houseFeatures from "../constants/searchFormCondition/houseFeatures";
 import landLordRating from "../constants/searchFormCondition/landLordRating";
 import Footer from "../components/footer/Footer";
+import HouseListSkeleton from "../components/houseList/houseListSkeleton";
 import NoResults from "../components/tenantManagement/houseViewingManagement/NoResults";
 
 interface District {
@@ -632,35 +633,35 @@ function HouseListPage() {
       const cityId = data?.city?.cityId;
       // 取出搜尋內容
       const searchContent = data.searchContent;
-      // 將區域中有打勾的 checkbox 保留下來並取出對應數字
+      // 將區域中有打勾的 checkbox 保留下來並取出該checkbox對應的數字
       const districtNumbers = Object.entries(data)
         .filter(
           ([key, value]) => key.startsWith("districtNumber_") && value === true
         )
         .map(([key]) => parseInt(key.replace("districtNumber_", ""), 10));
 
-      // 將類型中有打勾的 checkbox 保留下來並取出對應數字
+      // 將類型中有打勾的 checkbox 保留下來並取出該checkbox對應的數字
       const houseTypeNumbers = Object.entries(data)
         .filter(
           ([key, value]) => key.startsWith("houseTypeNumber_") && value === true
         )
         .map(([key]) => parseInt(key.replace("houseTypeNumber_", ""), 10));
 
-      // 將租金中有打勾的 checkbox 保留下來並取出對應數字
+      // 將租金中有打勾的 checkbox 保留下來並取出該checkbox對應的數字
       const priceRangeNumbers = Object.entries(data)
         .filter(
           ([key, value]) => key.startsWith("priceRange_") && value === true
         )
         .map(([key]) => key.replace("priceRange_", ""));
 
-      // 將特色中有打勾的 checkbox 保留下來並取出對應數字
+      // 將特色中有打勾的 checkbox 保留下來並取出該checkbox對應的數字
       const houseFeatures = Object.entries(data)
         .filter(
           ([key, value]) => key.startsWith("houseFeatures_") && value === true
         )
         .map(([key]) => key.replace("houseFeatures_", ""));
 
-      // 房東評價中有打勾的 checkbox 保留下來並取出對應數字
+      // 房東評價中有打勾的 checkbox 保留下來並取出該checkbox對應的數字
       const landLordRatingNumbers = Object.entries(data)
         .filter(
           ([key, value]) => key.startsWith("landLordRating_") && value === true
@@ -710,7 +711,6 @@ function HouseListPage() {
 
   return (
     <>
-      {isAPIProcessing && <BigLoading />}
       <div className="bg-Neutral-99 pt-6 pb-32">
         <div className="container layout-grid ">
           {/* 搜尋表單 */}
@@ -1304,7 +1304,9 @@ function HouseListPage() {
               </div>
               {/* 列表 */}
               <ul>
-                {searchResults.length > 0 ? (
+                {isAPIProcessing ? (
+                  <HouseListSkeleton />
+                ) : searchResults.length > 0 ? (
                   searchResults.map((house, index) => {
                     return (
                       <li
