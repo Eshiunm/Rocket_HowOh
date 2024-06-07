@@ -7,6 +7,7 @@ import ratingStarIcon from "../../../assets/imgs/SingleHousePage/ratingStarIcon.
 import landLordIcon from "../../../assets/imgs/SingleHousePage/landLordIcon.svg";
 import landLordProfile from "../../../assets/imgs/SingleHousePage/landLordProfile.jpg";
 import NoResults from "./NoResults";
+import HouseViewingListSkeleton from "./HouseViewingListSkeleton";
 
 function HouseViewingList() {
   // offCanvas 樣式
@@ -42,6 +43,7 @@ function HouseViewingList() {
       },
     },
   };
+  const [isAPIProcessing, setIsAPIProcessing] = useState(false);
   const [currentCardSelectedId, setCurrentCardSelectedId] = useState("");
   const [isHouseOffCanvasOpen, setIsHouseOffCanvasOpen] = useState(false);
   const [isCardSelected, setIsCardSelected] = useState<any>({});
@@ -52,6 +54,7 @@ function HouseViewingList() {
   useEffect(() => {
     const getRentalListData = async () => {
       try {
+        setIsAPIProcessing(true);
         const userId = localStorage.getItem("userId");
         const response = await apiAppointmentCommonList(userId as string);
         setRentalList(response.data.result);
@@ -65,6 +68,7 @@ function HouseViewingList() {
           {}
         );
         setIsCardSelected(isCardSelected);
+        setIsAPIProcessing(false);
       } catch (errors) {
         console.log(errors);
       }
@@ -98,7 +102,6 @@ function HouseViewingList() {
   };
 
   const getFormattedDate = (dateString: string) => {
-    console.log(dateString);
     const date = new Date(dateString);
 
     // 將日期轉換為 "xxxx年xx月xx日" 的格式
@@ -894,7 +897,9 @@ function HouseViewingList() {
                 </div>
               </div>
               {/* 列表 */}
-              {rentalList.length > 0 ? (
+              {isAPIProcessing ? (
+                <HouseViewingListSkeleton />
+              ) : rentalList.length > 0 ? (
                 <ul>
                   {rentalList.map(
                     ({ description, appointmentCreateTime }: any) => (
