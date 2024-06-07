@@ -100,9 +100,7 @@ export default function RequestCard({data, status = "none"}: {data: RequestListT
   const [getInfoLoading, setGetInfoLoading] = useState(false);
   const [tenantDetails, setTenantDetails] = useState<TenantDetailsType | null>(null);
   const orderList = tenantDetails?.orderList?.orderInfo;
-  console.log(orderList);
   const hasAnyRating = orderList?.filter((order: OrderInfoType) => order.ratingList.length === 1);
-  console.log(hasAnyRating);
   const handleClose = () => setIsOpen(false);
 
   const { appointmentId, appointmentTime, descrption } = data;
