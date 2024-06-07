@@ -1,10 +1,12 @@
 import { apiHouseCommonRecommendedList } from "../../apis/apis";
 import { useEffect, useState } from "react";
 import dropdownCities from "../../constants/searchFormCondition/dropdownCities";
+import RecommendationSkeleton from "../../components/homePage/RecommendationSkeleton";
 import { Link } from "react-router-dom";
 
 function Recommendation() {
   const [searchResults, setSearchResults] = useState<any[]>([]);
+  const [isAPIProcessing, setIsAPIProcessing] = useState<boolean>(false);
   // 最多只能顯示兩個標籤
   const getDisplayedTags = (
     isRentSubsidy: boolean,
@@ -60,8 +62,10 @@ function Recommendation() {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        setIsAPIProcessing(true);
         const res = await apiHouseCommonRecommendedList();
         setSearchResults(res.data);
+        setIsAPIProcessing(false);
       } catch (error) {
         console.error("Failed to fetch data:", error);
       }
@@ -82,7 +86,10 @@ function Recommendation() {
       {/* 房源推薦列表 */}
       <div className="container">
         <ul className="flex flex-wrap gap-x-3 gap-y-16">
-          {searchResults.length > 0 &&
+          {isAPIProcessing ? (
+            <RecommendationSkeleton />
+          ) : (
+            searchResults.length > 0 &&
             searchResults.map((house, index) => {
               return (
                 <li
@@ -178,9 +185,12 @@ function Recommendation() {
                   </Link>
                 </li>
               );
-            })}
+            })
+          )}
         </ul>
       </div>
+
+      {}
     </section>
   );
 }

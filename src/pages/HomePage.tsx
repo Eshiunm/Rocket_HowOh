@@ -1,6 +1,6 @@
 import { TypeAnimation } from "react-type-animation";
 import SearchForm from "../components/homePage/SearchForm";
-import Recommendation from "../components/homePage/Recommandation";
+import Recommendation from "../components/homePage/Recommendation";
 import Footer from "../components/footer/Footer";
 
 function HomePage() {
