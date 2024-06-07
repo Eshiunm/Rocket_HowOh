@@ -6,7 +6,7 @@ import { ExpiredListType } from "../../../pages/landlordManagement/RentedHistory
 
 export default function HistoryCard({data} : {data: ExpiredListType}) {
   const {name, photo, tenant, tenantTel, leaseStartTime, leaseEndTime, canComment} = data;
-  
+
   return (
     <li
       className={`p-3 mb-4 flex gap-4 rounded-xl ${
@@ -35,7 +35,7 @@ export default function HistoryCard({data} : {data: ExpiredListType}) {
         </div>
         <div className="text-sans-body1 flex gap-2">
           <h4>租客</h4>
-          <h5 className="pl-2 border-l border-Tenant-70">{tenant}</h5>
+          <h5 className="pl-2 border-l border-Tenant-70">{tenant || "非系統用戶"}</h5>
         </div>
         <div className="text-sans-body1 flex gap-2">
           <h4>電話</h4>
