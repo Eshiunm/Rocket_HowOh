@@ -7,12 +7,25 @@ import close from "../../assets/imgs/icons/close.svg";
 import HouseDatas from "../../components/landLordManagement/HouseDatas";
 import { apiHouseLandlordSingleInfo } from "../../apis/apis";
 import noDataImg from "../../assets/imgs/tenantManagement/whenNoItemsShowThisImg.svg";
+import moment from 'moment-timezone';
+
+type TenantDataType = {
+  "leaseStartTime": string;
+  "leaseEndTime": string;
+  "name": string | null;
+  "gender": string | null; 
+  "job": string | null; 
+  "tel": "";
+  "description": string | null;
+  "ratingCount": number | null;
+  "ratingAvg": number | null;
+};
 
 export default function RentedHouse() {
   const customTheme: CustomFlowbiteTheme = {
     drawer: {
       "root": {
-        "base": "bg-Landlord-95 fixed z-40 overflow-y-auto px-10 pt-10 transition-transform",
+        "base": "bg-white fixed z-40 overflow-y-auto px-10 pt-10 transition-transform",
         "backdrop": "fixed inset-0 z-30 bg-transparent",
         "edge": "bottom-16",
         "position": {
@@ -52,7 +65,7 @@ export default function RentedHouse() {
   const [isTenantNameFocused,setIsTenantNameFocused] = useState(false);
   const [isHouseAddressFocused,setIsHouseAddressFocused] = useState(false);
 
-  const [tenantData, setTenantData] = useState();
+  const [tenantData, setTenantData] = useState<TenantDataType | null>(null);
   const [houseData, setHouseData] = useState({
     appointmentCount: 0,
     formData:{
@@ -184,11 +197,19 @@ export default function RentedHouse() {
           <div className="flex gap-6">
             <div className="w-full border-b border-Neutral-70">
               <h6 className="text-sans-caption mb-1">合約開始</h6>
-              <time dateTime="2022-01-01" className="block p-3">2024年4月23日</time>
+              <time
+                dateTime={moment(tenantData?.leaseStartTime).tz('Asia/Taipei').format('YYYY-MM-DD')}
+                className="block p-3">
+                  {moment(tenantData?.leaseStartTime).tz('Asia/Taipei').format('YYYY年MM月DD日')}
+              </time>
             </div>
             <div className="w-full border-b border-Neutral-70">
               <h6 className="text-sans-caption mb-1">合約結束</h6>
-              <time dateTime="2022-01-01" className="block p-3">2025年4月23日</time>
+              <time
+                dateTime={moment(tenantData?.leaseEndTime).tz('Asia/Taipei').format('YYYY-MM-DD')}
+                className="block p-3">
+                  {moment(tenantData?.leaseEndTime).tz('Asia/Taipei').format('YYYY年MM月DD日')}
+              </time>
             </div>
           </div>
         </section>
@@ -235,7 +256,11 @@ export default function RentedHouse() {
                   <img src={noDataImg} alt="No data image" />
                   <div className="w-full">
                     <h4 className="text-sans-b-h6 mb-2">租客電話：</h4>
-                    <a href="tel:+886-958-230-1239" className="text-sans-h6">0958-230-1239</a>
+                    <a
+                      href={`+886-${tenantData?.tel.replace(/^0/, '').replace(/(\d{3})(\d{3})(\d{3})/, '$1-$2-$3')}`}
+                      className="text-sans-body1">
+                      {tenantData?.tel.replace(/(\d{4})(\d{3})(\d{3})/, '$1-$2-$3')}
+                    </a>
                   </div>
                 </div>
                 <p className="text-sans-body2 mt-5">此出租房源的租客尚未註冊本系統，可以邀請租客申請本系統，以便節省房東您寶貴的時間</p>
