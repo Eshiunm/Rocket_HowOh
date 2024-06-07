@@ -6,6 +6,7 @@ import star from "../../assets/imgs/icons/star.svg";
 import close from "../../assets/imgs/icons/close.svg";
 import HouseDatas from "../../components/landLordManagement/HouseDatas";
 import { apiHouseLandlordSingleInfo } from "../../apis/apis";
+import noDataImg from "../../assets/imgs/tenantManagement/whenNoItemsShowThisImg.svg";
 
 export default function RentedHouse() {
   const customTheme: CustomFlowbiteTheme = {
@@ -51,8 +52,8 @@ export default function RentedHouse() {
   const [isTenantNameFocused,setIsTenantNameFocused] = useState(false);
   const [isHouseAddressFocused,setIsHouseAddressFocused] = useState(false);
 
-  const [tenantData, setTenantData] = useState()
-  const [houseDatas, setHouseDatas] = useState({
+  const [tenantData, setTenantData] = useState();
+  const [houseData, setHouseData] = useState({
     appointmentCount: 0,
     formData:{
       name: "房源名稱",
@@ -134,15 +135,16 @@ export default function RentedHouse() {
       jobRestriction: "123c,sdfd",
     },
   });
+  console.log(tenantData);
+  console.log(houseData)
 
   useEffect(() => {
     const fetchHouseData = async () => {
       try {
         const response = await apiHouseLandlordSingleInfo(houseId);
         const { houseInfo, tenantInfo } = response.data.data;
-        console.log(response);
-        // setTenantData(data);
-        // setHouseDatas(data.house);
+        setTenantData(tenantInfo);
+        setHouseData(houseInfo);
       } catch (error) {
         console.log(error);
       }
@@ -192,39 +194,54 @@ export default function RentedHouse() {
         </section>
         <section className="col-span-7 rounded-lg bg-Landlord-99 p-5 mb-6">
           <h3 className="text-sans-h5 mb-6">租客</h3>
-          <div className="w-7/12 p-6 rounded-2xl bg-white">
-            <div className="flex justify-between mb-3.5">
-              <div>
-                <span className="material-symbols-outlined text-Tenant-50 mb-6">face</span>
-                <h4 className="text-sans-b-body1 text-Tenant-50 mb-3">租客</h4>
-                <h3 className="text-sans-b-h4 mb-3">詹小美</h3>
-                <div className="text-sans-body1 flex mb-2">
-                  <h4 className="pr-2 mr-2 border-r border-Tenant-70">女</h4>
-                  <h4>文教類</h4>
+          {
+            tenantData?.name ? (
+              <div className="w-7/12 p-6 rounded-2xl bg-white">
+                <div className="flex justify-between mb-3.5">
+                  <div>
+                    <span className="material-symbols-outlined text-Tenant-50 mb-6">face</span>
+                    <h4 className="text-sans-b-body1 text-Tenant-50 mb-3">租客</h4>
+                    <h3 className="text-sans-b-h4 mb-3">詹小美</h3>
+                    <div className="text-sans-body1 flex mb-2">
+                      <h4 className="pr-2 mr-2 border-r border-Tenant-70">女</h4>
+                      <h4>文教類</h4>
+                    </div>
+                    <a href="tel:+886-958-230-1239" className="text-sans-body1">0958-230-1239</a>
+                  </div>
+                  <div className="w-[186px] rounded-lg overflow-hidden">
+                    <img src={photo} alt="tenant" className="w-full aspect-square block object-cover" />
+                  </div>
                 </div>
-                <a href="tel:+886-958-230-1239" className="text-sans-body1">0958-230-1239</a>
+                <div className="flex gap-3 mb-6">
+                  <div className="flex-1 p-4 rounded-lg bg-Neutral-95 flex gap-4 flex-wrap justify-between">
+                    <h5 className="w-full text-Tenant-50 text-sans-b-body1">評價</h5>
+                    <h4 className="text-sans-h4">4.8</h4>
+                    <img src={star} alt="star" className="self-end" />
+                  </div>
+                  <div className="flex-1 p-4 rounded-lg bg-Neutral-95 flex gap-4 flex-wrap justify-between">
+                    <h5 className="w-full text-Tenant-50 text-sans-b-body1">則數</h5>
+                    <h4 className="text-sans-h4">3</h4>
+                    <h6 className="self-end">則</h6>
+                  </div>
+                </div>
+                <div>
+                  <h4 className="text-Landlord-40 text-sans-b-body1 mb-3">自我介紹</h4>
+                  <p className="text-sans-body1">我是來自台中的補習班老師。最近決定轉職成為前端工程師，於是報名參加了高雄六角的培訓營！我希望能在開課前找到便宜、便利，而且能申請租屋補助的房源，同時也希望能遇到一位優質的房東。</p>
+                </div>
               </div>
-              <div className="w-[186px] rounded-lg overflow-hidden">
-                <img src={photo} alt="tenant" className="w-full aspect-square block object-cover" />
+            ) : (
+              <div className="w-7/12 p-6 rounded-2xl bg-white">
+                <div className="flex justify-center items-center gap-3">
+                  <img src={noDataImg} alt="No data image" />
+                  <div className="w-full">
+                    <h4 className="text-sans-b-h6 mb-2">租客電話：</h4>
+                    <a href="tel:+886-958-230-1239" className="text-sans-h6">0958-230-1239</a>
+                  </div>
+                </div>
+                <p className="text-sans-body2 mt-5">此出租房源的租客尚未註冊本系統，可以邀請租客申請本系統，以便節省房東您寶貴的時間</p>
               </div>
-            </div>
-            <div className="flex gap-3 mb-6">
-              <div className="flex-1 p-4 rounded-lg bg-Neutral-95 flex gap-4 flex-wrap justify-between">
-                <h5 className="w-full text-Tenant-50 text-sans-b-body1">評價</h5>
-                <h4 className="text-sans-h4">4.8</h4>
-                <img src={star} alt="star" className="self-end" />
-              </div>
-              <div className="flex-1 p-4 rounded-lg bg-Neutral-95 flex gap-4 flex-wrap justify-between">
-                <h5 className="w-full text-Tenant-50 text-sans-b-body1">則數</h5>
-                <h4 className="text-sans-h4">3</h4>
-                <h6 className="self-end">則</h6>
-              </div>
-            </div>
-            <div>
-              <h4 className="text-Landlord-40 text-sans-b-body1 mb-3">自我介紹</h4>
-              <p className="text-sans-body1">我是來自台中的補習班老師。最近決定轉職成為前端工程師，於是報名參加了高雄六角的培訓營！我希望能在開課前找到便宜、便利，而且能申請租屋補助的房源，同時也希望能遇到一位優質的房東。</p>
-            </div>
-          </div>
+            )
+          }
         </section>
       </main>
       <Flowbite theme={{ theme: customTheme }}>
@@ -239,7 +256,7 @@ export default function RentedHouse() {
               >
                 <img src={close} alt="close" />
               </button>
-              <HouseDatas houseDatas={houseDatas}/>
+              {/* <HouseDatas houseDatas={houseData}/> */}
             </div>
           </div>
         </Drawer.Items>
