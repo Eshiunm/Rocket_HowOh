@@ -10,7 +10,7 @@ export default function TenantRequest() {
   const navigate = useNavigate();
   const [requestTotalNumber, setRequestTotalNumber] = useState(0);
   const [sortOrder, setSortOrder] = useState('oldFirst'); // 默認排序為舊至新
-  const [pageNumberControl, setPageNumberControl] = useState(1);
+  const [pageNumberControl] = useState(1);
   const totalPage = Math.ceil(requestTotalNumber / 12)
 
   const handleSortOrderChange = (e: React.MouseEvent<HTMLButtonElement>) => {

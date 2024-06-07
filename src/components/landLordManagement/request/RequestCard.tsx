@@ -43,7 +43,7 @@ export default function RequestCard({data, status = "none"}: {data: RequestListT
   const [isOpen, setIsOpen] = useState(false);
   const handleClose = () => setIsOpen(false);
 
-  const { appointmentId, userId, appointmentTime, descrption } = data;
+  const { appointmentId, appointmentTime, descrption } = data;
   const { tenantInfo, orderInfo } = descrption;
 
   return (
