@@ -92,8 +92,8 @@ export const apiOrderLandlordAssignTenant = (userInfo: any) => orderRequest.post
 export const apiOrderTenantListExpired = () => orderRequest.get('/tenant/list/expired'); // ATH-2
 export const apiOrderTenantListRenting = () => orderRequest.get('/tenant/list/renting'); // ATH-1
 
-// 預約-房東相關的 api
-export const apiAppointmentLandlordTenantList = (id: string) => appointmentRequest.get(`/landlord/${id}`); // ALA-1
+// 預約-房東取得租客資訊相關的 api
+export const apiAppointmentLandlordSingleInfo = (appointmentId: number) => appointmentRequest.get(`/landlord/${appointmentId}`,getToken()); // ALA-1
 
 // 預約-租客相關的 api
 export const apiAppointmentTenantInvitedList = () => appointmentRequest.get('/tenant/list/invited'); // ATA-1

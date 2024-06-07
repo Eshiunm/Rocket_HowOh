@@ -36,7 +36,6 @@ export default function RequestList(prop : RequestListProps) {
   const [getListLoading, setGetListLoading] = useState(false);
   // const [pageNumberControl, setPageNumberControl] = useState(1);
   const [requestList, setRequestList] = useState<RequestListType[]>([]);
-  console.log(requestList);
 
   useEffect(() => {
     const houseId = localStorage.getItem("houseId") || "-1";
@@ -99,7 +98,6 @@ export default function RequestList(prop : RequestListProps) {
       }
       {
         requestList.map((request: RequestListType) => {
-          console.log(request);
           // 後端 enum
           // 待租客回覆租約 = 1,
           // 租客已確認租約 = 2,
