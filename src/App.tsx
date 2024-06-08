@@ -49,7 +49,9 @@ function App() {
                 <Route path="request" element={<TenantRequest />} />
               </Route>
             </Route>
-            <Route path="rented" element={<RentedHouse />} />
+            <Route path="rented">
+              <Route path=":houseId" element={<RentedHouse />} />
+            </Route>
             <Route path="finished">
               <Route path=":houseId" element={<FinishHouse />} />
             </Route>
