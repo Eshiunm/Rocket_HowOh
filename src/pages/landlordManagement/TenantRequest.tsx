@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import leftIcon_white from "../../assets/imgs/icons/leftIcon_white.svg";
 import rightIcon_white from "../../assets/imgs/icons/rightIcon_white.svg";
+import noListImg from "../../assets/imgs/tenantManagement/whenNoItemsShowThisImg.svg";
 import RequestList from "../../components/landLordManagement/request/RequestList";
 import Footer from "../../components/footer/Footer";
 import { apiAppointmentCommonTotalNumber } from "../../apis/apis";
@@ -151,7 +152,16 @@ export default function TenantRequest() {
             </div>
           </section>
           <section>
-            <RequestList sort={sortOrder} pageNumberControl={pageNumberControl} />
+            {
+              requestTotalNumber ?
+              <RequestList sort={sortOrder} pageNumberControl={pageNumberControl} />
+              : (
+                <div className="flex gap-3 items-center px-5 pb-5">
+                  <img src={noListImg} alt="no list image" />
+                  <p>此狀態分類尚無租客預約資料</p>
+                </div>
+              )
+            }
           </section>
           <section className="flex justify-end pt-3 border-t border-Neutral-95">
             <div className="flex flex-col items-center gap-2">
