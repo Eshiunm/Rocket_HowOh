@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { CustomFlowbiteTheme, Flowbite, Drawer } from "flowbite-react";
-import { apiAppointmentCommonList } from "../../../apis/apis";
+import { apiAppointmentCommonList, apiAppointmentTenantHouseDetail } from "../../../apis/apis";
 import close from "../../../assets/imgs/icons/close.svg";
 import houseFeatureCheckIcon from "../../../assets/imgs/SingleHousePage/houseFeatureCheckIcon.svg";
 import ratingStarIcon from "../../../assets/imgs/SingleHousePage/ratingStarIcon.svg";
