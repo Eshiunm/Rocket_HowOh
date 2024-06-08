@@ -140,7 +140,6 @@ function SingleHousePage() {
 
   // 租客提確定提供資訊給房東，並進行條件比對
   const provideTenantInfo = () => {
-    console.log("您已提供基本資訊給房東");
     const conditionMatching = async () => {
       try {
         const response = await apiUserInfoCompare(houseId as string);
@@ -151,6 +150,7 @@ function SingleHousePage() {
         }
         setConfirmIsAPIProcessing(false);
       } catch (errors: any) {
+        console.log(errors);
         if (errors.response.data.Message === "使用者不符此房源之租客限制") {
           setIsReserveModalOpen(false);
           setIsCompareFalseModalOpen(true);
@@ -200,6 +200,7 @@ function SingleHousePage() {
       try {
         setIsAPIProcessing(true);
         const response = await apiHouseCommonSingleInfo(houseId);
+        console.log(response);
         setSingleHouseData(response.data.data);
         setIsFilterPhotos(
           filterPhotos(
@@ -1334,10 +1335,21 @@ function SingleHousePage() {
                     </li>
                     <li>
                       <button
-                        className="w-full text-sans-b-body1 text-center border-Neutral-90 bg-Brand-90 py-2 rounded-lg shadow-elevation-2 hover:bg-Brand-95"
+                        className={`w-full text-sans-b-body1 text-center border-Neutral-90 bg-Brand-90 py-2 rounded-lg shadow-elevation-2 hover:bg-Brand-95 ${
+                          singleHouseData.appointmentAvailable === false
+                            ? "cursor-not-allowed"
+                            : ""
+                        }`}
                         onClick={showTenantInfo}
+                        disabled={
+                          singleHouseData.appointmentAvailable === false
+                            ? true
+                            : false
+                        }
                       >
-                        預約看房
+                        {singleHouseData.appointmentAvailable === false
+                          ? "已申請預約看房"
+                          : "預約看房"}
                       </button>
                     </li>
                   </ul>
