@@ -22,7 +22,6 @@ export default function RentedHistory() {
   const [getListLoading, setGetListLoading] = useState<boolean>(false);
   const [pageNumberControl, setPageNumberControl] = useState(1);
   const totalPage = Math.ceil(listCount / 12);
-  console.log(totalPage)
 
   useEffect(() => {
     const getExpiredList = async () => {
