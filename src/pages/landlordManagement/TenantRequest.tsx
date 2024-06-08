@@ -104,12 +104,22 @@ export default function TenantRequest() {
               </button>
             </div>
             <div className="ml-auto flex flex-col items-center gap-2">
-              <div className="flex gap-[10px] text-sans-body2">
+              <div className="flex gap-2.5 text-sans-body2">
                 <h6>
                   顯示
-                  <span className="text-sans-b-body2"> {pageNumberControl * 12 - 11} </span>
+                  <span className="text-sans-b-body2 px-1">{
+                    requestTotalNumber ? 
+                    pageNumberControl * 12 - 11
+                    : 0
+                  } </span>
                   至
-                  <span className="text-sans-b-body2"> {pageNumberControl === totalPage ? requestTotalNumber % 12 + (pageNumberControl - 1) * 12 : pageNumberControl * 12} </span>
+                  <span className="text-sans-b-body2 px-1">{
+                    requestTotalNumber ? 
+                      (pageNumberControl === totalPage ? 
+                      requestTotalNumber % 12 + (pageNumberControl - 1) * 12 
+                      : pageNumberControl * 12)
+                    : 0
+                  }</span>
                   筆
                 </h6>
                 <h6>
@@ -131,7 +141,7 @@ export default function TenantRequest() {
                 <button
                   type="button"
                   className="text-sans-b-body2 filled-button-s rounded-l-none flex items-center gap-1"
-                  disabled={totalPage === pageNumberControl}
+                  disabled={totalPage === pageNumberControl || requestTotalNumber === 0}
                   onClick={() => setPageNumberControl(pageNumberControl + 1)} 
                 >
                   下一頁
@@ -145,12 +155,22 @@ export default function TenantRequest() {
           </section>
           <section className="flex justify-end pt-3 border-t border-Neutral-95">
             <div className="flex flex-col items-center gap-2">
-              <div className="flex gap-[10px] text-sans-body2">
+              <div className="flex gap-2.5 text-sans-body2">
                 <h6>
                   顯示
-                  <span className="text-sans-b-body2"> {pageNumberControl * 12 - 11} </span>
+                  <span className="text-sans-b-body2 px-1">{
+                    requestTotalNumber ? 
+                    pageNumberControl * 12 - 11
+                    : 0
+                  } </span>
                   至
-                  <span className="text-sans-b-body2"> {pageNumberControl === totalPage ? requestTotalNumber % 12 + (pageNumberControl - 1) * 12 : pageNumberControl * 12} </span>
+                  <span className="text-sans-b-body2 px-1">{
+                    requestTotalNumber ? 
+                      (pageNumberControl === totalPage ? 
+                      requestTotalNumber % 12 + (pageNumberControl - 1) * 12 
+                      : pageNumberControl * 12)
+                    : 0
+                  }</span>
                   筆
                 </h6>
                 <h6>
@@ -172,8 +192,8 @@ export default function TenantRequest() {
                 <button
                   type="button"
                   className="text-sans-b-body2 filled-button-s rounded-l-none flex items-center gap-1"
-                  disabled={totalPage === pageNumberControl}
-                  onClick={() => setPageNumberControl(pageNumberControl + 1)}
+                  disabled={totalPage === pageNumberControl || requestTotalNumber === 0}
+                  onClick={() => setPageNumberControl(pageNumberControl + 1)} 
                 >
                   下一頁
                   <img src={rightIcon_white} alt="right-icon" />
