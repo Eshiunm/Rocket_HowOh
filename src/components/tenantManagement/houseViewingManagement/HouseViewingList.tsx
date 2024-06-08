@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import { CustomFlowbiteTheme, Flowbite, Drawer } from "flowbite-react";
-import { apiAppointmentCommonList, apiAppointmentTenantHouseDetail } from "../../../apis/apis";
+import {
+  apiAppointmentCommonList,
+  apiAppointmentTenantHouseDetail,
+} from "../../../apis/apis";
 import close from "../../../assets/imgs/icons/close.svg";
 import houseFeatureCheckIcon from "../../../assets/imgs/SingleHousePage/houseFeatureCheckIcon.svg";
 import ratingStarIcon from "../../../assets/imgs/SingleHousePage/ratingStarIcon.svg";
@@ -58,7 +61,6 @@ function HouseViewingList() {
         const userId = localStorage.getItem("userId");
         const response = await apiAppointmentCommonList(userId as string);
         setRentalList(response.data.result);
-        console.log(response.data.result);
         // 某個卡片被點擊開啟offcanvas後，卡片要有 selected 效果
         const isCardSelected = response.data.result.reduce(
           (acc: any, { description }: any) => {

@@ -1,10 +1,13 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
+import { apiAppointmentCommonTotalNumber } from "../../apis/apis";
 import Footer from "../../components/footer/Footer";
 
 function HouseViewingManagementPage() {
   const navigate = useNavigate();
   const [isLinkActive, setIsLinkActive] = useState("houseViewingList");
+  const [houseViewingListTotalNumber, setHouseViewingListTotalNumber] =
+    useState(0);
   const handleRouteSetting = (e: any) => {
     const linkId = e.currentTarget.dataset.linkid;
     if (linkId === "houseViewingList") {
@@ -21,6 +24,15 @@ function HouseViewingManagementPage() {
       navigate("/tenant/houseViewingManagement/feedbackPendingList");
     }
   };
+
+  useEffect(() => {
+    const getHouseViewingList = async () => {
+      const userId = localStorage.getItem("userId");
+      const response = await apiAppointmentCommonTotalNumber(userId as string);
+      setHouseViewingListTotalNumber(response.data.totalNumber);
+    };
+    getHouseViewingList();
+  });
   return (
     <>
       <section className="py-6 border-b border-t border-Neutral-95">
@@ -50,7 +62,9 @@ function HouseViewingManagementPage() {
                 />
               </svg>
               <h3 className="opacity-80 text-sans-b-h6 p-[10px]">預約看房</h3>
-              <h4 className="px-[10px] py-3 text-sans-h2 text-black">{0}</h4>
+              <h4 className="px-[10px] py-3 text-sans-h2 text-black">
+                {houseViewingListTotalNumber}
+              </h4>
               <button
                 className="letter-button-dark absolute z-10 bottom-3 right-3 text-black"
                 onClick={handleRouteSetting}
