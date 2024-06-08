@@ -2,15 +2,16 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import leftIcon_white from "../../assets/imgs/icons/leftIcon_white.svg";
 import rightIcon_white from "../../assets/imgs/icons/rightIcon_white.svg";
+import noListImg from "../../assets/imgs/tenantManagement/whenNoItemsShowThisImg.svg";
 import RequestList from "../../components/landLordManagement/request/RequestList";
 import Footer from "../../components/footer/Footer";
 import { apiAppointmentCommonTotalNumber } from "../../apis/apis";
 
 export default function TenantRequest() {
   const navigate = useNavigate();
-  const [requestTotalNumber, setRequestTotalNumber] = useState(0);
+  const [requestTotalNumber, setRequestTotalNumber] = useState(1);
   const [sortOrder, setSortOrder] = useState('oldFirst'); // 默認排序為舊至新
-  const [pageNumberControl] = useState(1);
+  const [pageNumberControl, setPageNumberControl] = useState(1);
   const totalPage = Math.ceil(requestTotalNumber / 12)
 
   const handleSortOrderChange = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -104,12 +105,22 @@ export default function TenantRequest() {
               </button>
             </div>
             <div className="ml-auto flex flex-col items-center gap-2">
-              <div className="flex gap-[10px] text-sans-body2">
+              <div className="flex gap-2.5 text-sans-body2">
                 <h6>
                   顯示
-                  <span className="text-sans-b-body2"> {(pageNumberControl - 1) * 12 + 1} </span>
+                  <span className="text-sans-b-body2 px-1">{
+                    requestTotalNumber ? 
+                    pageNumberControl * 12 - 11
+                    : 0
+                  } </span>
                   至
-                  <span className="text-sans-b-body2"> {requestTotalNumber%12 + (pageNumberControl - 1) * 12} </span>
+                  <span className="text-sans-b-body2 px-1">{
+                    requestTotalNumber ? 
+                      (pageNumberControl === totalPage ? 
+                      requestTotalNumber % 12 + (pageNumberControl - 1) * 12 
+                      : pageNumberControl * 12)
+                    : 0
+                  }</span>
                   筆
                 </h6>
                 <h6>
@@ -123,6 +134,7 @@ export default function TenantRequest() {
                   type="button"
                   className="text-sans-b-body2 filled-button-s rounded-r-none flex items-center gap-1"
                   disabled={pageNumberControl === 1}
+                  onClick={() => setPageNumberControl(pageNumberControl - 1)}
                 >
                   <img src={leftIcon_white} alt="left-icon" />
                   上一頁
@@ -130,7 +142,8 @@ export default function TenantRequest() {
                 <button
                   type="button"
                   className="text-sans-b-body2 filled-button-s rounded-l-none flex items-center gap-1"
-                  disabled={totalPage === pageNumberControl}  
+                  disabled={totalPage === pageNumberControl || requestTotalNumber === 0}
+                  onClick={() => setPageNumberControl(pageNumberControl + 1)} 
                 >
                   下一頁
                   <img src={rightIcon_white} alt="right-icon" />
@@ -139,16 +152,35 @@ export default function TenantRequest() {
             </div>
           </section>
           <section>
-            <RequestList sort={sortOrder} pageNumberControl={pageNumberControl} />
+            {
+              requestTotalNumber ?
+              <RequestList sort={sortOrder} pageNumberControl={pageNumberControl} />
+              : (
+                <div className="flex gap-3 items-center px-5 pb-5">
+                  <img src={noListImg} alt="no list image" />
+                  <p>此狀態分類尚無租客預約資料</p>
+                </div>
+              )
+            }
           </section>
           <section className="flex justify-end pt-3 border-t border-Neutral-95">
             <div className="flex flex-col items-center gap-2">
-              <div className="flex gap-[10px] text-sans-body2">
+              <div className="flex gap-2.5 text-sans-body2">
                 <h6>
                   顯示
-                  <span className="text-sans-b-body2"> {(pageNumberControl - 1) * 12 + 1} </span>
+                  <span className="text-sans-b-body2 px-1">{
+                    requestTotalNumber ? 
+                    pageNumberControl * 12 - 11
+                    : 0
+                  } </span>
                   至
-                  <span className="text-sans-b-body2"> {requestTotalNumber%12 + (pageNumberControl - 1) * 12} </span>
+                  <span className="text-sans-b-body2 px-1">{
+                    requestTotalNumber ? 
+                      (pageNumberControl === totalPage ? 
+                      requestTotalNumber % 12 + (pageNumberControl - 1) * 12 
+                      : pageNumberControl * 12)
+                    : 0
+                  }</span>
                   筆
                 </h6>
                 <h6>
@@ -161,7 +193,8 @@ export default function TenantRequest() {
                 <button
                   type="button"
                   className="text-sans-b-body2 filled-button-s rounded-r-none flex items-center gap-1"
-                  disabled={pageNumberControl === 1}  
+                  disabled={pageNumberControl === 1}
+                  onClick={() => setPageNumberControl(pageNumberControl - 1)}
                 >
                   <img src={leftIcon_white} alt="left-icon" />
                   上一頁
@@ -169,7 +202,8 @@ export default function TenantRequest() {
                 <button
                   type="button"
                   className="text-sans-b-body2 filled-button-s rounded-l-none flex items-center gap-1"
-                  disabled={totalPage === pageNumberControl}
+                  disabled={totalPage === pageNumberControl || requestTotalNumber === 0}
+                  onClick={() => setPageNumberControl(pageNumberControl + 1)} 
                 >
                   下一頁
                   <img src={rightIcon_white} alt="right-icon" />

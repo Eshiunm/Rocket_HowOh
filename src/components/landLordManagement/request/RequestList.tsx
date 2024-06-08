@@ -6,7 +6,7 @@ export type RequestListType = {
   "appointmentId": number; //預約Id
   "userId": number; //預約租客Id
   "appointmentTime": string; //預約時間
-  "descrption": {
+  "description": {
     "tenantInfo": {
       "firstName": string; //租客名
       "lastName": string; //租客姓
@@ -103,14 +103,14 @@ export default function RequestList(prop : RequestListProps) {
           // 租客已確認租約 = 2,
           // 租客已拒絕租約 = 3,
           // 租客非系統用戶 = 4
-          if ( request.descrption.orderInfo[0]?.status === "待租客回覆租約" ) {
+          if ( request.description.orderInfo[0]?.status === "待租客回覆租約" ) {
             return (
               <RequestCard
                 key={`appointment-${request?.appointmentId}`}
                 data={request}
                 status="send" />
             )
-          } else if ( request.descrption.orderInfo[0]?.status === "租客已拒絕租約" ) {
+          } else if ( request.description.orderInfo[0]?.status === "租客已拒絕租約" ) {
             return (
               <RequestCard
                 key={`appointment-${request.appointmentId}`} 
