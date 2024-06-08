@@ -134,7 +134,6 @@ export default function RentedHouse() {
 
   const navigate = useNavigate();
   const { houseId } = useParams();
-  console.log(houseId)
   const [isHouseDetailOpen, setIsHouseDetailOpen] = useState(false);
   const handleHouseDetailClose = () => setIsHouseDetailOpen(false);
 
@@ -146,8 +145,6 @@ export default function RentedHouse() {
 
   const [tenantData, setTenantData] = useState<TenantDataType | null>(null);
   const [houseData, setHouseData] = useState<HouseDataType | null>(null);
-  console.log(tenantData);
-  console.log(houseData)
 
   useEffect(() => {
     const fetchHouseData = async () => {
@@ -253,7 +250,7 @@ export default function RentedHouse() {
       <header className="bg-Landlord-99">
         <div className="container py-6">
           <span className="badge-m  bg-Landlord-90">已承租</span>
-          <h2 className="text-sans-b-h5 mt-3 mb-6">房源名稱</h2>
+          <h2 className="text-sans-b-h5 mt-3 mb-6">{houseData?.formData.name}</h2>
           <div className="flex gap-6 pt-7">
             <button
               type="button"
