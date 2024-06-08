@@ -854,7 +854,11 @@ function HouseViewingList() {
                 </div>
                 <div>
                   <p className="text-sans-b-body2 text-center text-Brand-10 mb-2">
-                    顯示 1 至 12 筆 共 59 筆
+                    {rentalList.length > 0
+                      ? rentalList.length >= 12
+                        ? `顯示 1 至 12 筆 共 ${rentalList.length} 筆`
+                        : `顯示 1 至 ${rentalList.length} 筆 共 ${rentalList.length} 筆`
+                      : "顯示 0 至 0 筆 共 0 筆"}
                   </p>
                   <div className="flex gap-x-1">
                     <button
@@ -1025,7 +1029,11 @@ function HouseViewingList() {
                 <div></div>
                 <div>
                   <p className="text-sans-b-body2 text-center text-Brand-10 mb-2">
-                    顯示 1 至 12 筆 共 59 筆
+                    {rentalList.length > 0
+                      ? rentalList.length >= 12
+                        ? `顯示 1 至 12 筆 共 ${rentalList.length} 筆`
+                        : `顯示 1 至 ${rentalList.length} 筆 共 ${rentalList.length} 筆`
+                      : "顯示 0 至 0 筆 共 0 筆"}
                   </p>
                   <div className="flex gap-x-1">
                     <button
