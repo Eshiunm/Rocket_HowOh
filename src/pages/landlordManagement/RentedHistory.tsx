@@ -18,43 +18,47 @@ export type ExpiredListType = {
 
 export default function RentedHistory() {
   const [expiredList, setExpiredList] = useState<ExpiredListType[]>([]);
+  const [listCount,setListCount] = useState<number>(1);
   const [getListLoading, setGetListLoading] = useState<boolean>(false);
-  const [pageNumberControl] = useState(1);
-  const totalPage = Math.ceil(expiredList.length / 12);
+  const [pageNumberControl, setPageNumberControl] = useState(1);
+  const totalPage = Math.ceil(listCount / 12);
+  console.log(totalPage)
 
   useEffect(() => {
     const getExpiredList = async () => {
       setGetListLoading(true);
+      // 組裝頁數的 query string
+      const queryString = new URLSearchParams({
+        page: pageNumberControl.toString(),
+      }).toString();
+
       try {
-        const response = await apiOrderLandlordListExpired();
-        setExpiredList(response.data.data);
+        const response = await apiOrderLandlordListExpired(queryString);
+        setExpiredList(response.data.data.orderList);
+        setListCount(response.data.data.totalCount);
       } catch (error) {
         console.log(error);
       }
       setGetListLoading(false);
     }
     getExpiredList();
-  },[])
+  },[pageNumberControl]);
 
   return (
-    <main className="container layout-grid pt-6 mb-40">
+    <main className="container layout-grid pt-6 mb-52">
       <div className="col-span-7 p-5">
         {
-          expiredList.length === 0 && getListLoading === false ? (
-            <section className="w-full h-full flex flex-col justify-center items-center">
+          listCount === 0 && getListLoading === false ? (
+            <section className="w-full h-44 flex gap-3 items-center">
               <img src={noListImg} alt="noListImg" />
-              <h3 className="font-Dela-Gothic-One text-dela-display3 text-center">
-                尚未在好窩完成任何一筆訂單
-                <br/>
-                好窩團隊 敬上
-              </h3>
+              <h3 className="text-sans-body1">尚無出租歷史</h3>
             </section>
           ):(
             <>
               <section>
                 <ul>
                   {
-                    getListLoading && 
+                    getListLoading ?
                     [...Array(5)].map((_, index) => (
                       <li key={`"requestListLoading"${index}`}>
                         <div role="status" className="p-3 space-y-8 animate-pulse md:space-y-0 md:space-x-8 rtl:space-x-reverse md:flex md:items-center">
@@ -73,8 +77,7 @@ export default function RentedHistory() {
                         </div>
                       </li>
                     ))
-                  }
-                  {
+                    :
                     expiredList.map((list, index) => <HistoryCard key={`expiredlist+${index}`} data={list} />)
                   }
                 </ul>
@@ -84,14 +87,14 @@ export default function RentedHistory() {
                   <div className="flex gap-[10px] text-sans-body2">
                     <h6>
                       顯示
-                      <span className="text-sans-b-body2"> {(pageNumberControl - 1) * 12 + 1} </span>
+                      <span className="text-sans-b-body2"> {pageNumberControl * 12 - 11} </span>
                       至
-                      <span className="text-sans-b-body2"> {expiredList.length % 12 + (pageNumberControl - 1) * 12} </span>
+                      <span className="text-sans-b-body2"> {pageNumberControl === totalPage ? listCount % 12 + (pageNumberControl - 1) * 12 : pageNumberControl * 12} </span>
                       筆
                     </h6>
                     <h6>
                       共
-                      <span className="text-sans-b-body2"> {expiredList.length} </span>
+                      <span className="text-sans-b-body2"> {listCount} </span>
                       筆
                     </h6>
                   </div>
@@ -99,6 +102,7 @@ export default function RentedHistory() {
                     <button
                       className="text-sans-b-body2 filled-button-s rounded-r-none flex items-center gap-1"
                       disabled={pageNumberControl === 1}
+                      onClick={() => setPageNumberControl(pageNumberControl - 1)}
                     >
                       <img src={leftIcon_white} alt="left-icon" />
                       上一頁
@@ -106,6 +110,7 @@ export default function RentedHistory() {
                     <button
                       className="text-sans-b-body2 filled-button-s rounded-l-none flex items-center gap-1"
                       disabled={totalPage === pageNumberControl}
+                      onClick={() => setPageNumberControl(pageNumberControl + 1)}
                     >
                       下一頁
                       <img src={rightIcon_white} alt="right-icon" />
