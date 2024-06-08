@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Drawer, Flowbite, CustomFlowbiteTheme } from "flowbite-react";
+import moment from 'moment-timezone';
 import photo from "../../assets/imgs/homePage/recommendation_picture_1.svg"
 import star from "../../assets/imgs/icons/star.svg";
 import close from "../../assets/imgs/icons/close.svg";
-import HouseDatas from "../../components/landLordManagement/HouseDatas";
+import messageCloud from "../../assets/imgs/icons/messageCloud.svg";
+// import HouseDatas from "../../components/landLordManagement/HouseDatas";
 import { apiHouseLandlordSingleInfo } from "../../apis/apis";
-import noDataImg from "../../assets/imgs/tenantManagement/whenNoItemsShowThisImg.svg";
-import moment from 'moment-timezone';
 
 type TenantDataType = {
   "leaseStartTime": string;
@@ -256,18 +256,19 @@ export default function RentedHouse() {
               </div>
             ) : (
               <div className="w-7/12 p-6 rounded-2xl bg-white">
-                <div className="flex justify-center items-center gap-3">
-                  <img src={noDataImg} alt="No data image" />
-                  <div className="w-full">
-                    <h4 className="text-sans-b-h6 mb-2">租客電話：</h4>
-                    <a
-                      href={`+886-${tenantData?.tel.replace(/^0/, '').replace(/(\d{3})(\d{3})(\d{3})/, '$1-$2-$3')}`}
-                      className="text-sans-body1">
-                      {tenantData?.tel.replace(/(\d{4})(\d{3})(\d{3})/, '$1-$2-$3')}
-                    </a>
-                  </div>
+                <h4 className="text-sans-b-body1 text-Tenant-50 mb-3">租客</h4>
+                <div className="text-sans-body1 flex mb-2">
+                  <h4 className="pr-2 mr-2 border-r border-Tenant-70">租客電話</h4>
+                  <a
+                    href={`+886-${tenantData?.tel.replace(/^0/, '').replace(/(\d{3})(\d{3})(\d{3})/, '$1-$2-$3')}`}
+                    className="text-sans-body1">
+                    {tenantData?.tel.replace(/(\d{4})(\d{3})(\d{3})/, '$1-$2-$3')}
+                  </a>
                 </div>
-                <p className="text-sans-body2 mt-5">此出租房源的租客尚未註冊本系統，可以邀請租客申請本系統，以便節省房東您寶貴的時間</p>
+                <p className="flex gap-2 bg-Brand-95 px-2 py-1 rounded-lg">
+                  <img src={messageCloud} alt="message_cloud" />
+                  此承租人非系統用戶，您們將無法相互評價
+                </p>
               </div>
             )
           }
