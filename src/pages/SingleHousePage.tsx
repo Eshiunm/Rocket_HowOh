@@ -14,7 +14,6 @@ import { apiHouseCommonSingleInfo } from "../apis/apis";
 import { CustomFlowbiteTheme, Modal, Flowbite } from "flowbite-react";
 import { apiUserInfoGet, apiUserInfoCompare } from "../apis/apis";
 import SingleHousePageSkeleton from "../components/singleHousePage/SingleHousePageSkeleton";
-import BigLoading from "../components/loading/BigLoading";
 import HousePicturesModal from "../components/singleHousePage/HousePicturesModal";
 import SeeMoreHousePicturesModal from "../components/singleHousePage/SeeMoreHousePicturesModal";
 import handShakeIcon from "../assets/imgs/SingleHousePage/handShakeIcon.svg";

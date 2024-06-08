@@ -8,7 +8,6 @@ import close from "../../../assets/imgs/icons/close.svg";
 import houseFeatureCheckIcon from "../../../assets/imgs/SingleHousePage/houseFeatureCheckIcon.svg";
 import ratingStarIcon from "../../../assets/imgs/SingleHousePage/ratingStarIcon.svg";
 import landLordIcon from "../../../assets/imgs/SingleHousePage/landLordIcon.svg";
-import landLordProfile from "../../../assets/imgs/SingleHousePage/landLordProfile.jpg";
 import NoResults from "./NoResults";
 import HouseViewingListSkeleton from "./HouseViewingListSkeleton";
 import { Link } from "react-router-dom";
