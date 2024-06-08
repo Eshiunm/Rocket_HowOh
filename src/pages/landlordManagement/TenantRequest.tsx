@@ -8,9 +8,9 @@ import { apiAppointmentCommonTotalNumber } from "../../apis/apis";
 
 export default function TenantRequest() {
   const navigate = useNavigate();
-  const [requestTotalNumber, setRequestTotalNumber] = useState(0);
+  const [requestTotalNumber, setRequestTotalNumber] = useState(1);
   const [sortOrder, setSortOrder] = useState('oldFirst'); // 默認排序為舊至新
-  const [pageNumberControl] = useState(1);
+  const [pageNumberControl, setPageNumberControl] = useState(1);
   const totalPage = Math.ceil(requestTotalNumber / 12)
 
   const handleSortOrderChange = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -107,9 +107,9 @@ export default function TenantRequest() {
               <div className="flex gap-[10px] text-sans-body2">
                 <h6>
                   顯示
-                  <span className="text-sans-b-body2"> {(pageNumberControl - 1) * 12 + 1} </span>
+                  <span className="text-sans-b-body2"> {pageNumberControl * 12 - 11} </span>
                   至
-                  <span className="text-sans-b-body2"> {requestTotalNumber%12 + (pageNumberControl - 1) * 12} </span>
+                  <span className="text-sans-b-body2"> {pageNumberControl === totalPage ? requestTotalNumber % 12 + (pageNumberControl - 1) * 12 : pageNumberControl * 12} </span>
                   筆
                 </h6>
                 <h6>
@@ -123,6 +123,7 @@ export default function TenantRequest() {
                   type="button"
                   className="text-sans-b-body2 filled-button-s rounded-r-none flex items-center gap-1"
                   disabled={pageNumberControl === 1}
+                  onClick={() => setPageNumberControl(pageNumberControl - 1)}
                 >
                   <img src={leftIcon_white} alt="left-icon" />
                   上一頁
@@ -130,7 +131,8 @@ export default function TenantRequest() {
                 <button
                   type="button"
                   className="text-sans-b-body2 filled-button-s rounded-l-none flex items-center gap-1"
-                  disabled={totalPage === pageNumberControl}  
+                  disabled={totalPage === pageNumberControl}
+                  onClick={() => setPageNumberControl(pageNumberControl + 1)} 
                 >
                   下一頁
                   <img src={rightIcon_white} alt="right-icon" />
@@ -146,9 +148,9 @@ export default function TenantRequest() {
               <div className="flex gap-[10px] text-sans-body2">
                 <h6>
                   顯示
-                  <span className="text-sans-b-body2"> {(pageNumberControl - 1) * 12 + 1} </span>
+                  <span className="text-sans-b-body2"> {pageNumberControl * 12 - 11} </span>
                   至
-                  <span className="text-sans-b-body2"> {requestTotalNumber%12 + (pageNumberControl - 1) * 12} </span>
+                  <span className="text-sans-b-body2"> {pageNumberControl === totalPage ? requestTotalNumber % 12 + (pageNumberControl - 1) * 12 : pageNumberControl * 12} </span>
                   筆
                 </h6>
                 <h6>
@@ -161,7 +163,8 @@ export default function TenantRequest() {
                 <button
                   type="button"
                   className="text-sans-b-body2 filled-button-s rounded-r-none flex items-center gap-1"
-                  disabled={pageNumberControl === 1}  
+                  disabled={pageNumberControl === 1}
+                  onClick={() => setPageNumberControl(pageNumberControl - 1)}
                 >
                   <img src={leftIcon_white} alt="left-icon" />
                   上一頁
@@ -170,6 +173,7 @@ export default function TenantRequest() {
                   type="button"
                   className="text-sans-b-body2 filled-button-s rounded-l-none flex items-center gap-1"
                   disabled={totalPage === pageNumberControl}
+                  onClick={() => setPageNumberControl(pageNumberControl + 1)}
                 >
                   下一頁
                   <img src={rightIcon_white} alt="right-icon" />
