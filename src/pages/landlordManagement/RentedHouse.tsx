@@ -6,7 +6,7 @@ import photo from "../../assets/imgs/homePage/recommendation_picture_1.svg"
 import star from "../../assets/imgs/icons/star.svg";
 import close from "../../assets/imgs/icons/close.svg";
 import messageCloud from "../../assets/imgs/icons/messageCloud.svg";
-// import HouseDatas from "../../components/landLordManagement/HouseDatas";
+import HouseDatas from "../../components/landLordManagement/HouseDatas";
 import { apiHouseLandlordSingleInfo } from "../../apis/apis";
 
 type TenantDataType = {
@@ -20,6 +20,84 @@ type TenantDataType = {
   "ratingCount": number | null;
   "ratingAvg": number | null;
 };
+
+type PhotosDataType = {
+  "path": string;
+  "isCover": boolean;
+}
+
+type HouseDataType = {
+  formData:{
+    name: string;
+    city: string;
+    district: string;
+    road: string;
+    lane: string;
+    alley: string;
+    number: string;
+    floor: string;
+    floorTotal: string;
+    type: string;
+    ping: string;
+    roomNumbers: string;
+    livingRoomNumbers: string;
+    bathRoomNumbers: string;
+    balconyNumbers: string;
+    parkingSpaceNumbers: string;
+  },
+  photos: PhotosDataType[],
+  facilities:{
+    isRentSubsidy: boolean;
+    isCookAllowed: boolean;
+    isPetAllowed: boolean;
+    isSTRAllowed: boolean;
+    isNearByDepartmentStore: boolean;
+    isNearBySchool: boolean;
+    isNearByMorningMarket: boolean;
+    isNearByNightMarket: boolean;
+    isNearByConvenientStore: boolean;
+    isNearByPark: boolean;
+    hasGarbageDisposal: boolean;
+    hasWindowInBathroom: boolean;
+    hasElevator: boolean;
+    hasAirConditioner: boolean;
+    hasWashingMachine: boolean;
+    hasRefrigerator: boolean;
+    hasCloset: boolean;
+    hasTableAndChair: boolean;
+    hasWaterHeater: boolean;
+    hasInternet: boolean;
+    hasBed: boolean;
+    hasTV: boolean;
+    isNearMRT: boolean;
+    kmAwayMRT: string; 
+    isNearLRT: boolean; 
+    kmAwayLRT: string; 
+    isNearBusStation: boolean; 
+    kmAwayBusStation: string; 
+    isNearHSR: boolean; 
+    kmAwayHSR: string; 
+    isNearTrainStation: boolean; 
+    kmAwayTrainStation: string;
+  },
+  expenses:{
+    rent: string;
+    securityDeposit: string;
+    paymentMethodOfWaterBill: string;
+    waterBillPerMonth: string;
+    electricBill: string;
+    electricBillPerDegree: string;
+    paymentMethodOfElectricBill: string;
+    paymentMethodOfManagementFee: string;
+    managementFeePerMonth: string;
+  },
+  description: string;
+  restrictions:{
+    hasTenantRestrictions: string;
+    genderRestriction: string;
+    jobRestriction: string;
+  },
+}
 
 export default function RentedHouse() {
   const customTheme: CustomFlowbiteTheme = {
@@ -66,88 +144,7 @@ export default function RentedHouse() {
   const [isHouseAddressFocused,setIsHouseAddressFocused] = useState(false);
 
   const [tenantData, setTenantData] = useState<TenantDataType | null>(null);
-  const [houseData, setHouseData] = useState({
-    appointmentCount: 0,
-    formData:{
-      name: "房源名稱",
-      city: "縣市",
-      district: "區域",
-      road: "路街",
-      lane: "巷",
-      alley: "弄",
-      number: "號",
-      floor: "樓層",
-      floorTotal: "總樓層",
-      type: "房源類別",
-      ping: "可使用坪數",
-      roomNumbers: "房",
-      livingRoomNumbers: "廳",
-      bathRoomNumbers: "衛浴",
-      balconyNumbers: "陽台",
-      parkingSpaceNumbers: "車位",
-    },
-    photos:[
-      {
-        "path": "https://res.cloudinary.com/dstruxyyk/image/upload/v1716560016/Howoh%20house%20photos/n0ficydjjhpyl50jcr9t.jpg",
-        "isCover": true
-      },
-      {
-        "path": "https://res.cloudinary.com/dstruxyyk/image/upload/v1716560016/Howoh%20house%20photos/nox5cqpr4kkzwlyjgjn1.jpg",
-        "isCover": false
-      },
-    ],
-    facilities:{
-      isRentSubsidy: false,
-      isCookAllowed: false,
-      isPetAllowed: false,
-      isSTRAllowed: false,
-      isNearByDepartmentStore: false,
-      isNearBySchool: false, 
-      isNearByMorningMarket: false, 
-      isNearByNightMarket: false, 
-      isNearByConvenientStore: false, 
-      isNearByPark: false, 
-      hasGarbageDisposal: false, 
-      hasWindowInBathroom: false, 
-      hasElevator: false, 
-      hasAirConditioner: false, 
-      hasWashingMachine: false, 
-      hasRefrigerator: false, 
-      hasCloset: false, 
-      hasTableAndChair: false, 
-      hasWaterHeater: false, 
-      hasInternet: false, 
-      hasBed: false, 
-      hasTV: false, 
-      isNearMRT: false, 
-      kmAwayMRT: "", 
-      isNearLRT: false, 
-      kmAwayLRT: "", 
-      isNearBusStation: false, 
-      kmAwayBusStation: "", 
-      isNearHSR: false, 
-      kmAwayHSR: "", 
-      isNearTrainStation: false, 
-      kmAwayTrainStation: "",
-    },
-    expenses:{
-      rent: "1000",
-      securityDeposit: "兩個月",
-      paymentMethodOfWaterBill: "包含於房租",
-      waterBillPerMonth: "string",
-      electricBill: "自訂",
-      electricBillPerDegree: "5",
-      paymentMethodOfElectricBill: "string",
-      paymentMethodOfManagementFee: "隨房租繳納",
-      managementFeePerMonth: "1000",
-    },
-    description: "2132132edccf",
-    restrictions:{
-      hasTenantRestrictions: "true",
-      genderRestriction: "排除女性",
-      jobRestriction: "123c,sdfd",
-    },
-  });
+  const [houseData, setHouseData] = useState<HouseDataType | null>(null);
   console.log(tenantData);
   console.log(houseData)
 
@@ -157,7 +154,92 @@ export default function RentedHouse() {
         const response = await apiHouseLandlordSingleInfo(houseId);
         const { houseInfo, tenantInfo } = response.data.data;
         setTenantData(tenantInfo);
-        setHouseData(houseInfo);
+        const coverPhoto = {
+          path: houseInfo.pictures?.firstPic || "",
+          isCover: true
+        };
+        const otherPhoto = houseInfo.pictures.restOfPic.map( (photoPath: string) => (
+          {
+            path: photoPath,
+            isCover: false
+          }
+        ));
+        const photos = [
+          coverPhoto,
+          ...otherPhoto
+        ];
+        setHouseData({
+          formData:{
+            name: houseInfo.name,
+            city: houseInfo.city,
+            district: houseInfo.district,
+            road: houseInfo.road,
+            lane: houseInfo.lane,
+            alley: houseInfo.alley,
+            number: houseInfo.number,
+            floor: houseInfo.floor,
+            floorTotal: houseInfo.floorTotal,
+            type: houseInfo.type,
+            ping: houseInfo.ping,
+            roomNumbers: houseInfo.roomNumbers,
+            livingRoomNumbers: houseInfo.livingRoomNumbers,
+            bathRoomNumbers: houseInfo.bathRoomNumbers,
+            balconyNumbers: houseInfo.balconyNumbers,
+            parkingSpaceNumbers: houseInfo.parkingSpaceNumbers,
+          },
+          photos,
+          facilities:{
+            isRentSubsidy: houseInfo.isRentSubsidy,
+            isCookAllowed: houseInfo.isCookAllowed,
+            isPetAllowed: houseInfo.isPetAllowed,
+            isSTRAllowed: houseInfo.isSTRAllowed,
+            isNearByDepartmentStore: houseInfo.isNearByDepartmentStore,
+            isNearBySchool: houseInfo.isNearBySchool, 
+            isNearByMorningMarket: houseInfo.isNearByMorningMarket, 
+            isNearByNightMarket: houseInfo.isNearByNightMarket, 
+            isNearByConvenientStore: houseInfo.isNearByConvenientStore, 
+            isNearByPark: houseInfo.isNearByPark, 
+            hasGarbageDisposal: houseInfo.hasGarbageDisposal, 
+            hasWindowInBathroom: houseInfo.hasWindowInBathroom, 
+            hasElevator: houseInfo.hasElevator, 
+            hasAirConditioner: houseInfo.hasAirConditioner, 
+            hasWashingMachine: houseInfo.hasWashingMachine, 
+            hasRefrigerator: houseInfo.hasRefrigerator, 
+            hasCloset: houseInfo.hasCloset, 
+            hasTableAndChair: houseInfo.hasTableAndChair, 
+            hasWaterHeater: houseInfo.hasWaterHeater, 
+            hasInternet: houseInfo.hasInternet, 
+            hasBed: houseInfo.hasBed, 
+            hasTV: houseInfo.hasTV, 
+            isNearMRT: houseInfo.isNearMRT, 
+            kmAwayMRT: houseInfo.kmAwayMRT, 
+            isNearLRT: houseInfo.isNearLRT, 
+            kmAwayLRT: houseInfo.kmAwayLRT, 
+            isNearBusStation: houseInfo.isNearBusStation, 
+            kmAwayBusStation: houseInfo.kmAwayBusStation, 
+            isNearHSR: houseInfo.isNearHSR, 
+            kmAwayHSR: houseInfo.kmAwayHSR, 
+            isNearTrainStation: houseInfo.isNearTrainStation, 
+            kmAwayTrainStation: houseInfo.kmAwayTrainStation,
+          },
+          expenses:{
+            rent: houseInfo.rent,
+            securityDeposit: houseInfo.securityDeposit,
+            paymentMethodOfWaterBill: houseInfo.paymentMethodOfWaterBill,
+            waterBillPerMonth: houseInfo.waterBillPerMonth,
+            electricBill: houseInfo.electricBill,
+            electricBillPerDegree: houseInfo.electricBillPerDegree,
+            paymentMethodOfElectricBill: houseInfo.paymentMethodOfElectricBill,
+            paymentMethodOfManagementFee: houseInfo.paymentMethodOfManagementFee,
+            managementFeePerMonth: houseInfo.managementFeePerMonth,
+          },
+          description: houseInfo.description,
+          restrictions:{
+            hasTenantRestrictions: houseInfo.hasTenantRestrictions,
+            genderRestriction: houseInfo.genderRestriction,
+            jobRestriction: houseInfo.jobRestriction,
+          },
+        });
       } catch (error) {
         console.log(error);
       }
@@ -286,7 +368,9 @@ export default function RentedHouse() {
               >
                 <img src={close} alt="close" />
               </button>
-              {/* <HouseDatas houseDatas={houseData}/> */}
+              {
+                houseData && <HouseDatas houseDatas={houseData}/>
+              }
             </div>
           </div>
         </Drawer.Items>
