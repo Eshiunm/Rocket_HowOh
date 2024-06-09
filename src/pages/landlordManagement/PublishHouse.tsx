@@ -4,12 +4,13 @@ import { useForm } from 'react-hook-form';
 import { CustomFlowbiteTheme, Flowbite, Tooltip, Drawer } from "flowbite-react";
 import HouseDatas from "../../components/landLordManagement/HouseDatas";
 import Footer from "../../components/footer/Footer";
-import { apiHouseLandlordFindUser, apiHouseLandlordSingleInfo, apiOrderLandlordAssignTenant } from "../../apis/apis";
+import { apiHouseLandlordFindUser, apiHouseLandlordSingleInfo, apiOrderLandlordAssignTenant, apiOrderViewPublishHouseContract } from "../../apis/apis";
 import close from "../../assets/imgs/icons/close.svg";
 import alertTriangle from "../../assets/imgs/icons/alertTriangle.svg";
 import messageCloud from "../../assets/imgs/icons/messageCloud.svg";
 import smileWink from "../../assets/imgs/icons/smileWink.svg";
 import ForcedChangeModal from "../../components/landLordManagement/modals/ForcedChangeModal";
+import BigLoading from "../../components/loading/BigLoading";
 
 interface tenantInfoType {
   photo: string;
@@ -63,6 +64,7 @@ export default function PublishHouse() {
     }
   };
 
+  const [isLoading, setIsLoading] = useState(false);
   const [isRentedOpen, setIsRentedOpen] = useState(false);
   const handleRentedCanvas = (bool: boolean) => setIsRentedOpen(bool);
   const [isPhoneFocused,setIsPhoneFocused] = useState(false);
@@ -195,6 +197,25 @@ export default function PublishHouse() {
     submitUserInfo(userInfo);
   };
 
+  const previewContract = async () => {
+    try {
+      setIsLoading(true);
+      const response = await apiOrderViewPublishHouseContract(houseId);
+
+      // 創建一個 Blob 來處理 PDF 數據
+      const blob = new Blob([response.data], { type: 'application/pdf' });
+      // 創建一個 URL 將 Blob 對象指向該 URL
+      const url = window.URL.createObjectURL(blob);
+      // 使用 window.open 在新標籤頁中打開該 URL
+      window.open(url);
+    } catch (error) {
+      console.log(error);
+      alert("合約錯誤，請重新嘗試");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   useEffect(() => {
     const fetchHouseData = async () => {
       try {
@@ -320,6 +341,9 @@ export default function PublishHouse() {
 
   return (
     <>
+      {
+        isLoading && <BigLoading />
+      }
       <header className="bg-Landlord-99">
         <div className="container py-6">
           <span className="badge-m  bg-Alert-90">刊登中</span>
@@ -365,7 +389,11 @@ export default function PublishHouse() {
                   navigate("/landlord")
                 }}
               >返回房源管理頁面</button>
-              <button type="button" className="outline-button-m">查看合約</button>
+              <button
+                type="button"
+                className="outline-button-m"
+                onClick={() => previewContract()}
+              >查看合約</button>
               <Tooltip
                 className={`bg-Landlord-30 text-sans-body2 rounded-lg py-1 px-11 text-white text-center whitespace-pre-line ${
                   houseDatas.appointmentCount > 0 && "hidden"

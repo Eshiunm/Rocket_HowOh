@@ -68,15 +68,9 @@ export const apiHouseLandlordList = () => houseRequest.get('/landlord/list',getT
 export const apiHouseLandlordSingleInfo = (houseId: string|undefined) => houseRequest.get(`/landlord/info/${houseId}`,getToken()); // ALO-12、ALO-13、ALO-14、ALO-15
 export const apiHouseLandlordUnratedCount = () => houseRequest.get('/landlord/count/unrated', getToken()); // ALO-10
 
-// 房源-房東更改房源狀態相關
+// 房源-房東更改房源狀態相關的 api
 export const apiHouseLandlordFindUser = (tenantPhone: string) => houseRequest.post('/landlord/userInfo', tenantPhone, getToken()); // ALO-9
 export const apiHouseLandlordChangeFinish = (houseId: string|null) => houseRequest.patch(`/landlord/status/${houseId}`, {}, getToken()); // ALO-6
-
-// 房源-房東相關的 api
-export const apiHouseLandlordContract = () => houseRequest.get('/landlord/contract'); // ALO-16
-export const apiHouseLandlordSingleContract = (id: string) => houseRequest.post(`/landlord/contract/${id}`); // ALO-7
-export const apiHouseLandlordAddTenant = (data: any) => houseRequest.post('/landlord/userinfo', data); // ALO-5
-export const apiHouseLandlordForceChange = (data: any) => houseRequest.post('/landlord/userinfo', data); // ALO-8
 
 // 房源-搜尋頁面相關的 api
 export const apiHouseCommonSingleInfo = (id: string) => houseRequest.get(`/common/info/${id}`,getToken()); // FCO-3
@@ -84,8 +78,20 @@ export const apiHouseCommonSearchList = (querystring: string) => houseRequest.ge
 export const apiHouseCommonRecommendedList = () => houseRequest.get('/common/list'); // FCO-1
 export const apiHouseCommonListCount = () => houseRequest.get('/common/totalNumber'); // FCO-4
 
-// 租賃-房東相關的 api
+// 租賃-房東合約相關的 api
+export const apiOrderViewPublishHouseContract = (houseId: string | undefined) => orderRequest.get(`/landlord/viewHouseContract/${houseId}`, {
+  headers: {
+    "Content-Type": "application/json",
+    "Authorization": `Bearer ${localStorage.getItem("authToken")}`,
+    },
+  responseType: 'blob',
+}); // ALO-19
+
+
+// 租賃-房東出租歷史相關的 api
 export const apiOrderLandlordListExpired = (querystring: string) => orderRequest.get(`/landlord/list/expired?${querystring}`,getToken()); // ALH-1 
+
+// 租賃-房東更改為已出租相關的 api
 export const apiOrderLandlordAssignTenant = (userInfo: any) => orderRequest.post('/landlord/userInfo', userInfo, getToken()); // ALO-5、ALO-8
 
 // 租賃-租客相關的 api
