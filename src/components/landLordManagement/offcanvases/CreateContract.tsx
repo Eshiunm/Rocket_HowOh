@@ -8,12 +8,13 @@ type CreateContractPropsType = {
 }
 
 type FormDataType = {
+  orderId: number | undefined;
   landlordName: string;
   tenantName: string;
   address: string;
-  contractPaymentBeforeDate: number;
-  contractTerminationNoticeMonth: string | number;
-  contractTerminationPenaltyMonth: string | number;
+  contractPaymentBeforeDate: string; //幾號前繳房租
+  contractTerminationNoticeMonth: string; //終止合約提前幾個月通知
+  contractTerminationPenaltyMonth: string; //違約金幾個月
 }
 
 export default function CreateContract({handleCreateContractClose, orderId}: CreateContractPropsType) {
@@ -23,10 +24,11 @@ export default function CreateContract({handleCreateContractClose, orderId}: Cre
 
   const { register, handleSubmit, formState: { errors } } = useForm<FormDataType>({
     defaultValues: {
+      orderId: orderId,
       landlordName: "房東名稱", //房東名稱
       tenantName: "租客名稱", //租客名稱
       address : "房屋地址", //物件地址
-      contractPaymentBeforeDate : 1, //幾日繳納房租
+      contractPaymentBeforeDate : "1", //幾日繳納房租
       contractTerminationNoticeMonth : "1", //合約終止需提前幾月告知
       contractTerminationPenaltyMonth : "1" //合約終止需罰款幾月
     }
