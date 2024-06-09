@@ -10,6 +10,7 @@ import alertTriangle from "../../assets/imgs/icons/alertTriangle.svg";
 import messageCloud from "../../assets/imgs/icons/messageCloud.svg";
 import smileWink from "../../assets/imgs/icons/smileWink.svg";
 import ForcedChangeModal from "../../components/landLordManagement/modals/ForcedChangeModal";
+import BigLoading from "../../components/loading/BigLoading";
 
 interface tenantInfoType {
   photo: string;
@@ -63,6 +64,7 @@ export default function PublishHouse() {
     }
   };
 
+  const [isLoading, setIsLoading] = useState(false);
   const [isRentedOpen, setIsRentedOpen] = useState(false);
   const handleRentedCanvas = (bool: boolean) => setIsRentedOpen(bool);
   const [isPhoneFocused,setIsPhoneFocused] = useState(false);
@@ -196,10 +198,9 @@ export default function PublishHouse() {
   };
 
   const previewContract = async () => {
-    console.log(houseId);
     try {
+      setIsLoading(true);
       const response = await apiOrderViewPublishHouseContract(houseId);
-      console.log(response);
 
       // 創建一個 Blob 來處理 PDF 數據
       const blob = new Blob([response.data], { type: 'application/pdf' });
@@ -209,6 +210,9 @@ export default function PublishHouse() {
       window.open(url);
     } catch (error) {
       console.log(error);
+      alert("合約錯誤，請重新嘗試");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -337,6 +341,9 @@ export default function PublishHouse() {
 
   return (
     <>
+      {
+        isLoading && <BigLoading />
+      }
       <header className="bg-Landlord-99">
         <div className="container py-6">
           <span className="badge-m  bg-Alert-90">刊登中</span>
