@@ -8,6 +8,7 @@ import close from "../../assets/imgs/icons/close.svg";
 import messageCloud from "../../assets/imgs/icons/messageCloud.svg";
 import HouseDatas from "../../components/landLordManagement/HouseDatas";
 import { apiHouseLandlordSingleInfo } from "../../apis/apis";
+import CreateContract from "../../components/landLordManagement/offcanvases/CreateContract";
 
 type TenantDataType = {
   leaseStartTime: string;
@@ -20,7 +21,7 @@ type TenantDataType = {
   description: string | null;
   ratingCount: number | null;
   ratingAvg: number | null;
-};
+}
 
 type PhotosDataType = {
   path: string;
@@ -139,19 +140,16 @@ export default function RentedHouse() {
 
   const [isCreateContractOpen, setIsCreateContractOpen] = useState(false);
   const handleCreateContractClose = () => setIsCreateContractOpen(false);
-  const [isLandlordNameFocused,setIsLandlordNameFocused] = useState(false);
-  const [isTenantNameFocused,setIsTenantNameFocused] = useState(false);
-  const [isHouseAddressFocused,setIsHouseAddressFocused] = useState(false);
 
-  const [tenantData, setTenantData] = useState<TenantDataType | null>(null);
   const [houseData, setHouseData] = useState<HouseDataType | null>(null);
+  const [tenantData, setTenantData] = useState<TenantDataType | null>(null);
 
   useEffect(() => {
     const fetchHouseData = async () => {
       try {
         const response = await apiHouseLandlordSingleInfo(houseId);
         const { houseInfo, tenantInfo } = response.data.data;
-        setTenantData(tenantInfo);
+        
         const coverPhoto = {
           path: houseInfo.pictures?.firstPic || "",
           isCover: true
@@ -238,6 +236,7 @@ export default function RentedHouse() {
             jobRestriction: houseInfo.jobRestriction,
           },
         });
+        setTenantData(tenantInfo);
       } catch (error) {
         console.log(error);
       }
@@ -375,170 +374,7 @@ export default function RentedHouse() {
       </Drawer>
       <Drawer className="w-5/12 bg-white" open={isCreateContractOpen} onClose={handleCreateContractClose} position="right">
         <Drawer.Items>
-          <div className="layout-grid gap-4 mb-32">
-            <div className="col-span-10 flex flex-col gap-6">
-              <button
-                type="button"
-                className="self-end"
-                onClick={handleCreateContractClose}
-              >
-                <img src={close} alt="close" />
-              </button>
-              <h4 className="text-sans-h5 mb-4">建立合約</h4>
-              <p className="text-sans-body2 mb-[10px]">在生成合約前，請確實填寫以下資訊，以保障您與租客的權益</p>
-              <form>
-                <section className="border-b border-Neutral-95">
-                  <div className="mb-[34px]">
-                    <div
-                      tabIndex={0}
-                      className={`relative flex w-full rounded ${
-                        isLandlordNameFocused ? "border-Brand-30 border-2 -m-[1px]"
-                        : "border-black border"
-                      }`}
-                      onFocus={() => setIsLandlordNameFocused(true)}
-                      onBlur={() => setIsLandlordNameFocused(false)}
-                    >
-                      <input
-                        type="tel"
-                        id="landlordName"
-                        className="block w-full p-3 text-sans-body1 text-black bg-transparent border-none appearance-none focus:ring-0 peer"
-                        placeholder=""
-                      />
-                      <label
-                        htmlFor="landlordName"
-                        className="absolute bg-white text-sans-body1 text-Neutral-50 duration-200 transform -translate-y-4 scale-75 top-[3px] z-10 origin-[0] peer-focus:px-1 peer-focus:text-black peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-[3px] peer-focus:scale-75 peer-focus:-translate-y-4 start-3"
-                      >
-                        出租人
-                      </label>
-                    </div>
-                  </div>
-                  <div className="mb-[34px]">
-                    <div
-                      tabIndex={0}
-                      className={`relative flex w-full rounded ${
-                        isTenantNameFocused ? "border-Brand-30 border-2 -m-[1px]"
-                        : "border-black border"
-                      }`}
-                      onFocus={() => setIsTenantNameFocused(true)}
-                      onBlur={() => setIsTenantNameFocused(false)}
-                    >
-                      <input
-                        type="tel"
-                        id="tenantName"
-                        className="block w-full p-3 text-sans-body1 text-black bg-transparent border-none appearance-none focus:ring-0 peer"
-                        placeholder=""
-                      />
-                      <label
-                        htmlFor="tenantName"
-                        className="absolute bg-white text-sans-body1 text-Neutral-50 duration-200 transform -translate-y-4 scale-75 top-[3px] z-10 origin-[0] peer-focus:px-1 peer-focus:text-black peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-[3px] peer-focus:scale-75 peer-focus:-translate-y-4 start-3"
-                      >
-                        承租人
-                      </label>
-                    </div>
-                  </div>
-                  <div className="mb-6">
-                    <div
-                      tabIndex={0}
-                      className={`relative flex w-full rounded ${
-                        isHouseAddressFocused ? "border-Brand-30 border-2 -m-[1px]"
-                        : "border-black border"
-                      }`}
-                      onFocus={() => setIsHouseAddressFocused(true)}
-                      onBlur={() => setIsHouseAddressFocused(false)}
-                    >
-                      <input
-                        type="tel"
-                        id="tenantPhone"
-                        className="block w-full p-3 text-sans-body1 text-black bg-transparent border-none appearance-none focus:ring-0 peer"
-                        placeholder=""
-                      />
-                      <label
-                        htmlFor="tenantPhone"
-                        className="absolute bg-white text-sans-body1 text-Neutral-50 duration-200 transform -translate-y-4 scale-75 top-[3px] z-10 origin-[0] peer-focus:px-1 peer-focus:text-black peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-[3px] peer-focus:scale-75 peer-focus:-translate-y-4 start-3"
-                      >
-                        完整地址
-                      </label>
-                    </div>
-                    <p className="text-sans-caption pt-1 pl-3">請完整填寫，包含樓層、室</p>
-                  </div>
-                </section>
-                <section className="py-6 mb-10">
-                  <p className="flex items-center gap-3 mb-6">
-                    <span>承租者必須在每月</span>
-                    <input
-                      type="number"
-                      max={31}
-                      min={1}
-                      className="w-24 h-12 p-3 rounded border-black focus:ring-Brand-30 focus:border-Brand-30"
-                    />
-                    <span>日前繳納房租</span>
-                  </p>
-                  <p className="flex items-center gap-2 mb-6">
-                    <span>若需提前終止本約，需於</span>
-                    <fieldset className="flex gap-2">
-                      <div className="flex gap-2 items-center">
-                        <input 
-                          type="radio" 
-                          className="w-6 h-6 text-black bg-transparent border-black focus:ring-0 focus:ring-transparent"
-                          name="earlyTermination" 
-                          id="oneMonthEarly" 
-                          value="一個月" 
-                        />
-                        <label htmlFor="oneMonthEarly" className="pr-3.5">一個月</label>
-                      </div>
-                      <div className="flex gap-2 items-center">
-                        <input 
-                          type="radio" 
-                          className="w-6 h-6 text-black bg-transparent border-black focus:ring-0 focus:ring-transparent"
-                          name="earlyTermination" 
-                          id="twoMonthEarly" 
-                          value="兩個月" 
-                        />
-                        <label htmlFor="twoMonthEarly" className="pr-3.5">兩個月</label>
-                      </div>
-                    </fieldset>
-                    <span>前通知他方</span>
-                  </p>
-                  <p className="flex items-center gap-2 mb-6">
-                    <span>若需提前終止本約，需於繳納</span>
-                    <fieldset className="flex gap-2">
-                      <div className="flex gap-2 items-center">
-                        <input 
-                          type="radio" 
-                          className="w-6 h-6 text-black bg-transparent border-black focus:ring-0 focus:ring-transparent"
-                          name="penalty" 
-                          id="oneMonthPenalty" 
-                          value="一個月" 
-                        />
-                        <label htmlFor="oneMonthPenalty" className="pr-3.5">一個月</label>
-                      </div>
-                      <div className="flex gap-2 items-center">
-                        <input 
-                          type="radio" 
-                          className="w-6 h-6 text-black bg-transparent border-black focus:ring-0 focus:ring-transparent"
-                          name="penalty" 
-                          id="twoMonthPenalty" 
-                          value="兩個月" 
-                        />
-                        <label htmlFor="twoMonthPenalty" className="pr-3.5">兩個月</label>
-                      </div>
-                    </fieldset>
-                    <span>違約金</span>
-                  </p>
-                </section>
-                <div className="flex justify-end gap-6">
-                  <button
-                    type="button"
-                    className="outline-button-m ml-auto"
-                  >不儲存，直接下載</button>
-                  <button
-                    type="button"
-                    className="filled-button-m"
-                  >儲存，建立合約</button>
-                </div>
-              </form>
-            </div>
-          </div>
+          <CreateContract handleCreateContractClose={handleCreateContractClose}/>
         </Drawer.Items>
       </Drawer>
       </Flowbite>
