@@ -6,12 +6,21 @@ type CreateContractPropsType = {
   handleCreateContractClose: () => void
 }
 
+type FormDataType = {
+  landlordName: string;
+  tenantName: string;
+  address: string;
+  contractPaymentBeforeDate: number;
+  contractTerminationNoticeMonth: string | number;
+  contractTerminationPenaltyMonth: string | number;
+}
+
 export default function CreateContract({handleCreateContractClose}: CreateContractPropsType) {
   const [isLandlordNameFocused,setIsLandlordNameFocused] = useState(false);
   const [isTenantNameFocused,setIsTenantNameFocused] = useState(false);
   const [isHouseAddressFocused,setIsHouseAddressFocused] = useState(false);
 
-  const { register, handleSubmit, formState: { errors } } = useForm({
+  const { register, handleSubmit, formState: { errors } } = useForm<FormDataType>({
     defaultValues: {
       landlordName: "房東名稱", //房東名稱
       tenantName: "租客名稱", //租客名稱
@@ -21,7 +30,7 @@ export default function CreateContract({handleCreateContractClose}: CreateContra
       contractTerminationPenaltyMonth : "1" //合約終止需罰款幾月
     }
   });
-  const onSubmit = data => console.log(data);
+  const onSubmit = (data: FormDataType) => console.log(data);
 
   return (
     <div className="layout-grid gap-4 mb-32">
