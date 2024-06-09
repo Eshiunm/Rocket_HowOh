@@ -262,12 +262,14 @@ export default {
         ],
       },
       backgroundImage: {
-        homeSearchImg:"url('/src/assets/imgs/homePage/home_search_backgroundImg.png')",
+        homeSearchImg:
+          "url('/src/assets/imgs/homePage/home_search_backgroundImg.png')",
         aboutMeImg_1: "url('/src/assets/imgs/homePage/aboutMe_bgImg_1.jpg')",
         aboutMeImg_2: "url('/src/assets/imgs/homePage/aboutMe_bgImg_2.jpg')",
         aboutMeImg_3: "url('/src/assets/imgs/homePage/aboutMe_bgImg_3.jpg')",
         tenantLoginImg: "url('/src/assets/imgs/login/tenantLoginImg.svg')",
         landLordLoginImg: "url('/src/assets/imgs/login/landLordLoginImg.svg')",
+        articleBannerImg_1: "url('/src/assets/imgs/article/bannerImg_1.jpg')",
       },
     },
   },
