@@ -23,12 +23,6 @@ type TenantDataType = {
   ratingAvg: number | null;
 }
 
-type ContractDataType = {
-  landlordName: string;
-  tenantName: string;
-  address: string;
-}
-
 type PhotosDataType = {
   path: string;
   isCover: boolean;
@@ -149,13 +143,12 @@ export default function RentedHouse() {
 
   const [houseData, setHouseData] = useState<HouseDataType | null>(null);
   const [tenantData, setTenantData] = useState<TenantDataType | null>(null);
-  const [contractData, setContractData] = useState<ContractDataType | null>(null);
 
   useEffect(() => {
     const fetchHouseData = async () => {
       try {
         const response = await apiHouseLandlordSingleInfo(houseId);
-        const { houseInfo, tenantInfo, contractInfo } = response.data.data;
+        const { houseInfo, tenantInfo } = response.data.data;
         
         const coverPhoto = {
           path: houseInfo.pictures?.firstPic || "",
@@ -244,7 +237,6 @@ export default function RentedHouse() {
           },
         });
         setTenantData(tenantInfo);
-        setContractData(contractInfo);
       } catch (error) {
         console.log(error);
       }
