@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import { CustomFlowbiteTheme, Flowbite, Tooltip, Drawer } from "flowbite-react";
 import HouseDatas from "../../components/landLordManagement/HouseDatas";
 import Footer from "../../components/footer/Footer";
-import { apiHouseLandlordFindUser, apiHouseLandlordSingleInfo, apiOrderLandlordAssignTenant } from "../../apis/apis";
+import { apiHouseLandlordFindUser, apiHouseLandlordSingleInfo, apiOrderLandlordAssignTenant, apiOrderViewPublishHouseContract } from "../../apis/apis";
 import close from "../../assets/imgs/icons/close.svg";
 import alertTriangle from "../../assets/imgs/icons/alertTriangle.svg";
 import messageCloud from "../../assets/imgs/icons/messageCloud.svg";
@@ -195,6 +195,16 @@ export default function PublishHouse() {
     submitUserInfo(userInfo);
   };
 
+  const previewContract = async () => {
+    console.log(houseId);
+    try {
+      const response = await apiOrderViewPublishHouseContract(houseId);
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     const fetchHouseData = async () => {
       try {
@@ -365,7 +375,11 @@ export default function PublishHouse() {
                   navigate("/landlord")
                 }}
               >返回房源管理頁面</button>
-              <button type="button" className="outline-button-m">查看合約</button>
+              <button
+                type="button"
+                className="outline-button-m"
+                onClick={() => previewContract()}
+              >查看合約</button>
               <Tooltip
                 className={`bg-Landlord-30 text-sans-body2 rounded-lg py-1 px-11 text-white text-center whitespace-pre-line ${
                   houseDatas.appointmentCount > 0 && "hidden"
