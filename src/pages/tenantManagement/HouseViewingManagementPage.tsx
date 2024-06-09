@@ -28,8 +28,14 @@ function HouseViewingManagementPage() {
   useEffect(() => {
     const getHouseViewingList = async () => {
       const userId = localStorage.getItem("userId");
-      const response = await apiAppointmentCommonTotalNumber(userId as string);
-      setHouseViewingListTotalNumber(response.data.totalNumber);
+      try {
+        const response = await apiAppointmentCommonTotalNumber(
+          userId as string
+        );
+        setHouseViewingListTotalNumber(response.data.totalNumber);
+      } catch (error) {
+        console.log(error);
+      }
     };
     getHouseViewingList();
   });

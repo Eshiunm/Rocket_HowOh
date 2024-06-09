@@ -3,6 +3,7 @@ import { CustomFlowbiteTheme, Flowbite, Drawer } from "flowbite-react";
 import {
   apiAppointmentCommonList,
   apiAppointmentTenantHouseDetail,
+  apiAppointmentCommonTotalNumber,
 } from "../../../apis/apis";
 import close from "../../../assets/imgs/icons/close.svg";
 import houseFeatureCheckIcon from "../../../assets/imgs/SingleHousePage/houseFeatureCheckIcon.svg";
@@ -52,6 +53,7 @@ function HouseViewingList() {
   const [isCardSelected, setIsCardSelected] = useState<any>({});
   const [rentalListTypeState, setRentalListTypeState] = useState("unrented"); // 預設渲染未出租清單
   const [rentalList, setRentalList] = useState<any>([]);
+  const [rentalListTotalNumbers, setRentalListTotalNumbers] = useState(0);
   const [houseViewingDetail, setHouseViewingDetail] = useState<any>({});
 
   // 初始化出租清單(預設渲染未出租)
@@ -78,6 +80,21 @@ function HouseViewingList() {
     };
     getRentalListData();
   }, []);
+  // 取得出租清單總筆數
+  useEffect(() => {
+    const getRentalListTotalNumbers = async () => {
+      const userId = localStorage.getItem("userId");
+      try {
+        const response = await apiAppointmentCommonTotalNumber(
+          userId as string
+        );
+        setRentalListTotalNumbers(response.data.totalNumber);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getRentalListTotalNumbers();
+  }, [rentalListTotalNumbers]);
 
   // 切換出租清單類型，有未出租和已出租兩種
   const handleRentalListType = (e: any) => {
@@ -1135,15 +1152,16 @@ function HouseViewingList() {
                 <div>
                   <p className="text-sans-b-body2 text-center text-Brand-10 mb-2">
                     {rentalList.length > 0
-                      ? rentalList.length >= 12
-                        ? `顯示 1 至 12 筆 共 ${rentalList.length} 筆`
+                      ? rentalList.length > 12
+                        ? `顯示 1 至 12 筆 共 ${rentalListTotalNumbers} 筆`
                         : `顯示 1 至 ${rentalList.length} 筆 共 ${rentalList.length} 筆`
                       : "顯示 0 至 0 筆 共 0 筆"}
                   </p>
                   <div className="flex gap-x-1">
                     <button
+                      disabled={rentalListTotalNumbers > 12 ? false : true}
                       type="button"
-                      className="flex gap-x-[10px] rounded-l-lg items-center text-sans-b-body1 text-white p-2 hover:opacity-80 bg-Neutral-90"
+                      className="flex gap-x-[10px] items-center filled-button-s rounded-r-none"
                     >
                       <svg
                         className="fill-white"
@@ -1160,8 +1178,9 @@ function HouseViewingList() {
                       上一頁
                     </button>
                     <button
+                      disabled={rentalListTotalNumbers > 12 ? false : true}
                       type="button"
-                      className="flex gap-x-[10px] rounded-r-lg items-center text-sans-b-body1 text-white p-2 hover:opacity-80 bg-black"
+                      className="flex gap-x-[10px] items-center filled-button-s rounded-l-none"
                     >
                       下一頁
                       <svg
@@ -1315,15 +1334,16 @@ function HouseViewingList() {
                 <div>
                   <p className="text-sans-b-body2 text-center text-Brand-10 mb-2">
                     {rentalList.length > 0
-                      ? rentalList.length >= 12
-                        ? `顯示 1 至 12 筆 共 ${rentalList.length} 筆`
+                      ? rentalList.length > 12
+                        ? `顯示 1 至 12 筆 共 ${rentalListTotalNumbers} 筆`
                         : `顯示 1 至 ${rentalList.length} 筆 共 ${rentalList.length} 筆`
                       : "顯示 0 至 0 筆 共 0 筆"}
                   </p>
                   <div className="flex gap-x-1">
                     <button
+                      disabled={rentalListTotalNumbers > 12 ? false : true}
                       type="button"
-                      className="flex gap-x-[10px] rounded-l-lg items-center text-sans-b-body1 text-white p-2 hover:opacity-80 bg-Neutral-90"
+                      className="flex gap-x-[10px] items-center filled-button-s rounded-r-none"
                     >
                       <svg
                         className="fill-white"
@@ -1340,8 +1360,9 @@ function HouseViewingList() {
                       上一頁
                     </button>
                     <button
+                      disabled={rentalListTotalNumbers > 12 ? false : true}
                       type="button"
-                      className="flex gap-x-[10px] rounded-r-lg items-center text-sans-b-body1 text-white p-2 hover:opacity-80 bg-black"
+                      className="flex gap-x-[10px] items-center filled-button-s rounded-l-none"
                     >
                       下一頁
                       <svg
