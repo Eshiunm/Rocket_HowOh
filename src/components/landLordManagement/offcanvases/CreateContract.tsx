@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import close from "../../../assets/imgs/icons/close.svg";
+import { apiOrderLandlordContractInfo } from "../../../apis/apis";
 
 type CreateContractPropsType = {
   handleCreateContractClose: () => void;
@@ -12,28 +13,48 @@ type FormDataType = {
   landlordName: string;
   tenantName: string;
   address: string;
-  contractPaymentBeforeDate: string; //幾號前繳房租
-  contractTerminationNoticeMonth: string; //終止合約提前幾個月通知
-  contractTerminationPenaltyMonth: string; //違約金幾個月
+  contractPaymentBeforeDate: string | null; //幾號前繳房租
+  contractTerminationNoticeMonth: string | null; //終止合約提前幾個月通知
+  contractTerminationPenaltyMonth: string | null; //違約金幾個月
 }
 
 export default function CreateContract({handleCreateContractClose, orderId}: CreateContractPropsType) {
   const [isLandlordNameFocused,setIsLandlordNameFocused] = useState(false);
   const [isTenantNameFocused,setIsTenantNameFocused] = useState(false);
   const [isHouseAddressFocused,setIsHouseAddressFocused] = useState(false);
+  const [contractInfo,setContractInfo] = useState<FormDataType>();
 
-  const { register, handleSubmit, formState: { errors } } = useForm<FormDataType>({
-    defaultValues: {
-      orderId: orderId,
-      landlordName: "房東名稱", //房東名稱
-      tenantName: "租客名稱", //租客名稱
-      address : "房屋地址", //物件地址
-      contractPaymentBeforeDate : "1", //幾日繳納房租
-      contractTerminationNoticeMonth : "1", //合約終止需提前幾月告知
-      contractTerminationPenaltyMonth : "1" //合約終止需罰款幾月
-    }
-  });
+  const { register, handleSubmit, formState: { errors }, reset } = useForm<FormDataType>();
   const onSubmit = (data: FormDataType) => console.log(data);
+
+  useEffect(() => {
+    const getContractInfo = async (order: number) => {
+      try {
+        const response = await apiOrderLandlordContractInfo(order);
+        setContractInfo(response.data.data);
+      } catch (error) {
+        console.log(error)
+      }
+    }
+
+    if(orderId){
+      getContractInfo(orderId);
+    }
+  },[orderId]);
+
+  useEffect(() => {
+    if (contractInfo) {
+      reset({
+        orderId: contractInfo.orderId,
+        landlordName: contractInfo.landlordName || "",
+        tenantName: contractInfo.tenantName || "",
+        address: contractInfo.address || "",
+        contractPaymentBeforeDate: contractInfo.contractPaymentBeforeDate || "1",
+        contractTerminationNoticeMonth: contractInfo.contractTerminationNoticeMonth || "1",
+        contractTerminationPenaltyMonth: contractInfo.contractTerminationPenaltyMonth || "1"
+      });
+    }
+  }, [contractInfo, reset]);
 
   return (
     <div className="layout-grid gap-4 mb-32">
