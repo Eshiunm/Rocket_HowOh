@@ -90,6 +90,7 @@ export const apiOrderViewPublishHouseContract = (houseId: string | undefined) =>
 
 // 租賃-房東出租歷史相關的 api
 export const apiOrderLandlordListExpired = (querystring: string) => orderRequest.get(`/landlord/list/expired?${querystring}`,getToken()); // ALH-1 
+export const apiOrderLandlordContractInfo = (orderId: string) => orderRequest.get(`/landlord/contractInfo/${orderId}`,getToken()); // ALH-2
 
 // 租賃-房東更改為已出租相關的 api
 export const apiOrderLandlordAssignTenant = (userInfo: any) => orderRequest.post('/landlord/userInfo', userInfo, getToken()); // ALO-5、ALO-8
