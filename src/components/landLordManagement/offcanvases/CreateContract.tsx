@@ -52,7 +52,9 @@ export default function CreateContract({handleCreateContractClose}: CreateContra
                   id="landlordName"
                   className="block w-full p-3 text-sans-body1 text-black bg-transparent border-none appearance-none focus:ring-0 peer"
                   placeholder=""
-                  {...register("landlordName", { required: true })}
+                  {...register("landlordName", {
+                    required: { value: true, message: "若需儲存，請輸入您的姓名，系統將替您自動帶入資料" },
+                  })}
                 />
                 <label
                   htmlFor="landlordName"
@@ -61,6 +63,9 @@ export default function CreateContract({handleCreateContractClose}: CreateContra
                   出租人
                 </label>
               </div>
+              {errors.landlordName?.message && (
+                <p className="post-alert">{errors.landlordName?.message}</p>
+              )}
             </div>
             <div className="mb-[34px]">
               <div
@@ -77,7 +82,9 @@ export default function CreateContract({handleCreateContractClose}: CreateContra
                   id="tenantName"
                   className="block w-full p-3 text-sans-body1 text-black bg-transparent border-none appearance-none focus:ring-0 peer"
                   placeholder=""
-                  {...register("tenantName", { required: true })}
+                  {...register("tenantName", {
+                    required: { value: true, message: "若需儲存，請輸入租客姓名，系統將替您自動帶入資料" },
+                  })}
                 />
                 <label
                   htmlFor="tenantName"
@@ -86,6 +93,9 @@ export default function CreateContract({handleCreateContractClose}: CreateContra
                   承租人
                 </label>
               </div>
+              {errors.tenantName?.message && (
+                <p className="post-alert">{errors.tenantName?.message}</p>
+              )}
             </div>
             <div className="mb-6">
               <div
@@ -102,7 +112,9 @@ export default function CreateContract({handleCreateContractClose}: CreateContra
                   id="houseAddress"
                   className="block w-full p-3 text-sans-body1 text-black bg-transparent border-none appearance-none focus:ring-0 peer"
                   placeholder=""
-                  {...register("address", { required: true })}
+                  {...register("address", {
+                    required: { value: true, message: "若需儲存，請輸入完整地址，系統將替您自動帶入資料" },
+                  })}
                 />
                 <label
                   htmlFor="houseAddress"
@@ -111,22 +123,31 @@ export default function CreateContract({handleCreateContractClose}: CreateContra
                   完整地址
                 </label>
               </div>
-              <p className="text-sans-caption pt-1 pl-3">請完整填寫，包含樓層、室</p>
+              {errors.address?.message ? (
+                <p className="post-alert">{errors.address?.message}</p>
+                ):(
+                <p className="text-sans-caption pt-1 pl-3">請完整填寫，包含樓層、室</p>  
+              )}
             </div>
           </section>
           <section className="py-6 mb-10">
-            <p className="flex items-center gap-3 mb-6">
+            <p className="flex items-center gap-3">
               <span>承租者必須在每月</span>
               <input
                 type="number"
-                max={31}
-                min={1}
                 className="w-24 h-12 p-3 rounded border-black focus:ring-Brand-30 focus:border-Brand-30"
-                {...register("contractPaymentBeforeDate", { required: true })}
+                {...register("contractPaymentBeforeDate", {
+                  required: { value: true, message: "請輸入繳納房租日期" },
+                  min: { value: 1, message: "請輸入正確日期" },
+                  max: { value: 31, message: "請輸入正確日期" },
+                })}
               />
               <span>日前繳納房租</span>
             </p>
-            <div className="flex items-center gap-2 mb-6">
+            {errors.contractPaymentBeforeDate?.message && (
+              <p className="post-alert translate-x-1/4">{errors.contractPaymentBeforeDate?.message}</p>
+            )}
+            <div className="flex items-center gap-2 mt-6">
               <span>若需提前終止本約，需於</span>
               <fieldset className="flex gap-2">
                 <div className="flex gap-2 items-center">
@@ -152,7 +173,7 @@ export default function CreateContract({handleCreateContractClose}: CreateContra
               </fieldset>
               <span>前通知他方</span>
             </div>
-            <div className="flex items-center gap-2 mb-6">
+            <div className="flex items-center gap-2 mt-6">
               <span>若需提前終止本約，需於繳納</span>
               <fieldset className="flex gap-2">
                 <div className="flex gap-2 items-center">
