@@ -3,7 +3,8 @@ import { useForm } from "react-hook-form";
 import close from "../../../assets/imgs/icons/close.svg";
 
 type CreateContractPropsType = {
-  handleCreateContractClose: () => void
+  handleCreateContractClose: () => void;
+  orderId: number | undefined;
 }
 
 type FormDataType = {
@@ -15,7 +16,7 @@ type FormDataType = {
   contractTerminationPenaltyMonth: string | number;
 }
 
-export default function CreateContract({handleCreateContractClose}: CreateContractPropsType) {
+export default function CreateContract({handleCreateContractClose, orderId}: CreateContractPropsType) {
   const [isLandlordNameFocused,setIsLandlordNameFocused] = useState(false);
   const [isTenantNameFocused,setIsTenantNameFocused] = useState(false);
   const [isHouseAddressFocused,setIsHouseAddressFocused] = useState(false);
