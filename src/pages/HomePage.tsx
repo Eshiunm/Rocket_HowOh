@@ -76,30 +76,30 @@ function HomePage() {
               <li className="md:w-[338px] w-full">
                 <div className="bg-aboutMeImg_2 bg-cover bg-no-repeat rounded-2xl">
                   <div className="bg-transparent rounded-2xl hover:bg-black hover:bg-opacity-40 transition delay-150 duration-300 ease-in">
-                    <a
-                      href=""
+                    <Link
+                      to="/article"
                       className="inline-block text-white pt-5 px-5 h-[380px] rounded-2xl"
                     >
                       <h5 className="text-sans-body2 mb-3 z-10">隱私與安全</h5>
                       <p className="text-sans-b-h5">
                         你的個資交由你掌控，平台安全交給我們
                       </p>
-                    </a>
+                    </Link>
                   </div>
                 </div>
               </li>
               <li className="md:w-[338px] w-full ">
                 <div className="bg-aboutMeImg_3 bg-cover bg-no-repeat rounded-2xl">
                   <div className="bg-transparent rounded-2xl  hover:bg-black hover:bg-opacity-40 transition delay-150 duration-300 ease-in">
-                    <a
-                      href=""
+                    <Link
+                      to="/article"
                       className="inline-block text-black pt-5 px-5 h-[380px] rounded-2xl hover:text-white transition delay-150 duration-300 ease-in"
                     >
                       <h5 className="text-sans-body2 mb-3 z-10">透明</h5>
                       <p className="text-sans-b-h5 ">
                         房東租客互評機制，避免遇到爛房與惡房東
                       </p>
-                    </a>
+                    </Link>
                   </div>
                 </div>
               </li>
