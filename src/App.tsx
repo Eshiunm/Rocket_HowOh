@@ -19,6 +19,7 @@ import FeedbackPendingList from "./components/tenantManagement/houseViewingManag
 import RentedHouse from "./pages/landlordManagement/RentedHouse";
 import FinishHouse from "./pages/landlordManagement/FinishHouse";
 import RentedHistory from "./pages/landlordManagement/RentedHistory";
+import ContractPreview from "./pages/landlordManagement/ContractPreview";
 import Article_1 from "./pages/article/Article_1";
 
 function App() {
@@ -39,6 +40,7 @@ function App() {
           ></Route>
           <Route path="login" element={<LoginPage />}></Route>
           <Route path="landlord">
+            <Route path="contract-preview" element={<ContractPreview />} />
             <Route element={<LandlordManagement />}>
               <Route index element={<HouseList />} />
               <Route path="history" element={<RentedHistory />} />

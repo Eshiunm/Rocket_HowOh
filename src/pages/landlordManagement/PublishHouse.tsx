@@ -202,12 +202,13 @@ export default function PublishHouse() {
       setIsLoading(true);
       const response = await apiOrderViewPublishHouseContract(houseId);
 
-      // 創建一個 Blob 來處理 PDF 數據
+      // 建立一個 Blob 來處理 PDF 數據
       const blob = new Blob([response.data], { type: 'application/pdf' });
-      // 創建一個 URL 將 Blob 對象指向該 URL
+      // 建立一個 URL 將 Blob 對象指向該 URL
       const url = window.URL.createObjectURL(blob);
       // 使用 window.open 在新標籤頁中打開該 URL
-      window.open(url);
+      const previewUrl = `/landlord/contract-preview?pdfUrl=${encodeURIComponent(url)}`;
+      window.open(previewUrl, '_blank');
     } catch (error) {
       console.log(error);
       alert("合約錯誤，請重新嘗試");
