@@ -2,6 +2,7 @@ import { TypeAnimation } from "react-type-animation";
 import SearchForm from "../components/homePage/SearchForm";
 import Recommendation from "../components/homePage/Recommendation";
 import Footer from "../components/footer/Footer";
+import { Link } from "react-router-dom";
 
 function HomePage() {
   return (
@@ -60,15 +61,15 @@ function HomePage() {
               <li className="md:w-[338px] w-full relative">
                 <div className="bg-aboutMeImg_1 bg-cover bg-no-repeat rounded-2xl">
                   <div className="bg-transparent rounded-2xl hover:bg-black hover:bg-opacity-40 transition delay-150 duration-300 ease-in">
-                    <a
-                      href=""
+                    <Link
+                      to="/article"
                       className="inline-block text-white pt-5 px-5 h-[380px] rounded-2xl"
                     >
                       <h5 className="text-sans-body2 mb-3 z-10">評價守則</h5>
                       <p className="text-sans-b-h5">
                         避免謾罵字眼，好的租賃環境需要你我守護
                       </p>
-                    </a>
+                    </Link>
                   </div>
                 </div>
               </li>

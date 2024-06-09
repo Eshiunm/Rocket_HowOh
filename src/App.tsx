@@ -19,6 +19,7 @@ import FeedbackPendingList from "./components/tenantManagement/houseViewingManag
 import RentedHouse from "./pages/landlordManagement/RentedHouse";
 import FinishHouse from "./pages/landlordManagement/FinishHouse";
 import RentedHistory from "./pages/landlordManagement/RentedHistory";
+import Article_1 from "./pages/article/Article_1";
 
 function App() {
   return (
@@ -65,21 +66,24 @@ function App() {
               <Route
                 index
                 path="houseViewingList"
-                element={<HouseViewingList/>}
+                element={<HouseViewingList />}
               ></Route>
               <Route
                 path="rentalInviteList"
-                element={<RentalInviteList/>}
+                element={<RentalInviteList />}
               ></Route>
               <Route
                 path="rentalHistoryList"
-                element={<RentalHistoryList/>}
+                element={<RentalHistoryList />}
               ></Route>
               <Route
                 path="feedbackPendingList"
-                element={<FeedbackPendingList/>}
+                element={<FeedbackPendingList />}
               ></Route>
             </Route>
+          </Route>
+          <Route path="article">
+            <Route index element={<Article_1 />} />
           </Route>
         </Routes>
       </BrowserRouter>
