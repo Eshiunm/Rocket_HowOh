@@ -11,6 +11,7 @@ import { apiHouseLandlordSingleInfo } from "../../apis/apis";
 import CreateContract from "../../components/landLordManagement/offcanvases/CreateContract";
 
 type TenantDataType = {
+  orderId: number;
   leaseStartTime: string;
   leaseEndTime: string;
   name: string | null;
@@ -149,7 +150,7 @@ export default function RentedHouse() {
       try {
         const response = await apiHouseLandlordSingleInfo(houseId);
         const { houseInfo, tenantInfo } = response.data.data;
-        
+
         const coverPhoto = {
           path: houseInfo.pictures?.firstPic || "",
           isCover: true
@@ -374,7 +375,7 @@ export default function RentedHouse() {
       </Drawer>
       <Drawer className="w-5/12 bg-white" open={isCreateContractOpen} onClose={handleCreateContractClose} position="right">
         <Drawer.Items>
-          <CreateContract handleCreateContractClose={handleCreateContractClose}/>
+          <CreateContract handleCreateContractClose={handleCreateContractClose} orderId={tenantData?.orderId}/>
         </Drawer.Items>
       </Drawer>
       </Flowbite>
