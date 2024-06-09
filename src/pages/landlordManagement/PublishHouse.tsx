@@ -200,6 +200,13 @@ export default function PublishHouse() {
     try {
       const response = await apiOrderViewPublishHouseContract(houseId);
       console.log(response);
+
+      // 創建一個 Blob 來處理 PDF 數據
+      const blob = new Blob([response.data], { type: 'application/pdf' });
+      // 創建一個 URL 將 Blob 對象指向該 URL
+      const url = window.URL.createObjectURL(blob);
+      // 使用 window.open 在新標籤頁中打開該 URL
+      window.open(url);
     } catch (error) {
       console.log(error);
     }

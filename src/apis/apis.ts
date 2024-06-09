@@ -79,7 +79,13 @@ export const apiHouseCommonRecommendedList = () => houseRequest.get('/common/lis
 export const apiHouseCommonListCount = () => houseRequest.get('/common/totalNumber'); // FCO-4
 
 // 租賃-房東合約相關的 api
-export const apiOrderViewPublishHouseContract = (houseId: string | undefined) => orderRequest.get(`/landlord/viewHouseContract/${houseId}`, getToken()); // ALO-19
+export const apiOrderViewPublishHouseContract = (houseId: string | undefined) => orderRequest.get(`/landlord/viewHouseContract/${houseId}`, {
+  headers: {
+    "Content-Type": "application/json",
+    "Authorization": `Bearer ${localStorage.getItem("authToken")}`,
+    },
+  responseType: 'blob',
+}); // ALO-19
 
 
 // 租賃-房東出租歷史相關的 api
