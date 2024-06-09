@@ -328,18 +328,32 @@ export default function PublishHouse() {
             <div>
               <h6 className="mb-2 text-sans-body2">變更狀態</h6>
               <div className="flex gap-3">
-                <button
-                  type="button"
-                  className="outline-button-m"
-                  onClick={() => handleRentedCanvas(true)}
-                  disabled={!canChangeHouseStatus}
-                >更改為已承租</button>
-                <button
-                  type="button"
-                  className="outline-button-m"
-                  onClick={() => setOpenForceChangeModal(true)}
-                  disabled={!canChangeHouseStatus}
-                >更改為已完成</button>
+                <Tooltip
+                  className={`bg-Landlord-30 text-sans-body2 rounded-lg py-1 px-11 text-white text-center whitespace-pre-line ${
+                    canChangeHouseStatus && "hidden"
+                  }`}
+                  content={"租約邀請已送出，無法更改狀態。"}
+                >
+                  <button
+                    type="button"
+                    className="outline-button-m"
+                    onClick={() => handleRentedCanvas(true)}
+                    disabled={!canChangeHouseStatus}
+                  >更改為已承租</button>
+                </Tooltip>
+                <Tooltip
+                  className={`bg-Landlord-30 text-sans-body2 rounded-lg py-1 px-11 text-white text-center whitespace-pre-line ${
+                    canChangeHouseStatus && "hidden"
+                  }`}
+                  content={"租約邀請已送出，無法更改狀態。"}
+                >
+                  <button
+                    type="button"
+                    className="outline-button-m"
+                    onClick={() => setOpenForceChangeModal(true)}
+                    disabled={!canChangeHouseStatus}
+                  >更改為已完成</button>
+                </Tooltip>
               </div>
             </div>
             <div className="flex gap-6">
