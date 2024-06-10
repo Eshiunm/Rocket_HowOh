@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import leftIcon_white from "../../assets/imgs/icons/leftIcon_white.svg";
 import rightIcon_white from "../../assets/imgs/icons/rightIcon_white.svg";
@@ -6,6 +6,15 @@ import noListImg from "../../assets/imgs/tenantManagement/whenNoItemsShowThisImg
 import RequestList from "../../components/landLordManagement/request/RequestList";
 import Footer from "../../components/footer/Footer";
 import { apiAppointmentCommonTotalNumber } from "../../apis/apis";
+
+type contextValueType = {
+  reloadRequestList: boolean;
+  setReloadRequestList: (value: boolean) => void;
+}
+
+export const ReloadRequestList = createContext<contextValueType>(
+  {} as contextValueType
+);
 
 export default function TenantRequest() {
   const navigate = useNavigate();
@@ -19,6 +28,13 @@ export default function TenantRequest() {
     if (sortType) {
       setSortOrder(sortType);
     }
+  };
+
+  // 當更改租客邀請狀態時，更改 false 為 true
+  const [reloadRequestList, setReloadRequestList] = useState(false);
+  const contextValue = {
+    reloadRequestList,
+    setReloadRequestList,
   };
 
   useEffect(() => {
@@ -56,7 +72,8 @@ export default function TenantRequest() {
       }
     }
     getRequestTotalNumber();
-  }, [sortOrder]);
+    return setReloadRequestList(false);
+  }, [sortOrder, reloadRequestList]);
 
   return (
     <>
@@ -72,6 +89,7 @@ export default function TenantRequest() {
           </button>
         </div>
       </header>
+      <ReloadRequestList.Provider value={contextValue}>
       <main className="container layout-grid mb-40">
         <div className="col-span-7 px-5">
           <section className="flex items-start gap-6 pb-3 pt-6 border-b border-Neutral-95 mb-6">
@@ -213,6 +231,7 @@ export default function TenantRequest() {
           </section>
         </div>
       </main>
+      </ReloadRequestList.Provider>
       <Footer />
     </>
   );

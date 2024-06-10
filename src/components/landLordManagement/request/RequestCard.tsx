@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { Tooltip, Drawer, Flowbite, CustomFlowbiteTheme, Toast } from "flowbite-react";
 import rightIcon_black from "../../../assets/imgs/icons/rightIcon_black.svg";
 import close from "../../../assets/imgs/icons/close.svg";
@@ -7,6 +7,7 @@ import { RequestListType } from "../request/RequestList";
 // 轉換承租時間
 import moment from 'moment-timezone';
 import { apiAppointmentLandlordHiddenTenant, apiAppointmentLandlordSingleInfo } from "../../../apis/apis";
+import { ReloadRequestList } from "../../../pages/landlordManagement/TenantRequest";
 
 type TenantInfoType = {
   lastName: string; //租客名
@@ -102,6 +103,7 @@ export default function RequestCard({data, status = "none", isHidden}: RequestCa
     }
   };
 
+  const {setReloadRequestList} = useContext(ReloadRequestList);
   const [isOpen, setIsOpen] = useState(false);
   const [showToast, setShowToast] = useState(false)
   const [getInfoLoading, setGetInfoLoading] = useState(false);
@@ -136,6 +138,7 @@ export default function RequestCard({data, status = "none", isHidden}: RequestCa
       console.log(response);
       handleClose();
       setShowToast(true);
+      setReloadRequestList(true);
     } catch (error) {
       console.log(error);
     }

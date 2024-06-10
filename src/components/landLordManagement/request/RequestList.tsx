@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import RequestCard from "./RequestCard";
 import { apiAppointmentCommonList } from "../../../apis/apis";
+import { ReloadRequestList } from "../../../pages/landlordManagement/TenantRequest";
 
 export type RequestListType = {
   "appointmentId": number; //預約Id
@@ -33,6 +34,7 @@ type RequestListProps = {
 
 export default function RequestList(prop : RequestListProps) {
   const { sort, pageNumberControl } = prop;
+  const { reloadRequestList } = useContext(ReloadRequestList);
   const [getListLoading, setGetListLoading] = useState(false);
   const [requestList, setRequestList] = useState<RequestListType[]>([]);
 
@@ -70,7 +72,7 @@ export default function RequestList(prop : RequestListProps) {
       setGetListLoading(false);
     }
     getSortList();
-  },[sort, pageNumberControl]);
+  },[sort, pageNumberControl, reloadRequestList]);
 
   return (
     <ul>
