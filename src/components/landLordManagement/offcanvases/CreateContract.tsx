@@ -1,21 +1,21 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import close from "../../../assets/imgs/icons/close.svg";
-import { apiOrderLandlordContractInfo } from "../../../apis/apis";
+import { apiOrderDownloadCreateContract, apiOrderLandlordContractInfo } from "../../../apis/apis";
 
 type CreateContractPropsType = {
   handleCreateContractClose: () => void;
   orderId: number | undefined;
 }
 
-type FormDataType = {
-  orderId: number | undefined;
-  landlordName: string;
-  tenantName: string;
-  address: string;
-  contractPaymentBeforeDate: string | null; //幾號前繳房租
-  contractTerminationNoticeMonth: string | null; //終止合約提前幾個月通知
-  contractTerminationPenaltyMonth: string | null; //違約金幾個月
+export type FormDataType = {
+  orderId: number | string | undefined;
+  landlordName?: string;
+  tenantName?: string;
+  address?: string;
+  contractPaymentBeforeDate?: string | null; //幾號前繳房租
+  contractTerminationNoticeMonth?: string | null; //終止合約提前幾個月通知
+  contractTerminationPenaltyMonth?: string | null; //違約金幾個月
 }
 
 export default function CreateContract({handleCreateContractClose, orderId}: CreateContractPropsType) {
@@ -25,7 +25,19 @@ export default function CreateContract({handleCreateContractClose, orderId}: Cre
   const [contractInfo,setContractInfo] = useState<FormDataType>();
 
   const { register, handleSubmit, formState: { errors }, reset } = useForm<FormDataType>();
-  const onSubmit = (data: FormDataType) => console.log(data);
+  const onSubmit = (data: FormDataType) => {
+    console.log(data)
+    const getContract = async (form) => {
+      console.log(form);
+      try {
+        const response = await apiOrderDownloadCreateContract(form);
+        console.log(response);
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    getContract(data);
+  };
 
   useEffect(() => {
     const getContractInfo = async (order: number) => {

@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { FormDataType as CreateContractDataType } from '../components/landLordManagement/offcanvases/CreateContract';
 
 const getToken = () => {
   const token = localStorage.getItem("authToken");
@@ -86,6 +87,13 @@ export const apiOrderViewPublishHouseContract = (houseId: string | undefined) =>
     },
   responseType: 'blob',
 }); // ALO-19
+export const apiOrderDownloadCreateContract = (data: CreateContractDataType ) => orderRequest.post('/landloard/downloadContract', data, {
+  headers: {
+    "Content-Type": "application/json",
+    "Authorization": `Bearer ${localStorage.getItem("authToken")}`,
+    },
+  responseType: 'blob',
+}); // ALO-17
 
 
 // 租賃-房東出租歷史相關的 api
