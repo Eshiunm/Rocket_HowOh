@@ -64,7 +64,13 @@ type TenantDetailsType = {
   }
 };
 
-export default function RequestCard({data, status = "none"}: {data: RequestListType, status: string}) {
+type RequestCardPropsType = {
+  data: RequestListType;
+  status: string;
+  isHidden: boolean
+}
+
+export default function RequestCard({data, status = "none", isHidden}: RequestCardPropsType) {
   const customTheme: CustomFlowbiteTheme = {
     drawer: {
       "root": {
@@ -245,7 +251,9 @@ export default function RequestCard({data, status = "none"}: {data: RequestListT
                       type="button"
                       className="outline-button-m flex items-center gap-2"
                     >
-                      隱藏租客
+                      {
+                        isHidden ? "顯示租客" : "隱藏租客"
+                      }
                       <span className="material-symbols-outlined text-base">visibility_off</span>
                     </button>
                     <div className="w-full p-6 rounded-2xl bg-white">

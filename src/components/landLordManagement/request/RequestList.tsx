@@ -108,21 +108,24 @@ export default function RequestList(prop : RequestListProps) {
               <RequestCard
                 key={`appointment-${request?.appointmentId}`}
                 data={request}
-                status="send" />
+                status="send"
+                isHidden={sort === "hidden"} />
             )
           } else if ( request.description.orderInfo[0]?.status === "租客已拒絕租約" ) {
             return (
               <RequestCard
                 key={`appointment-${request.appointmentId}`} 
                 data={request}
-                status="reject" />
+                status="reject"
+                isHidden={sort === "hidden"} />
             )
           } else {
             return (
               <RequestCard
                 key={`appointment-${request.appointmentId}`}
                 data={request}
-                status="none" />
+                status="none"
+                isHidden={sort === "hidden"} />
             )
           }
         })
