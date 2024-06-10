@@ -150,7 +150,7 @@ export default function RequestCard({data, status = "none"}: {data: RequestListT
               status === "reject" && (
                 <div className="badge-s bg-Alert-95">
                   <h5 className="pr-2 mr-2 border-r border-Tenant-70">租約邀請已拒絕</h5>
-                  <time>{orderInfo[0].createTime}</time>
+                  <time>{moment(orderInfo[0].createTime).tz('Asia/Taipei').format('YYYY年M月D日')}</time>
                 </div>
               )
             }
@@ -296,7 +296,7 @@ export default function RequestCard({data, status = "none"}: {data: RequestListT
                       </div>
                     </div>
                     {
-                      hasAnyRating?.length && (
+                      hasAnyRating?.length ? (
                         <div className="w-full">
                           <h4 className="text-sans-b-h6 mb-4">房東評價</h4>
                           {
@@ -338,7 +338,7 @@ export default function RequestCard({data, status = "none"}: {data: RequestListT
                             })
                           }
                         </div>
-                      )
+                      ) : null
                     }
                   </>
                 )
