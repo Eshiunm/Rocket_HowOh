@@ -12,6 +12,7 @@ import HouseList from "./components/landLordManagement/index/HouseList";
 import PublishHouse from "./pages/landlordManagement/PublishHouse";
 import TenantRequest from "./pages/landlordManagement/TenantRequest";
 import HouseViewingManagementPage from "./pages/tenantManagement/HouseViewingManagementPage";
+import FeedbackManagementPage from "./pages/tenantManagement/FeedbackManagementPage";
 import HouseViewingList from "./components/tenantManagement/houseViewingManagement/HouseViewingList";
 import RentalInviteList from "./components/tenantManagement/houseViewingManagement/RentalInviteList";
 import RentalHistoryList from "./components/tenantManagement/houseViewingManagement/RentalHistoryList";
@@ -81,7 +82,7 @@ function App() {
             </Route>
             <Route
               path="feedbackManagement" // 評價管理頁面
-              element={<HouseViewingManagementPage />}
+              element={<FeedbackManagementPage />}
             >
               <Route
                 path="feedbackPendingList"
