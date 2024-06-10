@@ -6,7 +6,7 @@ import star from "../../../assets/imgs/icons/star.svg";
 import { RequestListType } from "../request/RequestList";
 // 轉換承租時間
 import moment from 'moment-timezone';
-import { apiAppointmentLandlordSingleInfo } from "../../../apis/apis";
+import { apiAppointmentLandlordHiddenTenant, apiAppointmentLandlordSingleInfo } from "../../../apis/apis";
 
 type TenantInfoType = {
   lastName: string; //租客名
@@ -127,6 +127,17 @@ export default function RequestCard({data, status = "none", isHidden}: RequestCa
     setIsOpen(true);
     getSingleTenantInfo(appointmentId);
   };
+
+  const handleHiddenTenant = async () => {
+    try {
+      console.log(appointmentId);
+      const response = await apiAppointmentLandlordHiddenTenant(appointmentId);
+      console.log(response);
+      handleClose();
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   return (
     <>
@@ -250,6 +261,7 @@ export default function RequestCard({data, status = "none", isHidden}: RequestCa
                     <button
                       type="button"
                       className="outline-button-m flex items-center gap-2"
+                      onClick={handleHiddenTenant}
                     >
                       {
                         isHidden ? "顯示租客" : "隱藏租客"
