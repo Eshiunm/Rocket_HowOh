@@ -1,8 +1,10 @@
 function FeedbackPendingList() {
   return (
-    <section>
-      <h1>你在待評價列表</h1>
-    </section>
+    <div className="container layout-grid">
+      <div className="col-span-7">
+        <h1>FeedbackPendingList</h1>
+      </div>
+    </div>
   );
 }
 
