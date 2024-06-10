@@ -110,6 +110,7 @@ export const apiOrderTenantListRenting = () => orderRequest.get('/tenant/list/re
 // 預約-房東取得租客資訊相關的 api
 export const apiAppointmentLandlordSingleInfo = (appointmentId: number) => appointmentRequest.get(`/landlord/${appointmentId}`, getToken()); // ALA-1
 export const apiAppointmentLandlordHiddenTenant = (appointmentId: number) => appointmentRequest.patch(`/landlord/hidden/${appointmentId}`, {}, getToken()); // ALA-2
+export const apiAppointmentLandlordRevealTenant = (appointmentId: number) => appointmentRequest.patch(`/landlord/reveal/${appointmentId}`, {}, getToken()); // ALA-3
 
 // 預約-租客相關的 api
 export const apiAppointmentTenantInvitedList = () => appointmentRequest.get('/tenant/list/invited'); // ATA-1
