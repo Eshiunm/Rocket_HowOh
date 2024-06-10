@@ -1,5 +1,5 @@
 import { useState, useContext } from "react";
-import { Tooltip, Drawer, Flowbite, CustomFlowbiteTheme, Toast } from "flowbite-react";
+import { Tooltip, Drawer, Flowbite, CustomFlowbiteTheme } from "flowbite-react";
 import rightIcon_black from "../../../assets/imgs/icons/rightIcon_black.svg";
 import close from "../../../assets/imgs/icons/close.svg";
 import star from "../../../assets/imgs/icons/star.svg";
@@ -103,9 +103,9 @@ export default function RequestCard({data, status = "none", isHidden}: RequestCa
     }
   };
 
-  const {setReloadRequestList} = useContext(ReloadRequestList);
+  const {setReloadRequestList, setShowToast} = useContext(ReloadRequestList);
   const [isOpen, setIsOpen] = useState(false);
-  const [showToast, setShowToast] = useState(false)
+  // const [showToast, setShowToast] = useState(false)
   const [getInfoLoading, setGetInfoLoading] = useState(false);
   const [tenantDetails, setTenantDetails] = useState<TenantDetailsType | null>(null);
   const orderList = tenantDetails?.orderList?.orderInfo;
@@ -148,14 +148,6 @@ export default function RequestCard({data, status = "none", isHidden}: RequestCa
 
   return (
     <>
-      {
-        showToast && (
-          <Toast className="shadow-elevation-1 shadow-Neutral-60 w-auto gap-2 fixed bottom-10 left-1/2 -translate-x-1/2 bg-black rounded px-2.5 py-1">
-            <div className="text-white text-sans-body1">{isHidden? "租客已顯示" : "租客已隱藏"}</div>
-            <Toast.Toggle className="bg-transparent ml-0 focus:ring-0 text-white hover:text-Neutral-60 hover:bg-transparent" />
-          </Toast>
-        )
-      }
       <li
         className={`p-3 mb-4 flex gap-4 rounded-xl hover:bg-Landlord-99 ${isOpen && "bg-Landlord-95"}`}
         onClick={handleCardClick}
