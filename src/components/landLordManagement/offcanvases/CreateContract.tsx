@@ -27,11 +27,18 @@ export default function CreateContract({handleCreateContractClose, orderId}: Cre
   const { register, handleSubmit, formState: { errors }, reset } = useForm<FormDataType>();
   const onSubmit = (data: FormDataType) => {
     console.log(data)
-    const getContract = async (form) => {
+    const getContract = async (form: FormDataType) => {
       console.log(form);
       try {
         const response = await apiOrderDownloadCreateContract(form);
         console.log(response);
+        // 建立一個 Blob 來處理 PDF 數據
+        const blob = new Blob([response.data], { type: 'application/pdf' });
+        // 建立一個 URL 將 Blob 對象指向該 URL
+        const url = window.URL.createObjectURL(blob);
+        // 使用 window.open 在新標籤頁中打開該 URL
+        const previewUrl = `/landlord/contract-preview?downloadUrl=${encodeURIComponent(url)}`;
+        window.open(previewUrl, '_blank');
       } catch (error) {
         console.log(error)
       }
@@ -43,7 +50,8 @@ export default function CreateContract({handleCreateContractClose, orderId}: Cre
     const getContractInfo = async (order: number) => {
       try {
         const response = await apiOrderLandlordContractInfo(order);
-        setContractInfo(response.data.data);
+        const data = response.data.data;
+        setContractInfo(data);
       } catch (error) {
         console.log(error)
       }
