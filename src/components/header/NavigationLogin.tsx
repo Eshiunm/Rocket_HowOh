@@ -60,7 +60,10 @@ function NavigationLogin() {
                     </Link>
                   </Dropdown.Item>
                   <Dropdown.Item>
-                    <Link to={"/login"} className="w-full text-sans-b-body1">
+                    <Link
+                      to={"/tenant/feedbackManagement/feedbackPendingList"}
+                      className="w-full text-sans-b-body1"
+                    >
                       評價管理
                     </Link>
                   </Dropdown.Item>

@@ -86,7 +86,7 @@ function HouseViewingList() {
     }
   };
 
-  const handleOffcanvasOpen = (e: any) => {
+  const handleOffCanvasOpen = (e: any) => {
     const houseId = e.currentTarget.dataset.houseid;
     setCurrentCardSelectedId(houseId);
     setIsCardSelected({ ...isCardSelected, [`cardId${houseId}`]: true });
@@ -821,7 +821,11 @@ function HouseViewingList() {
           </Drawer.Items>
         </Drawer>
       </Flowbite>
-      <section className="bg-Neutral-99 pt-8 pb-28 h-screen">
+      <section
+        className={`bg-Neutral-99 pt-8 pb-28 ${
+          isAPIProcessing ? "" : "h-screen"
+        } `}
+      >
         <div className="container layout-grid">
           <div className="col-span-7">
             <div className="p-5 bg-white rounded-xl">
@@ -915,7 +919,7 @@ function HouseViewingList() {
                           ] && "bg-Neutral-95"
                         }`}
                         data-houseid={description.detail[0].houseId}
-                        onClick={handleOffcanvasOpen}
+                        onClick={handleOffCanvasOpen}
                       >
                         <div className="flex justify-between">
                           <div className="flex gap-x-4">
