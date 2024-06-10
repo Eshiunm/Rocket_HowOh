@@ -25,26 +25,25 @@ export default function CreateContract({handleCreateContractClose, orderId}: Cre
   const [contractInfo,setContractInfo] = useState<FormDataType>();
 
   const { register, handleSubmit, formState: { errors }, reset } = useForm<FormDataType>();
-  const onSubmit = (data: FormDataType) => {
-    console.log(data)
-    const getContract = async (form: FormDataType) => {
-      console.log(form);
-      try {
-        const response = await apiOrderDownloadCreateContract(form);
-        console.log(response);
-        // 建立一個 Blob 來處理 PDF 數據
-        const blob = new Blob([response.data], { type: 'application/pdf' });
-        // 建立一個 URL 將 Blob 對象指向該 URL
-        const url = window.URL.createObjectURL(blob);
-        // 使用 window.open 在新標籤頁中打開該 URL
-        const previewUrl = `/landlord/contract-preview?downloadUrl=${encodeURIComponent(url)}`;
-        window.open(previewUrl, '_blank');
-      } catch (error) {
-        console.log(error)
-      }
+  const getContract = async (form: FormDataType) => {
+    try {
+      const response = await apiOrderDownloadCreateContract(form);
+      // 建立一個 Blob 來處理 PDF 數據
+      const blob = new Blob([response.data], { type: 'application/pdf' });
+      // 建立一個 URL 將 Blob 對象指向該 URL
+      const url = window.URL.createObjectURL(blob);
+      // 使用 window.open 在新標籤頁中打開該 URL
+      const previewUrl = `/landlord/contract-preview?downloadUrl=${encodeURIComponent(url)}`;
+      window.open(previewUrl, '_blank');
+    } catch (error) {
+      console.log(error)
     }
+  }
+  const onSubmit = (data: FormDataType) => getContract(data);
+  const handleDownloadWithoutSave = () => {
+    const data = {orderId};
     getContract(data);
-  };
+  }
 
   useEffect(() => {
     const getContractInfo = async (order: number) => {
@@ -257,6 +256,7 @@ export default function CreateContract({handleCreateContractClose, orderId}: Cre
             <button
               type="button"
               className="outline-button-m ml-auto"
+              onClick={handleDownloadWithoutSave}
             >不儲存，直接下載</button>
             <button
               type="submit"
