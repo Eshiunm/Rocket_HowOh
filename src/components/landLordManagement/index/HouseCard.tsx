@@ -19,7 +19,7 @@ export default function HouseCard({data, houseStatus}: {data:any, houseStatus:st
     if (houseStatus === "addingList") { // 新增中
       return "繼續編輯"; 
     } else if (houseStatus === "publishList") { // 刊登中
-      return "立即更改:已承租"; 
+      return "立即更改:已出租"; 
     } else if (houseStatus === "rentedList") { // 已承租
       return "下載合約"; 
     } else if (houseStatus === "finishedList") { // 已完成

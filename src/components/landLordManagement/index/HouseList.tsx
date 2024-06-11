@@ -226,7 +226,7 @@ export default function HouseList() {
                     刊登中
                     <Tooltip
                       className="bg-Landlord-30 text-white text-center whitespace-pre-line"
-                      content={"租客可看到您的房源！\n當租約邀請送出並受指定租客接受，房源狀態即變更為已承租。"}
+                      content={"租客可看到您的房源！\n當租約邀請送出並受指定租客接受，房源狀態即變更為已出租。"}
                     >
                       <img src={tooltipIcon} alt="tooltip" />
                     </Tooltip>
