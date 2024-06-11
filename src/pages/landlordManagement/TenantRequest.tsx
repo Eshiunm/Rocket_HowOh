@@ -6,10 +6,12 @@ import noListImg from "../../assets/imgs/tenantManagement/whenNoItemsShowThisImg
 import RequestList from "../../components/landLordManagement/request/RequestList";
 import Footer from "../../components/footer/Footer";
 import { apiAppointmentCommonTotalNumber } from "../../apis/apis";
+import { Toast } from "flowbite-react";
 
 type contextValueType = {
   reloadRequestList: boolean;
   setReloadRequestList: (value: boolean) => void;
+  setShowToast: (value: boolean) => void;
 }
 
 export const ReloadRequestList = createContext<contextValueType>(
@@ -21,13 +23,15 @@ export default function TenantRequest() {
   const [requestTotalNumber, setRequestTotalNumber] = useState(1);
   const [sortOrder, setSortOrder] = useState('oldFirst'); // 默認排序為舊至新
   const [pageNumberControl, setPageNumberControl] = useState(1);
+  const [showToast, setShowToast] = useState(false);
   const totalPage = Math.ceil(requestTotalNumber / 12)
 
   const handleSortOrderChange = (e: React.MouseEvent<HTMLButtonElement>) => {
     const sortType = e.currentTarget.getAttribute('data-sort');
     if (sortType) {
       setSortOrder(sortType);
-    }
+      }
+    setShowToast(false);
   };
 
   // 當更改租客邀請狀態時，更改 false 為 true
@@ -35,6 +39,7 @@ export default function TenantRequest() {
   const contextValue = {
     reloadRequestList,
     setReloadRequestList,
+    setShowToast,
   };
 
   useEffect(() => {
@@ -77,6 +82,14 @@ export default function TenantRequest() {
 
   return (
     <>
+      {
+        showToast && (
+          <Toast className="z-50 shadow-elevation-1 shadow-Neutral-60 w-auto gap-2 fixed bottom-10 left-1/2 -translate-x-1/2 bg-black rounded px-2.5 py-1">
+            <div className="text-white text-sans-body1">{ sortOrder === "hidden" ? "租客已顯示" : "租客已隱藏"}</div>
+            <Toast.Toggle className="bg-transparent ml-0 focus:ring-0 text-white hover:text-Neutral-60 hover:bg-transparent" />
+          </Toast>
+        )
+      }
       <header className="bg-Landlord-99">
         <div className="container py-6 flex justify-between items-end">
           <h2 className="text-sans-b-h5">租客預約請求</h2>
