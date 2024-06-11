@@ -87,7 +87,7 @@ export const apiOrderViewPublishHouseContract = (houseId: string | undefined) =>
     },
   responseType: 'blob',
 }); // ALO-19
-export const apiOrderDownloadCreateContract = (data: CreateContractDataType ) => orderRequest.post('/landloard/downloadContract', data, {
+export const apiOrderDownloadCreateContract = (data: CreateContractDataType ) => orderRequest.post('/landlord/downloadContract', data, {
   headers: {
     "Content-Type": "application/json",
     "Authorization": `Bearer ${localStorage.getItem("authToken")}`,
