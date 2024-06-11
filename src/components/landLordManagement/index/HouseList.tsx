@@ -248,7 +248,7 @@ export default function HouseList() {
               <div ref={rentedCount}>
                 <AccordionTitle>
                   <div className="flex items-start">
-                    已承租
+                    已出租
                     <Tooltip
                       className="bg-Landlord-30 text-white text-center whitespace-pre-line"
                       content={"您的房源已成功指定租客！\n您可以隨時下載合約，進行線下紙本簽約。"}
