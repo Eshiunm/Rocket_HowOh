@@ -858,7 +858,7 @@ function HouseViewingList() {
                     <p className="mb-6">
                       {houseViewingDetail.info.facility.payment
                         .waterBillPayment === "自訂"
-                        ? `自訂，每人每月${houseViewingDetail.info.facility.payment.waterBillPerMonth}`
+                        ? `每人每月 ${houseViewingDetail.info.facility.payment.waterBillPerMonth} 元`
                         : houseViewingDetail.info.facility.payment
                             .waterBillPayment}
                     </p>
@@ -868,15 +868,15 @@ function HouseViewingList() {
                     </h4>
                     <p className="mb-3">
                       {houseViewingDetail.info.facility.payment
-                        .electricBillPayment === "依台電計價" &&
+                        .eletricPaymentType === "依台電計價" &&
                         houseViewingDetail.info.facility.payment
-                          .electricBillPerMonth}
+                          .eletricPaymentType}
                       {houseViewingDetail.info.facility.payment
-                        .electricBillPayment === "自訂" &&
+                        .eletricPaymentType === "自訂" &&
                         `隨房租繳納，每度 ${houseViewingDetail.info.facility.payment.electricBillPerMonth} 元`}
                     </p>
                     {houseViewingDetail.info.facility.payment
-                      .electricBillPayment === "依台電計價" && (
+                      .eletricPaymentType === "依台電計價" && (
                       <>
                         <span className="inline-block text-sans-b-body1 mb-3">
                           繳納方式
@@ -884,7 +884,7 @@ function HouseViewingList() {
                         <p className="mb-6">
                           {
                             houseViewingDetail.info.facility.payment
-                              .electricBillPerMonth
+                              .electricPaymentMethod
                           }
                         </p>
                       </>
