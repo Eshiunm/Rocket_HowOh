@@ -364,7 +364,7 @@ export default function PublishHouse() {
                     className="outline-button-m"
                     onClick={() => handleRentedCanvas(true)}
                     disabled={!canChangeHouseStatus}
-                  >更改為已承租</button>
+                  >更改為已出租</button>
                 </Tooltip>
                 <Tooltip
                   className={`bg-Landlord-30 text-sans-body2 rounded-lg py-1 px-11 text-white text-center whitespace-pre-line ${
