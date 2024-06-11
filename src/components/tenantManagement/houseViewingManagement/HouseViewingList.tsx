@@ -106,6 +106,7 @@ function HouseViewingList() {
     }
   };
 
+  // 取得預約看房的房源資訊
   const handleOffcanvasOpen = (e: any) => {
     const houseId = e.currentTarget.dataset.houseid;
     const appointmentId = e.currentTarget.dataset.appintmentid;
