@@ -4,6 +4,7 @@ import {
   useLoadScript,
   MarkerF,
   InfoWindowF,
+  Circle,
 } from "@react-google-maps/api";
 import logo from "../assets/imgs/howohLogo_whiteMode.svg";
 import { Link } from "react-router-dom";
@@ -25,10 +26,12 @@ const markers = [
     position: { lat: 22.62856154127709, lng: 120.36481780492072 },
   },
 ];
-
+const radius = 2000; // 1 km
 function MapSearchPage() {
   // 紀錄目前被點擊的 marker 是哪一個
-  const [center, setCenter] = useState({
+  const [center, setCenter] = useState<
+    { lat: number; lng: number } | undefined
+  >({
     lat: 22.63964471528547,
     lng: 120.30283893636098,
   });
@@ -43,41 +46,55 @@ function MapSearchPage() {
       return;
     }
     setActiveMarker(marker);
-    setCenter({
-      lat: 0,
-      lng: 0,
-    });
+    //setCenter(undefined);
   };
 
   return (
     <>
       <div className="container">
-        <h1>google Maps Markers</h1>
+        <h1 className="text-sans-b-display2 py-2">Google Maps Markers</h1>
         <div className="w-full h-[60vh]">
           {isLoaded && (
             <GoogleMap
               center={center}
-              zoom={10}
+              zoom={15}
               onClick={() => setActiveMarker(null)}
               mapContainerStyle={{ width: "100%", height: "100%" }}
             >
-              {markers.map(({ id, name, position }) => (
-                <MarkerF
-                  key={id}
-                  position={position}
-                  onClick={() => handleActiveMarker(id)}
-                  icon={logo}
-                >
-                  {activeMarker === id ? (
-                    <InfoWindowF onCloseClick={() => setActiveMarker(null)}>
-                      <>
-                        <div>{name}</div>
-                        <Link to="/houseList/33">前往房源</Link>
-                      </>
-                    </InfoWindowF>
-                  ) : null}
-                </MarkerF>
-              ))}
+              <>
+                {markers.map(({ id, name, position }) => (
+                  <MarkerF
+                    key={id}
+                    position={position}
+                    onClick={() => handleActiveMarker(id)}
+                    icon={logo}
+                  >
+                    {activeMarker === id ? (
+                      <InfoWindowF onCloseClick={() => setActiveMarker(null)}>
+                        <>
+                          <div>{name}</div>
+                          <Link to="/houseList/33" target="_blank">
+                            前往房源
+                          </Link>
+                        </>
+                      </InfoWindowF>
+                    ) : null}
+                  </MarkerF>
+                ))}
+                {
+                  <Circle
+                    center={center}
+                    radius={radius}
+                    options={{
+                      strokeColor: "red",
+                      strokeOpacity: 0.5,
+                      strokeWeight: 2,
+                      fillColor: "red",
+                      fillOpacity: 0.2,
+                    }}
+                  />
+                }
+              </>
             </GoogleMap>
           )}
         </div>
