@@ -22,7 +22,7 @@ export default function ContractPreview() {
   }, [location]);
 
   return (
-    <main className="bg-[#525659] py-20">
+    <main className="bg-Neutral-30 py-20">
       <section className="container layout-grid">
         <div className="col-span-10 col-start-2">
           {pdfUrl && (
