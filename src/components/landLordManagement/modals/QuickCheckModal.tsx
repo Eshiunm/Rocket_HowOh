@@ -116,7 +116,7 @@ export default function QuickCheckModal(props : QuickCheckModalPropsType) {
         <Modal.Body>
           <div className="flex items-center gap-3 mb-10">
             <h3 className="text-sans-h5">
-              立即更改：已承租
+              立即更改：已出租
             </h3>
             <img
               src={close} alt="close"
@@ -252,7 +252,7 @@ export default function QuickCheckModal(props : QuickCheckModalPropsType) {
               )
             }
             <div className="mb-10 flex gap-2 text-sans-body1">
-              <p>沒有承租資訊嗎？</p>
+              <p>沒有出租資訊嗎？</p>
               <button
                 type="button" 
                 className="underline underline-offset-2"

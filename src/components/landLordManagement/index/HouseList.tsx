@@ -226,7 +226,7 @@ export default function HouseList() {
                     刊登中
                     <Tooltip
                       className="bg-Landlord-30 text-white text-center whitespace-pre-line"
-                      content={"租客可看到您的房源！\n當租約邀請送出並受指定租客接受，房源狀態即變更為已承租。"}
+                      content={"租客可看到您的房源！\n當租約邀請送出並受指定租客接受，房源狀態即變更為已出租。"}
                     >
                       <img src={tooltipIcon} alt="tooltip" />
                     </Tooltip>
@@ -248,7 +248,7 @@ export default function HouseList() {
               <div ref={rentedCount}>
                 <AccordionTitle>
                   <div className="flex items-start">
-                    已承租
+                    已出租
                     <Tooltip
                       className="bg-Landlord-30 text-white text-center whitespace-pre-line"
                       content={"您的房源已成功指定租客！\n您可以隨時下載合約，進行線下紙本簽約。"}

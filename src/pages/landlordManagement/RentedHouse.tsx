@@ -249,7 +249,7 @@ export default function RentedHouse() {
     <>
       <header className="bg-Landlord-99">
         <div className="container py-6">
-          <span className="badge-m  bg-Landlord-90">已承租</span>
+          <span className="badge-m  bg-Landlord-90">已出租</span>
           <h2 className="text-sans-b-h5 mt-3 mb-6">{houseData?.formData.name}</h2>
           <div className="flex gap-6 pt-7">
             <button
@@ -272,7 +272,7 @@ export default function RentedHouse() {
       </header>
       <main className="container layout-grid pt-6 pb-52">
         <section className="col-span-7 rounded-lg bg-Landlord-99 p-5 mb-6">
-          <h3 className="text-sans-h5 mb-6">承租資訊</h3>
+          <h3 className="text-sans-h5 mb-6">出租資訊</h3>
           <h4 className="text-sans-b-h6 mb-6">租約起迄時間</h4>
           <div className="flex gap-6">
             <div className="w-full border-b border-Neutral-70">

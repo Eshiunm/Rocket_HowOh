@@ -71,10 +71,10 @@ export default function Description() {
               rows={8}
               placeholder="房源介紹"
               maxLength={500}
-              className={`w-full p-3 rounded text-sans-body1 placeholder:text-Neutral-50 focus:border-2 focus:border-Brand-30 focus:-m-[1px] focus:ring-0 ${
+              className={`w-full p-3 rounded text-sans-body1 placeholder:text-Neutral-50 border focus:border-2 focus:-m-[1px] focus:ring-0 ${
                 errors.description
-                ? "border-Alert-50 border focus:border-Alert-50"
-                : "border-black border"
+                ? "border-Alert-50 focus:border-Alert-50"
+                : "border-black focus:border-Brand-30"
               }`}
               {...register("description", {
                 required: { value: true, message: "請輸入房源介紹" },
