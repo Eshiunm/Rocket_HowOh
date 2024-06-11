@@ -29,6 +29,7 @@ function App() {
         <Header />
         <Routes>
           <Route index element={<HomePage />}></Route>
+          <Route path="mapSearch" element={<h1>地圖搜尋</h1>}></Route>
           <Route path="houseList">
             <Route index element={<HouseListPage />}></Route>
             <Route path=":houseId" element={<SingleHousePage />}></Route>
