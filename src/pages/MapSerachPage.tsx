@@ -44,15 +44,15 @@ import markerIcon from "../assets/imgs/mapSearch/mapMarker.svg";
 import { RootState } from "../../redux/store";
 
 
-interface District {
+type District = {
   content: string;
   checked: boolean;
 }
-interface HouseType {
+type HouseType = {
   content: string;
   checked: boolean;
 }
-interface RentRange {
+type RentRange = {
   content: string;
   checked: boolean;
 }
