@@ -115,7 +115,7 @@ export const apiAppointmentLandlordRevealTenant = (appointmentId: number) => app
 // 預約-租客相關的 api
 export const apiAppointmentTenantInvitedList = () => appointmentRequest.get('/tenant/list/invited'); // ATA-1
 export const apiAppointmentTenantInvitedHouseDetail = (id: string) => appointmentRequest.get(`/tenant/invited/${id}`); // ATA-2
-export const apiAppointmentTenantHouseDetail = (id: string) => appointmentRequest.get(`/tenant/${id}`); // ATA-3
+export const apiAppointmentTenantHouseDetail = (appointmentId: string) => appointmentRequest.get(`/tenant/${appointmentId}`,getToken()); // ATA-3
 
 // 預約-共用相關的 api
 export const apiAppointmentCommonList = (querystring: string) => appointmentRequest.get(`/common/list?${querystring}`,getToken()); // ACA-1
