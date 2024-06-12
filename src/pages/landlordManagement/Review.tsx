@@ -9,8 +9,9 @@ export default function Review() {
       <main className="container layout-grid mt-6">
         <div className="col-span-7 px-5">
           <nav className="py-3.5 mb-4 border-b border-Neutral-95">
-            <button className="outline-button-s mb-3">
+            <button className="outline-button-s mb-3 flex gap-1 items-center">
               重新整理
+              <span className="material-symbols-outlined text-base leading-4">autorenew</span>
             </button>
           </nav>
           <section>
