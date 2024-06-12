@@ -364,7 +364,7 @@ export default function PublishHouse() {
                     className="outline-button-m"
                     onClick={() => handleRentedCanvas(true)}
                     disabled={!canChangeHouseStatus}
-                  >更改為已承租</button>
+                  >更改為已出租</button>
                 </Tooltip>
                 <Tooltip
                   className={`bg-Landlord-30 text-sans-body2 rounded-lg py-1 px-11 text-white text-center whitespace-pre-line ${
@@ -432,7 +432,7 @@ export default function PublishHouse() {
                   <img src={close} alt="close" />
                 </button>
                 <h3 className="text-sans-h5 mb-4">
-                  更改：已承租
+                  更改：已出租
                 </h3>
                 <p className="mb-8 text-sans-body1">請填入承租資訊及合約起迄時間。</p>
                 <form onSubmit={handleSubmit(onSubmit)}>
@@ -559,7 +559,7 @@ export default function PublishHouse() {
                     )
                   }
                   <div className="mb-10 flex gap-2 text-sans-body1">
-                    <p>沒有承租資訊嗎？</p>
+                    <p>沒有出租資訊嗎？</p>
                     <button
                       type="button" 
                       className="underline underline-offset-2"

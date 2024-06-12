@@ -51,7 +51,7 @@ function LandLordLogin() {
       localStorage.setItem("authToken", token);
       localStorage.setItem("currentIdentity", "landLord");
       localStorage.setItem("userProfile", resopnse.data.data.photo);
-      navigate("/");
+      navigate("/landlord");
     } catch (errors: any) {
       let errorMessage = errors.response.data;
       if (errorMessage === "尚未註冊手機號碼") {

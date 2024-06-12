@@ -19,9 +19,9 @@ export default function HouseCard({data, houseStatus}: {data:any, houseStatus:st
     if (houseStatus === "addingList") { // 新增中
       return "繼續編輯"; 
     } else if (houseStatus === "publishList") { // 刊登中
-      return "立即更改:已承租"; 
+      return "立即更改:已出租"; 
     } else if (houseStatus === "rentedList") { // 已承租
-      return "下載合約"; 
+      return "建立合約"; 
     } else if (houseStatus === "finishedList") { // 已完成
       return "評價";
     }
@@ -72,7 +72,12 @@ export default function HouseCard({data, houseStatus}: {data:any, houseStatus:st
       localStorage.setItem("houseId", houseId);
       setOpenModal(true);
     } else if ( houseStatus === "rentedList" ) {
-      console.log("點擊已承租的房源案件");
+      event.stopPropagation();
+      navigate(`/landlord/rented/${houseId}`,{
+        state: {
+          openOffcanvas: true
+        }
+      });
     } else if ( houseStatus === "finishedList" ) {
       event.stopPropagation();
       navigate("/landlord/review");

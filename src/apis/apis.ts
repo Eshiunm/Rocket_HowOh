@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { FormDataType as CreateContractDataType } from '../components/landLordManagement/offcanvases/CreateContract';
 
 const getToken = () => {
   const token = localStorage.getItem("authToken");
@@ -86,6 +87,13 @@ export const apiOrderViewPublishHouseContract = (houseId: string | undefined) =>
     },
   responseType: 'blob',
 }); // ALO-19
+export const apiOrderDownloadCreateContract = (data: CreateContractDataType ) => orderRequest.post('/landlord/downloadContract', data, {
+  headers: {
+    "Content-Type": "application/json",
+    "Authorization": `Bearer ${localStorage.getItem("authToken")}`,
+    },
+  responseType: 'blob',
+}); // ALO-17
 
 
 // 租賃-房東出租歷史相關的 api
@@ -100,12 +108,14 @@ export const apiOrderTenantListExpired = () => orderRequest.get('/tenant/list/ex
 export const apiOrderTenantListRenting = () => orderRequest.get('/tenant/list/renting'); // ATH-1
 
 // 預約-房東取得租客資訊相關的 api
-export const apiAppointmentLandlordSingleInfo = (appointmentId: number) => appointmentRequest.get(`/landlord/${appointmentId}`,getToken()); // ALA-1
+export const apiAppointmentLandlordSingleInfo = (appointmentId: number) => appointmentRequest.get(`/landlord/${appointmentId}`, getToken()); // ALA-1
+export const apiAppointmentLandlordHiddenTenant = (appointmentId: number) => appointmentRequest.patch(`/landlord/hidden/${appointmentId}`, {}, getToken()); // ALA-2
+export const apiAppointmentLandlordRevealTenant = (appointmentId: number) => appointmentRequest.patch(`/landlord/reveal/${appointmentId}`, {}, getToken()); // ALA-3
 
 // 預約-租客相關的 api
 export const apiAppointmentTenantInvitedList = () => appointmentRequest.get('/tenant/list/invited'); // ATA-1
 export const apiAppointmentTenantInvitedHouseDetail = (id: string) => appointmentRequest.get(`/tenant/invited/${id}`); // ATA-2
-export const apiAppointmentTenantHouseDetail = (id: string) => appointmentRequest.get(`/tenant/${id}`); // ATA-3
+export const apiAppointmentTenantHouseDetail = (appointmentId: string) => appointmentRequest.get(`/tenant/${appointmentId}`,getToken()); // ATA-3
 
 // 預約-共用相關的 api
 export const apiAppointmentCommonList = (querystring: string) => appointmentRequest.get(`/common/list?${querystring}`,getToken()); // ACA-1
