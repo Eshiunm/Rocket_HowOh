@@ -1,5 +1,9 @@
 export default function Review() {
   return (
-    <div>評價管理元件</div>
+    <>
+      <header className="bg-Landlord-99 py-6">
+        <div className="container text-sans-b-h5">評價管理</div>
+      </header>
+    </>
   );
 }
