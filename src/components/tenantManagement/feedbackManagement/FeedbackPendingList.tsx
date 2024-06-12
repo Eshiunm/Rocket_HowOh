@@ -43,7 +43,7 @@ function FeedbackPendingList() {
   const [isAPIProcessing, setIsAPIProcessing] = useState(false);
   const [feedbackList, setFeedbackList] = useState<any>([]);
 
-  const handleOffCanvasOpen = (e: any) => {
+  const handleOffCanvasOpen = () => {
     // const houseId = e.currentTarget.dataset.houseid;
     // setCurrentCardSelectedId(houseId);
     // setIsCardSelected({ ...isCardSelected, [`cardId${houseId}`]: true });
