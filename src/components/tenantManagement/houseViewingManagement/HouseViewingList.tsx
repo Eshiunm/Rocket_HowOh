@@ -64,6 +64,7 @@ function HouseViewingList() {
         const userId = localStorage.getItem("userId");
         const response = await apiAppointmentCommonList(userId as string);
         setRentalList(response.data.result);
+        console.log(response.data.result);
         // 某個卡片被點擊開啟offcanvas後，卡片要有 selected 效果
         const isCardSelected = response.data.result.reduce(
           (acc: any, { description }: any) => {
@@ -109,7 +110,7 @@ function HouseViewingList() {
 
   const handleOffCanvasOpen = (e: any) => {
     const houseId = e.currentTarget.dataset.houseid;
-    const appointmentId = e.currentTarget.dataset.appintmentid;
+    const appointmentId = e.currentTarget.dataset.appointmentid;
     setCurrentCardSelectedId(houseId);
     setIsCardSelected({ ...isCardSelected, [`cardId${houseId}`]: true });
     setIsHouseOffCanvasOpen(true);
@@ -1223,6 +1224,7 @@ function HouseViewingList() {
                           ] && "bg-Neutral-95"
                         }`}
                         data-houseid={description.detail[0].houseId}
+                        data-appointmentid={appointmentId}
                         onClick={handleOffCanvasOpen}
                       >
                         <div className="flex justify-between">
