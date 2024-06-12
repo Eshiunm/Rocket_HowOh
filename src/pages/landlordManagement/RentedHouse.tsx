@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { Drawer, Flowbite, CustomFlowbiteTheme } from "flowbite-react";
 import moment from 'moment-timezone';
 import tenantImg from "../../assets/imgs/signUp/signUp_tenant_bgImg.svg";
@@ -136,6 +136,7 @@ export default function RentedHouse() {
 
   const navigate = useNavigate();
   const { houseId } = useParams();
+  const location =  useLocation();
   const [isHouseDetailOpen, setIsHouseDetailOpen] = useState(false);
   const handleHouseDetailClose = () => setIsHouseDetailOpen(false);
 
@@ -244,6 +245,12 @@ export default function RentedHouse() {
     }
     fetchHouseData();
   },[houseId]);
+
+  useEffect(() => {
+    if(location.state && location.state.openOffcanvas) {
+      setIsCreateContractOpen(true);
+    }
+  },[location])
 
   return (
     <>

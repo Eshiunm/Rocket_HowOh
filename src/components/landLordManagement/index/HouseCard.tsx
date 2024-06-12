@@ -72,7 +72,12 @@ export default function HouseCard({data, houseStatus}: {data:any, houseStatus:st
       localStorage.setItem("houseId", houseId);
       setOpenModal(true);
     } else if ( houseStatus === "rentedList" ) {
-      console.log("點擊已承租的房源案件");
+      event.stopPropagation();
+      navigate(`/landlord/rented/${houseId}`,{
+        state: {
+          openOffcanvas: true
+        }
+      });
     } else if ( houseStatus === "finishedList" ) {
       event.stopPropagation();
       navigate("/landlord/review");
