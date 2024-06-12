@@ -823,7 +823,7 @@ function HouseViewingList() {
       </Flowbite>
       <section
         className={`bg-Neutral-99 pt-8 pb-28 ${
-          isAPIProcessing ? "" : "h-screen"
+          isAPIProcessing ? "" : ""
         } `}
       >
         <div className="container layout-grid">
