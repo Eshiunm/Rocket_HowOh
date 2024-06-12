@@ -225,7 +225,7 @@ export default function FinishHouse() {
                 type="button"
                 className="filled-button-m h-full"
                 onClick={() => navigate("/landlord/history")}
-              >前往承租歷史</button>
+              >前往出租歷史</button>
             </div>
           </div>
         </div>
