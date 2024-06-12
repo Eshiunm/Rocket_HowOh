@@ -21,7 +21,7 @@ function HouseViewingManagementPage() {
       navigate("/tenant/houseViewingManagement/rentalHistoryList");
     } else if (linkId === "feedbackPendingList") {
       setIsLinkActive("feedbackPendingList");
-      navigate("/tenant/houseViewingManagement/feedbackPendingList");
+      navigate("/tenant/feedbackManagement/feedbackPendingList");
     }
   };
 

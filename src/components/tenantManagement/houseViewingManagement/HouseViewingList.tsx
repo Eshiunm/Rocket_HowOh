@@ -106,8 +106,8 @@ function HouseViewingList() {
     }
   };
 
-  // 取得預約看房的房源資訊
-  const handleOffcanvasOpen = (e: any) => {
+
+  const handleOffCanvasOpen = (e: any) => {
     const houseId = e.currentTarget.dataset.houseid;
     const appointmentId = e.currentTarget.dataset.appintmentid;
     setCurrentCardSelectedId(houseId);
@@ -1119,7 +1119,11 @@ function HouseViewingList() {
           </Drawer.Items>
         </Drawer>
       </Flowbite>
-      <section className="bg-Neutral-99 pt-8 pb-28 h-screen">
+      <section
+        className={`bg-Neutral-99 pt-8 pb-28 ${
+          isAPIProcessing ? "" : ""
+        } `}
+      >
         <div className="container layout-grid">
           <div className="col-span-7">
             <div className="p-5 bg-white rounded-xl">
@@ -1219,8 +1223,7 @@ function HouseViewingList() {
                           ] && "bg-Neutral-95"
                         }`}
                         data-houseid={description.detail[0].houseId}
-                        data-appintmentid={appointmentId}
-                        onClick={handleOffcanvasOpen}
+                        onClick={handleOffCanvasOpen}
                       >
                         <div className="flex justify-between">
                           <div className="flex gap-x-4">

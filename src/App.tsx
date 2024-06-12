@@ -12,10 +12,11 @@ import HouseList from "./components/landLordManagement/index/HouseList";
 import PublishHouse from "./pages/landlordManagement/PublishHouse";
 import TenantRequest from "./pages/landlordManagement/TenantRequest";
 import HouseViewingManagementPage from "./pages/tenantManagement/HouseViewingManagementPage";
+import FeedbackManagementPage from "./pages/tenantManagement/FeedbackManagementPage";
 import HouseViewingList from "./components/tenantManagement/houseViewingManagement/HouseViewingList";
 import RentalInviteList from "./components/tenantManagement/houseViewingManagement/RentalInviteList";
 import RentalHistoryList from "./components/tenantManagement/houseViewingManagement/RentalHistoryList";
-import FeedbackPendingList from "./components/tenantManagement/houseViewingManagement/FeedbackPendingList";
+import FeedbackPendingList from "./components/tenantManagement/feedbackManagement/FeedbackPendingList";
 import RentedHouse from "./pages/landlordManagement/RentedHouse";
 import FinishHouse from "./pages/landlordManagement/FinishHouse";
 import RentedHistory from "./pages/landlordManagement/RentedHistory";
@@ -78,6 +79,11 @@ function App() {
                 path="rentalHistoryList"
                 element={<RentalHistoryList />}
               ></Route>
+            </Route>
+            <Route
+              path="feedbackManagement" // 評價管理頁面
+              element={<FeedbackManagementPage />}
+            >
               <Route
                 path="feedbackPendingList"
                 element={<FeedbackPendingList />}
