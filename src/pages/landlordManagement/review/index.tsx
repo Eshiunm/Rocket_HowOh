@@ -10,7 +10,7 @@ export default function Review() {
       <header className="bg-Landlord-99 py-6">
         <h2 className="container text-sans-b-h5">評價管理</h2>
       </header>
-      <main className="container layout-grid mt-6">
+      <main className="container layout-grid mt-6 mb-40">
         <div className="col-span-7 px-5">
           <nav className="py-3.5 border-b border-Neutral-95">
             <RefreshBtn />
