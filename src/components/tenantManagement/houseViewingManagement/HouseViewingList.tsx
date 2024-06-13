@@ -114,7 +114,7 @@ function HouseViewingList() {
     setIsCardSelected({ ...isCardSelected, [`cardId${houseId}`]: true });
     setIsHouseOffCanvasOpen(true);
 
-    const getAppointmentHouseDetail = async (appointmentId: string) => {
+    const getHouseDetailInfo = async (appointmentId: string) => {
       try {
         const response = await apiAppointmentTenantHouseDetail(appointmentId);
         console.log(response.data[0]);
@@ -124,7 +124,7 @@ function HouseViewingList() {
       }
     };
 
-    getAppointmentHouseDetail(appointmentId.toString());
+    getHouseDetailInfo(appointmentId.toString());
   };
 
   const handleOffCanvasClose = () => {
