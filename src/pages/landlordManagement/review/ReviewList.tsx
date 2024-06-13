@@ -1,5 +1,11 @@
+import ReviewCard from "./ReviewCard";
+
 export default function ReviewList () {
   return (
-    <div>評價列表</div>
+    <ul className="flex flex-col gap-4">
+      <ReviewCard />
+      <ReviewCard />
+      <ReviewCard />
+    </ul>
   )
 }
