@@ -90,7 +90,7 @@ export default function ReviewCard () {
                   評價
                 </h3>
                 <p className="text-sans-body2">請避免人身攻擊和謾罵字詞</p>
-                <MyReview />
+                <MyReview role="landlord"/>
               </div>
             </div>
           </Drawer.Items>

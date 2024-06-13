@@ -1,7 +1,7 @@
 import { useForm } from 'react-hook-form';
 import StarRating from "./StarRating";
 
-export default function MyReview () {
+export default function MyReview ({role}: {role: string}) {
   const { register, handleSubmit, formState: { errors } } = useForm();
   const onSubmit = data => console.log(data);
 
@@ -9,7 +9,9 @@ export default function MyReview () {
     console.log('星星數:', rating);
   };
   return (
-    <div className="bg-Landlord-95 p-6 rounded-2xl">
+    <div className={`p-6 rounded-2xl ${
+      role === "tenant" ? "bg-Tenant-99" : "bg-Landlord-95"
+    }`}>
       <h4 className="text-sans-b-h5 mb-6">我要評價</h4>
       <div className="border-b border-Neutral-95">
         <h5 className="text-sans-b-h6">評分</h5>
