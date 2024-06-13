@@ -113,7 +113,7 @@ export const apiAppointmentLandlordHiddenTenant = (appointmentId: number) => app
 export const apiAppointmentLandlordRevealTenant = (appointmentId: number) => appointmentRequest.patch(`/landlord/reveal/${appointmentId}`, {}, getToken()); // ALA-3
 
 // 預約-租客相關的 api
-export const apiAppointmentTenantInvitedList = () => appointmentRequest.get('/tenant/list/invited'); // ATA-1
+export const apiAppointmentTenantInvitedList = (defaultPageNumber:string) => appointmentRequest.get(`/tenant/list/invited?${defaultPageNumber}`,getToken()); // ATA-1
 export const apiAppointmentTenantInvitedHouseDetail = (id: string) => appointmentRequest.get(`/tenant/invited/${id}`); // ATA-2
 export const apiAppointmentTenantHouseDetail = (appointmentId: string) => appointmentRequest.get(`/tenant/${appointmentId}`,getToken()); // ATA-3
 

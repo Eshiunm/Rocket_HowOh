@@ -65,7 +65,7 @@ function HouseViewingList() {
         const response = await apiAppointmentCommonList(userId as string);
         setRentalList(response.data.result);
         console.log(response.data.result);
-        // 某個卡片被點擊開啟offcanvas後，卡片要有 selected 效果
+        // 某個卡片被點擊，開啟offCanvas後，卡片要有 selected 效果
         const isCardSelected = response.data.result.reduce(
           (acc: any, { description }: any) => {
             acc[`cardId${description.detail[0].houseId}`] = false;
@@ -106,7 +106,6 @@ function HouseViewingList() {
       setRentalListTypeState("unrented");
     }
   };
-
 
   const handleOffCanvasOpen = (e: any) => {
     const houseId = e.currentTarget.dataset.houseid;

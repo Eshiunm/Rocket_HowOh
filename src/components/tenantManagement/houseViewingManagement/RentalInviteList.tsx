@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { CustomFlowbiteTheme, Flowbite, Drawer } from "flowbite-react";
-import picture from "../../../assets/imgs/tenantManagement/Rectangle 17.jpg";
+import NoResults from "./NoResults";
+import { apiAppointmentTenantInvitedList } from "../../../apis/apis";
 import landLordProfile from "../../../assets/imgs/SingleHousePage/landLordProfile.jpg";
 import ratingStarIcon from "../../../assets/imgs/SingleHousePage/ratingStarIcon.svg";
 import landLordIcon from "../../../assets/imgs/SingleHousePage/landLordIcon.svg";
-import NoResults from "./NoResults";
 import messageIcon from "../../../assets/imgs/tenantManagement/messageIcon.svg";
 import close from "../../../assets/imgs/icons/close.svg";
 function RentalInviteList() {
@@ -42,10 +42,66 @@ function RentalInviteList() {
     },
   };
   const [isDrawdOpen, setIsDrawdOpen] = useState(false);
-  const [inviteList, setInviteList] = useState(0);
+  const [inviteList, setInviteList] = useState<any>([]);
+  const [currentCardSelectedId, setCurrentCardSelectedId] = useState("");
+  const [isCardSelected, setIsCardSelected] = useState<any>({});
+  const getFormattedDate = (dateString: string) => {
+    const date = new Date(dateString);
+    // 將日期轉換為 "xxxx年xx月xx日" 的格式
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1; // getMonth() 返回的月份是 0-11，所以加 1
+    const day = date.getDate();
+    const formattedDate = `${year}年${month}月${day}日`;
+    return formattedDate;
+  };
+  const getFormattedTime = (timeString: string) => {
+    const time = new Date(timeString);
+    // 將時間轉換為 24 小時制的格式
+    const hours = time.getHours();
+    const minutes = time.getMinutes().toString().padStart(2, "0");
+    const formattedTime = `${hours}:${minutes}`;
+    return formattedTime;
+  };
+
+  const handleDrawerOpen = (e: any) => {
+    const houseId = e.currentTarget.dataset.houseid;
+    //const orderId = e.currentTarget.dataset.orderid;
+    setCurrentCardSelectedId(houseId);
+    setIsCardSelected({ ...isCardSelected, [`cardId${houseId}`]: true });
+    setIsDrawdOpen(true);
+  };
+  const handleDrawerClose = () => {
+    setIsCardSelected({
+      ...isCardSelected,
+      [`cardId${currentCardSelectedId}`]: false,
+    });
+    setIsDrawdOpen(false);
+  };
   // 初始化租屋邀請清單
   useEffect(() => {
-    setInviteList(10);
+    const getInviteList = async () => {
+      try {
+        const defaultPageNumber = "1";
+        const response = await apiAppointmentTenantInvitedList(
+          defaultPageNumber
+        );
+        // 某個卡片被點擊，開啟offCanvas後，卡片要有 selected 效果
+        const isCardSelected = response.data.reduce(
+          (acc: any, { houseId }: any) => {
+            acc[`cardId${houseId}`] = false;
+            return acc;
+          },
+          {}
+        );
+        setIsCardSelected(isCardSelected);
+        setInviteList(response.data);
+        console.log(response.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    getInviteList();
   }, []);
   return (
     <>
@@ -54,7 +110,7 @@ function RentalInviteList() {
         <Drawer
           className="bg-Neutral-99"
           open={isDrawdOpen}
-          onClose={() => setIsDrawdOpen(false)}
+          onClose={handleDrawerClose}
           position="right"
         >
           <Drawer.Items>
@@ -183,7 +239,7 @@ function RentalInviteList() {
           </Drawer.Items>
         </Drawer>
       </Flowbite>
-      <section className="bg-Neutral-99 pt-8 pb-28 h-screen">
+      <section className="bg-Neutral-99 pt-8 pb-28">
         <div className="container layout-grid">
           <div className="col-span-7">
             <div className="p-5 bg-white rounded-xl">
@@ -193,95 +249,136 @@ function RentalInviteList() {
                   當您填寫承租資訊時，您可以在合約結束後與該租客互相評價
                 </p>
               </div>
-              {inviteList === 0 ? (
-                <NoResults />
-              ) : (
+              {inviteList.length > 0 ? (
                 <ul>
-                  <li
-                    className={`p-3 cursor-pointer hover:bg-Neutral-99 rounded-xl ${
-                      isDrawdOpen && "bg-Neutral-95"
-                    }`}
-                    onClick={() => setIsDrawdOpen(true)}
-                  >
-                    <div className="flex justify-between">
-                      <div className="flex gap-x-4">
-                        <img src={picture} alt="picture" />
-                        <div className="flex flex-col justify-between">
-                          <h3 className="text-sans-b-h6">
-                            信義國小套房 捷運3分鐘
-                          </h3>
-                          <p className="flex gap-x-2">
-                            <span className="pr-2 border-r border-Tenant-70">
-                              合約起迄
-                            </span>
-                            <span>2024年4月23日 至 2025年4月22日</span>
-                          </p>
-                          <div className="flex gap-x-6">
-                            <p className="flex gap-x-2">
-                              <span className="pr-2 border-r border-Tenant-70">
-                                房東
-                              </span>
-                              <span>王太太</span>
-                            </p>
-                            <p className="flex gap-x-2">
-                              <span className="pr-2 border-r border-Tenant-70">
-                                租金
-                              </span>
-                              <span>15,000</span>
-                            </p>
-                          </div>
-                          <p className="flex gap-x-2">
-                            <span className="pr-2 border-r border-Tenant-70">
-                              電話
-                            </span>
-                            <span>0936-123-123</span>
-                          </p>
-                        </div>
-                      </div>
-                      <div className="flex flex-col justify-between">
-                        <p
-                          className="flex gap-x-2 cursor-pointer"
-                          data-tooltip-target="tooltip-default"
-                        >
-                          <span className="pr-2 border-r border-Tenant-70">
-                            2024年5月18日
-                          </span>
-                          <span>14:40</span>
-                        </p>
-                        {/* tooltip */}
-                        <div
-                          id="tooltip-default"
-                          role="tooltip"
-                          className="absolute z-10 invisible inline-block  w-[200px] px-3 py-2 text-center text-sans-body2 text-white transition-opacity duration-300 bg-Tenant-30 rounded-lg shadow-sm opacity-0 tooltip"
-                        >
-                          房東發送邀請的時間
-                          <div
-                            className="tooltip-arrow"
-                            data-popper-arrow
-                          ></div>
-                        </div>
-                        {/* 拒絕、接受 */}
+                  {inviteList.map(
+                    ({
+                      houseInfo,
+                      houseId,
+                      orderId,
+                      leaseStartTime,
+                      leaseEndTime,
+                      orderCreateTime,
+                    }: any) => (
+                      <li
+                        key={orderCreateTime}
+                        className={`p-3 cursor-pointer hover:bg-Neutral-99 rounded-xl ${
+                          isCardSelected[`cardId${houseId}`] && "bg-Neutral-95"
+                        }`}
+                        data-houseid={houseId}
+                        data-orderid={orderId}
+                        onClick={handleDrawerOpen}
+                      >
                         <div className="flex justify-between">
-                          <span></span>
                           <div className="flex gap-x-4">
-                            <button className="flex items-center gap-x-2 outline-button-m hover:fill-white">
-                              拒絕
-                              <svg width="16" height="16" viewBox="0 0 16 16">
-                                <path d="M4.64689 4.64592C4.69334 4.59935 4.74851 4.56241 4.80926 4.5372C4.87001 4.512 4.93513 4.49902 5.00089 4.49902C5.06666 4.49902 5.13178 4.512 5.19253 4.5372C5.25327 4.56241 5.30845 4.59935 5.35489 4.64592L8.00089 7.29292L10.6469 4.64592C10.6934 4.59943 10.7486 4.56255 10.8093 4.53739C10.87 4.51223 10.9351 4.49929 11.0009 4.49929C11.0666 4.49929 11.1317 4.51223 11.1925 4.53739C11.2532 4.56255 11.3084 4.59943 11.3549 4.64592C11.4014 4.6924 11.4383 4.74759 11.4634 4.80833C11.4886 4.86907 11.5015 4.93417 11.5015 4.99992C11.5015 5.06566 11.4886 5.13076 11.4634 5.1915C11.4383 5.25224 11.4014 5.30743 11.3549 5.35392L8.70789 7.99992L11.3549 10.6459C11.4014 10.6924 11.4383 10.7476 11.4634 10.8083C11.4886 10.8691 11.5015 10.9342 11.5015 10.9999C11.5015 11.0657 11.4886 11.1308 11.4634 11.1915C11.4383 11.2522 11.4014 11.3074 11.3549 11.3539C11.3084 11.4004 11.2532 11.4373 11.1925 11.4624C11.1317 11.4876 11.0666 11.5005 11.0009 11.5005C10.9351 11.5005 10.87 11.4876 10.8093 11.4624C10.7486 11.4373 10.6934 11.4004 10.6469 11.3539L8.00089 8.70692L5.35489 11.3539C5.30841 11.4004 5.25322 11.4373 5.19248 11.4624C5.13174 11.4876 5.06664 11.5005 5.00089 11.5005C4.93515 11.5005 4.87005 11.4876 4.80931 11.4624C4.74857 11.4373 4.69338 11.4004 4.64689 11.3539C4.60041 11.3074 4.56353 11.2522 4.53837 11.1915C4.51321 11.1308 4.50026 11.0657 4.50026 10.9999C4.50026 10.9342 4.51321 10.8691 4.53837 10.8083C4.56353 10.7476 4.60041 10.6924 4.64689 10.6459L7.29389 7.99992L4.64689 5.35392C4.60033 5.30747 4.56339 5.2523 4.53818 5.19155C4.51297 5.13081 4.5 5.06568 4.5 4.99992C4.5 4.93415 4.51297 4.86903 4.53818 4.80828C4.56339 4.74754 4.60033 4.69236 4.64689 4.64592Z" />
-                              </svg>
-                            </button>
-                            <button className="flex items-center gap-x-2 filled-button-m fill-white">
-                              接受
-                              <svg width="16" height="16" viewBox="0 0 16 16">
-                                <path d="M12.7355 3.96993C12.8037 3.9003 12.8852 3.84498 12.9751 3.80722C13.065 3.76945 13.1615 3.75 13.259 3.75C13.3565 3.75 13.453 3.76945 13.5429 3.80722C13.6328 3.84498 13.7142 3.9003 13.7825 3.96993C14.0685 4.25893 14.0725 4.72593 13.7925 5.01993L7.87949 12.0099C7.81236 12.0837 7.73089 12.1429 7.64007 12.1841C7.54925 12.2252 7.45099 12.2474 7.3513 12.2493C7.25161 12.2511 7.15258 12.2327 7.06028 12.1949C6.96798 12.1572 6.88435 12.1011 6.81449 12.0299L3.21649 8.38393C3.07773 8.24242 3 8.05213 3 7.85393C3 7.65574 3.07773 7.46545 3.21649 7.32393C3.28474 7.2543 3.36619 7.19898 3.45608 7.16122C3.54597 7.12345 3.64249 7.104 3.73999 7.104C3.83749 7.104 3.93401 7.12345 4.0239 7.16122C4.11379 7.19898 4.19525 7.2543 4.26349 7.32393L7.31549 10.4169L12.7155 3.99193C12.7217 3.98421 12.7284 3.97686 12.7355 3.96993Z" />
-                              </svg>
-                            </button>
+                            <div className="w-[136px] h-[124px] rounded-2xl overflow-hidden">
+                              <img
+                                src={
+                                  houseInfo.houseDetail.housePhoto[0].photoPath
+                                }
+                                alt="previewPicture"
+                              />
+                            </div>
+                            <div className="flex flex-col justify-between">
+                              <h3 className="text-sans-b-h6">
+                                {houseInfo.houseDetail.title}
+                              </h3>
+                              <p className="flex gap-x-2">
+                                <span className="pr-2 border-r border-Tenant-70">
+                                  合約起迄
+                                </span>
+                                <span>
+                                  {getFormattedDate(leaseStartTime)} 至{" "}
+                                  {getFormattedDate(leaseEndTime)}
+                                </span>
+                              </p>
+                              <div className="flex gap-x-6">
+                                <p className="flex gap-x-2">
+                                  <span className="pr-2 border-r border-Tenant-70">
+                                    房東
+                                  </span>
+                                  <span>王太太</span>
+                                </p>
+                                <p className="flex gap-x-2">
+                                  <span className="pr-2 border-r border-Tenant-70">
+                                    租金
+                                  </span>
+                                  <span>
+                                    {parseInt(
+                                      houseInfo.houseDetail.rent
+                                    ).toLocaleString()}
+                                  </span>
+                                </p>
+                              </div>
+                              <p className="flex gap-x-2">
+                                <span className="pr-2 border-r border-Tenant-70">
+                                  電話
+                                </span>
+                                <span>
+                                  {
+                                    houseInfo.houseDetail.landlordInfo
+                                      .phoneNumber
+                                  }
+                                </span>
+                              </p>
+                            </div>
+                          </div>
+                          <div className="flex flex-col justify-between">
+                            <p
+                              className="flex gap-x-2 cursor-pointer"
+                              data-tooltip-target="tooltip-default"
+                            >
+                              <span className="pr-2 border-r border-Tenant-70">
+                                {getFormattedDate(orderCreateTime)}
+                              </span>
+                              <span>{getFormattedTime(orderCreateTime)}</span>
+                            </p>
+                            {/* tooltip */}
+                            <div
+                              id="tooltip-default"
+                              role="tooltip"
+                              className="absolute z-10 invisible inline-block  w-[200px] px-3 py-2 text-center text-sans-body2 text-white transition-opacity duration-300 bg-Tenant-30 rounded-lg shadow-sm opacity-0 tooltip"
+                            >
+                              房東發送邀請的時間
+                              <div
+                                className="tooltip-arrow"
+                                data-popper-arrow
+                              ></div>
+                            </div>
+                            {/* 拒絕、接受 */}
+                            <div className="flex justify-between">
+                              <span></span>
+                              <div className="flex gap-x-4">
+                                <button className="flex items-center gap-x-2 outline-button-m hover:fill-white">
+                                  拒絕
+                                  <svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 16 16"
+                                  >
+                                    <path d="M4.64689 4.64592C4.69334 4.59935 4.74851 4.56241 4.80926 4.5372C4.87001 4.512 4.93513 4.49902 5.00089 4.49902C5.06666 4.49902 5.13178 4.512 5.19253 4.5372C5.25327 4.56241 5.30845 4.59935 5.35489 4.64592L8.00089 7.29292L10.6469 4.64592C10.6934 4.59943 10.7486 4.56255 10.8093 4.53739C10.87 4.51223 10.9351 4.49929 11.0009 4.49929C11.0666 4.49929 11.1317 4.51223 11.1925 4.53739C11.2532 4.56255 11.3084 4.59943 11.3549 4.64592C11.4014 4.6924 11.4383 4.74759 11.4634 4.80833C11.4886 4.86907 11.5015 4.93417 11.5015 4.99992C11.5015 5.06566 11.4886 5.13076 11.4634 5.1915C11.4383 5.25224 11.4014 5.30743 11.3549 5.35392L8.70789 7.99992L11.3549 10.6459C11.4014 10.6924 11.4383 10.7476 11.4634 10.8083C11.4886 10.8691 11.5015 10.9342 11.5015 10.9999C11.5015 11.0657 11.4886 11.1308 11.4634 11.1915C11.4383 11.2522 11.4014 11.3074 11.3549 11.3539C11.3084 11.4004 11.2532 11.4373 11.1925 11.4624C11.1317 11.4876 11.0666 11.5005 11.0009 11.5005C10.9351 11.5005 10.87 11.4876 10.8093 11.4624C10.7486 11.4373 10.6934 11.4004 10.6469 11.3539L8.00089 8.70692L5.35489 11.3539C5.30841 11.4004 5.25322 11.4373 5.19248 11.4624C5.13174 11.4876 5.06664 11.5005 5.00089 11.5005C4.93515 11.5005 4.87005 11.4876 4.80931 11.4624C4.74857 11.4373 4.69338 11.4004 4.64689 11.3539C4.60041 11.3074 4.56353 11.2522 4.53837 11.1915C4.51321 11.1308 4.50026 11.0657 4.50026 10.9999C4.50026 10.9342 4.51321 10.8691 4.53837 10.8083C4.56353 10.7476 4.60041 10.6924 4.64689 10.6459L7.29389 7.99992L4.64689 5.35392C4.60033 5.30747 4.56339 5.2523 4.53818 5.19155C4.51297 5.13081 4.5 5.06568 4.5 4.99992C4.5 4.93415 4.51297 4.86903 4.53818 4.80828C4.56339 4.74754 4.60033 4.69236 4.64689 4.64592Z" />
+                                  </svg>
+                                </button>
+                                <button className="flex items-center gap-x-2 filled-button-m fill-white">
+                                  接受
+                                  <svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 16 16"
+                                  >
+                                    <path d="M12.7355 3.96993C12.8037 3.9003 12.8852 3.84498 12.9751 3.80722C13.065 3.76945 13.1615 3.75 13.259 3.75C13.3565 3.75 13.453 3.76945 13.5429 3.80722C13.6328 3.84498 13.7142 3.9003 13.7825 3.96993C14.0685 4.25893 14.0725 4.72593 13.7925 5.01993L7.87949 12.0099C7.81236 12.0837 7.73089 12.1429 7.64007 12.1841C7.54925 12.2252 7.45099 12.2474 7.3513 12.2493C7.25161 12.2511 7.15258 12.2327 7.06028 12.1949C6.96798 12.1572 6.88435 12.1011 6.81449 12.0299L3.21649 8.38393C3.07773 8.24242 3 8.05213 3 7.85393C3 7.65574 3.07773 7.46545 3.21649 7.32393C3.28474 7.2543 3.36619 7.19898 3.45608 7.16122C3.54597 7.12345 3.64249 7.104 3.73999 7.104C3.83749 7.104 3.93401 7.12345 4.0239 7.16122C4.11379 7.19898 4.19525 7.2543 4.26349 7.32393L7.31549 10.4169L12.7155 3.99193C12.7217 3.98421 12.7284 3.97686 12.7355 3.96993Z" />
+                                  </svg>
+                                </button>
+                              </div>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    </div>
-                  </li>
+                      </li>
+                    )
+                  )}
                 </ul>
+              ) : (
+                <NoResults />
               )}
 
               <div className="flex justify-between mt-2 pt-3 border-t border-Neutral-95">
