@@ -2,6 +2,7 @@ import { useState } from "react";
 import { CustomFlowbiteTheme, Drawer, Flowbite } from "flowbite-react";
 import photo from "../../../assets/imgs/homePage/recommendation_picture_1.svg"
 import close from "../../../assets/imgs/icons/close.svg";
+import MyReview from "../../../components/reviews/MyReview";
 
 export default function ReviewCard () {
   const customTheme: CustomFlowbiteTheme = {
@@ -35,14 +36,14 @@ export default function ReviewCard () {
     }
   };
 
-  const [isRentedOpen, setIsRentedOpen] = useState(false);
-  const handleRentedCanvas = (bool: boolean) => setIsRentedOpen(bool);
+  const [isOffcanvasOpen, setIsOffcanvasOpen] = useState(false);
+  const handleOffcanvasCanvas = (bool: boolean) => setIsOffcanvasOpen(bool);
 
   return (
     <>
       <li
         className="p-3 rounded-xl hover:bg-Landlord-99 flex gap-4"
-        onClick={() => handleRentedCanvas(true)}
+        onClick={() => handleOffcanvasCanvas(true)}
       >
         <div className="w-[136px] h-[92px] rounded-2xl overflow-hidden">
           <img src={photo} alt="" className="w-full h-full object-cover" />
@@ -74,14 +75,14 @@ export default function ReviewCard () {
         </div>
       </li>
       <Flowbite theme={{ theme: customTheme }}>
-        <Drawer className="bg-Neutral-99" open={isRentedOpen} onClose={() => handleRentedCanvas(false)} position="right">
+        <Drawer className="bg-white" open={isOffcanvasOpen} onClose={() => handleOffcanvasCanvas(false)} position="right">
           <Drawer.Items>
             <div className="layout-grid mb-32">
               <div className="col-span-10 flex flex-col gap-6">
                 <button
                   type="button"
                   className="self-end"
-                  onClick={() => handleRentedCanvas(false)}
+                  onClick={() => handleOffcanvasCanvas(false)}
                 >
                   <img src={close} alt="close" />
                 </button>
@@ -89,6 +90,7 @@ export default function ReviewCard () {
                   評價
                 </h3>
                 <p className="text-sans-body2">請避免人身攻擊和謾罵字詞</p>
+                <MyReview />
               </div>
             </div>
           </Drawer.Items>
