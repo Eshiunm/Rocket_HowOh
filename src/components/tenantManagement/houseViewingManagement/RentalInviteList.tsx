@@ -65,7 +65,7 @@ function RentalInviteList() {
 
   const handleDrawerOpen = (e: any) => {
     const houseId = e.currentTarget.dataset.houseid;
-    const orderId = e.currentTarget.dataset.orderid;
+    //const orderId = e.currentTarget.dataset.orderid;
     setCurrentCardSelectedId(houseId);
     setIsCardSelected({ ...isCardSelected, [`cardId${houseId}`]: true });
     setIsDrawdOpen(true);
