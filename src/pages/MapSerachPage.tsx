@@ -233,7 +233,7 @@ const PlacesAutocomplete = ({ setSelected }: any) => {
         value={value}
         onChange={e => setValue(e.target.value)}
         disabled={!ready}
-        className="w-full py-2 pl-4 rounded-full focus:outline-none shadow-elevation-3"
+        className="w-full py-2 pl-4 rounded-full focus:outline-none border border-Neutral-80 shadow-elevation-4"
         placeholder="請輸入地點"
       />
       <ComboboxPopover>
