@@ -5,7 +5,6 @@ import {
   apiAppointmentTenantInvitedList,
   apiAppointmentTenantInvitedHouseDetail,
 } from "../../../apis/apis";
-import landLordProfile from "../../../assets/imgs/SingleHousePage/landLordProfile.jpg";
 import ratingStarIcon from "../../../assets/imgs/SingleHousePage/ratingStarIcon.svg";
 import landLordIcon from "../../../assets/imgs/SingleHousePage/landLordIcon.svg";
 import messageIcon from "../../../assets/imgs/tenantManagement/messageIcon.svg";
