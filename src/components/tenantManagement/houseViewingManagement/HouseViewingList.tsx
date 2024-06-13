@@ -74,7 +74,7 @@ function HouseViewingList() {
           {}
         );
         setIsCardSelected(isCardSelected);
-        setIsAPIProcessing(false);
+        //setIsAPIProcessing(false);
       } catch (errors) {
         console.log(errors);
       }
