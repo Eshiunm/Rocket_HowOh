@@ -207,7 +207,7 @@ const markers = [
   },
 ];
 
-const PlacesAutocomplete = ({ setSelected }: any) => {
+const PlacesAutocomplete = ({ setSelectedPlace }: any) => {
   const {
     ready,
     value,
@@ -216,19 +216,17 @@ const PlacesAutocomplete = ({ setSelected }: any) => {
     clearSuggestions,
   } = usePlacesAutocomplete();
 
-  const handleSelect = async (address: any) => {
-    console.log(address);
+  const handleSelectPlace = async (address: any) => {
     setValue(address, false); // "false" means "No need to obtain external data"
-    clearSuggestions(); // 因為已經選定地址，所以不需要提供推薦選項
+    clearSuggestions(); // 因為已經選定地址，所以將推薦選項區塊清除
 
-    const results = await getGeocode({ address });
+    const results = await getGeocode({ address });// 將地址轉成經緯度
     const { lat, lng } = getLatLng(results[0]);
-    setSelected({ lat, lng });
-    console.log({ lat, lng });
+    setSelectedPlace({ lat, lng });
   };
 
   return (
-    <Combobox onSelect={handleSelect}>
+    <Combobox onSelect={handleSelectPlace}>
       <ComboboxInput
         value={value}
         onChange={e => setValue(e.target.value)}
@@ -1382,7 +1380,7 @@ const SearchForm = () => {
 function MapSearchPage() {
   // 記錄目前被點擊的 marker 是哪一個
   const [activeMarker, setActiveMarker] = useState(null);
-  const [selectedPlace, setSelectedPlace] = useState(null);
+  const [selectedPlace, setSelectedPlace] = useState(undefined);
 
   // 判斷是否載入成功
   const { isLoaded } = useLoadScript({
@@ -1406,10 +1404,10 @@ function MapSearchPage() {
           {isLoaded && (
             <div className="relative w-full h-[100vh]">
               <div className="absolute top-3 left-1/4 z-10 w-[300px]">
-                <PlacesAutocomplete setSelected={setSelectedPlace} />
+                <PlacesAutocomplete setSelectedPlace={setSelectedPlace} />
               </div>
               <GoogleMap
-                center={center}
+                center={selectedPlace || center}
                 zoom={15}
                 
                 onClick={() => setActiveMarker(null)}
@@ -1444,7 +1442,7 @@ function MapSearchPage() {
                   ))}
                   {
                     <Circle
-                      center={center}
+                      center={selectedPlace}
                       radius={1000}
                       options={{
                         strokeColor: "red",
