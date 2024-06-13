@@ -6,7 +6,7 @@ type StarRatingType = {
 };
 
 export default function StarRating ({ onRating }: StarRatingType) {
-  const [rating, setRating] = useState(0);
+  const [rating, setRating] = useState(1);
 
   const handleRating = (rate: number) => {
     setRating(rate);
@@ -14,7 +14,7 @@ export default function StarRating ({ onRating }: StarRatingType) {
   };
 
   return (
-    <div className="flex gap-4 items-center">
+    <div className="my-4 flex gap-4 items-center">
       {
         [...Array(5)].map((_, index) => (
           <Star
