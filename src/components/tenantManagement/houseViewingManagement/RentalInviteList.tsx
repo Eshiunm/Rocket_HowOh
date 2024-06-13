@@ -77,7 +77,6 @@ function RentalInviteList() {
         const response = await apiAppointmentTenantInvitedHouseDetail(orderId);
         const houseDetailInfo = response.data[0];
         setDrawerData(houseDetailInfo);
-        console.log(houseDetailInfo);
       } catch (errors) {
         console.log(errors);
       }
