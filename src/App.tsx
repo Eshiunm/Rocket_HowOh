@@ -21,7 +21,7 @@ import FinishHouse from "./pages/landlordManagement/FinishHouse";
 import RentedHistory from "./pages/landlordManagement/RentedHistory";
 import ContractPreview from "./pages/landlordManagement/ContractPreview";
 import Article_1 from "./pages/article/Article_1";
-import Review from "./pages/landlordManagement/Review";
+import Review from "./pages/landlordManagement/review";
 
 function App() {
   return (

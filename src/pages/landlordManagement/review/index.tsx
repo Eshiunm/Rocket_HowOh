@@ -1,5 +1,6 @@
-import RefreshBtn from "../../components/buttons/RefreshBtn";
-import Footer from "../../components/footer/Footer";
+import RefreshBtn from "../../../components/buttons/RefreshBtn";
+import Footer from "../../../components/footer/Footer";
+import ReviewList from "./ReviewList";
 
 export default function Review() {
   return (
@@ -9,11 +10,11 @@ export default function Review() {
       </header>
       <main className="container layout-grid mt-6">
         <div className="col-span-7 px-5">
-          <nav className="py-3.5 mb-4 border-b border-Neutral-95">
+          <nav className="py-3.5 border-b border-Neutral-95">
             <RefreshBtn />
           </nav>
-          <section>
-            評價列表
+          <section className="py-4">
+            <ReviewList />
           </section>
         </div>
       </main>
