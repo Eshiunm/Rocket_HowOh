@@ -64,7 +64,6 @@ function HouseViewingList() {
         const userId = localStorage.getItem("userId");
         const response = await apiAppointmentCommonList(userId as string);
         setRentalList(response.data.result);
-        console.log(response.data.result);
         // 某個卡片被點擊，開啟offCanvas後，卡片要有 selected 效果
         const isCardSelected = response.data.result.reduce(
           (acc: any, { description }: any) => {
