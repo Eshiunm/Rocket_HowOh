@@ -82,6 +82,21 @@ export default function HasReview ({role, reviewRole}: HasReviewType) {
         {
           showReply && <ReplyReview />
         }
+        {
+          role !== reviewRole && (
+          <>
+            <h5 className="text-sans-b-h6 mb-4">您的回覆</h5>
+            <p
+              className="w-full p-3 text-sans-body1 bg-transparent border-b border-black"
+              >
+              回覆評論文字區域
+            </p>
+            <time className="px-3 pt-1 mb-2.5 text-sans-caption text-Neutral-70">
+              2024年5月18日 14:40
+            </time>
+          </>
+          )
+        }
       </div>
     </section>
   )
