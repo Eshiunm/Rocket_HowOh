@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 function HomePage() {
   return (
     <>
-      <section className="search bg-homeSearchImg bg-center bg-cover h-[842px]">
+      <section className="search bg-homeSearchImg bg-center bg-cover h-[842px] ">
         {/* Title */}
         <div className="container pt-20 mb-8 text-center">
           <h2 className="inline-block max-w-full  mx-auto text-center bg-Neutral-10 text-white font-Dela-Gothic-One text-dela-display1 pl-8 rounded-[12px]">
