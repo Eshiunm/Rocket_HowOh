@@ -104,8 +104,9 @@ export const apiOrderLandlordContractInfo = (orderId: number) => orderRequest.ge
 export const apiOrderLandlordAssignTenant = (userInfo: any) => orderRequest.post('/landlord/userInfo', userInfo, getToken()); // ALO-5、ALO-8
 
 // 租賃-租客相關的 api
-export const apiOrderTenantListExpired = () => orderRequest.get('/tenant/list/expired'); // ATH-2
 export const apiOrderTenantListRenting = () => orderRequest.get('/tenant/list/renting'); // ATH-1
+export const apiOrderTenantListExpired = () => orderRequest.get('/tenant/list/expired'); // ATH-2
+export const apiOrderTenantConfirmOrReject = (orderId: string) => orderRequest.patch(`/tenant/${orderId}`, getToken()); // ATH-3
 
 // 預約-房東取得租客資訊相關的 api
 export const apiAppointmentLandlordSingleInfo = (appointmentId: number) => appointmentRequest.get(`/landlord/${appointmentId}`, getToken()); // ALA-1
@@ -116,6 +117,7 @@ export const apiAppointmentLandlordRevealTenant = (appointmentId: number) => app
 export const apiAppointmentTenantInvitedList = (defaultPageNumber:string) => appointmentRequest.get(`/tenant/list/invited?${defaultPageNumber}`,getToken()); // ATA-1
 export const apiAppointmentTenantInvitedHouseDetail = (id: string) => appointmentRequest.get(`/tenant/invited/${id}`,getToken()); // ATA-2
 export const apiAppointmentTenantHouseDetail = (appointmentId: string) => appointmentRequest.get(`/tenant/${appointmentId}`,getToken()); // ATA-3
+export const apiAppointmentTenantInvitedListTotalNumber = () => appointmentRequest.get(`/common/list/invitedTotalNumber`,getToken()); // ATA-4
 
 // 預約-共用相關的 api
 export const apiAppointmentCommonList = (querystring: string) => appointmentRequest.get(`/common/list?${querystring}`,getToken()); // ACA-1
