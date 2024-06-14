@@ -3,7 +3,7 @@ import StarRating from "./StarRating";
 
 export default function MyReview ({role}: {role: string}) {
   const { register, handleSubmit, formState: { errors } } = useForm();
-  const onSubmit = data => { 
+  const onSubmit = (data : any) => { 
     console.log(data)
     console.log(errors)
   };
