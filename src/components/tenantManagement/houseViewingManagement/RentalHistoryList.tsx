@@ -43,14 +43,17 @@ function RentalHistoryList() {
     },
   };
   const [isDrawdOpen, setIsDrawdOpen] = useState(false);
-  const [historyList, setHistoryList] = useState(0);
-  // 初始化租屋邀請清單
+  const [historyList, setHistoryList] = useState<any>([]);
+
+  
   useEffect(() => {
     const getHistoryList = async () => {
       try{
         const defaultPageNumber = 1;
         const response = await apiAppointmentTenantHistoryList(defaultPageNumber);
-        console.log(response);
+        const historyList = response.data.data.orderList;
+        setHistoryList(historyList);
+        console.log(historyList);
       }catch(error){
         console.log(error);
       }
