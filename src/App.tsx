@@ -22,6 +22,7 @@ import FinishHouse from "./pages/landlordManagement/FinishHouse";
 import RentedHistory from "./pages/landlordManagement/RentedHistory";
 import ContractPreview from "./pages/landlordManagement/ContractPreview";
 import Article_1 from "./pages/article/Article_1";
+import Review from "./pages/landlordManagement/review";
 
 function App() {
   return (
@@ -59,7 +60,7 @@ function App() {
             <Route path="finished">
               <Route path=":houseId" element={<FinishHouse />} />
             </Route>
-            <Route path="review" element={<h1>評價管理</h1>} />
+            <Route path="review" element={<Review />} />
           </Route>
           <Route path="tenant">
             <Route
