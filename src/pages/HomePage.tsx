@@ -9,13 +9,12 @@ function HomePage() {
     <>
       <section className="search bg-homeSearchImg bg-center bg-cover h-[842px]">
         {/* Title */}
-        <div className="container pt-20 mb-8">
-          <h2 className="w-[559px] mx-auto text-center bg-Neutral-10 text-white font-Dela-Gothic-One text-dela-display1 pl-8 rounded-[12px]">
-            {/* <span className="text-Brand-90 font-Dela-Gothic-One text-dela-display1">
-              找好房東
-            </span> */}
+        <div className="container pt-20 mb-8 text-center">
+          <h2 className="inline-block max-w-full  mx-auto text-center bg-Neutral-10 text-white font-Dela-Gothic-One text-dela-display1 pl-8 rounded-[12px]">
             <TypeAnimation
               sequence={[
+                "家的100種形狀",
+                1500,
                 // Same substring at the start will only be typed out once, initially
                 "找好房東",
                 1500, // wait 1s before replacing "Mice" with "Hamsters"
@@ -27,6 +26,7 @@ function HomePage() {
                 1500,
                 "租屋補助",
                 1500,
+                
               ]}
               wrapper="span"
               speed={{ type: "keyStrokeDelayInMs", value: 250 }}
