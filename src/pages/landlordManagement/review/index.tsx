@@ -19,6 +19,7 @@ export default function Review() {
     const getReviewList = async (page) => {
       try {
         const response = await apiCommentList(page);
+        setListCount(response.data.data.totalCount);
         console.log(response)
       } catch (error) {
         console.log(error);
@@ -45,14 +46,14 @@ export default function Review() {
             <div className="flex gap-2.5 text-sans-body2">
               <h6>
                 顯示
-                <span className="text-sans-b-body2 px-1"> 0 </span>
+                <span className="text-sans-b-body2 px-1"> {pageNumberControl * 12 - 11} </span>
                 至
-                <span className="text-sans-b-body2 px-1"> 0 </span>
+                <span className="text-sans-b-body2 px-1"> {pageNumberControl === totalPage ? listCount : pageNumberControl * 12} </span>
                 筆
               </h6>
               <h6>
                 共
-                <span className="text-sans-b-body2"> 0 </span>
+                <span className="text-sans-b-body2"> {listCount} </span>
                 筆
               </h6>
             </div>
@@ -60,13 +61,17 @@ export default function Review() {
               <button
                 type="button"
                 className="text-sans-b-body2 filled-button-s rounded-r-none flex items-center gap-1"
-              >
+                disabled={pageNumberControl === 1}
+                onClick={() => setPageNumberControl(prev => prev - 1)}
+                >
                 <img src={leftIcon_white} alt="left-icon" />
                 上一頁
               </button>
               <button
                 type="button"
                 className="text-sans-b-body2 filled-button-s rounded-l-none flex items-center gap-1"
+                disabled={pageNumberControl === totalPage}
+                onClick={() => setPageNumberControl(prev => prev + 1)}
               >
                 下一頁
                 <img src={rightIcon_white} alt="right-icon" />
