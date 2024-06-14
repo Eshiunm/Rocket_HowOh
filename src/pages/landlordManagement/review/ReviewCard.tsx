@@ -3,7 +3,7 @@ import { CustomFlowbiteTheme, Drawer, Flowbite } from "flowbite-react";
 import photo from "../../../assets/imgs/homePage/recommendation_picture_1.svg"
 import close from "../../../assets/imgs/icons/close.svg";
 import MyReview from "../../../components/reviews/MyReview";
-import HasMyReview from "../../../components/reviews/HasMyReview";
+import HasReview from "../../../components/reviews/HasReview";
 
 export default function ReviewCard () {
   const customTheme: CustomFlowbiteTheme = {
@@ -92,8 +92,8 @@ export default function ReviewCard () {
                 </h3>
                 <p className="text-sans-body2">請避免人身攻擊和謾罵字詞</p>
                 <MyReview role="landlord" />
-                <HasMyReview role="landlord" reviewRole="landlord" />
-                <HasMyReview role="landlord" reviewRole="tenant" />
+                <HasReview role="landlord" reviewRole="landlord" />
+                <HasReview role="landlord" reviewRole="tenant" />
                 {/* <HasMyReview role="tenant" reviewRole="tenant" />
                 <HasMyReview role="tenant" reviewRole="landlord" /> */}
               </div>

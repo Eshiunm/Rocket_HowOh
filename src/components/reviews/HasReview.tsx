@@ -6,7 +6,7 @@ type HasReviewType = {
   reviewRole: string;
 }
 
-export default function HasMyReview ({role, reviewRole}: HasReviewType) {
+export default function HasReview ({role, reviewRole}: HasReviewType) {
   const [showRating, setShowRating] = useState(3); 
 
   return (
