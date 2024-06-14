@@ -4,6 +4,7 @@ import { Outlet, useNavigate } from "react-router-dom";
 import {
   apiAppointmentCommonTotalNumber,
   apiAppointmentTenantInvitedListTotalNumber,
+  apiTenantHistoryCountAndCommentCount,
 } from "../../apis/apis";
 import Footer from "../../components/footer/Footer";
 
@@ -13,6 +14,10 @@ function HouseViewingManagementPage() {
   const [houseViewingListTotalNumber, setHouseViewingListTotalNumber] =
     useState<number>(0);
   const [rentalInviteListTotalNumber, setRentalInviteListTotalNumber] =
+    useState<number>(0);
+  const [rentalHistoryListTotalNumber, setRentalHistoryListTotalNumber] =
+    useState<number>(0);
+  const [feedbackPendingListTotalNumber, setFeedbackPendingListTotalNumber] =
     useState<number>(0);
   const handleRouteSetting = (e: any) => {
     const linkId = e.currentTarget.dataset.linkid;
@@ -35,14 +40,19 @@ function HouseViewingManagementPage() {
     const getEveryListTotalNumber = async () => {
       try {
         const userId = localStorage.getItem("userId");
-        const [response, response2] = await axios.all([
+        const [response, response2, response3] = await axios.all([
           apiAppointmentCommonTotalNumber(userId as string),
           apiAppointmentTenantInvitedListTotalNumber(),
+          apiTenantHistoryCountAndCommentCount(),
         ]);
         const houseViewingListTotalNumber = response.data.totalNumber;
         const rentalInviteListTotalNumber = response2.data.totalNumber;
+        const rentalHistoryListTotalNumber = response3.data.data.orderHistoryCount;
+        const feedbackPendingListTotalNumber = response3.data.data.canCommentCount;
         setHouseViewingListTotalNumber(houseViewingListTotalNumber);
         setRentalInviteListTotalNumber(rentalInviteListTotalNumber);
+        setRentalHistoryListTotalNumber(rentalHistoryListTotalNumber);
+        setFeedbackPendingListTotalNumber(feedbackPendingListTotalNumber);
       } catch (error) {
         console.log(error);
       }
@@ -141,7 +151,7 @@ function HouseViewingManagementPage() {
                 />
               </svg>
               <h3 className="opacity-80 text-sans-b-h6 p-[10px]">承租歷史</h3>
-              <h4 className="px-[10px] py-3 text-sans-h2">{0}</h4>
+              <h4 className="px-[10px] py-3 text-sans-h2">{rentalHistoryListTotalNumber}</h4>
               <button className="letter-button-dark absolute z-10 bottom-3 right-3 text-black">
                 <span>查看</span>
                 <span className="material-symbols-outlined">chevron_right</span>
@@ -170,7 +180,7 @@ function HouseViewingManagementPage() {
                 />
               </svg>
               <h3 className="opacity-80 text-sans-b-h6 p-[10px]">待評價</h3>
-              <h4 className="px-[10px] py-3 text-sans-h2">{0}</h4>
+              <h4 className="px-[10px] py-3 text-sans-h2">{feedbackPendingListTotalNumber}</h4>
               <button className="letter-button-dark absolute z-10 bottom-3 right-3 text-black">
                 <span>查看</span>
                 <span className="material-symbols-outlined">chevron_right</span>

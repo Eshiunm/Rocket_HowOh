@@ -109,6 +109,7 @@ export const apiOrderLandlordAssignTenant = (userInfo: any) => orderRequest.post
 // 租賃-租客相關的 api
 export const apiAppointmentTenantHistoryList = (pageNumber:number) => orderListRequest.get(`/tenant/list?page=${pageNumber}`, getToken()); // ATH-1
 export const apiOrderTenantConfirmOrReject = (orderId: string) => orderRequest.patch(`/tenant/${orderId}`, getToken()); // ATH-2
+export const apiTenantHistoryCountAndCommentCount = () => orderRequest.get('/tenant/count', getToken());
 
 // 預約-房東取得租客資訊相關的 api
 export const apiAppointmentLandlordSingleInfo = (appointmentId: number) => appointmentRequest.get(`/landlord/${appointmentId}`, getToken()); // ALA-1
