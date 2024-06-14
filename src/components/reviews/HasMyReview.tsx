@@ -1,13 +1,9 @@
-import { useForm } from 'react-hook-form';
-import StarRating from "./StarRating";
+import { useState } from "react";
+import ShowRatingStar from "./ShowRatingStar";
 
-export default function MyReview ({role}: {role: string}) {
-  const { register, handleSubmit, formState: { errors } } = useForm();
-  const onSubmit = data => console.log(data);
+export default function HasMyReview ({role}:{role: string}) {
+  const [showRating, setShowRating] = useState(3); 
 
-  const handleRating = (rating: number) => {
-    console.log('星星數:', rating);
-  };
   return (
     <section className={`p-6 rounded-2xl ${
       role === "tenant" ? "bg-Tenant-99" : "bg-Landlord-95"
@@ -15,9 +11,9 @@ export default function MyReview ({role}: {role: string}) {
       <h4 className="text-sans-b-h5 mb-6">我要評價</h4>
       <div className="border-b border-Neutral-95">
         <h5 className="text-sans-b-h6">評分</h5>
-        <StarRating onRating={handleRating} />
+        <ShowRatingStar rate={showRating} />
       </div>
-      <form
+      {/* <form
         className="pt-6 flex flex-col"  
         onSubmit={handleSubmit(onSubmit)}
       >
@@ -37,7 +33,7 @@ export default function MyReview ({role}: {role: string}) {
         >
           送出
         </button>
-      </form>
+      </form> */}
     </section>
-  );
+  )
 }

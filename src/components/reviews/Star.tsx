@@ -3,7 +3,7 @@ import starDefault from "../../assets/imgs/icons/star_default.svg";
 
 type StarType = {
   selected: boolean;
-  onClick: () => void;
+  onClick?: () => void;
 };
 
 export default function Star ({ selected, onClick }: StarType) {
@@ -12,7 +12,9 @@ export default function Star ({ selected, onClick }: StarType) {
       src={selected ? starSelect : starDefault}
       alt="star"
       onClick={onClick}
-      className="w-6 h-6 cursor-pointer"
+      className={`w-6 h-6 ${
+        onClick && "cursor-pointer"
+      }`}
     />
   );
 }
