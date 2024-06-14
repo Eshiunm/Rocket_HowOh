@@ -8,7 +8,7 @@ type HasReviewType = {
 }
 
 export default function HasReview ({role, reviewRole}: HasReviewType) {
-  const [showRating, setShowRating] = useState(3); 
+  const [showRating] = useState(3); 
   const [showReply, setShowReply] = useState(false); 
 
   return (
