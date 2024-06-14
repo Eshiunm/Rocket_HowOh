@@ -4,6 +4,7 @@ import photo from "../../../assets/imgs/homePage/recommendation_picture_1.svg"
 import close from "../../../assets/imgs/icons/close.svg";
 import MyReview from "../../../components/reviews/MyReview";
 import HasReview from "../../../components/reviews/HasReview";
+import HiddenReview from "../../../components/reviews/HiddenReview";
 
 export default function ReviewCard () {
   const customTheme: CustomFlowbiteTheme = {
@@ -94,8 +95,11 @@ export default function ReviewCard () {
                 <MyReview role="landlord" />
                 <HasReview role="landlord" reviewRole="landlord" />
                 <HasReview role="landlord" reviewRole="tenant" />
+                <HiddenReview reviewRole="tenant" />
+                {/* <MyReview role="tenant" />
                 <HasReview role="tenant" reviewRole="tenant" />
                 <HasReview role="tenant" reviewRole="landlord" />
+                <HiddenReview reviewRole="landlord" /> */}
               </div>
             </div>
           </Drawer.Items>
