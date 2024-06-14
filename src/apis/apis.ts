@@ -128,8 +128,8 @@ export const apiUserInfoCompare = (houseId: string) => userRequest.get(`/tenant/
 export const apiUserInfoGet = () => userRequest.get('/tenant/info',getToken()); // FTU-1
 
 // 評價-共用相關的 api
+export const apiCommentList = (querystring: string) => commentRequest.get(`/common/list/all?${querystring}`, getToken()); // ACC-1
 export const apiCommentPost = (data: any) => commentRequest.post('/common', data); // ACC-5
-export const apiCommentList = () => commentRequest.get('/common/list/all'); // ACC-1
 export const apiCommentOthersList = () => commentRequest.get('/common/list/others'); // ACC-4
 export const apiCommentMyList = () => commentRequest.get('/common/list/mine'); // ACC-3
 export const apiCommentUnratedList = () => commentRequest.get('/common/list/unrated'); // ACC-2

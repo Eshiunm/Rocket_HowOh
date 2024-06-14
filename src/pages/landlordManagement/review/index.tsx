@@ -1,10 +1,33 @@
+import { useEffect, useState } from "react";
 import RefreshBtn from "../../../components/buttons/RefreshBtn";
 import Footer from "../../../components/footer/Footer";
 import ReviewList from "./ReviewList";
 import leftIcon_white from "../../../assets/imgs/icons/leftIcon_white.svg";
 import rightIcon_white from "../../../assets/imgs/icons/rightIcon_white.svg";
+import { apiCommentList } from "../../../apis/apis";
 
 export default function Review() {
+  const [listCount, setListCount] = useState<number>(0);
+  const [pageNumberControl, setPageNumberControl] = useState<number>(1);
+  const totalPage = Math.ceil(listCount / 12);
+
+  useEffect(() => {
+    const queryString = new URLSearchParams({
+      page: pageNumberControl.toString(),
+    }).toString();
+
+    const getReviewList = async (page) => {
+      try {
+        const response = await apiCommentList(page);
+        console.log(response)
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    getReviewList(queryString);
+  });
+
+
   return (
     <div className="flex flex-col min-h-dvh">
       <header className="bg-Landlord-99 py-6">
