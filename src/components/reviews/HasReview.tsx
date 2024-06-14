@@ -1,5 +1,6 @@
 import { useState } from "react";
 import ShowRatingStar from "./ShowRatingStar";
+import ReplyReview from "./ReplyReview";
 
 type HasReviewType = {
   role: string;
@@ -50,6 +51,24 @@ export default function HasReview ({role, reviewRole}: HasReviewType) {
           )
         }
         {
+          role === reviewRole && (
+          <>
+            <h6 className="text-sans-caption mb-1">
+              { role === "landlord" && "租客回覆" }
+              { role === "tenant" && "房東回覆" }
+            </h6>
+            <p
+              className="w-full p-3 text-sans-body1 bg-transparent border-b border-black"
+              >
+              回覆評論文字區域
+            </p>
+            <time className="px-3 pt-1 mb-2.5 text-sans-caption text-Neutral-70">
+              2024年5月18日 14:40
+            </time>
+          </>
+          )
+        }
+        {
           role !== reviewRole && !showReply && (
             <button
               type="button"
@@ -61,7 +80,7 @@ export default function HasReview ({role, reviewRole}: HasReviewType) {
           )
         }
         {
-          showReply && <p>回覆評價</p>
+          showReply && <ReplyReview />
         }
       </div>
     </section>
