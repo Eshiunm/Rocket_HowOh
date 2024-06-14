@@ -6,7 +6,37 @@ import leftIcon_white from "../../../assets/imgs/icons/leftIcon_white.svg";
 import rightIcon_white from "../../../assets/imgs/icons/rightIcon_white.svg";
 import { apiCommentList } from "../../../apis/apis";
 
+type OrderInfoType = {
+  orderId: number;
+  photo: string;
+  name: string;
+  tenant: string;
+  leaseStartTime: string;
+  leaseEndTime: string;
+}
+
+type CommentType = { // 自己或租客對這筆order的評論
+  commentId: number;
+  rating: number; // 幾顆星
+  comment: string; // 評論內容
+  commentTime: string; // 評論時間
+  reply?: string; // 對方對評論的回覆內容
+  replyTime?: string; // 回覆時間
+}
+
+type CommentInfoType = {
+  canComment: boolean;
+  myComment: CommentType;
+  tenantComment: CommentType;
+}
+
+type ReviewListType = {
+  orderInfo: OrderInfoType;
+  commentInfo: CommentInfoType;
+}
+
 export default function Review() {
+  const [reviewList, setReviewList] = useState<ReviewListType[] | null>(null)
   const [listCount, setListCount] = useState<number>(0);
   const [pageNumberControl, setPageNumberControl] = useState<number>(1);
   const totalPage = Math.ceil(listCount / 12);
@@ -16,17 +46,18 @@ export default function Review() {
       page: pageNumberControl.toString(),
     }).toString();
 
-    const getReviewList = async (page) => {
+    const getReviewList = async (page: string) => {
       try {
         const response = await apiCommentList(page);
         setListCount(response.data.data.totalCount);
+        setReviewList(response.data.data.orderList);
         console.log(response)
       } catch (error) {
         console.log(error);
       }
     }
     getReviewList(queryString);
-  });
+  },[pageNumberControl]);
 
 
   return (
