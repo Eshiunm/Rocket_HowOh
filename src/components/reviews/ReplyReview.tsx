@@ -2,7 +2,10 @@ import { useForm } from 'react-hook-form';
 
 export default function ReplyReview () {
   const { register, handleSubmit, formState: { errors } } = useForm();
-  const onSubmit = data => console.log(data);
+  const onSubmit = (data: any) => {
+    console.log(data)
+    console.log(errors)
+  };
 
   return (
     <form
