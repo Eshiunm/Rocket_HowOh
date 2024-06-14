@@ -94,8 +94,8 @@ export default function ReviewCard () {
                 <MyReview role="landlord" />
                 <HasReview role="landlord" reviewRole="landlord" />
                 <HasReview role="landlord" reviewRole="tenant" />
-                {/* <HasMyReview role="tenant" reviewRole="tenant" />
-                <HasMyReview role="tenant" reviewRole="landlord" /> */}
+                <HasReview role="tenant" reviewRole="tenant" />
+                <HasReview role="tenant" reviewRole="landlord" />
               </div>
             </div>
           </Drawer.Items>

@@ -8,6 +8,7 @@ type HasReviewType = {
 
 export default function HasReview ({role, reviewRole}: HasReviewType) {
   const [showRating, setShowRating] = useState(3); 
+  const [showReply, setShowReply] = useState(false); 
 
   return (
     <section className={`p-6 rounded-2xl 
@@ -29,26 +30,39 @@ export default function HasReview ({role, reviewRole}: HasReviewType) {
         className="pt-6 flex flex-col"
       >
         <h5 className="text-sans-b-h6 mb-4">評論</h5>
-        <h6 className="text-sans-caption mb-1">
-          { role === reviewRole && "您的評價" }
-          { role === "landlord" && reviewRole === "tenant" && "租客評價" }
-          { role === "tenant" && reviewRole === "landlord" && "房東評價" }
-        </h6>
         <p
           className="w-full p-3 text-sans-body1 bg-transparent border-b border-black"
         >
           評論文字區域
         </p>
-        <time className="px-3 pt-1 text-sans-caption text-Neutral-70">
+        <time className="px-3 pt-1 mb-2.5 text-sans-caption text-Neutral-70">
           2024年5月18日 14:40
         </time>
-        <button
-          type="button"
-          className="outline-button-m mt-2.5 self-end"
-          disabled
-        >
-          評價已送出
-        </button>
+        {
+          role === reviewRole && (
+            <button
+              type="button"
+              className="outline-button-m self-end"
+              disabled
+            >
+              評價已送出
+            </button>
+          )
+        }
+        {
+          role !== reviewRole && !showReply && (
+            <button
+              type="button"
+              className="outline-button-m self-end"
+              onClick={() => setShowReply(true)}
+            >
+              回覆
+            </button>
+          )
+        }
+        {
+          showReply && <p>回覆評價</p>
+        }
       </div>
     </section>
   )
