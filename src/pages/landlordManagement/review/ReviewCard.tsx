@@ -92,7 +92,10 @@ export default function ReviewCard () {
                 </h3>
                 <p className="text-sans-body2">請避免人身攻擊和謾罵字詞</p>
                 <MyReview role="landlord" />
-                <HasMyReview role="landlord" />
+                <HasMyReview role="landlord" reviewRole="landlord" />
+                <HasMyReview role="landlord" reviewRole="tenant" />
+                {/* <HasMyReview role="tenant" reviewRole="tenant" />
+                <HasMyReview role="tenant" reviewRole="landlord" /> */}
               </div>
             </div>
           </Drawer.Items>
