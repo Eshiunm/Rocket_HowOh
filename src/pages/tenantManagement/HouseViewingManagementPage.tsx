@@ -1,13 +1,19 @@
+import axios from "axios";
 import { useEffect, useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
-import { apiAppointmentCommonTotalNumber } from "../../apis/apis";
+import {
+  apiAppointmentCommonTotalNumber,
+  apiAppointmentTenantInvitedListTotalNumber,
+} from "../../apis/apis";
 import Footer from "../../components/footer/Footer";
 
 function HouseViewingManagementPage() {
   const navigate = useNavigate();
   const [isLinkActive, setIsLinkActive] = useState("houseViewingList");
   const [houseViewingListTotalNumber, setHouseViewingListTotalNumber] =
-    useState(0);
+    useState<number>(0);
+  const [rentalInviteListTotalNumber, setRentalInviteListTotalNumber] =
+    useState<number>(0);
   const handleRouteSetting = (e: any) => {
     const linkId = e.currentTarget.dataset.linkid;
     if (linkId === "houseViewingList") {
@@ -26,18 +32,22 @@ function HouseViewingManagementPage() {
   };
 
   useEffect(() => {
-    const getHouseViewingList = async () => {
-      const userId = localStorage.getItem("userId");
+    const getEveryListTotalNumber = async () => {
       try {
-        const response = await apiAppointmentCommonTotalNumber(
-          userId as string
-        );
-        setHouseViewingListTotalNumber(response.data.totalNumber);
+        const userId = localStorage.getItem("userId");
+        const [response, response2] = await axios.all([
+          apiAppointmentCommonTotalNumber(userId as string),
+          apiAppointmentTenantInvitedListTotalNumber(),
+        ]);
+        const houseViewingListTotalNumber = response.data.totalNumber;
+        const rentalInviteListTotalNumber = response2.data.totalNumber;
+        setHouseViewingListTotalNumber(houseViewingListTotalNumber);
+        setRentalInviteListTotalNumber(rentalInviteListTotalNumber);
       } catch (error) {
         console.log(error);
       }
     };
-    getHouseViewingList();
+    getEveryListTotalNumber();
   });
   return (
     <>
@@ -100,7 +110,9 @@ function HouseViewingManagementPage() {
                 />
               </svg>
               <h3 className="opacity-80 text-sans-b-h6 p-[10px]">租約邀請</h3>
-              <h4 className="px-[10px] py-3 text-sans-h2">{0}</h4>
+              <h4 className="px-[10px] py-3 text-sans-h2">
+                {rentalInviteListTotalNumber}
+              </h4>
               <button className="letter-button-dark absolute z-10 bottom-3 right-3 text-black">
                 <span>查看</span>
                 <span className="material-symbols-outlined">chevron_right</span>
