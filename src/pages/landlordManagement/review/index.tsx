@@ -30,18 +30,20 @@ type CommentInfoType = {
   tenantComment: CommentType;
 }
 
-type ReviewListType = {
+export type ReviewListType = {
   orderInfo: OrderInfoType;
   commentInfo: CommentInfoType;
 }
 
 export default function Review() {
+  const [isLoading, setIsLoading] = useState(true);
   const [reviewList, setReviewList] = useState<ReviewListType[] | null>(null)
   const [listCount, setListCount] = useState<number>(0);
   const [pageNumberControl, setPageNumberControl] = useState<number>(1);
   const totalPage = Math.ceil(listCount / 12);
 
   useEffect(() => {
+    setIsLoading(true);
     const queryString = new URLSearchParams({
       page: pageNumberControl.toString(),
     }).toString();
@@ -54,6 +56,8 @@ export default function Review() {
         console.log(response)
       } catch (error) {
         console.log(error);
+      } finally {
+        setIsLoading(false);
       }
     }
     getReviewList(queryString);
@@ -71,7 +75,7 @@ export default function Review() {
             <RefreshBtn />
           </nav>
           <section className="py-4 mb-3 border-b border-Neutral-95">
-            <ReviewList />
+            <ReviewList list={reviewList} isLoading={isLoading} />
           </section>
           <div className="flex flex-col items-end gap-2">
             <div className="flex gap-2.5 text-sans-body2">
