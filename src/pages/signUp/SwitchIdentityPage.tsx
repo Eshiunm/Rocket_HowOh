@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import tenant_bgImg from "../../assets/imgs/signUp/signUp_tenant_bgImg.svg";
-import lendLord_bgImg from "../../assets/imgs/signUp/signUp_lendLord_bgImg.svg";
+import tenant_bgImg from "../../assets/imgs/signUp/signUp_tenant_bgImg.png";
+import lendLord_bgImg from "../../assets/imgs/signUp/signUp_lendLord_bgImg.png";
 import { setRegisterIdentityState } from "../../../redux/common/registerIdentitySlice";
 import { setCurrentStepState } from "../../../redux/signUp/stepSlice";
 import { RootState } from "../../../redux/store";
@@ -40,7 +40,7 @@ function SwitchIdentityPage() {
     <div className="wrap h-screen pt-[170px] bg-Neutral-99 ">
       <div className="container layout-grid">
         <div
-          className="col-span-4 col-start-3 p-8 bg-Neutral-95 rounded-2xl hover:bg-black hover:bg-opacity-10 relative cursor-pointer"
+          className="col-span-4 col-start-3 p-8 bg-Neutral-95 rounded-2xl hover:bg-black hover:bg-opacity-10 relative cursor-pointer overflow-hidden"
           onClick={handleTenantSignUp}
         >
           <h2 className="text-sans-b-h5 mb-[168px]">我是租客</h2>
@@ -57,11 +57,11 @@ function SwitchIdentityPage() {
           <img
             src={tenant_bgImg}
             alt="tenant_bgImg"
-            className="absolute right-0 bottom-0"
+            className="absolute right-0 bottom-0 w-[200px]"
           />
         </div>
         <div
-          className="col-span-4 col-start-7 p-8 bg-Neutral-95 rounded-2xl hover:bg-black hover:bg-opacity-10 relative cursor-pointer"
+          className="col-span-4 col-start-7 p-8 bg-Neutral-95 rounded-2xl hover:bg-black hover:bg-opacity-10 relative cursor-pointer overflow-hidden"
           onClick={handleLendLordSignUp}
         >
           <h2 className="text-sans-b-h5 mb-[168px]">我是房東</h2>
@@ -77,8 +77,8 @@ function SwitchIdentityPage() {
           </p>
           <img
             src={lendLord_bgImg}
-            alt="tentant_bgImg"
-            className="absolute right-0 bottom-0"
+            alt="tenant_bgImg"
+            className="absolute right-0 bottom-0 w-[200px]"
           />
         </div>
       </div>
