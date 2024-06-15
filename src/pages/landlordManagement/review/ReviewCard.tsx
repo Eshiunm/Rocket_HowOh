@@ -2,10 +2,8 @@ import { useState } from "react";
 import { CustomFlowbiteTheme, Drawer, Flowbite } from "flowbite-react";
 import moment from 'moment-timezone';
 import close from "../../../assets/imgs/icons/close.svg";
-import MyReview from "../../../components/reviews/MyReview";
-import HasReview from "../../../components/reviews/HasReview";
-import HiddenReview from "../../../components/reviews/HiddenReview";
 import { ReviewListType } from "./index";
+import OffcanvasBlock from "../../../components/reviews/OffcanvasBlock";
 
 export default function ReviewCard ({data}: {data: ReviewListType}) {
   const customTheme: CustomFlowbiteTheme = {
@@ -41,8 +39,6 @@ export default function ReviewCard ({data}: {data: ReviewListType}) {
 
   const {orderInfo, commentInfo} = data;
   const canClick: boolean | null = (commentInfo.canComment || commentInfo.myComment || commentInfo.tenantComment) && true;
-  console.log(orderInfo);
-  console.log(commentInfo);
 
   const [isOffcanvasOpen, setIsOffcanvasOpen] = useState(false);
   const handleOffcanvasCanvas = (bool: boolean) => setIsOffcanvasOpen(bool);
@@ -119,14 +115,7 @@ export default function ReviewCard ({data}: {data: ReviewListType}) {
                   評價
                 </h3>
                 <p className="text-sans-body2">請避免人身攻擊和謾罵字詞</p>
-                <MyReview role="landlord" />
-                <HasReview role="landlord" reviewRole="landlord" />
-                <HasReview role="landlord" reviewRole="tenant" />
-                <HiddenReview reviewRole="tenant" />
-                {/* <MyReview role="tenant" />
-                <HasReview role="tenant" reviewRole="tenant" />
-                <HasReview role="tenant" reviewRole="landlord" />
-                <HiddenReview reviewRole="landlord" /> */}
+                <OffcanvasBlock role="tenant" orderId={orderInfo.orderId} commentInfo={commentInfo} />
               </div>
             </div>
           </Drawer.Items>
