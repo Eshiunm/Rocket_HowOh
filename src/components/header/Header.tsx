@@ -8,9 +8,10 @@ function Header() {
   const location = useLocation();
   const [isLogin, setIsLogin] = useState(false);
   const [currentIdentity, setCurrentIdentity] = useState("");
-  const isSignupPage = location.pathname.includes("/signup");
+  const isSignUpPage = location.pathname.includes("/signup");
   const isLoginPage = location.pathname.includes("/login");
-  const atLandLordPage = location.pathname.includes("/landlord");
+  const isAtLandlordPage = location.pathname.includes("/landlord");
+  const isAtLandlordReviewPage = location.pathname.includes("/landlord/review");
 
   useEffect(() => {
     const authToken = localStorage.getItem("authToken");
@@ -44,16 +45,16 @@ function Header() {
             如果現在註冊頁或是在登入頁，此區塊不顯示，
             如果現在是登入狀態，且身分是房東，则顯示房東好窩、評價管理
         */}
-        {isSignupPage || isLoginPage ? null : isLogin &&
+        {isSignUpPage || isLoginPage ? null : isLogin &&
           currentIdentity !== "tenant" ? (
           <ul className="flex items-center gap-6">
             <li>
-              <Link to="/landlord" className={`text-sans-b-body1 ${atLandLordPage ? "border-b border-black" : ""}`}>
+              <Link to="/landlord" className={`text-sans-b-body1 ${isAtLandlordPage && !isAtLandlordReviewPage ? "border-b border-black" : ""}`}>
                 房東好窩
               </Link>
             </li>
             <li>
-              <Link to="/" className="text-sans-b-body1">
+              <Link to="/landlord/review" className={`text-sans-b-body1 ${isAtLandlordReviewPage ? "border-b border-black" : ""}`}>
                 評價管理
               </Link>
             </li>
@@ -63,7 +64,7 @@ function Header() {
             如果現在註冊頁或是在登入頁，此區塊不顯示，
             如果現在是登入狀態，则顯示登入後的nav
         */}
-        {isSignupPage || isLoginPage ? null : isLogin ? (
+        {isSignUpPage || isLoginPage ? null : isLogin ? (
           <NavigationLogin />
         ) : (
           <NavigationDefault />
