@@ -263,7 +263,7 @@ export default {
       },
       backgroundImage: {
         homeSearchImg:
-          "url('/src/assets/imgs/homePage/home_search_backgroundImg.png')",
+          "url('/src/assets/imgs/homePage/home_search_backgroundImg.jpg')",
         aboutMeImg_1: "url('/src/assets/imgs/homePage/aboutMe_bgImg_1.jpg')",
         aboutMeImg_2: "url('/src/assets/imgs/homePage/aboutMe_bgImg_2.jpg')",
         aboutMeImg_3: "url('/src/assets/imgs/homePage/aboutMe_bgImg_3.jpg')",
