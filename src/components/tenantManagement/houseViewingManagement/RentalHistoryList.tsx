@@ -1,12 +1,13 @@
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { CustomFlowbiteTheme, Flowbite, Drawer } from "flowbite-react";
+import { apiAppointmentTenantHistoryList } from "../../../apis/apis";
 import picture from "../../../assets/imgs/tenantManagement/Rectangle 17.jpg";
 import landLordProfile from "../../../assets/imgs/SingleHousePage/landLordProfile.jpg";
 import ratingStarIcon from "../../../assets/imgs/SingleHousePage/ratingStarIcon.svg";
 import landLordIcon from "../../../assets/imgs/SingleHousePage/landLordIcon.svg";
 import NoResults from "./NoResults";
 import close from "../../../assets/imgs/icons/close.svg";
-import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 function RentalHistoryList() {
   // offCanvas 樣式
   const customTheme: CustomFlowbiteTheme = {
@@ -42,10 +43,22 @@ function RentalHistoryList() {
     },
   };
   const [isDrawdOpen, setIsDrawdOpen] = useState(false);
-  const [inviteList, setInviteList] = useState(0);
-  // 初始化租屋邀請清單
+  const [historyList, setHistoryList] = useState<any>([]);
+
+  
   useEffect(() => {
-    setInviteList(10);
+    const getHistoryList = async () => {
+      try{
+        const defaultPageNumber = 1;
+        const response = await apiAppointmentTenantHistoryList(defaultPageNumber);
+        const historyList = response.data.data.orderList;
+        setHistoryList(historyList);
+        console.log(historyList);
+      }catch(error){
+        console.log(error);
+      }
+    }
+    getHistoryList();
   }, []);
   return (
     <>
@@ -225,7 +238,7 @@ function RentalHistoryList() {
                   </div>
                 </div>
               </div>
-              {inviteList === 0 ? (
+              {historyList === 0 ? (
                 <NoResults />
               ) : (
                 <ul>

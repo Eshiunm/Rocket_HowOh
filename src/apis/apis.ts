@@ -32,6 +32,9 @@ const orderRequest = axios.create({
   // baseURL: 'http://98.70.102.116/api/order'
   baseURL: '/api/order'
 });
+const orderListRequest = axios.create({
+  baseURL: '/api/orderList'
+})
 // 預約相關的 api
 const appointmentRequest = axios.create({
   // baseURL: 'http://98.70.102.116/api/appointment'
@@ -104,9 +107,9 @@ export const apiOrderLandlordContractInfo = (orderId: number) => orderRequest.ge
 export const apiOrderLandlordAssignTenant = (userInfo: any) => orderRequest.post('/landlord/userInfo', userInfo, getToken()); // ALO-5、ALO-8
 
 // 租賃-租客相關的 api
-export const apiOrderTenantListRenting = () => orderRequest.get('/tenant/list/renting'); // ATH-1
-export const apiOrderTenantListExpired = () => orderRequest.get('/tenant/list/expired'); // ATH-2
-export const apiOrderTenantConfirmOrReject = (orderId: string) => orderRequest.patch(`/tenant/${orderId}`, getToken()); // ATH-3
+export const apiAppointmentTenantHistoryList = (pageNumber:number) => orderListRequest.get(`/tenant/list?page=${pageNumber}`, getToken()); // ATH-1
+export const apiOrderTenantConfirmOrReject = (orderId: string) => orderRequest.patch(`/tenant/${orderId}`, getToken()); // ATH-2
+export const apiTenantHistoryCountAndCommentCount = () => orderRequest.get('/tenant/count', getToken());
 
 // 預約-房東取得租客資訊相關的 api
 export const apiAppointmentLandlordSingleInfo = (appointmentId: number) => appointmentRequest.get(`/landlord/${appointmentId}`, getToken()); // ALA-1
@@ -116,12 +119,12 @@ export const apiAppointmentLandlordRevealTenant = (appointmentId: number) => app
 // 預約-租客相關的 api
 export const apiAppointmentTenantInvitedList = (defaultPageNumber:string) => appointmentRequest.get(`/tenant/list/invited?${defaultPageNumber}`,getToken()); // ATA-1
 export const apiAppointmentTenantInvitedHouseDetail = (id: string) => appointmentRequest.get(`/tenant/invited/${id}`,getToken()); // ATA-2
-export const apiAppointmentTenantHouseDetail = (appointmentId: string) => appointmentRequest.get(`/tenant/${appointmentId}`,getToken()); // ATA-3
-export const apiAppointmentTenantInvitedListTotalNumber = () => appointmentRequest.get(`/common/list/invitedTotalNumber`,getToken()); // ATA-4
+export const apiAppointmentTenantInvitedListTotalNumber = () => appointmentRequest.get(`/common/list/invitedTotalNumber`,getToken()); // ATA-3
 
 // 預約-共用相關的 api
 export const apiAppointmentCommonList = (querystring: string) => appointmentRequest.get(`/common/list?${querystring}`,getToken()); // ACA-1
-export const apiAppointmentCommonTotalNumber = (querystring: string) => appointmentRequest.get(`/common/totalNumber?${querystring}`,getToken()); // ACA-2 
+export const apiAppointmentTenantHouseDetail = (appointmentId: string) => appointmentRequest.get(`/tenant/${appointmentId}`,getToken()); // ACA-2
+export const apiAppointmentCommonTotalNumber = (querystring: string) => appointmentRequest.get(`/common/totalNumber?${querystring}`,getToken()); // ACA-3
 
 // 租客身分比對相關的 api
 export const apiUserInfoCompare = (houseId: string) => userRequest.get(`/tenant/info/match/${houseId}`,getToken()); // FTU-2
