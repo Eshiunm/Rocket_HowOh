@@ -33,11 +33,19 @@ export default function ReviewList ({list, isLoading}: ReviewListPropsType) {
       ) : 
       list ? (
         <>
-          <ReviewCard />
-          <ReviewCard />
-          <ReviewCard />
+          {
+            list.map((data, index) => <ReviewCard key={`review-list${index}`} data={data} />)
+          }
         </>
-      ):(
+      )
+      // (
+      //   <>
+      //     <ReviewCard />
+      //     <ReviewCard />
+      //     <ReviewCard />
+      //   </>
+      // )
+      :(
         <li className="my-2 p-5 flex items-center gap-3 bg-Landlord-99 rounded-xl">
           <div className="h-[120px]">
             <img

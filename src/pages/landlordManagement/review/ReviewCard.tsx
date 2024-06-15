@@ -1,12 +1,13 @@
 import { useState } from "react";
 import { CustomFlowbiteTheme, Drawer, Flowbite } from "flowbite-react";
-import photo from "../../../assets/imgs/homePage/recommendation_picture_1.svg"
+import moment from 'moment-timezone';
 import close from "../../../assets/imgs/icons/close.svg";
 import MyReview from "../../../components/reviews/MyReview";
 import HasReview from "../../../components/reviews/HasReview";
 import HiddenReview from "../../../components/reviews/HiddenReview";
+import { ReviewListType } from "./index";
 
-export default function ReviewCard () {
+export default function ReviewCard ({data}: {data: ReviewListType}) {
   const customTheme: CustomFlowbiteTheme = {
     drawer: {
       "root": {
@@ -38,6 +39,10 @@ export default function ReviewCard () {
     }
   };
 
+  const {orderInfo, commentInfo} = data;
+  console.log(orderInfo);
+  console.log(commentInfo);
+
   const [isOffcanvasOpen, setIsOffcanvasOpen] = useState(false);
   const handleOffcanvasCanvas = (bool: boolean) => setIsOffcanvasOpen(bool);
 
@@ -48,20 +53,20 @@ export default function ReviewCard () {
         onClick={() => handleOffcanvasCanvas(true)}
       >
         <div className="w-[136px] h-[92px] rounded-2xl overflow-hidden">
-          <img src={photo} alt="" className="w-full h-full object-cover" />
+          <img src={orderInfo.photo} alt="" className="w-full h-full object-cover" />
         </div>
         <div className="flex flex-col justify-between">
-          <h3 className="text-sans-b-h6">房源名稱</h3>
+          <h3 className="text-sans-b-h6">{orderInfo.name}</h3>
           <div className="flex text-sans-body1">
             <h4 className="pr-2 mr-2 border-r border-Tenant-70">租客</h4>
-            <span>租客姓名</span>
+            <span>{orderInfo.tenant || "非系統用戶"}</span>
           </div>
           <div className="flex text-sans-body1">
             <h4 className="pr-2 mr-2 border-r border-Tenant-70">合約起迄</h4>
             <div className="flex gap-2">
-              <time>2024年4月23日</time>
+              <time>{moment(orderInfo.leaseStartTime).tz('Asia/Taipei').format('YYYY年M月D日')}</time>
               至
-              <time>2024年4月23日</time>
+              <time>{moment(orderInfo.leaseEndTime).tz('Asia/Taipei').format('YYYY年M月D日')}</time>
             </div>
           </div>
         </div>
