@@ -71,7 +71,7 @@ function LandLordLogin() {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="bg-white rounded-2xl p-10"
+      className="bg-white rounded-2xl p-10 shadow-elevation-3"
     >
       <h2 className="text-sans-h5 mb-10">房東登入</h2>
       {/* 帳號 */}
