@@ -60,13 +60,13 @@ function HomePage() {
             <ul className="flex flex-wrap gap-x-6">
               <li className="md:w-[338px] w-full relative">
                 <div className="bg-aboutMeImg_1 bg-cover bg-no-repeat rounded-2xl">
-                  <div className="bg-transparent rounded-2xl hover:bg-black hover:bg-opacity-40 transition delay-150 duration-300 ease-in">
+                  <div className="bg-transparent rounded-2xl">
                     <Link
                       to="/article"
-                      className="inline-block text-white pt-5 px-5 h-[380px] rounded-2xl"
+                      className="inline-block text-black pt-5 px-5 h-[380px] rounded-2xl "
                     >
                       <h5 className="text-sans-body2 mb-3 z-10">評價守則</h5>
-                      <p className="text-sans-b-h5">
+                      <p className="text-sans-b-h5 ">
                         避免謾罵字眼，好的租賃環境需要你我守護
                       </p>
                     </Link>
@@ -93,7 +93,7 @@ function HomePage() {
                   <div className="bg-transparent rounded-2xl  hover:bg-black hover:bg-opacity-40 transition delay-150 duration-300 ease-in">
                     <Link
                       to="/article"
-                      className="inline-block text-black pt-5 px-5 h-[380px] rounded-2xl hover:text-white transition delay-150 duration-300 ease-in"
+                      className="inline-block text-black pt-5 px-5 h-[380px] rounded-2xl hover:text-white transition delay-150 duration-100 ease-in"
                     >
                       <h5 className="text-sans-body2 mb-3 z-10">透明</h5>
                       <p className="text-sans-b-h5 ">
