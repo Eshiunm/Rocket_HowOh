@@ -40,7 +40,7 @@ export default function Review() {
   const [reviewList, setReviewList] = useState<ReviewListType[] | null>(null)
   const [listCount, setListCount] = useState<number>(0);
   const [pageNumberControl, setPageNumberControl] = useState<number>(1);
-  const totalPage = Math.ceil(listCount / 12);
+  const totalPage = listCount ? Math.ceil(listCount / 12) : 1;
 
   useEffect(() => {
     setIsLoading(true);
@@ -81,7 +81,7 @@ export default function Review() {
             <div className="flex gap-2.5 text-sans-body2">
               <h6>
                 顯示
-                <span className="text-sans-b-body2 px-1"> {pageNumberControl * 12 - 11} </span>
+                <span className="text-sans-b-body2 px-1"> {reviewList && reviewList?.length > 0 ? pageNumberControl * 12 - 11 : 0} </span>
                 至
                 <span className="text-sans-b-body2 px-1"> {pageNumberControl === totalPage ? listCount : pageNumberControl * 12} </span>
                 筆
