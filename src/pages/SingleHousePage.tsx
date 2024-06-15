@@ -1347,7 +1347,10 @@ function SingleHousePage() {
                         <button
                           className={`w-full text-sans-b-body1 text-center border-Neutral-90 bg-Brand-90 py-2 rounded-lg shadow-elevation-2 hover:bg-Brand-95 ${
                             singleHouseData.appointmentAvailable === false
-                              ? "cursor-not-allowed"
+                              ? localStorage.getItem("currentIdentity") ===
+                                "landLord"
+                                ? "hidden"
+                                : "cursor-not-allowed"
                               : ""
                           }`}
                           onClick={showTenantInfo}
