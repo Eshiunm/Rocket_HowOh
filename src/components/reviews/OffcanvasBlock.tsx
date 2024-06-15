@@ -20,6 +20,7 @@ export default function OffcanvasBlock ({role = "tenant", orderId, commentInfo}:
   const otherRole = role === "tenant" ? "landlord" : "tenant";
   // console.log(orderId);
   // console.log(commentInfo);
+  const { canComment } = commentInfo;
 
   const reviewContextValue = {
     role,
@@ -30,10 +31,13 @@ export default function OffcanvasBlock ({role = "tenant", orderId, commentInfo}:
   
   return (
     <ReviewContext.Provider value={reviewContextValue}>
-      <MyReview role={role} />
+      {
+        canComment && <MyReview />
+      }
+      {/* <MyReview role={role} />
       <HasReview role={role} reviewRole={role} />
       <HasReview role={role} reviewRole={otherRole} />
-      <HiddenReview reviewRole={otherRole} />
+      <HiddenReview reviewRole={otherRole} /> */}
     </ReviewContext.Provider>
   )
 }
