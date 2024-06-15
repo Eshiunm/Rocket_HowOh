@@ -1,7 +1,12 @@
 import { useForm } from 'react-hook-form';
 import StarRating from "./StarRating";
+import { useContext } from 'react';
+import { ReviewContext } from "./OffcanvasBlock";
 
 export default function MyReview ({role}: {role: string}) {
+  const {orderId} = useContext(ReviewContext);
+  console.log(orderId);
+
   const { register, handleSubmit, formState: { errors } } = useForm();
   const onSubmit = (data : any) => { 
     console.log(data)

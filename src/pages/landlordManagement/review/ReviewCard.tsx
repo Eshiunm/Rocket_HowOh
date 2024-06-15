@@ -115,7 +115,7 @@ export default function ReviewCard ({data}: {data: ReviewListType}) {
                   評價
                 </h3>
                 <p className="text-sans-body2">請避免人身攻擊和謾罵字詞</p>
-                <OffcanvasBlock role="tenant" orderId={orderInfo.orderId} commentInfo={commentInfo} />
+                <OffcanvasBlock role="landlord" orderId={orderInfo.orderId} commentInfo={commentInfo} />
               </div>
             </div>
           </Drawer.Items>
