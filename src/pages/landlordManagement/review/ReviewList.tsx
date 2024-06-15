@@ -1,6 +1,6 @@
 import ReviewCard from "./ReviewCard";
 import { ReviewListType } from "./index";
-import noListImg from "../../../assets/imgs/landlord-management/noListImg.svg"
+import reviewNoList from "../../../assets/imgs/landlord-management/Young man working on a laptop.svg"
 
 type ReviewListPropsType = {
   list: ReviewListType[] | null;
@@ -41,7 +41,7 @@ export default function ReviewList ({list, isLoading}: ReviewListPropsType) {
         <li className="my-2 p-5 flex items-center gap-3 bg-Landlord-99 rounded-xl">
           <div className="h-[120px]">
             <img
-              src={noListImg}
+              src={reviewNoList}
               alt="howoh_no_list_img"
               className="w-full h-full object-cover"
             />
