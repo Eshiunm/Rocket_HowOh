@@ -12,7 +12,7 @@ function LoginPage() {
       className={
         registerIdentityState === "landLord"
           ? "wrap h-screen bg-Neutral-99 bg-tenantLoginImg bg-contain bg-no-repeat"
-          : "wrap h-screen bg-Neutral-99 bg-landLordLoginImg bg-contain bg-no-repeat"
+          : "wrap flex-grow bg-Neutral-99 bg-landLordLoginImg bg-contain bg-no-repeat"
       }
     >
       <div className="container layout-grid pt-[170px]">
