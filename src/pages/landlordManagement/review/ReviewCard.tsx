@@ -40,6 +40,7 @@ export default function ReviewCard ({data}: {data: ReviewListType}) {
   };
 
   const {orderInfo, commentInfo} = data;
+  const canClick: boolean | null = (commentInfo.canComment || commentInfo.myComment || commentInfo.tenantComment) && true;
   console.log(orderInfo);
   console.log(commentInfo);
 
@@ -49,8 +50,10 @@ export default function ReviewCard ({data}: {data: ReviewListType}) {
   return (
     <>
       <li
-        className="p-3 rounded-xl hover:bg-Landlord-99 flex gap-4"
-        onClick={() => handleOffcanvasCanvas(true)}
+        className={`p-3 rounded-xl flex gap-4 ${
+          canClick && "cursor-pointer hover:bg-Landlord-99"
+        }`}
+        onClick={() => canClick && handleOffcanvasCanvas(true)}
       >
         <div className="w-[136px] h-[92px] rounded-2xl overflow-hidden">
           <img src={orderInfo.photo} alt="" className="w-full h-full object-cover" />
@@ -72,12 +75,31 @@ export default function ReviewCard ({data}: {data: ReviewListType}) {
         </div>
         <div className="ml-auto flex flex-col justify-between items-end">
           <div className="flex gap-2">
-            <span className="px-1 py-0.5 rounded text-sans-caption text-white bg-Neutral-60">未評價</span>
-            <span className="px-1 py-0.5 rounded text-sans-caption text-white bg-Landlord-60">您已評價</span>
-            <span className="px-1 py-0.5 rounded text-sans-caption text-white bg-Brand-60">租客已評價</span>
+            {commentInfo.canComment && (
+              <span className="px-1 py-0.5 rounded text-sans-caption text-white bg-Neutral-60">未評價</span>
+            )}
+            {!commentInfo.canComment && commentInfo.myComment && (
+              <span className="px-1 py-0.5 rounded text-sans-caption text-white bg-Landlord-60">您已評價</span>
+            )}
+            {commentInfo.tenantComment && (
+              <span className="px-1 py-0.5 rounded text-sans-caption text-white bg-Brand-60">租客已評價</span>
+            )}
           </div>
-          <button type="button" className="filled-button-m flex gap-2 items-center">
-            我要評價<span className="material-symbols-outlined text-base">arrow_forward_ios</span>
+          <button
+            type="button"
+            className={`flex gap-2 items-center ${
+              canClick && !commentInfo.canComment ? "outline-button-m" : "filled-button-m"
+            }`}
+            disabled={!canClick}  
+          >
+            {
+              commentInfo.canComment ? "我要評價"
+              : !canClick ? "無評價"
+              : "查看評價"
+            }
+            {
+              canClick && <span className="material-symbols-outlined text-base">arrow_forward_ios</span>
+            }
           </button>
         </div>
       </li>
