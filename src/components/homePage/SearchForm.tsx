@@ -380,7 +380,7 @@ function SearchForm() {
     <>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="bg-white rounded-[20px] p-8"
+        className="bg-white shadow-elevation-3 rounded-[20px] p-8"
       >
         {/* dropdown & search */}
         <div className="flex gap-x-6 mb-6 ">
