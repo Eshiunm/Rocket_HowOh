@@ -17,8 +17,6 @@ export const ReviewContext = createContext<ReviewContextType>({} as ReviewContex
 
 export default function OffcanvasBlock ({role = "tenant", orderId, commentInfo}: OffcanvasBlockPropsType) {
   const otherRole = role === "tenant" ? "landlord" : "tenant";
-  // console.log(orderId);
-  // console.log(commentInfo);
   const { canComment, myComment, tenantComment, landlordComment } = commentInfo;
 
   const reviewContextValue = {

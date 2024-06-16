@@ -5,12 +5,11 @@ import { ReviewContext } from "./OffcanvasBlock";
 import moment from "moment-timezone";
 
 type HasReviewType = {
-  // role: string;
   reviewRole: string;
 }
 
 export default function HasReview ({reviewRole}: HasReviewType) {
-  const { role, orderId, otherRole, commentInfo: { myComment, tenantComment, landlordComment } } = useContext(ReviewContext);
+  const { role, commentInfo: { myComment, tenantComment, landlordComment } } = useContext(ReviewContext);
   const [showRating, setShowRating] = useState(1); 
   const [showReply, setShowReply] = useState(false); 
 

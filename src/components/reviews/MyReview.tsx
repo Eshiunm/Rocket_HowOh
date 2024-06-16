@@ -5,8 +5,7 @@ import { ReviewContext } from "./OffcanvasBlock";
 import HiddenReview from './HiddenReview';
 
 export default function MyReview () {
-  const { role, orderId, otherRole, commentInfo: { tenantComment, landlordComment } } = useContext(ReviewContext);
-  console.log(orderId);
+  const { role, otherRole, commentInfo: { tenantComment, landlordComment } } = useContext(ReviewContext);
 
   const { register, handleSubmit, formState: { errors } } = useForm();
   const onSubmit = (data : any) => { 
