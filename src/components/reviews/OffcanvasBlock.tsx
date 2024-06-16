@@ -1,5 +1,4 @@
 import HasReview from "./HasReview";
-import HiddenReview from "./HiddenReview";
 import MyReview from "./MyReview";
 import { CommentInfoType } from "../../pages/landlordManagement/review";
 import { createContext } from "react";
@@ -20,7 +19,7 @@ export default function OffcanvasBlock ({role = "tenant", orderId, commentInfo}:
   const otherRole = role === "tenant" ? "landlord" : "tenant";
   // console.log(orderId);
   // console.log(commentInfo);
-  const { canComment } = commentInfo;
+  const { canComment, myComment, tenantComment, landlordComment } = commentInfo;
 
   const reviewContextValue = {
     role,
@@ -34,10 +33,12 @@ export default function OffcanvasBlock ({role = "tenant", orderId, commentInfo}:
       {
         canComment && <MyReview />
       }
-      {/* <MyReview role={role} />
-      <HasReview role={role} reviewRole={role} />
-      <HasReview role={role} reviewRole={otherRole} />
-      <HiddenReview reviewRole={otherRole} /> */}
+      {
+        !canComment && myComment && <HasReview reviewRole={role} />
+      }
+      {
+        !canComment && (tenantComment || landlordComment) && <HasReview reviewRole={otherRole} />
+      }
     </ReviewContext.Provider>
   )
 }
