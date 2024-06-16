@@ -134,7 +134,4 @@ export const apiUserInfoGet = () => userRequest.get('/tenant/info',getToken()); 
 // 評價-共用相關的 api
 export const apiCommentList = (querystring: string) => commentRequest.get(`/common/list/all?${querystring}`, getToken()); // ACC-1
 export const apiCommentPost = (data: ReviewPostDataType, orderId: number) => commentRequest.post(`/common/${orderId}`, data, getToken()); // ACC-5
-export const apiCommentOthersList = () => commentRequest.get('/common/list/others'); // ACC-4
-export const apiCommentMyList = () => commentRequest.get('/common/list/mine'); // ACC-3
-export const apiCommentUnratedList = () => commentRequest.get('/common/list/unrated'); // ACC-2
-export const apiCommentReply = (data: any) => commentRequest.post('/common/reply', data); // ACC-6
+export const apiCommentReply = (data: any, commentId: number) => commentRequest.post(`/common/reply/${commentId}`, data, getToken()); // ACC-6
