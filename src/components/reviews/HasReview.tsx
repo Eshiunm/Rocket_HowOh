@@ -66,7 +66,7 @@ export default function HasReview ({reviewRole}: HasReviewType) {
           )
         }
         {
-          role === reviewRole && (
+          role === reviewRole && myComment.reply && (
           <>
             <h6 className="text-sans-caption mb-1">
               { role === "landlord" && "租客回覆" }
@@ -75,41 +75,43 @@ export default function HasReview ({reviewRole}: HasReviewType) {
             <p
               className="w-full p-3 text-sans-body1 bg-transparent border-b border-black"
               >
-              回覆評論文字區域
+              {myComment.reply}
             </p>
             <time className="px-3 pt-1 mb-2.5 text-sans-caption text-Neutral-70">
-              2024年5月18日 14:40
+            {
+              moment(myComment.replyTime)
+              .tz('Asia/Taipei').format('YYYY年MM月DD日 HH:mm')
+            }
             </time>
           </>
           )
-        }
-        {
-          role !== reviewRole && !showReply && (
-            <button
-              type="button"
-              className="outline-button-m self-end"
-              onClick={() => setShowReply(true)}
-            >
-              回覆
-            </button>
-          )
-        }
-        {
-          showReply && <ReplyReview />
         }
         {
           role !== reviewRole && (
-          <>
-            <h5 className="text-sans-b-h6 mb-4">您的回覆</h5>
-            <p
-              className="w-full p-3 text-sans-body1 bg-transparent border-b border-black"
-              >
-              回覆評論文字區域
-            </p>
-            <time className="px-3 pt-1 mb-2.5 text-sans-caption text-Neutral-70">
-              2024年5月18日 14:40
-            </time>
-          </>
+            tenantComment?.reply || landlordComment?.reply ? (
+              <>
+                <h5 className="text-sans-b-h6 mb-4">您的回覆</h5>
+                <p className="w-full p-3 text-sans-body1 bg-transparent border-b border-black">
+                  {choosePresent(undefined, tenantComment?.reply, undefined, landlordComment?.reply)}
+                </p>
+                <time className="px-3 pt-1 mb-2.5 text-sans-caption text-Neutral-70">
+                  {
+                    moment(choosePresent(undefined, tenantComment?.replyTime, undefined, landlordComment?.replyTime))
+                    .tz('Asia/Taipei').format('YYYY年MM月DD日 HH:mm')
+                  }
+                </time>
+              </>
+            ):(
+              showReply ? <ReplyReview /> : (
+                <button
+                  type="button"
+                  className="outline-button-m self-end"
+                  onClick={() => setShowReply(true)}
+                >
+                  回覆
+                </button>
+              )
+            )
           )
         }
       </div>
