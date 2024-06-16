@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import ShowRatingStar from "./ShowRatingStar";
 import ReplyReview from "./ReplyReview";
 import { ReviewContext } from "./OffcanvasBlock";
@@ -20,6 +20,13 @@ export default function HasReview ({reviewRole}: HasReviewType) {
     if (role === "tenant" && reviewRole === "tenant") return tenantTenant;
     if (role === "tenant" && reviewRole === "landlord") return tenantLandlord;
   }
+
+  useEffect(() => {
+    role === reviewRole && setShowRating(myComment?.rating ?? 1);
+    role === "landlord" && reviewRole === "tenant" && setShowRating(tenantComment?.rating ?? 1);
+    role === "tenant" && reviewRole === "landlord" && setShowRating(landlordComment?.rating ?? 1);
+
+  }, [role, reviewRole, myComment, tenantComment, landlordComment]);
 
   return (
     <section className={`p-6 rounded-2xl ${
