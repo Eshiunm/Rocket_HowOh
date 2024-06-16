@@ -1,21 +1,29 @@
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import StarRating from "./StarRating";
 import { ReviewContext } from "./OffcanvasBlock";
 import HiddenReview from './HiddenReview';
 
-export default function MyReview () {
-  const { role, otherRole, commentInfo: { tenantComment, landlordComment } } = useContext(ReviewContext);
+type ReviewPostDataType = {
+  comment: string;
+	rating?: number;
+}
 
-  const { register, handleSubmit, formState: { errors } } = useForm();
-  const onSubmit = (data : any) => { 
-    console.log(data)
+export default function MyReview () {
+  const { role, orderId, otherRole, commentInfo: { tenantComment, landlordComment } } = useContext(ReviewContext);
+  
+  const { register, handleSubmit, formState: { errors } } = useForm<ReviewPostDataType>();
+  const [saveRating, setSaveRating] = useState(1);
+  const handleRating = (rating: number) => setSaveRating(rating);
+  console.log(`${orderId}:${saveRating}`);
+
+  const onSubmit = (data : ReviewPostDataType) => { 
+    console.log(data);
+    data.rating = saveRating;
+    console.log(data);
     console.log(errors)
   };
 
-  const handleRating = (rating: number) => {
-    console.log('星星數:', rating);
-  };
   return (
     <>
       <section className={`p-6 rounded-2xl ${
