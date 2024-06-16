@@ -269,7 +269,7 @@ function RentalInviteList() {
           </Drawer.Items>
         </Drawer>
       </Flowbite>
-      <section className="bg-Neutral-99 pt-8 pb-28">
+      <section className="flex-grow bg-Neutral-99 pt-8 pb-28">
         <div className="container layout-grid">
           <div className="col-span-7">
             <div className="p-5 bg-white rounded-xl">
