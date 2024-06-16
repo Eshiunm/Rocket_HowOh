@@ -24,10 +24,11 @@ type CommentType = { // 自己或租客對這筆order的評論
   replyTime?: string; // 回覆時間
 }
 
-type CommentInfoType = {
+export type CommentInfoType = {
   canComment: boolean;
   myComment: CommentType;
-  tenantComment: CommentType;
+  tenantComment?: CommentType;
+  landlordComment?: CommentType;
 }
 
 export type ReviewListType = {
@@ -53,7 +54,6 @@ export default function Review() {
         const response = await apiCommentList(page);
         setListCount(response.data.data.totalCount);
         setReviewList(response.data.data.orderList);
-        console.log(response)
       } catch (error) {
         console.log(error);
       } finally {

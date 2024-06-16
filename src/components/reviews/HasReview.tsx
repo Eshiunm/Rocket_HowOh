@@ -1,27 +1,38 @@
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import ShowRatingStar from "./ShowRatingStar";
 import ReplyReview from "./ReplyReview";
+import { ReviewContext } from "./OffcanvasBlock";
+import moment from "moment-timezone";
 
 type HasReviewType = {
-  role: string;
   reviewRole: string;
 }
 
-export default function HasReview ({role, reviewRole}: HasReviewType) {
-  const [showRating] = useState(3); 
+export default function HasReview ({reviewRole}: HasReviewType) {
+  const { role, commentInfo: { myComment, tenantComment, landlordComment } } = useContext(ReviewContext);
+  const [showRating, setShowRating] = useState(1); 
   const [showReply, setShowReply] = useState(false); 
 
+  const choosePresent = (landlordLandlord: string | undefined, landlordTenant: string | undefined, tenantTenant: string | undefined, tenantLandlord: string | undefined) => {
+    if (role === "landlord" && reviewRole === "landlord") return landlordLandlord;
+    if (role === "landlord" && reviewRole === "tenant") return landlordTenant;
+    if (role === "tenant" && reviewRole === "tenant") return tenantTenant;
+    if (role === "tenant" && reviewRole === "landlord") return tenantLandlord;
+  }
+
+  useEffect(() => {
+    role === reviewRole && setShowRating(myComment?.rating ?? 1);
+    role === "landlord" && reviewRole === "tenant" && setShowRating(tenantComment?.rating ?? 1);
+    role === "tenant" && reviewRole === "landlord" && setShowRating(landlordComment?.rating ?? 1);
+
+  }, [role, reviewRole, myComment, tenantComment, landlordComment]);
+
   return (
-    <section className={`p-6 rounded-2xl 
-      ${ role === "landlord" && reviewRole === "landlord" && "bg-Landlord-95" }
-      ${ role === "landlord" && reviewRole === "tenant" && "bg-Tenant-99" }      
-      ${ role === "tenant" && reviewRole === "tenant" && "bg-Tenant-99" }      
-      ${ role === "tenant" && reviewRole === "landlord" && "bg-Landlord-95" }
-    `}>
+    <section className={`p-6 rounded-2xl ${
+      choosePresent("bg-Landlord-95", "bg-Tenant-99", "bg-Tenant-99", "bg-Landlord-95" )
+    }`}>
       <h4 className="text-sans-b-h5 mb-6">
-        { role === reviewRole && "我的評價" }
-        { role === "landlord" && reviewRole === "tenant" && "租客評價" }
-        { role === "tenant" && reviewRole === "landlord" && "房東評價" }
+        {choosePresent("我的評價", "租客評價", "我的評價", "房東評價")}
       </h4>
       <div className="border-b border-Neutral-95">
         <h5 className="text-sans-b-h6">評分</h5>
@@ -34,10 +45,13 @@ export default function HasReview ({role, reviewRole}: HasReviewType) {
         <p
           className="w-full p-3 text-sans-body1 bg-transparent border-b border-black"
         >
-          評論文字區域
+          {choosePresent(myComment?.comment, tenantComment?.comment, myComment?.comment, landlordComment?.comment)}
         </p>
         <time className="px-3 pt-1 mb-2.5 text-sans-caption text-Neutral-70">
-          2024年5月18日 14:40
+          {
+            moment(choosePresent(myComment?.commentTime, tenantComment?.commentTime, myComment?.commentTime, landlordComment?.commentTime))
+            .tz('Asia/Taipei').format('YYYY年MM月DD日 HH:mm')
+          }
         </time>
         {
           role === reviewRole && (
@@ -51,50 +65,52 @@ export default function HasReview ({role, reviewRole}: HasReviewType) {
           )
         }
         {
-          role === reviewRole && (
+          role === reviewRole && myComment.reply && (
           <>
-            <h6 className="text-sans-caption mb-1">
+            <h6 className="text-sans-caption mt-6 mb-1">
               { role === "landlord" && "租客回覆" }
               { role === "tenant" && "房東回覆" }
             </h6>
             <p
               className="w-full p-3 text-sans-body1 bg-transparent border-b border-black"
               >
-              回覆評論文字區域
+              {myComment.reply}
             </p>
             <time className="px-3 pt-1 mb-2.5 text-sans-caption text-Neutral-70">
-              2024年5月18日 14:40
+            {
+              moment(myComment.replyTime)
+              .tz('Asia/Taipei').format('YYYY年MM月DD日 HH:mm')
+            }
             </time>
           </>
           )
-        }
-        {
-          role !== reviewRole && !showReply && (
-            <button
-              type="button"
-              className="outline-button-m self-end"
-              onClick={() => setShowReply(true)}
-            >
-              回覆
-            </button>
-          )
-        }
-        {
-          showReply && <ReplyReview />
         }
         {
           role !== reviewRole && (
-          <>
-            <h5 className="text-sans-b-h6 mb-4">您的回覆</h5>
-            <p
-              className="w-full p-3 text-sans-body1 bg-transparent border-b border-black"
-              >
-              回覆評論文字區域
-            </p>
-            <time className="px-3 pt-1 mb-2.5 text-sans-caption text-Neutral-70">
-              2024年5月18日 14:40
-            </time>
-          </>
+            tenantComment?.reply || landlordComment?.reply ? (
+              <>
+                <h5 className="text-sans-b-h6 mt-6 mb-4">您的回覆</h5>
+                <p className="w-full p-3 text-sans-body1 bg-transparent border-b border-black">
+                  {choosePresent(undefined, tenantComment?.reply, undefined, landlordComment?.reply)}
+                </p>
+                <time className="px-3 pt-1 mb-2.5 text-sans-caption text-Neutral-70">
+                  {
+                    moment(choosePresent(undefined, tenantComment?.replyTime, undefined, landlordComment?.replyTime))
+                    .tz('Asia/Taipei').format('YYYY年MM月DD日 HH:mm')
+                  }
+                </time>
+              </>
+            ):(
+              showReply ? <ReplyReview /> : (
+                <button
+                  type="button"
+                  className="outline-button-m self-end"
+                  onClick={() => setShowReply(true)}
+                >
+                  回覆
+                </button>
+              )
+            )
           )
         }
       </div>
