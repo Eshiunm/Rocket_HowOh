@@ -68,7 +68,7 @@ export default function HasReview ({reviewRole}: HasReviewType) {
         {
           role === reviewRole && myComment.reply && (
           <>
-            <h6 className="text-sans-caption mb-1">
+            <h6 className="text-sans-caption mt-6 mb-1">
               { role === "landlord" && "租客回覆" }
               { role === "tenant" && "房東回覆" }
             </h6>
@@ -90,7 +90,7 @@ export default function HasReview ({reviewRole}: HasReviewType) {
           role !== reviewRole && (
             tenantComment?.reply || landlordComment?.reply ? (
               <>
-                <h5 className="text-sans-b-h6 mb-4">您的回覆</h5>
+                <h5 className="text-sans-b-h6 mt-6 mb-4">您的回覆</h5>
                 <p className="w-full p-3 text-sans-body1 bg-transparent border-b border-black">
                   {choosePresent(undefined, tenantComment?.reply, undefined, landlordComment?.reply)}
                 </p>
