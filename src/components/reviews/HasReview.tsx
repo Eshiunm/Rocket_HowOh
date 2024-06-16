@@ -101,7 +101,7 @@ export default function HasReview ({reviewRole}: HasReviewType) {
                 </time>
               </>
             ):(
-              showReply ? <ReplyReview /> : (
+              showReply ? <ReplyReview commentId={tenantComment?.commentId || landlordComment?.commentId || -1} /> : (
                 <button
                   type="button"
                   className="outline-button-m self-end"

@@ -6,23 +6,12 @@ import { ReviewContext } from "./OffcanvasBlock";
 import HiddenReview from './HiddenReview';
 import HasReview from './HasReview';
 import { apiCommentPost } from '../../apis/apis';
+import getTimeNow from '../getTimeNow';
 
 export type ReviewPostDataType = {
   comment: string;
 	rating?: number;
   time?: string;
-}
-
-const getTimeNow = () => {
-  const date = new Date();
-
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1);
-  const day = String(date.getDate());
-  const hours = String(date.getHours());
-  const minutes = String(date.getMinutes());
-
-  return `${year}年${month}月${day}日 ${hours}:${minutes}`;
 }
 
 export default function MyReview () {

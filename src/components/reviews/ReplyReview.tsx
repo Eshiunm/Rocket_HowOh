@@ -1,14 +1,28 @@
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { apiCommentReply } from '../../apis/apis';
+import getTimeNow from '../getTimeNow';
 
-type ReplyDataType = {
+export type ReplyDataType = {
   replyComment: string;
+  time?: string;
 }
 
-export default function ReplyReview () {
+export default function ReplyReview ({commentId}: {commentId: number}) {
   const { register, handleSubmit, formState: { errors } } = useForm<ReplyDataType>();
-  const onSubmit = (data: any) => {
-    console.log(data)
-    console.log(errors)
+  const [replyData, setReplyData] = useState<ReplyDataType | null>(null);
+  console.log(replyData);
+  const onSubmit = (data: ReplyDataType) => {
+    const postReply = async (formData: ReplyDataType, orderRatingId: number) => {
+      try {
+        await apiCommentReply(formData, orderRatingId);
+        formData.time = getTimeNow();
+        setReplyData(formData);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    postReply(data, commentId);
   };
 
   return (
