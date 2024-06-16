@@ -3,8 +3,9 @@ import { useForm } from 'react-hook-form';
 import StarRating from "./StarRating";
 import { ReviewContext } from "./OffcanvasBlock";
 import HiddenReview from './HiddenReview';
+import { apiCommentPost } from '../../apis/apis';
 
-type ReviewPostDataType = {
+export type ReviewPostDataType = {
   comment: string;
 	rating?: number;
 }
@@ -12,16 +13,22 @@ type ReviewPostDataType = {
 export default function MyReview () {
   const { role, orderId, otherRole, commentInfo: { tenantComment, landlordComment } } = useContext(ReviewContext);
   
-  const { register, handleSubmit, formState: { errors } } = useForm<ReviewPostDataType>();
+  const { register, handleSubmit } = useForm<ReviewPostDataType>();
   const [saveRating, setSaveRating] = useState(1);
   const handleRating = (rating: number) => setSaveRating(rating);
-  console.log(`${orderId}:${saveRating}`);
 
-  const onSubmit = (data : ReviewPostDataType) => { 
-    console.log(data);
+  const onSubmit = (data: ReviewPostDataType) => { 
     data.rating = saveRating;
-    console.log(data);
-    console.log(errors)
+    
+    const postReview = async (data: ReviewPostDataType, orderId: number) => {
+      try {
+        const response = await apiCommentPost(data, orderId);
+        console.log(response);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    postReview(data, orderId)
   };
 
   return (
