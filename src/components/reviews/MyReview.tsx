@@ -68,7 +68,8 @@ export default function MyReview () {
               <textarea
                 className="resize-none w-full rounded p-3 text-sans-body1 bg-transparent border-black focus:ring-0 focus:border-2 focus:border-Brand-30 focus:-m-px"
                 placeholder="請說明您的住宿經驗"
-                rows={11}
+                rows={10}
+                maxLength={200}
                 {...register("comment", {maxLength: 200})}
               />
               <small className="px-3 pt-1 text-sans-caption">
