@@ -6,23 +6,12 @@ import { ReviewContext } from "./OffcanvasBlock";
 import HiddenReview from './HiddenReview';
 import HasReview from './HasReview';
 import { apiCommentPost } from '../../apis/apis';
+import getTimeNow from '../getTimeNow';
 
 export type ReviewPostDataType = {
   comment: string;
 	rating?: number;
   time?: string;
-}
-
-const getTimeNow = () => {
-  const date = new Date();
-
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1);
-  const day = String(date.getDate());
-  const hours = String(date.getHours());
-  const minutes = String(date.getMinutes());
-
-  return `${year}年${month}月${day}日 ${hours}:${minutes}`;
 }
 
 export default function MyReview () {
@@ -68,7 +57,8 @@ export default function MyReview () {
               <textarea
                 className="resize-none w-full rounded p-3 text-sans-body1 bg-transparent border-black focus:ring-0 focus:border-2 focus:border-Brand-30 focus:-m-px"
                 placeholder="請說明您的住宿經驗"
-                rows={11}
+                rows={10}
+                maxLength={200}
                 {...register("comment", {maxLength: 200})}
               />
               <small className="px-3 pt-1 text-sans-caption">
