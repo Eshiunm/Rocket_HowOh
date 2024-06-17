@@ -69,20 +69,19 @@ const DoubleCheck = ({ isOpen, handleOpen, isOrderAccepted }: any) => {
       },
     },
   };
-
+  const handleOrderAccept_API = async (orderId: string) => {
+    try {
+      const response = await apiTenantOrderAcceptOrReject(
+        orderId,
+        isAccepted as boolean
+      );
+      window.location.reload();
+    } catch (errors) {
+      console.log(errors);
+    }
+  };
   const handleOrderAccept = () => {
-    const handleOrderAccept = async (orderId: string) => {
-      try {
-        const response = await apiTenantOrderAcceptOrReject(
-          orderId,
-          isAccepted as boolean
-        );
-        console.log(response);
-      } catch (errors) {
-        console.log(errors);
-      }
-    };
-    handleOrderAccept(orderId.toString());
+    handleOrderAccept_API(orderId.toString());
   };
 
   return (
@@ -98,7 +97,9 @@ const DoubleCheck = ({ isOpen, handleOpen, isOrderAccepted }: any) => {
             />
             <h3 className="text-sans-h5 text-center mb-8">
               確定要
-              <span className="text-Alert-60 font-bold">{`${isAccepted ? "接受" : "拒絕"}`}</span>
+              <span className="text-Alert-60 font-bold">{` ${
+                isAccepted ? "接受" : "拒絕"
+              } `}</span>
               租約邀請嗎？
             </h3>
             <div className="flex justify-center gap-x-8">
@@ -216,7 +217,33 @@ function RentalInviteList() {
   const [currentCardSelectedId, setCurrentCardSelectedId] = useState("");
   const [isDoubleCheckModalOpen, setIsDoubleCheckModalOpen] = useState(false);
   const [isOrderAccepted, setIsOrderAccepted] = useState<any>({});
-
+  const getInviteList = async () => {
+    try {
+      const defaultPageNumber = "1";
+      const response = await apiAppointmentTenantInvitedList(defaultPageNumber);
+      // 某個卡片被點擊，開啟offCanvas後，卡片要有 selected 效果
+      const isCardSelected = response.data.reduce(
+        (acc: any, { houseId }: any) => {
+          acc[`cardId${houseId}`] = false;
+          return acc;
+        },
+        {}
+      );
+      setIsCardSelected(isCardSelected);
+      setInviteList(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const getHouseDetailInfo = async (orderId: string) => {
+    try {
+      const response = await apiAppointmentTenantInvitedHouseDetail(orderId);
+      const houseDetailInfo = response.data[0];
+      setDrawerData(houseDetailInfo);
+    } catch (errors) {
+      console.log(errors);
+    }
+  };
   const getFormattedDate = (dateString: string) => {
     const date = new Date(dateString);
     // 將日期轉換為 "xxxx年xx月xx日" 的格式
@@ -238,16 +265,6 @@ function RentalInviteList() {
   const handleDrawerOpen = (e: any) => {
     const houseId = e.currentTarget.dataset.houseid;
     const orderId = e.currentTarget.dataset.orderid;
-
-    const getHouseDetailInfo = async (orderId: string) => {
-      try {
-        const response = await apiAppointmentTenantInvitedHouseDetail(orderId);
-        const houseDetailInfo = response.data[0];
-        setDrawerData(houseDetailInfo);
-      } catch (errors) {
-        console.log(errors);
-      }
-    };
 
     getHouseDetailInfo(orderId.toString());
     setCurrentCardSelectedId(houseId);
@@ -276,27 +293,6 @@ function RentalInviteList() {
 
   // 初始化租屋邀請清單
   useEffect(() => {
-    const getInviteList = async () => {
-      try {
-        const defaultPageNumber = "1";
-        const response = await apiAppointmentTenantInvitedList(
-          defaultPageNumber
-        );
-        // 某個卡片被點擊，開啟offCanvas後，卡片要有 selected 效果
-        const isCardSelected = response.data.reduce(
-          (acc: any, { houseId }: any) => {
-            acc[`cardId${houseId}`] = false;
-            return acc;
-          },
-          {}
-        );
-        setIsCardSelected(isCardSelected);
-        setInviteList(response.data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
     getInviteList();
   }, []);
 

@@ -109,8 +109,8 @@ export const apiOrderLandlordAssignTenant = (userInfo: any) => orderRequest.post
 // 租賃-租客相關的 api
 export const apiAppointmentTenantHistoryList = (pageNumber:number) => orderListRequest.get(`/tenant/list?page=${pageNumber}`, getToken()); // ATH-1
 export const apiTenantOrderAcceptOrReject = (orderId: string, isOrderAccepted: boolean) => {
-  const data = { isOrderAccepted };
-  orderRequest.patch(`/tenant/${orderId}`,data, getToken())
+  const data = { acceptOrder: isOrderAccepted };
+  return orderRequest.patch(`/tenant/${orderId}`,data, getToken())
 }; // ATH-2
 export const apiTenantHistoryCountAndCommentCount = () => orderRequest.get('/tenant/count', getToken());
 
