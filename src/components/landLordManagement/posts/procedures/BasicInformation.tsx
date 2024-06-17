@@ -10,9 +10,12 @@ import BigLoading from "../../../loading/BigLoading";
 import cities from "../../../../constants/locations/cities";
 import houseTypes from "../../../../constants/searchFormCondition/houseTypes";
 import { setFormData } from "../../../../../redux/post/basicInformationSlice";
+// 地址轉換經緯度
+import { getGeocode, getLatLng } from "use-places-autocomplete";
+import { useLoadScript } from "@react-google-maps/api"
 
 // 定義送出基本資料的型別
-export interface basicInformationDataType {
+export type basicInformationDataType = {
   name: string;
   city: string;
   district: string;
@@ -32,6 +35,12 @@ export interface basicInformationDataType {
 }
 
 export default function BasicInformation() {
+  // 判斷是否載入成功
+  useLoadScript({
+    googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAP_API,
+    libraries: ["places"],
+  });
+
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -76,29 +85,41 @@ export default function BasicInformation() {
   });
   const selectedCity = watch("city");
 
+  // 將地址轉成經緯度
+  const getAbsolutePosition = async (address: string) => {
+    const results = await getGeocode({ address });
+    const { lat, lng } = getLatLng(results[0]);
+    const absolutePosition = {
+      longitude: lng.toString(),
+      latitude: lat.toString(),
+    }
+    return absolutePosition;
+  }
+
   const onSubmit = (data: basicInformationDataType) => {
-    // 開始 Loading
     setLoading(true);
-    // 送出基本資訊至 redux
     dispatch(setFormData(data));
+    
     // 打 API 送出基本資訊（ALO-3)
     const patchData = async () => {
       const houseId = localStorage.getItem("houseId");
-      const newData = {
-        ...data,
-        status: "完成步驟1",
-      };
       try {
+        const address = `${data.city + data.district + data.road + data.lane}巷${data.alley}弄${data.number}號`;
+        const position = await getAbsolutePosition(address);
+        const newData = {
+          ...data,
+          longitude: position.longitude, // 經度
+          latitude: position.latitude, // 緯度
+          status: "完成步驟1",
+        };
         const res = await apiHouseLandlordPostStep(newData, houseId);
         if (res.data.Status === false) {
           throw new Error(res.data.Message);
         }
-        // 打 API 完成後結束 Loading 並跳轉
         setLoading(false);
         handleProcedureDone(0);
         handleProcedureClick("照片");
       } catch (error: any) {
-        // 錯誤一律清除 local storage 並跳轉回首頁
         localStorage.clear();
         if (error.response.status === 401) {
           alert(`錯誤回報：401\n請洽 howoh好窩網路管理員`);
