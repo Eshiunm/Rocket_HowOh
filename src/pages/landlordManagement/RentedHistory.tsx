@@ -86,9 +86,9 @@ export default function RentedHistory() {
                   <div className="flex gap-[10px] text-sans-body2">
                     <h6>
                       顯示
-                      <span className="text-sans-b-body2"> {pageNumberControl * 12 - 11} </span>
+                      <span className="text-sans-b-body2"> {listCount > 0 ? pageNumberControl * 12 - 11 : 0} </span>
                       至
-                      <span className="text-sans-b-body2"> {pageNumberControl === totalPage ? listCount % 12 + (pageNumberControl - 1) * 12 : pageNumberControl * 12} </span>
+                      <span className="text-sans-b-body2"> {pageNumberControl === totalPage ? listCount : pageNumberControl * 12} </span>
                       筆
                     </h6>
                     <h6>
