@@ -37,7 +37,7 @@ function SwitchIdentityPage() {
   };
 
   return (
-    <div className="wrap h-screen pt-[170px] bg-Neutral-99 ">
+    <div className="wrap flex-grow pt-[170px] bg-Neutral-99 ">
       <div className="container layout-grid">
         <div
           className="col-span-4 col-start-3 p-8 bg-Neutral-95 rounded-2xl hover:bg-black hover:bg-opacity-10 relative cursor-pointer overflow-hidden"
