@@ -75,7 +75,7 @@ const DoubleCheck = ({ isOpen, handleOpen, isOrderAccepted }: any) => {
       try {
         const response = await apiTenantOrderAcceptOrReject(
           orderId,
-          isAccepted
+          isAccepted as boolean
         );
         console.log(response);
       } catch (errors) {
@@ -98,9 +98,7 @@ const DoubleCheck = ({ isOpen, handleOpen, isOrderAccepted }: any) => {
             />
             <h3 className="text-sans-h5 text-center mb-8">
               確定要
-              <span className="text-Alert-60 font-bold">{`${
-                isAccepted ? "接受" : "拒絕"
-              }`}</span>
+              <span className="text-Alert-60 font-bold">{`${isAccepted ? "接受" : "拒絕"}`}</span>
               租約邀請嗎？
             </h3>
             <div className="flex justify-center gap-x-8">
