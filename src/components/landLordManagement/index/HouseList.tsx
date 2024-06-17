@@ -28,7 +28,57 @@ export const ForcedChangeReload = createContext<contextValueType>(
   {} as contextValueType
 );
 
+type AccordionStatusType = {
+  panelName : string;
+  isOpen: boolean;
+}
+
+const accordionStatus: AccordionStatusType[] = [
+  {
+    panelName : "新增中",
+    isOpen: true,
+  }, {
+    panelName : "刊登中",
+    isOpen: true,
+  }, {
+    panelName : "已出租",
+    isOpen: true,
+  }, {
+    panelName : "已完成",
+    isOpen: true,
+  },
+];
+
 export default function HouseList() {
+  const [controlAccordion, setControlAccordion] = useState<AccordionStatusType[]>(accordionStatus);
+  const contentRef1 = useRef(null);
+  const contentRef2 = useRef(null);
+  const contentRef3 = useRef(null);
+  const contentRef4 = useRef(null);
+  useEffect(() => {
+    // This effect runs when the isOpen state changes
+    if (controlAccordion[0].isOpen) {
+      contentRef1.current.style.maxHeight = `${contentRef1.current.scrollHeight}px`;
+    } else {
+      contentRef1.current.style.maxHeight = '0px';
+    }
+    if (controlAccordion[1].isOpen) {
+      contentRef2.current.style.maxHeight = `${contentRef2.current.scrollHeight}px`;
+    } else {
+      contentRef2.current.style.maxHeight = '0px';
+    }
+    if (controlAccordion[2].isOpen) {
+      contentRef3.current.style.maxHeight = `${contentRef3.current.scrollHeight}px`;
+    } else {
+      contentRef3.current.style.maxHeight = '0px';
+    }
+    if (controlAccordion[3].isOpen) {
+      contentRef4.current.style.maxHeight = `${contentRef4.current.scrollHeight}px`;
+    } else {
+      contentRef4.current.style.maxHeight = '0px';
+    }
+  }, [controlAccordion]);
+  console.log(controlAccordion);
   const customTheme: CustomFlowbiteTheme = {
     accordion: {
       "root": {
@@ -170,6 +220,12 @@ export default function HouseList() {
     setReloadHouseList,
   };
 
+  const clickAccordion = (index: number) => {
+    const newControlAccordion = [...controlAccordion];
+    newControlAccordion[index].isOpen = !newControlAccordion[index].isOpen;
+    setControlAccordion(newControlAccordion)
+  }
+
   useEffect(() => {
     const getHouseList = async () => {
       setLoading(true);
@@ -296,6 +352,50 @@ export default function HouseList() {
             </AccordionPanel>
           </Accordion>
         </Flowbite>
+        <div className="border-t border-red-700">
+          <button className="bg-Landlord-70" onClick={() => clickAccordion(0)}>
+            <h3>新增中</h3>
+          </button>
+          <section ref={contentRef1} className="overflow-hidden transition-all duration-300 ease-linear max-h-0">
+            <div>
+              列表區域在這個快節奏的現代社會中，人們面臨著來自工作、家庭和社交生活的多重壓力。如何平衡這些壓力並保持心理健康成為了一個重要的課題。首先，學會合理安排時間是關鍵。有效的時間管理可以減少緊張感，讓人們有更多的時間來放鬆和享受生活。其次，適當的運動和健康的飲食也能幫助減壓，提高整體的身心健康水平。此外，尋找興趣愛好並投入其中，可以讓人們在繁忙的生活中找到樂趣和平靜。最後，不要忽視與家人和朋友的交流，支持和關心他人同樣能讓自己感到幸福和滿足。通過這些方法，人們可以更好地應對生活中的挑戰，保持積極樂觀的心態。
+              列表區域在這個快節奏的現代社會中，人們面臨著來自工作、家庭和社交生活的多重壓力。如何平衡這些壓力並保持心理健康成為了一個重要的課題。首先，學會合理安排時間是關鍵。有效的時間管理可以減少緊張感，讓人們有更多的時間來放鬆和享受生活。其次，適當的運動和健康的飲食也能幫助減壓，提高整體的身心健康水平。此外，尋找興趣愛好並投入其中，可以讓人們在繁忙的生活中找到樂趣和平靜。最後，不要忽視與家人和朋友的交流，支持和關心他人同樣能讓自己感到幸福和滿足。通過這些方法，人們可以更好地應對生活中的挑戰，保持積極樂觀的心態。
+            </div>
+          </section>
+        </div>
+        <div className="border-t border-red-700">
+          <button className="bg-Landlord-70" onClick={() => clickAccordion(1)}>
+            <h3>刊登中</h3>
+          </button>
+          <section ref={contentRef2} className="overflow-hidden transition-all duration-300 ease-linear max-h-0">
+            <div>
+              列表區域在這個快節奏的現代社會中，人們面臨著來自工作、家庭和社交生活的多重壓力。如何平衡這些壓力並保持心理健康成為了一個重要的課題。首先，學會合理安排時間是關鍵。有效的時間管理可以減少緊張感，讓人們有更多的時間來放鬆和享受生活。其次，適當的運動和健康的飲食也能幫助減壓，提高整體的身心健康水平。此外，尋找興趣愛好並投入其中，可以讓人們在繁忙的生活中找到樂趣和平靜。最後，不要忽視與家人和朋友的交流，支持和關心他人同樣能讓自己感到幸福和滿足。通過這些方法，人們可以更好地應對生活中的挑戰，保持積極樂觀的心態。
+              列表區域在這個快節奏的現代社會中，人們面臨著來自工作、家庭和社交生活的多重壓力。如何平衡這些壓力並保持心理健康成為了一個重要的課題。首先，學會合理安排時間是關鍵。有效的時間管理可以減少緊張感，讓人們有更多的時間來放鬆和享受生活。其次，適當的運動和健康的飲食也能幫助減壓，提高整體的身心健康水平。此外，尋找興趣愛好並投入其中，可以讓人們在繁忙的生活中找到樂趣和平靜。最後，不要忽視與家人和朋友的交流，支持和關心他人同樣能讓自己感到幸福和滿足。通過這些方法，人們可以更好地應對生活中的挑戰，保持積極樂觀的心態。
+            </div>
+          </section>
+        </div>
+        <div className="border-t border-red-700">
+          <button className="bg-Landlord-70" onClick={() => clickAccordion(2)}>
+            <h3>已出租</h3>
+          </button>
+          <section ref={contentRef3} className="overflow-hidden transition-all duration-300 ease-linear max-h-0">
+            <div>
+              列表區域在這個快節奏的現代社會中，人們面臨著來自工作、家庭和社交生活的多重壓力。如何平衡這些壓力並保持心理健康成為了一個重要的課題。首先，學會合理安排時間是關鍵。有效的時間管理可以減少緊張感，讓人們有更多的時間來放鬆和享受生活。其次，適當的運動和健康的飲食也能幫助減壓，提高整體的身心健康水平。此外，尋找興趣愛好並投入其中，可以讓人們在繁忙的生活中找到樂趣和平靜。最後，不要忽視與家人和朋友的交流，支持和關心他人同樣能讓自己感到幸福和滿足。通過這些方法，人們可以更好地應對生活中的挑戰，保持積極樂觀的心態。
+              列表區域在這個快節奏的現代社會中，人們面臨著來自工作、家庭和社交生活的多重壓力。如何平衡這些壓力並保持心理健康成為了一個重要的課題。首先，學會合理安排時間是關鍵。有效的時間管理可以減少緊張感，讓人們有更多的時間來放鬆和享受生活。其次，適當的運動和健康的飲食也能幫助減壓，提高整體的身心健康水平。此外，尋找興趣愛好並投入其中，可以讓人們在繁忙的生活中找到樂趣和平靜。最後，不要忽視與家人和朋友的交流，支持和關心他人同樣能讓自己感到幸福和滿足。通過這些方法，人們可以更好地應對生活中的挑戰，保持積極樂觀的心態。
+            </div>
+          </section>
+        </div>
+        <div className="border-t border-red-700">
+          <button className="bg-Landlord-70" onClick={() => clickAccordion(3)}>
+            <h3>已完成</h3>
+          </button>
+          <section ref={contentRef4} className="overflow-hidden transition-all duration-300 ease-linear max-h-0">
+            <div>
+              列表區域在這個快節奏的現代社會中，人們面臨著來自工作、家庭和社交生活的多重壓力。如何平衡這些壓力並保持心理健康成為了一個重要的課題。首先，學會合理安排時間是關鍵。有效的時間管理可以減少緊張感，讓人們有更多的時間來放鬆和享受生活。其次，適當的運動和健康的飲食也能幫助減壓，提高整體的身心健康水平。此外，尋找興趣愛好並投入其中，可以讓人們在繁忙的生活中找到樂趣和平靜。最後，不要忽視與家人和朋友的交流，支持和關心他人同樣能讓自己感到幸福和滿足。通過這些方法，人們可以更好地應對生活中的挑戰，保持積極樂觀的心態。
+              列表區域在這個快節奏的現代社會中，人們面臨著來自工作、家庭和社交生活的多重壓力。如何平衡這些壓力並保持心理健康成為了一個重要的課題。首先，學會合理安排時間是關鍵。有效的時間管理可以減少緊張感，讓人們有更多的時間來放鬆和享受生活。其次，適當的運動和健康的飲食也能幫助減壓，提高整體的身心健康水平。此外，尋找興趣愛好並投入其中，可以讓人們在繁忙的生活中找到樂趣和平靜。最後，不要忽視與家人和朋友的交流，支持和關心他人同樣能讓自己感到幸福和滿足。通過這些方法，人們可以更好地應對生活中的挑戰，保持積極樂觀的心態。
+            </div>
+          </section>
+        </div>
       </ForcedChangeReload.Provider>
       </main>
     </>
