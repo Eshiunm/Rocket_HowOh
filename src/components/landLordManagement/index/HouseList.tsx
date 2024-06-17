@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, createContext, useMemo } from "react";
+import { useEffect, useRef, useState, createContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { Tooltip } from "flowbite-react";
 import LandlordAnchor from "./LandlordAnchor";
@@ -58,7 +58,7 @@ export default function HouseList() {
   const rentedListRef = useRef<HTMLDivElement>(null);
   const finishedListRef = useRef<HTMLDivElement>(null);
 
-  const refs = useMemo(() => [addingListRef, publishListRef, rentedListRef, finishedListRef], []);
+  const refs = [addingListRef, publishListRef, rentedListRef, finishedListRef];
 
   useEffect(() => {
     controlAccordion.forEach((accordion, index) => {
