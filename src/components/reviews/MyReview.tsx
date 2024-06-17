@@ -44,7 +44,7 @@ export default function MyReview () {
           <section className={`p-6 rounded-2xl ${
             role === "tenant" ? "bg-Tenant-99" : "bg-Landlord-95"
           }`}>
-            <h4 className="text-sans-b-h5 mb-6">我要評價</h4>
+            <h4 className="text-sans-b-h5 mb-6">我的評價</h4>
             <div className="border-b border-Neutral-95">
               <h5 className="text-sans-b-h6">評分</h5>
               <StarRating onRating={handleRating} />
