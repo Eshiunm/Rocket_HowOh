@@ -10,7 +10,7 @@ import BigLoading from '../../loading/BigLoading';
 export default function HouseCard({data, houseStatus}: {data:any, houseStatus:string}) {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const { houseId, name, photo, status, reservationCount, userName, leaseStartTime, leaseEndTime} = data;
+  const { houseId, name, photo, status, reservationCount, userName, leaseStartTime, leaseEndTime, canComment} = data;
 
   // 控制 快速變更承租 Modal-popup 的開關
   const [openModal, setOpenModal] = useState(false);
@@ -52,14 +52,23 @@ export default function HouseCard({data, houseStatus}: {data:any, houseStatus:st
         ); 
 
       }
-    } else if (houseStatus === "rentedList") { // 已承租
+    } else if (houseStatus === "rentedList") { // 已出租
       return (
         <div className="mb-6 text-sans-body1">
           <span className="pr-2">{moment(leaseStartTime).tz('Asia/Taipei').format('YYYY年M月D日')}</span>
           <span className="pl-2 border-l border-Tenant-70">{moment(leaseEndTime).tz('Asia/Taipei').format('YYYY年M月D日')}</span>
         </div>
       ); 
-    } else { // 新增中、已完成
+    } else if (houseStatus === "finishedList") { // 已完成
+      return (
+        <div className="mb-6 text-sans-body1 text-Neutral-40">
+          {canComment && status === "系統用戶" && "請於合約結束後兩週內進行評價"}
+          {!canComment && status === "系統用戶" && "評價已結束"}
+          {!canComment && status === "非系統用戶" && "承租人非系統用戶，無法評價"}
+          {!canComment && status === "強制變更" && "強制變更已完成，無法評價"}
+        </div>
+      ); 
+    } else { // 新增中
       return (
         <div className="py-6"></div>
       ); 
