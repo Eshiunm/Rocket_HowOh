@@ -4,6 +4,8 @@ import { CustomFlowbiteTheme, Flowbite, Accordion, AccordionContent, AccordionPa
 import LandlordAnchor from "./LandlordAnchor";
 import HouseCard from "./HouseCard";
 import tooltipIcon from "../../../assets/imgs/icons/tooltip.svg"
+import dropdownIcon from "../../../assets/imgs/icons/dropdownIcon.svg"
+import dropdownClose from "../../../assets/imgs/icons/dropdownClose.svg"
 import BigLoading from "../../loading/BigLoading";
 import { apiHouseLandlordList } from "../../../apis/apis";
 
@@ -51,10 +53,10 @@ const accordionStatus: AccordionStatusType[] = [
 
 export default function HouseList() {
   const [controlAccordion, setControlAccordion] = useState<AccordionStatusType[]>(accordionStatus);
-  const contentRef1 = useRef(null);
-  const contentRef2 = useRef(null);
-  const contentRef3 = useRef(null);
-  const contentRef4 = useRef(null);
+  const contentRef1 = useRef<HTMLDivElement>(null);
+  const contentRef2 = useRef<HTMLDivElement>(null);
+  const contentRef3 = useRef<HTMLDivElement>(null);
+  const contentRef4 = useRef<HTMLDivElement>(null);
   useEffect(() => {
     // This effect runs when the isOpen state changes
     if (controlAccordion[0].isOpen) {
@@ -256,7 +258,7 @@ export default function HouseList() {
         {/* 上方 anchor 區域 */}
         <LandlordAnchor refFnList={refFnList} listCount={listCount} />
         {/* 手風琴呈現列表 */}
-        <Flowbite theme={{ theme: customTheme }}>
+        {/* <Flowbite theme={{ theme: customTheme }}>
           <Accordion alwaysOpen>
             <AccordionPanel>
               <div>
@@ -351,10 +353,20 @@ export default function HouseList() {
               </div>
             </AccordionPanel>
           </Accordion>
-        </Flowbite>
-        <div className="border-t border-red-700">
-          <button className="bg-Landlord-70" onClick={() => clickAccordion(0)}>
-            <h3>新增中</h3>
+        </Flowbite> */}
+        <div className="border-b border-Neutral-95">
+          <button
+            className="w-full py-6 px-5 text-sans-b-h6 flex gap-1 items-center"
+            onClick={() => clickAccordion(0)}
+          >
+            <h3 className="text-start mr-auto">新增中</h3>
+            {
+              controlAccordion[0].isOpen ? (
+                <img src={dropdownIcon} alt="dropdown_icon" />
+              ):(
+                <img src={dropdownClose} alt="dropdown_close_icon" />
+              )
+            }
           </button>
           <section ref={contentRef1} className="overflow-hidden transition-all duration-300 ease-linear max-h-0">
             <div>
@@ -363,9 +375,27 @@ export default function HouseList() {
             </div>
           </section>
         </div>
-        <div className="border-t border-red-700">
-          <button className="bg-Landlord-70" onClick={() => clickAccordion(1)}>
-            <h3>刊登中</h3>
+        <div className="border-b border-Neutral-95">
+          <button
+            className="w-full py-6 px-5 text-sans-b-h6 flex gap-1 items-center"
+            onClick={() => clickAccordion(1)}
+          >
+            <h3 className="text-start flex gap-1 mr-auto">
+              刊登中
+              <Tooltip
+                className="bg-Landlord-30 text-white text-center whitespace-pre-line"
+                content={"租客可看到您的房源！\n當租約邀請送出並受指定租客接受，房源狀態即變更為已出租。"}
+              >
+                <img src={tooltipIcon} alt="tooltip" />
+              </Tooltip>
+            </h3>
+            {
+              controlAccordion[1].isOpen ? (
+                <img src={dropdownIcon} alt="dropdown_icon" />
+              ):(
+                <img src={dropdownClose} alt="dropdown_close_icon" />
+              )
+            }
           </button>
           <section ref={contentRef2} className="overflow-hidden transition-all duration-300 ease-linear max-h-0">
             <div>
@@ -374,9 +404,27 @@ export default function HouseList() {
             </div>
           </section>
         </div>
-        <div className="border-t border-red-700">
-          <button className="bg-Landlord-70" onClick={() => clickAccordion(2)}>
-            <h3>已出租</h3>
+        <div className="border-b border-Neutral-95">
+          <button
+            className="w-full py-6 px-5 text-sans-b-h6 flex gap-1 items-center"
+            onClick={() => clickAccordion(2)}
+          >
+            <h3 className="text-start flex gap-1 mr-auto">
+              已出租
+              <Tooltip
+                className="bg-Landlord-30 text-white text-center whitespace-pre-line"
+                content={"您的房源已成功指定租客！\n您可以隨時下載合約，進行線下紙本簽約。"}
+              >
+                <img src={tooltipIcon} alt="tooltip" />
+              </Tooltip>
+            </h3>
+            {
+              controlAccordion[2].isOpen ? (
+                <img src={dropdownIcon} alt="dropdown_icon" />
+              ):(
+                <img src={dropdownClose} alt="dropdown_close_icon" />
+              )
+            }
           </button>
           <section ref={contentRef3} className="overflow-hidden transition-all duration-300 ease-linear max-h-0">
             <div>
@@ -385,9 +433,27 @@ export default function HouseList() {
             </div>
           </section>
         </div>
-        <div className="border-t border-red-700">
-          <button className="bg-Landlord-70" onClick={() => clickAccordion(3)}>
-            <h3>已完成</h3>
+        <div className="border-b border-Neutral-95">
+          <button
+            className="w-full py-6 px-5 text-sans-b-h6 flex gap-1 items-center"
+            onClick={() => clickAccordion(3)}
+          >
+            <h3 className="text-start flex gap-1 mr-auto">
+              已完成
+              <Tooltip
+                className="bg-Landlord-30 text-white text-center whitespace-pre-line"
+                content={"您的租約已完成！請於完成兩週內評價您的房客。\n您可以由此將房源重新上架。"}
+              >
+                <img src={tooltipIcon} alt="tooltip" />
+              </Tooltip>
+            </h3>
+            {
+              controlAccordion[3].isOpen ? (
+                <img src={dropdownIcon} alt="dropdown_icon" />
+              ):(
+                <img src={dropdownClose} alt="dropdown_close_icon" />
+              )
+            }
           </button>
           <section ref={contentRef4} className="overflow-hidden transition-all duration-300 ease-linear max-h-0">
             <div>
