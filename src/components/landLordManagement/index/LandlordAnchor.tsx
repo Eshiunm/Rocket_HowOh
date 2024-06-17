@@ -14,9 +14,10 @@ export default function LandlordAnchor({refFnList, listCount}: {refFnList: refFn
         const response = await apiHouseLandlordUnratedCount();
         setUnratedCount(response.data.data.count);
       } catch (error) {
-        localStorage.clear();
-        alert("您不是房東，請先登入房東帳號");
-        navigate("/");
+        console.log(error);
+        // localStorage.clear();
+        // alert("您不是房東，請先登入房東帳號");
+        // navigate("/");
       }
     }
     getUnratedCount();
