@@ -5,7 +5,6 @@ import LandlordAnchor from "./LandlordAnchor";
 import HouseCard from "./HouseCard";
 import tooltipIcon from "../../../assets/imgs/icons/tooltip.svg"
 import dropdownIcon from "../../../assets/imgs/icons/dropdownIcon.svg"
-import dropdownClose from "../../../assets/imgs/icons/dropdownClose.svg"
 import BigLoading from "../../loading/BigLoading";
 import { apiHouseLandlordList } from "../../../apis/apis";
 
@@ -166,13 +165,7 @@ export default function HouseList() {
             onClick={() => clickAccordion(0)}
           >
             <h3 className="text-start mr-auto">新增中</h3>
-            {
-              controlAccordion[0].isOpen ? (
-                <img src={dropdownIcon} alt="dropdown_icon" />
-              ):(
-                <img src={dropdownClose} alt="dropdown_close_icon" />
-              )
-            }
+            <img src={dropdownIcon} alt="dropdown_icon" className={`transition-all duration-300 ${controlAccordion[0].isOpen ? "" : "transform rotate-180"}`} />
           </button>
           <section ref={addingListRef} className="overflow-hidden transition-all duration-300 ease-linear max-h-0">
             <ul className="layout-grid pb-6">
@@ -199,13 +192,7 @@ export default function HouseList() {
                 <img src={tooltipIcon} alt="tooltip" />
               </Tooltip>
             </h3>
-            {
-              controlAccordion[1].isOpen ? (
-                <img src={dropdownIcon} alt="dropdown_icon" />
-              ):(
-                <img src={dropdownClose} alt="dropdown_close_icon" />
-              )
-            }
+            <img src={dropdownIcon} alt="dropdown_icon" className={`transition-all duration-300 ${controlAccordion[1].isOpen ? "" : "transform rotate-180"}`} />
           </button>
           <section ref={publishListRef} className="overflow-hidden transition-all duration-300 ease-linear max-h-0">
             <ul className="layout-grid pb-6">
@@ -232,13 +219,7 @@ export default function HouseList() {
                 <img src={tooltipIcon} alt="tooltip" />
               </Tooltip>
             </h3>
-            {
-              controlAccordion[2].isOpen ? (
-                <img src={dropdownIcon} alt="dropdown_icon" />
-              ):(
-                <img src={dropdownClose} alt="dropdown_close_icon" />
-              )
-            }
+            <img src={dropdownIcon} alt="dropdown_icon" className={`transition-all duration-300 ${controlAccordion[2].isOpen ? "" : "transform rotate-180"}`} />
           </button>
           <section ref={rentedListRef} className="overflow-hidden transition-all duration-300 ease-linear max-h-0">
             <ul className="layout-grid pb-6">
@@ -265,13 +246,7 @@ export default function HouseList() {
                 <img src={tooltipIcon} alt="tooltip" />
               </Tooltip>
             </h3>
-            {
-              controlAccordion[3].isOpen ? (
-                <img src={dropdownIcon} alt="dropdown_icon" />
-              ):(
-                <img src={dropdownClose} alt="dropdown_close_icon" />
-              )
-            }
+            <img src={dropdownIcon} alt="dropdown_icon" className={`transition-all duration-300 ${controlAccordion[3].isOpen ? "" : "transform rotate-180"}`} />
           </button>
           <section ref={finishedListRef} className="overflow-hidden transition-all duration-300 ease-linear max-h-0">
             <ul className="layout-grid pb-6">
