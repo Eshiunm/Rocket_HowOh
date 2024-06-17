@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, createContext } from "react";
+import { useEffect, useRef, useState, createContext, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { Tooltip } from "flowbite-react";
 import LandlordAnchor from "./LandlordAnchor";
@@ -53,33 +53,25 @@ const accordionStatus: AccordionStatusType[] = [
 
 export default function HouseList() {
   const [controlAccordion, setControlAccordion] = useState<AccordionStatusType[]>(accordionStatus);
-  const contentRef1 = useRef<HTMLDivElement>(null);
-  const contentRef2 = useRef<HTMLDivElement>(null);
-  const contentRef3 = useRef<HTMLDivElement>(null);
-  const contentRef4 = useRef<HTMLDivElement>(null);
+  const addingListRef = useRef<HTMLDivElement>(null);
+  const publishListRef = useRef<HTMLDivElement>(null);
+  const rentedListRef = useRef<HTMLDivElement>(null);
+  const finishedListRef = useRef<HTMLDivElement>(null);
+
+  const refs = useMemo(() => [addingListRef, publishListRef, rentedListRef, finishedListRef], []);
+
   useEffect(() => {
-    // This effect runs when the isOpen state changes
-    if (controlAccordion[0].isOpen) {
-      contentRef1.current.style.maxHeight = `${contentRef1.current.scrollHeight}px`;
-    } else {
-      contentRef1.current.style.maxHeight = '0px';
-    }
-    if (controlAccordion[1].isOpen) {
-      contentRef2.current.style.maxHeight = `${contentRef2.current.scrollHeight}px`;
-    } else {
-      contentRef2.current.style.maxHeight = '0px';
-    }
-    if (controlAccordion[2].isOpen) {
-      contentRef3.current.style.maxHeight = `${contentRef3.current.scrollHeight}px`;
-    } else {
-      contentRef3.current.style.maxHeight = '0px';
-    }
-    if (controlAccordion[3].isOpen) {
-      contentRef4.current.style.maxHeight = `${contentRef4.current.scrollHeight}px`;
-    } else {
-      contentRef4.current.style.maxHeight = '0px';
-    }
-  }, [controlAccordion]);
+    controlAccordion.forEach((accordion, index) => {
+      const contentRef = refs[index].current;
+      if (contentRef) {
+        if (accordion.isOpen) {
+          contentRef.style.maxHeight = `${contentRef.scrollHeight}px`;
+        } else {
+          contentRef.style.maxHeight = '0px';
+        }
+      }
+    });
+  }, [controlAccordion, refs]);
 
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
@@ -92,32 +84,27 @@ export default function HouseList() {
     rented : rentedList.length,
     finished : finishedList.length,
   };
-  
-  // anchor
-  const publishCount = useRef<HTMLDivElement>(null);
-  const rentedCount = useRef<HTMLDivElement>(null);
-  const finishedCount = useRef<HTMLDivElement>(null);
 
   const goPublishList = () => {
-    if (publishCount.current) {
+    if (publishListRef.current) {
       window.scrollTo({
-        top: publishCount.current.offsetTop - 100,
+        top: publishListRef.current.offsetTop - 150,
         behavior: "smooth",
       });
     }
   }
   const goRentedList = () => {
-    if (rentedCount.current) {
+    if (rentedListRef.current) {
       window.scrollTo({
-        top: rentedCount.current.offsetTop - 100,
+        top: rentedListRef.current.offsetTop - 150,
         behavior: "smooth",
       });
     }
   }
   const goFinishedList = () => {
-    if (finishedCount.current) {
+    if (finishedListRef.current) {
       window.scrollTo({
-        top: finishedCount.current.offsetTop - 100,
+        top: finishedListRef.current.offsetTop - 150,
         behavior: "smooth",
       });
     }
@@ -139,7 +126,7 @@ export default function HouseList() {
   const clickAccordion = (index: number) => {
     const newControlAccordion = [...controlAccordion];
     newControlAccordion[index].isOpen = !newControlAccordion[index].isOpen;
-    setControlAccordion(newControlAccordion)
+    setControlAccordion(newControlAccordion);
   }
 
   useEffect(() => {
@@ -151,11 +138,12 @@ export default function HouseList() {
         setPublishList(response.data.data["刊登中"]);
         setRentedList(response.data.data["已承租"]);
         setFinishedList(response.data.data["已完成"]);
-        setLoading(false);
       } catch (error) {
         localStorage.clear();
         alert(error);
         navigate("/");
+      } finally {
+        setLoading(false);
       }
     }
     getHouseList();
@@ -186,7 +174,7 @@ export default function HouseList() {
               )
             }
           </button>
-          <section ref={contentRef1} className="overflow-hidden transition-all duration-300 ease-linear max-h-0">
+          <section ref={addingListRef} className="overflow-hidden transition-all duration-300 ease-linear max-h-0">
             <ul className="layout-grid pb-6">
               {
                 addingList.map(item => {
@@ -219,7 +207,7 @@ export default function HouseList() {
               )
             }
           </button>
-          <section ref={contentRef2} className="overflow-hidden transition-all duration-300 ease-linear max-h-0">
+          <section ref={publishListRef} className="overflow-hidden transition-all duration-300 ease-linear max-h-0">
             <ul className="layout-grid pb-6">
               {
                 publishList.map(item => {
@@ -252,7 +240,7 @@ export default function HouseList() {
               )
             }
           </button>
-          <section ref={contentRef3} className="overflow-hidden transition-all duration-300 ease-linear max-h-0">
+          <section ref={rentedListRef} className="overflow-hidden transition-all duration-300 ease-linear max-h-0">
             <ul className="layout-grid pb-6">
               {
                 rentedList.map(item => {
@@ -285,7 +273,7 @@ export default function HouseList() {
               )
             }
           </button>
-          <section ref={contentRef4} className="overflow-hidden transition-all duration-300 ease-linear max-h-0">
+          <section ref={finishedListRef} className="overflow-hidden transition-all duration-300 ease-linear max-h-0">
             <ul className="layout-grid pb-6">
               {
                 finishedList.map(item => {
