@@ -71,7 +71,7 @@ const DoubleCheck = ({ isOpen, handleOpen, isOrderAccepted }: any) => {
   };
   const handleOrderAccept_API = async (orderId: string) => {
     try {
-      const response = await apiTenantOrderAcceptOrReject(
+      await apiTenantOrderAcceptOrReject(
         orderId,
         isAccepted as boolean
       );
