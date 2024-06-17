@@ -97,7 +97,10 @@ export default function Review() {
                 type="button"
                 className="text-sans-b-body2 filled-button-s rounded-r-none flex items-center gap-1"
                 disabled={pageNumberControl === 1}
-                onClick={() => setPageNumberControl(prev => prev - 1)}
+                onClick={() => {
+                  setPageNumberControl(prev => prev - 1)
+                  window.scrollTo(0,0);
+                }}
                 >
                 <img src={leftIcon_white} alt="left-icon" />
                 上一頁
@@ -106,7 +109,10 @@ export default function Review() {
                 type="button"
                 className="text-sans-b-body2 filled-button-s rounded-l-none flex items-center gap-1"
                 disabled={pageNumberControl === totalPage}
-                onClick={() => setPageNumberControl(prev => prev + 1)}
+                onClick={() => {
+                  setPageNumberControl(prev => prev + 1)
+                  window.scrollTo(0,0);
+                }}
               >
                 下一頁
                 <img src={rightIcon_white} alt="right-icon" />
