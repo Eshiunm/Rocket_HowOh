@@ -140,7 +140,7 @@ export default function TenantRequest() {
                 <h6>
                   顯示
                   <span className="text-sans-b-body2 px-1">{
-                    requestTotalNumber ? 
+                    requestTotalNumber > 0 ? 
                     pageNumberControl * 12 - 11
                     : 0
                   } </span>
@@ -148,7 +148,7 @@ export default function TenantRequest() {
                   <span className="text-sans-b-body2 px-1">{
                     requestTotalNumber ? 
                       (pageNumberControl === totalPage ? 
-                      requestTotalNumber % 12 + (pageNumberControl - 1) * 12 
+                        requestTotalNumber
                       : pageNumberControl * 12)
                     : 0
                   }</span>
@@ -200,7 +200,7 @@ export default function TenantRequest() {
                 <h6>
                   顯示
                   <span className="text-sans-b-body2 px-1">{
-                    requestTotalNumber ? 
+                    requestTotalNumber > 0 ? 
                     pageNumberControl * 12 - 11
                     : 0
                   } </span>
@@ -208,7 +208,7 @@ export default function TenantRequest() {
                   <span className="text-sans-b-body2 px-1">{
                     requestTotalNumber ? 
                       (pageNumberControl === totalPage ? 
-                      requestTotalNumber % 12 + (pageNumberControl - 1) * 12 
+                        requestTotalNumber
                       : pageNumberControl * 12)
                     : 0
                   }</span>
