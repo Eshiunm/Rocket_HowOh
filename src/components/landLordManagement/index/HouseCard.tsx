@@ -23,7 +23,7 @@ export default function HouseCard({data, houseStatus}: {data:any, houseStatus:st
     } else if (houseStatus === "rentedList") { // 已承租
       return "建立合約"; 
     } else if (houseStatus === "finishedList") { // 已完成
-      return "評價";
+      return "前往評價";
     }
   };
 
@@ -148,7 +148,7 @@ export default function HouseCard({data, houseStatus}: {data:any, houseStatus:st
         <button
           className="w-full text-center outline-button-s"
           onClick={handleButtonClick}
-          disabled={ (houseStatus === "publishList" && status === "租約邀請已送出") || (houseStatus === "finishedList" && data.canComment === false)}
+          disabled={ (houseStatus === "publishList" && status === "租約邀請已送出") || (houseStatus === "finishedList" && (status === "非系統用戶" || status === "強制變更"))}
         >
           {buttonMessage()}
         </button>
