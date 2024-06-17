@@ -369,10 +369,14 @@ export default function HouseList() {
             }
           </button>
           <section ref={contentRef1} className="overflow-hidden transition-all duration-300 ease-linear max-h-0">
-            <div>
-              列表區域在這個快節奏的現代社會中，人們面臨著來自工作、家庭和社交生活的多重壓力。如何平衡這些壓力並保持心理健康成為了一個重要的課題。首先，學會合理安排時間是關鍵。有效的時間管理可以減少緊張感，讓人們有更多的時間來放鬆和享受生活。其次，適當的運動和健康的飲食也能幫助減壓，提高整體的身心健康水平。此外，尋找興趣愛好並投入其中，可以讓人們在繁忙的生活中找到樂趣和平靜。最後，不要忽視與家人和朋友的交流，支持和關心他人同樣能讓自己感到幸福和滿足。通過這些方法，人們可以更好地應對生活中的挑戰，保持積極樂觀的心態。
-              列表區域在這個快節奏的現代社會中，人們面臨著來自工作、家庭和社交生活的多重壓力。如何平衡這些壓力並保持心理健康成為了一個重要的課題。首先，學會合理安排時間是關鍵。有效的時間管理可以減少緊張感，讓人們有更多的時間來放鬆和享受生活。其次，適當的運動和健康的飲食也能幫助減壓，提高整體的身心健康水平。此外，尋找興趣愛好並投入其中，可以讓人們在繁忙的生活中找到樂趣和平靜。最後，不要忽視與家人和朋友的交流，支持和關心他人同樣能讓自己感到幸福和滿足。通過這些方法，人們可以更好地應對生活中的挑戰，保持積極樂觀的心態。
-            </div>
+            <ul className="layout-grid pb-6">
+              {
+                addingList.map(item => {
+                  const {houseId} = item;
+                  return <HouseCard key={houseId} data={item} houseStatus="addingList" />
+                })
+              }
+            </ul>
           </section>
         </div>
         <div className="border-b border-Neutral-95">
@@ -398,10 +402,14 @@ export default function HouseList() {
             }
           </button>
           <section ref={contentRef2} className="overflow-hidden transition-all duration-300 ease-linear max-h-0">
-            <div>
-              列表區域在這個快節奏的現代社會中，人們面臨著來自工作、家庭和社交生活的多重壓力。如何平衡這些壓力並保持心理健康成為了一個重要的課題。首先，學會合理安排時間是關鍵。有效的時間管理可以減少緊張感，讓人們有更多的時間來放鬆和享受生活。其次，適當的運動和健康的飲食也能幫助減壓，提高整體的身心健康水平。此外，尋找興趣愛好並投入其中，可以讓人們在繁忙的生活中找到樂趣和平靜。最後，不要忽視與家人和朋友的交流，支持和關心他人同樣能讓自己感到幸福和滿足。通過這些方法，人們可以更好地應對生活中的挑戰，保持積極樂觀的心態。
-              列表區域在這個快節奏的現代社會中，人們面臨著來自工作、家庭和社交生活的多重壓力。如何平衡這些壓力並保持心理健康成為了一個重要的課題。首先，學會合理安排時間是關鍵。有效的時間管理可以減少緊張感，讓人們有更多的時間來放鬆和享受生活。其次，適當的運動和健康的飲食也能幫助減壓，提高整體的身心健康水平。此外，尋找興趣愛好並投入其中，可以讓人們在繁忙的生活中找到樂趣和平靜。最後，不要忽視與家人和朋友的交流，支持和關心他人同樣能讓自己感到幸福和滿足。通過這些方法，人們可以更好地應對生活中的挑戰，保持積極樂觀的心態。
-            </div>
+            <ul className="layout-grid pb-6">
+              {
+                publishList.map(item => {
+                  const {houseId} = item;
+                  return <HouseCard key={houseId} data={item} houseStatus="publishList" />
+                })
+              }
+            </ul>
           </section>
         </div>
         <div className="border-b border-Neutral-95">
@@ -427,10 +435,14 @@ export default function HouseList() {
             }
           </button>
           <section ref={contentRef3} className="overflow-hidden transition-all duration-300 ease-linear max-h-0">
-            <div>
-              列表區域在這個快節奏的現代社會中，人們面臨著來自工作、家庭和社交生活的多重壓力。如何平衡這些壓力並保持心理健康成為了一個重要的課題。首先，學會合理安排時間是關鍵。有效的時間管理可以減少緊張感，讓人們有更多的時間來放鬆和享受生活。其次，適當的運動和健康的飲食也能幫助減壓，提高整體的身心健康水平。此外，尋找興趣愛好並投入其中，可以讓人們在繁忙的生活中找到樂趣和平靜。最後，不要忽視與家人和朋友的交流，支持和關心他人同樣能讓自己感到幸福和滿足。通過這些方法，人們可以更好地應對生活中的挑戰，保持積極樂觀的心態。
-              列表區域在這個快節奏的現代社會中，人們面臨著來自工作、家庭和社交生活的多重壓力。如何平衡這些壓力並保持心理健康成為了一個重要的課題。首先，學會合理安排時間是關鍵。有效的時間管理可以減少緊張感，讓人們有更多的時間來放鬆和享受生活。其次，適當的運動和健康的飲食也能幫助減壓，提高整體的身心健康水平。此外，尋找興趣愛好並投入其中，可以讓人們在繁忙的生活中找到樂趣和平靜。最後，不要忽視與家人和朋友的交流，支持和關心他人同樣能讓自己感到幸福和滿足。通過這些方法，人們可以更好地應對生活中的挑戰，保持積極樂觀的心態。
-            </div>
+            <ul className="layout-grid pb-6">
+              {
+                rentedList.map(item => {
+                  const {houseId} = item;
+                  return <HouseCard key={houseId} data={item} houseStatus="rentedList" />
+                })
+              }
+            </ul>
           </section>
         </div>
         <div className="border-b border-Neutral-95">
@@ -456,10 +468,14 @@ export default function HouseList() {
             }
           </button>
           <section ref={contentRef4} className="overflow-hidden transition-all duration-300 ease-linear max-h-0">
-            <div>
-              列表區域在這個快節奏的現代社會中，人們面臨著來自工作、家庭和社交生活的多重壓力。如何平衡這些壓力並保持心理健康成為了一個重要的課題。首先，學會合理安排時間是關鍵。有效的時間管理可以減少緊張感，讓人們有更多的時間來放鬆和享受生活。其次，適當的運動和健康的飲食也能幫助減壓，提高整體的身心健康水平。此外，尋找興趣愛好並投入其中，可以讓人們在繁忙的生活中找到樂趣和平靜。最後，不要忽視與家人和朋友的交流，支持和關心他人同樣能讓自己感到幸福和滿足。通過這些方法，人們可以更好地應對生活中的挑戰，保持積極樂觀的心態。
-              列表區域在這個快節奏的現代社會中，人們面臨著來自工作、家庭和社交生活的多重壓力。如何平衡這些壓力並保持心理健康成為了一個重要的課題。首先，學會合理安排時間是關鍵。有效的時間管理可以減少緊張感，讓人們有更多的時間來放鬆和享受生活。其次，適當的運動和健康的飲食也能幫助減壓，提高整體的身心健康水平。此外，尋找興趣愛好並投入其中，可以讓人們在繁忙的生活中找到樂趣和平靜。最後，不要忽視與家人和朋友的交流，支持和關心他人同樣能讓自己感到幸福和滿足。通過這些方法，人們可以更好地應對生活中的挑戰，保持積極樂觀的心態。
-            </div>
+            <ul className="layout-grid pb-6">
+              {
+                finishedList.map(item => {
+                  const {houseId} = item;
+                  return <HouseCard key={houseId} data={item} houseStatus="finishedList" />
+                })
+              }
+            </ul>
           </section>
         </div>
       </ForcedChangeReload.Provider>
