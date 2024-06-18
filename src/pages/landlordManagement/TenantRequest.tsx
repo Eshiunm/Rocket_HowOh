@@ -1,12 +1,12 @@
 import { createContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Toast } from "flowbite-react";
 import leftIcon_white from "../../assets/imgs/icons/leftIcon_white.svg";
 import rightIcon_white from "../../assets/imgs/icons/rightIcon_white.svg";
-import noListImg from "../../assets/imgs/tenantManagement/whenNoItemsShowThisImg.svg";
+import noListImg from "../../assets/imgs/landlord-management/Young man working on a laptop.svg";
 import RequestList from "../../components/landLordManagement/request/RequestList";
 import Footer from "../../components/footer/Footer";
 import { apiAppointmentCommonTotalNumber } from "../../apis/apis";
-import { Toast } from "flowbite-react";
 
 type contextValueType = {
   reloadRequestList: boolean;
@@ -103,7 +103,7 @@ export default function TenantRequest() {
         </div>
       </header>
       <ReloadRequestList.Provider value={contextValue}>
-      <main className="flex-grow container layout-grid mb-40">
+      <main className="flex-grow container layout-grid mb-24">
         <div className="col-span-7 px-5">
           <section className="flex items-start gap-6 pb-3 pt-6 border-b border-Neutral-95 mb-6">
             <div className="flex gap-3 pt-4">
@@ -193,9 +193,9 @@ export default function TenantRequest() {
               requestTotalNumber ?
               <RequestList sort={sortOrder} pageNumberControl={pageNumberControl} />
               : (
-                <div className="flex gap-3 items-center px-5 pb-5">
-                  <img src={noListImg} alt="no list image" />
-                  <p>此狀態分類尚無租客預約資料</p>
+                <div className="flex gap-3 items-center px-5 py-4 mb-6 bg-Landlord-99 rounded-xl">
+                  <img src={noListImg} alt="no-list-image" />
+                  <p>此狀態分類尚無租客預約資料。</p>
                 </div>
               )
             }

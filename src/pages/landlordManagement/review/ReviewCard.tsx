@@ -46,7 +46,8 @@ export default function ReviewCard ({data}: {data: ReviewListType}) {
   return (
     <>
       <li
-        className={`p-3 rounded-xl flex gap-4 ${
+        tabIndex={0}
+        className={`p-3 rounded-xl flex gap-4 focus:bg-Landlord-99 ${
           canClick && "cursor-pointer hover:bg-Landlord-99"
         }`}
         onClick={() => canClick && handleOffcanvasCanvas(true)}

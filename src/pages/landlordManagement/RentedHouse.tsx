@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { Drawer, Flowbite, CustomFlowbiteTheme } from "flowbite-react";
 import moment from 'moment-timezone';
-import tenantImg from "../../assets/imgs/signUp/signUp_tenant_bgImg.svg";
+import tenantNoPhoto from "../../assets/imgs/landlord-management/tenantNoPhoto.svg";
 import star from "../../assets/imgs/icons/star.svg";
 import close from "../../assets/imgs/icons/close.svg";
 import messageCloud from "../../assets/imgs/icons/messageCloud.svg";
@@ -321,7 +321,7 @@ export default function RentedHouse() {
                     </a>
                   </div>
                   <div className="w-[186px] rounded-lg overflow-hidden">
-                    <img src={tenantData?.photo || tenantImg} alt="tenant" className="w-full aspect-square block object-cover" />
+                    <img src={tenantData?.photo || tenantNoPhoto} alt="tenant" className="w-full aspect-square block object-cover" />
                   </div>
                 </div>
                 <div className="flex gap-3 mb-6">

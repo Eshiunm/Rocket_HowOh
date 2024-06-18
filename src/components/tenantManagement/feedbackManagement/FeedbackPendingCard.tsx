@@ -46,8 +46,9 @@ export default function FeedbackPendingCard ({data}: {data: ReviewListType}) {
   return (
     <>
       <li
-        className={`p-3 rounded-xl flex gap-4 ${
-          canClick && "cursor-pointer hover:bg-Landlord-99"
+        tabIndex={0}
+        className={`p-3 rounded-xl flex gap-4 focus:bg-Tenant-95 ${
+          canClick && "cursor-pointer hover:bg-Tenant-95"
         }`}
         onClick={() => canClick && handleOffcanvasCanvas(true)}
       >
@@ -75,10 +76,10 @@ export default function FeedbackPendingCard ({data}: {data: ReviewListType}) {
               <span className="px-1 py-0.5 rounded text-sans-caption text-white bg-Neutral-60">未評價</span>
             )}
             {!commentInfo.canComment && commentInfo.myComment && (
-              <span className="px-1 py-0.5 rounded text-sans-caption text-white bg-Landlord-60">您已評價</span>
+              <span className="px-1 py-0.5 rounded text-sans-caption text-white bg-Brand-60">您已評價</span>
             )}
             {commentInfo.tenantComment && (
-              <span className="px-1 py-0.5 rounded text-sans-caption text-white bg-Brand-60">租客已評價</span>
+              <span className="px-1 py-0.5 rounded text-sans-caption text-white bg-Landlord-60">房東已評價</span>
             )}
           </div>
           <button
