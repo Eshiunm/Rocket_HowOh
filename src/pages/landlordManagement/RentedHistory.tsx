@@ -48,7 +48,7 @@ export default function RentedHistory() {
       {
         listCount === 0 && getListLoading === false ? (
           <section className="col-span-7 p-5 mt-5 flex gap-3 items-center bg-Landlord-99 rounded-xl">
-            <img src={noListImg} alt="noListImg" />
+            <img src={noListImg} alt="no-list-img" />
             <h3 className="text-sans-body1">尚無出租歷史。</h3>
           </section>
         ):(
