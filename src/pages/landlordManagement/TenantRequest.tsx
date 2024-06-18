@@ -103,7 +103,7 @@ export default function TenantRequest() {
         </div>
       </header>
       <ReloadRequestList.Provider value={contextValue}>
-      <main className="container layout-grid mb-40">
+      <main className="flex-grow container layout-grid mb-40">
         <div className="col-span-7 px-5">
           <section className="flex items-start gap-6 pb-3 pt-6 border-b border-Neutral-95 mb-6">
             <div className="flex gap-3 pt-4">
