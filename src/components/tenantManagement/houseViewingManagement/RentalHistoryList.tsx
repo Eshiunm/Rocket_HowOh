@@ -1,8 +1,7 @@
-import { useEffect, useState } from "react";
+import { MouseEvent, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { CustomFlowbiteTheme, Flowbite, Drawer } from "flowbite-react";
 import { apiAppointmentTenantHistoryList } from "../../../apis/apis";
-import picture from "../../../assets/imgs/tenantManagement/Rectangle 17.jpg";
 import landLordProfile from "../../../assets/imgs/SingleHousePage/landLordProfile.jpg";
 import ratingStarIcon from "../../../assets/imgs/SingleHousePage/ratingStarIcon.svg";
 import landLordIcon from "../../../assets/imgs/SingleHousePage/landLordIcon.svg";
@@ -42,23 +41,56 @@ function RentalHistoryList() {
       },
     },
   };
-  const [isDrawdOpen, setIsDrawdOpen] = useState(false);
-  const [historyList, setHistoryList] = useState<any>([]);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [historyList, setHistoryList] = useState<any[]>([]);
+  const [historyListTotalCounts, setHistoryListTotalCounts] = useState(0);
+  const [currentPageNumber, setCurrentPageNumber] = useState(0);
 
+  const getFormattedDate = (dateString: string) => {
+    const date = new Date(dateString);
+
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1;
+    const day = date.getDate();
+    const formattedDate = `${year}年${month}月${day}日`;
+    return formattedDate;
+  };
+  const getFormatPhoneNumber = (phoneNumber: string) => {
+    return phoneNumber.replace(/(\d{4})(\d{3})(\d{3})/, "$1-$2-$3");
+  };
+  const getHistoryList = async (pageNumber:number) => {
+    try {
+      const response = await apiAppointmentTenantHistoryList(pageNumber);
+      const historyList = response.data.data.orderList;
+      const historyListTotalCounts = response.data.data.totalCount;
+      const currentPageNumber = response.data.data.page;
+      setHistoryList(historyList);
+      setHistoryListTotalCounts(historyListTotalCounts);
+      setCurrentPageNumber(currentPageNumber);
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const handleNextPage = () =>{
+    getHistoryList(currentPageNumber+1);
+  }
+
+  const handlePrevPage = () =>{
+    getHistoryList(currentPageNumber-1);
+  }
+  const handleDrawerOpen = (e:MouseEvent<HTMLLIElement>) => {
+    const orderId = e.currentTarget.dataset.orderid;
+    console.log(orderId)
+    setIsDrawerOpen(true);
+  }
+  const handleDrawerClose = () => {
+    setIsDrawerOpen(false);
+  }
   
   useEffect(() => {
-    const getHistoryList = async () => {
-      try{
-        const defaultPageNumber = 1;
-        const response = await apiAppointmentTenantHistoryList(defaultPageNumber);
-        const historyList = response.data.data.orderList;
-        setHistoryList(historyList);
-        console.log(historyList);
-      }catch(error){
-        console.log(error);
-      }
-    }
-    getHistoryList();
+    const defaultPageNumber = 1;
+    getHistoryList(defaultPageNumber);
   }, []);
   return (
     <>
@@ -66,8 +98,8 @@ function RentalHistoryList() {
       <Flowbite theme={{ theme: customTheme }}>
         <Drawer
           className="bg-Neutral-99"
-          open={isDrawdOpen}
-          onClose={() => setIsDrawdOpen(false)}
+          open={isDrawerOpen}
+          onClose={handleDrawerClose}
           position="right"
         >
           <Drawer.Items>
@@ -76,7 +108,7 @@ function RentalHistoryList() {
                 <button
                   type="button"
                   className="self-end"
-                  onClick={() => setIsDrawdOpen(false)}
+                  onClick={() => setIsDrawerOpen(false)}
                 >
                   <img src={close} alt="close" />
                 </button>
@@ -188,20 +220,33 @@ function RentalHistoryList() {
           </Drawer.Items>
         </Drawer>
       </Flowbite>
-      <section className="bg-Neutral-99 pt-8 pb-28 h-screen">
+      <section className="flex-grow bg-Neutral-99 pt-8 pb-28">
         <div className="container layout-grid">
           <div className="col-span-7">
             <div className="p-5 bg-white rounded-xl">
-              <div className="flex justify-between mt-2 pb-3 border-b border-Neutral-95">
+              <div className="flex justify-between mt-2 pb-3 border-b border-Neutral-95 mb-6">
                 <div></div>
                 <div>
                   <p className="text-sans-b-body2 text-center text-Brand-10 mb-2">
-                    顯示 1 至 12 筆 共 59 筆
+                    {`${
+                      historyListTotalCounts > 0
+                        ? `顯示 1 至 ${historyListTotalCounts} 筆 共 ${historyListTotalCounts} 筆`
+                        : ""
+                    }`}
+                    {`${
+                      historyListTotalCounts > 12
+                        ? `顯示 1 至 12 筆 共 ${historyListTotalCounts} 筆`
+                        : ""
+                    }`}
                   </p>
                   <div className="flex gap-x-1">
                     <button
                       type="button"
-                      className="flex gap-x-[10px] rounded-l-lg items-center text-sans-b-body1 text-white p-2 hover:opacity-80 bg-Neutral-90"
+                      disabled={
+                        currentPageNumber === 1 || historyListTotalCounts === 0
+                      }
+                      className="flex gap-x-[10px] rounded-r-none items-center filled-button-s"
+                      onClick={handlePrevPage}
                     >
                       <svg
                         className="fill-white"
@@ -219,7 +264,13 @@ function RentalHistoryList() {
                     </button>
                     <button
                       type="button"
-                      className="flex gap-x-[10px] rounded-r-lg items-center text-sans-b-body1 text-white p-2 hover:opacity-80 bg-black"
+                      disabled={
+                        currentPageNumber ===
+                          Math.floor(historyListTotalCounts / 12) ||
+                        historyListTotalCounts <= 12
+                      }
+                      className="flex gap-x-[10px] rounded-l-none items-center filled-button-s"
+                      onClick={handleNextPage}
                     >
                       下一頁
                       <svg
@@ -238,106 +289,147 @@ function RentalHistoryList() {
                   </div>
                 </div>
               </div>
-              {historyList === 0 ? (
-                <NoResults />
-              ) : (
+              {historyList.length > 0 ? (
                 <ul>
-                  <li
-                    className={`p-3 cursor-pointer hover:bg-Neutral-99 rounded-xl ${
-                      isDrawdOpen && "bg-Neutral-95"
-                    }`}
-                    onClick={() => setIsDrawdOpen(true)}
-                  >
-                    <div className="flex justify-between">
-                      <div className="flex gap-x-4">
-                        <img src={picture} alt="picture" />
-                        <div className="flex flex-col justify-between">
-                          <h3 className="text-sans-b-h6">
-                            信義國小套房 捷運3分鐘
-                          </h3>
-                          <p className="flex gap-x-2">
-                            <span className="pr-2 border-r border-Tenant-70">
-                              合約起迄
-                            </span>
-                            <span>2024年4月23日 至 2025年4月22日</span>
-                          </p>
-                          <div className="flex gap-x-6">
+                  {historyList.map((houseData, index) => (
+                    <li
+                      key={index}
+                      tabIndex={0}
+                      className={`p-3 cursor-pointer hover:bg-Neutral-99 rounded-xl focus:bg-Neutral-95`}
+                      data-orderid={houseData.orderInfo.orderId}
+                      onClick={handleDrawerOpen}
+                    >
+                      <div className="flex justify-between">
+                        <div className="flex gap-x-4">
+                          <div className="h-[124px] w-[136px] rounded-2xl overflow-hidden">
+                            <img
+                              className="w-full h-full object-cover"
+                              src={houseData.houseInfo.photo}
+                              alt="picture"
+                            />
+                          </div>
+                          <div className="flex flex-col justify-between">
+                            <h3 className="text-sans-b-h6">
+                              {houseData.houseInfo.name}
+                            </h3>
                             <p className="flex gap-x-2">
                               <span className="pr-2 border-r border-Tenant-70">
-                                房東
+                                合約起迄
                               </span>
-                              <span>王太太</span>
+                              <span>
+                                {getFormattedDate(
+                                  houseData.orderInfo.leaseStartTime
+                                )}{" "}
+                                至{" "}
+                                {getFormattedDate(
+                                  houseData.orderInfo.leaseEndTime
+                                )}
+                              </span>
                             </p>
+                            <div className="flex gap-x-6">
+                              <p className="flex gap-x-2">
+                                <span className="pr-2 border-r border-Tenant-70">
+                                  房東
+                                </span>
+                                <span>{houseData.landlordInfo.lastName}{houseData.landlordInfo.firstName
+                                }</span>
+                              </p>
+                              <p className="flex gap-x-2">
+                                <span className="pr-2 border-r border-Tenant-70">
+                                  租金
+                                </span>
+                                <span>
+                                  {parseInt(
+                                    houseData.houseInfo.rent
+                                  ).toLocaleString()}
+                                </span>
+                              </p>
+                            </div>
                             <p className="flex gap-x-2">
                               <span className="pr-2 border-r border-Tenant-70">
-                                租金
+                                電話
                               </span>
-                              <span>15,000</span>
+                              <span>
+                                {getFormatPhoneNumber(
+                                  houseData.landlordInfo.tel.toString()
+                                )}
+                              </span>
                             </p>
                           </div>
-                          <p className="flex gap-x-2">
-                            <span className="pr-2 border-r border-Tenant-70">
-                              電話
-                            </span>
-                            <span>0936-123-123</span>
-                          </p>
+                        </div>
+                        <div className="flex flex-col justify-between">
+                          <ul className="flex justify-end">
+                            <li>
+                              <span
+                                className={` rounded-lg px-2 py-1 
+                                ${
+                                  houseData.orderInfo.orderStatus ===
+                                    "已承租" && "bg-Brand-90"
+                                }
+                                ${
+                                  houseData.orderInfo.orderStatus ===
+                                    "待評價" && "bg-Neutral-50 text-white"
+                                }
+                                ${
+                                  houseData.orderInfo.orderStatus ===
+                                    "已完成" && "bg-Neutral-99 text-Neutral-80"
+                                }
+                                `}
+                              >
+                                {houseData.orderInfo.orderStatus}
+                              </span>
+                            </li>
+                          </ul>
+                          <div className="flex justify-between">
+                            <Link
+                              to="/tenant/feedbackManagement/feedbackPendingList"
+                              className={`flex items-center gap-x-2 filled-button-m fill-white ${
+                                houseData.orderInfo.orderStatus !== "待評價"
+                                  ? "hidden"
+                                  : ""
+                              }`}
+                            >
+                              前往評價
+                              <svg width="16" height="16" viewBox="0 0 16 16">
+                                <path
+                                  fillRule="evenodd"
+                                  clipRule="evenodd"
+                                  d="M13.9999 2.5C13.9999 2.36739 13.9472 2.24021 13.8535 2.14645C13.7597 2.05268 13.6325 2 13.4999 2H7.4999C7.36729 2 7.24011 2.05268 7.14635 2.14645C7.05258 2.24021 6.9999 2.36739 6.9999 2.5C6.9999 2.63261 7.05258 2.75979 7.14635 2.85355C7.24011 2.94732 7.36729 3 7.4999 3H12.2929L2.1459 13.146C2.09941 13.1925 2.06254 13.2477 2.03738 13.3084C2.01222 13.3692 1.99927 13.4343 1.99927 13.5C1.99927 13.5657 2.01222 13.6308 2.03738 13.6916C2.06254 13.7523 2.09941 13.8075 2.1459 13.854C2.19239 13.9005 2.24758 13.9374 2.30832 13.9625C2.36906 13.9877 2.43416 14.0006 2.4999 14.0006C2.56564 14.0006 2.63074 13.9877 2.69148 13.9625C2.75222 13.9374 2.80741 13.9005 2.8539 13.854L12.9999 3.707V8.5C12.9999 8.63261 13.0526 8.75979 13.1463 8.85355C13.2401 8.94732 13.3673 9 13.4999 9C13.6325 9 13.7597 8.94732 13.8535 8.85355C13.9472 8.75979 13.9999 8.63261 13.9999 8.5V2.5Z"
+                                />
+                              </svg>
+                            </Link>
+                          </div>
                         </div>
                       </div>
-                      <div className="flex flex-col justify-between">
-                        <p
-                          className="flex gap-x-2 cursor-pointer"
-                          data-tooltip-target="tooltip-default"
-                        >
-                          <span className="pr-2 border-r border-Tenant-70">
-                            2024年5月18日
-                          </span>
-                          <span>14:40</span>
-                        </p>
-                        {/* tooltip */}
-                        <div
-                          id="tooltip-default"
-                          role="tooltip"
-                          className="absolute z-10 invisible inline-block  w-[200px] px-3 py-2 text-center text-sans-body2 text-white transition-opacity duration-300 bg-Tenant-30 rounded-lg shadow-sm opacity-0 tooltip"
-                        >
-                          房東發送邀請的時間
-                          <div
-                            className="tooltip-arrow"
-                            data-popper-arrow
-                          ></div>
-                        </div>
-                        {/* 拒絕、接受 */}
-                        <div className="flex justify-between">
-                          <span></span>
-                          <Link
-                            to="/tenant/feedbackManagement/feedbackPendingList"
-                            className="flex items-center gap-x-2 filled-button-m fill-white"
-                          >
-                            前往評價
-                            <svg width="16" height="16" viewBox="0 0 16 16">
-                              <path
-                                fillRule="evenodd"
-                                clipRule="evenodd"
-                                d="M13.9999 2.5C13.9999 2.36739 13.9472 2.24021 13.8535 2.14645C13.7597 2.05268 13.6325 2 13.4999 2H7.4999C7.36729 2 7.24011 2.05268 7.14635 2.14645C7.05258 2.24021 6.9999 2.36739 6.9999 2.5C6.9999 2.63261 7.05258 2.75979 7.14635 2.85355C7.24011 2.94732 7.36729 3 7.4999 3H12.2929L2.1459 13.146C2.09941 13.1925 2.06254 13.2477 2.03738 13.3084C2.01222 13.3692 1.99927 13.4343 1.99927 13.5C1.99927 13.5657 2.01222 13.6308 2.03738 13.6916C2.06254 13.7523 2.09941 13.8075 2.1459 13.854C2.19239 13.9005 2.24758 13.9374 2.30832 13.9625C2.36906 13.9877 2.43416 14.0006 2.4999 14.0006C2.56564 14.0006 2.63074 13.9877 2.69148 13.9625C2.75222 13.9374 2.80741 13.9005 2.8539 13.854L12.9999 3.707V8.5C12.9999 8.63261 13.0526 8.75979 13.1463 8.85355C13.2401 8.94732 13.3673 9 13.4999 9C13.6325 9 13.7597 8.94732 13.8535 8.85355C13.9472 8.75979 13.9999 8.63261 13.9999 8.5V2.5Z"
-                              />
-                            </svg>
-                          </Link>
-                        </div>
-                      </div>
-                    </div>
-                  </li>
+                    </li>
+                  ))}
                 </ul>
+              ) : (
+                <NoResults />
               )}
-
-              <div className="flex justify-between mt-2 pt-3 border-t border-Neutral-95">
+              <div className="flex justify-between mt-4 pt-3 border-t border-Neutral-95">
                 <div></div>
                 <div>
                   <p className="text-sans-b-body2 text-center text-Brand-10 mb-2">
-                    顯示 1 至 12 筆 共 59 筆
+                    {`${
+                      historyListTotalCounts > 0
+                        ? `顯示 1 至 ${historyListTotalCounts} 筆 共 ${historyListTotalCounts} 筆`
+                        : ""
+                    }`}
+                    {`${
+                      historyListTotalCounts > 12
+                        ? `顯示 1 至 12 筆 共 ${historyListTotalCounts} 筆`
+                        : ""
+                    }`}
                   </p>
                   <div className="flex gap-x-1">
                     <button
                       type="button"
-                      className="flex gap-x-[10px] rounded-l-lg items-center text-sans-b-body1 text-white p-2 hover:opacity-80 bg-Neutral-90"
+                      disabled={
+                        currentPageNumber === 1 || historyListTotalCounts === 0
+                      }
+                      className="flex gap-x-[10px] rounded-r-none items-center filled-button-s"
+                      onClick={handlePrevPage}
                     >
                       <svg
                         className="fill-white"
@@ -355,7 +447,13 @@ function RentalHistoryList() {
                     </button>
                     <button
                       type="button"
-                      className="flex gap-x-[10px] rounded-r-lg items-center text-sans-b-body1 text-white p-2 hover:opacity-80 bg-black"
+                      disabled={
+                        currentPageNumber ===
+                          Math.floor(historyListTotalCounts / 12) ||
+                        historyListTotalCounts <= 12
+                      }
+                      className="flex gap-x-[10px] rounded-l-none items-center filled-button-s"
+                      onClick={handleNextPage}
                     >
                       下一頁
                       <svg
