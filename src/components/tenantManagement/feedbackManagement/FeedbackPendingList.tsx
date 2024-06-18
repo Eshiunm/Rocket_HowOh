@@ -9,7 +9,7 @@ type OrderInfoType = {
   orderId: number;
   photo: string;
   name: string;
-  tenant: string;
+  landlord: string;
   leaseStartTime: string;
   leaseEndTime: string;
 };

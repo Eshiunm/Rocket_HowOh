@@ -57,8 +57,8 @@ export default function FeedbackPendingCard ({data}: {data: ReviewListType}) {
         <div className="flex flex-col justify-between">
           <h3 className="text-sans-b-h6">{orderInfo.name}</h3>
           <div className="flex text-sans-body1">
-            <h4 className="pr-2 mr-2 border-r border-Tenant-70">租客</h4>
-            <span>{orderInfo.tenant || "非系統用戶"}</span>
+            <h4 className="pr-2 mr-2 border-r border-Tenant-70">房東</h4>
+            <span>{orderInfo.landlord}</span>
           </div>
           <div className="flex text-sans-body1">
             <h4 className="pr-2 mr-2 border-r border-Tenant-70">合約起迄</h4>
