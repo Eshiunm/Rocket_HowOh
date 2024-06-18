@@ -3,7 +3,7 @@ import Footer from "../../components/footer/Footer";
 function Article_1() {
   return (
     <>
-      <div className="wrap mt-[60px] pb-[120px]">
+      <div className="flex-grow wrap mt-[60px] pb-[120px]">
         <div className="container layout-grid">
           <div className="col-span-8 col-start-3">
             <div className="mb-10">
