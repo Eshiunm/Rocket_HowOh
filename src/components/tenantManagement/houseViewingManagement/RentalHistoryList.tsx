@@ -80,7 +80,8 @@ function RentalHistoryList() {
     getHistoryList(currentPageNumber-1);
   }
   const handleDrawerOpen = (e:MouseEvent<HTMLLIElement>) => {
-    //const orderId = e.currentTarget.dataset.orderid;
+    const orderId = e.currentTarget.dataset.orderid;
+    console.log(orderId);
     setIsDrawerOpen(true);
   }
   const handleDrawerClose = () => {
