@@ -1119,9 +1119,7 @@ function HouseViewingList() {
         </Drawer>
       </Flowbite>
       <section
-        className={`bg-Neutral-99 pt-8 pb-28 ${
-          isAPIProcessing ? "" : ""
-        } `}
+        className={`bg-Neutral-99 pt-8 pb-28 flex-grow`}
       >
         <div className="container layout-grid">
           <div className="col-span-7">

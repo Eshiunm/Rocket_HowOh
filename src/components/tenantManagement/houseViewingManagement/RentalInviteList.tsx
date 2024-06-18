@@ -1,15 +1,128 @@
-import { useEffect, useState } from "react";
-import { CustomFlowbiteTheme, Flowbite, Drawer } from "flowbite-react";
+import { MouseEvent, useEffect, useState } from "react";
+import { CustomFlowbiteTheme, Flowbite, Modal, Drawer } from "flowbite-react";
 import NoResults from "./NoResults";
 import {
   apiAppointmentTenantInvitedList,
   apiAppointmentTenantInvitedHouseDetail,
+  apiTenantOrderAcceptOrReject,
 } from "../../../apis/apis";
 import ratingStarIcon from "../../../assets/imgs/SingleHousePage/ratingStarIcon.svg";
 import landLordIcon from "../../../assets/imgs/SingleHousePage/landLordIcon.svg";
 import messageIcon from "../../../assets/imgs/tenantManagement/messageIcon.svg";
 import close from "../../../assets/imgs/icons/close.svg";
 import { Link } from "react-router-dom";
+
+const DoubleCheck = ({ isOpen, handleOpen, isOrderAccepted }: any) => {
+  const { isOrderAccepted: isAccepted, orderId } = isOrderAccepted;
+  const customTheme: CustomFlowbiteTheme = {
+    modal: {
+      root: {
+        base: "backdrop-blur-md fixed inset-x-0 top-0 z-50 h-screen overflow-y-auto overflow-x-hidden md:inset-0 md:h-full",
+        show: {
+          on: "flex bg-black bg-opacity-20",
+          off: "hidden",
+        },
+        sizes: {
+          sm: "max-w-sm",
+          md: "max-w-md",
+          lg: "max-w-lg",
+          xl: "max-w-xl",
+          "2xl": "max-w-2xl",
+          "3xl": "max-w-3xl",
+          "4xl": "max-w-4xl",
+          "5xl": "max-w-5xl",
+          "6xl": "max-w-6xl",
+          "7xl": "max-w-7xl",
+        },
+        positions: {
+          "top-left": "items-start justify-start",
+          "top-center": "items-start justify-center",
+          "top-right": "items-start justify-end",
+          "center-left": "items-center justify-start",
+          center: "items-center justify-center",
+          "center-right": "items-center justify-end",
+          "bottom-right": "items-end justify-end",
+          "bottom-center": "items-end justify-center",
+          "bottom-left": "items-end justify-start",
+        },
+      },
+      content: {
+        base: "relative h-full w-full p-4 md:h-auto",
+        inner:
+          "relative flex max-h-[90dvh] flex-col rounded-2xl bg-white shadow dark:bg-gray-700",
+      },
+      body: {
+        base: "flex-1 overflow-auto py-10 px-2",
+      },
+      header: {
+        base: "flex items-start justify-between rounded-t border-b",
+        popup: "border-b-0 pt-10",
+        title: "text-xl font-medium text-gray-900 dark:text-white",
+        close: {
+          base: "hidden",
+          icon: "hidden",
+        },
+      },
+      footer: {
+        base: "flex items-center space-x-2 rounded-b border-gray-200 p-6 dark:border-gray-600",
+        popup: "border-t",
+      },
+    },
+  };
+  const handleOrderAccept_API = async (orderId: string) => {
+    try {
+      await apiTenantOrderAcceptOrReject(
+        orderId,
+        isAccepted as boolean
+      );
+      window.location.reload();
+    } catch (errors) {
+      console.log(errors);
+    }
+  };
+  const handleOrderAccept = () => {
+    handleOrderAccept_API(orderId.toString());
+  };
+
+  return (
+    <>
+      <Flowbite theme={{ theme: customTheme }}>
+        <Modal show={isOpen} size="xl" onClose={() => handleOpen(false)} popup>
+          <Modal.Body>
+            <img
+              src={close}
+              alt="close"
+              className="cursor-pointer ml-auto mt-4"
+              onClick={() => handleOpen(false)}
+            />
+            <h3 className="text-sans-h5 text-center mb-8">
+              確定要
+              <span className="text-Alert-60 font-bold">{` ${
+                isAccepted ? "接受" : "拒絕"
+              } `}</span>
+              租約邀請嗎？
+            </h3>
+            <div className="flex justify-center gap-x-8">
+              <button
+                className="outline-button-m px-4"
+                onClick={() => handleOpen(false)}
+              >
+                取消
+              </button>
+              <button
+                className="outline-button-m px-4"
+                onClick={handleOrderAccept}
+              >
+                確認
+              </button>
+            </div>
+          </Modal.Body>
+        </Modal>
+      </Flowbite>
+    </>
+  );
+};
+
 function RentalInviteList() {
   // offCanvas 樣式
   const customTheme: CustomFlowbiteTheme = {
@@ -43,12 +156,94 @@ function RentalInviteList() {
         base: "",
       },
     },
+    modal: {
+      root: {
+        base: "z-50 backdrop-blur-md fixed inset-x-0 top-0 z-50 h-screen overflow-y-auto overflow-x-hidden md:inset-0 md:h-full",
+        show: {
+          on: "flex bg-black bg-opacity-20",
+          off: "hidden",
+        },
+        sizes: {
+          sm: "max-w-sm",
+          md: "max-w-md",
+          lg: "max-w-lg",
+          xl: "max-w-xl",
+          "2xl": "max-w-2xl",
+          "3xl": "max-w-3xl",
+          "4xl": "max-w-4xl",
+          "5xl": "max-w-5xl",
+          "6xl": "max-w-6xl",
+          "7xl": "max-w-7xl",
+        },
+        positions: {
+          "top-left": "items-start justify-start",
+          "top-center": "items-start justify-center",
+          "top-right": "items-start justify-end",
+          "center-left": "items-center justify-start",
+          center: "items-center justify-center",
+          "center-right": "items-center justify-end",
+          "bottom-right": "items-end justify-end",
+          "bottom-center": "items-end justify-center",
+          "bottom-left": "items-end justify-start",
+        },
+      },
+      content: {
+        base: "relative h-full w-full p-4 md:h-auto",
+        inner:
+          "relative flex max-h-[90dvh] flex-col rounded-2xl bg-white shadow dark:bg-gray-700",
+      },
+      body: {
+        base: "flex-1 overflow-auto p-10",
+      },
+      header: {
+        base: "flex items-start justify-between rounded-t border-b",
+        popup: "border-b-0 pt-10",
+        title: "text-xl font-medium text-gray-900 dark:text-white",
+        close: {
+          base: "hidden",
+          icon: "hidden",
+        },
+      },
+      footer: {
+        base: "flex items-center space-x-2 rounded-b border-gray-200 p-6 dark:border-gray-600",
+        popup: "border-t",
+      },
+    },
   };
-  const [isDrawdOpen, setIsDrawdOpen] = useState(false);
   const [inviteList, setInviteList] = useState<any>([]);
-  const [currentCardSelectedId, setCurrentCardSelectedId] = useState("");
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [drawerData, setDrawerData] = useState<any>({});
   const [isCardSelected, setIsCardSelected] = useState<any>({});
+  const [currentCardSelectedId, setCurrentCardSelectedId] = useState("");
+  const [isDoubleCheckModalOpen, setIsDoubleCheckModalOpen] = useState(false);
+  const [isOrderAccepted, setIsOrderAccepted] = useState<any>({});
+  const getInviteList = async () => {
+    try {
+      const defaultPageNumber = "1";
+      const response = await apiAppointmentTenantInvitedList(defaultPageNumber);
+      // 某個卡片被點擊，開啟offCanvas後，卡片要有 selected 效果
+      const isCardSelected = response.data.reduce(
+        (acc: any, { houseId }: any) => {
+          acc[`cardId${houseId}`] = false;
+          return acc;
+        },
+        {}
+      );
+      setIsCardSelected(isCardSelected);
+      setInviteList(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const getHouseDetailInfo = async (orderId: string) => {
+    try {
+      const response = await apiAppointmentTenantInvitedHouseDetail(orderId);
+      const houseDetailInfo = response.data[0];
+      setDrawerData(houseDetailInfo);
+    } catch (errors) {
+      console.log(errors);
+    }
+  };
   const getFormattedDate = (dateString: string) => {
     const date = new Date(dateString);
     // 將日期轉換為 "xxxx年xx月xx日" 的格式
@@ -71,61 +266,49 @@ function RentalInviteList() {
     const houseId = e.currentTarget.dataset.houseid;
     const orderId = e.currentTarget.dataset.orderid;
 
-    const getHouseDetailInfo = async (orderId: string) => {
-      try {
-        const response = await apiAppointmentTenantInvitedHouseDetail(orderId);
-        const houseDetailInfo = response.data[0];
-        setDrawerData(houseDetailInfo);
-      } catch (errors) {
-        console.log(errors);
-      }
-    };
-
     getHouseDetailInfo(orderId.toString());
     setCurrentCardSelectedId(houseId);
     setIsCardSelected({ ...isCardSelected, [`cardId${houseId}`]: true });
-    setIsDrawdOpen(true);
+    setIsDrawerOpen(true);
   };
   const handleDrawerClose = () => {
     setIsCardSelected({
       ...isCardSelected,
       [`cardId${currentCardSelectedId}`]: false,
     });
-    setIsDrawdOpen(false);
+    setIsDrawerOpen(false);
+  };
+  const handleLeaseInvitationReject = (e: MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+    const orderId = e.currentTarget.dataset.orderid;
+    setIsDoubleCheckModalOpen(true);
+    setIsOrderAccepted({ isOrderAccepted: false, orderId });
+  };
+  const handleLeaseInvitationAccept = (e: MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+    const orderId = e.currentTarget.dataset.orderid;
+    setIsDoubleCheckModalOpen(true);
+    setIsOrderAccepted({ isOrderAccepted: true, orderId });
   };
 
   // 初始化租屋邀請清單
   useEffect(() => {
-    const getInviteList = async () => {
-      try {
-        const defaultPageNumber = "1";
-        const response = await apiAppointmentTenantInvitedList(
-          defaultPageNumber
-        );
-        // 某個卡片被點擊，開啟offCanvas後，卡片要有 selected 效果
-        const isCardSelected = response.data.reduce(
-          (acc: any, { houseId }: any) => {
-            acc[`cardId${houseId}`] = false;
-            return acc;
-          },
-          {}
-        );
-        setIsCardSelected(isCardSelected);
-        setInviteList(response.data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
     getInviteList();
   }, []);
+
   return (
     <>
+      {/* double check Modal */}
+      <DoubleCheck
+        isOpen={isDoubleCheckModalOpen}
+        isOrderAccepted={isOrderAccepted}
+        handleOpen={setIsDoubleCheckModalOpen}
+      />
       {/* offCanvas */}
       <Flowbite theme={{ theme: customTheme }}>
         <Drawer
           className="bg-Neutral-99"
-          open={isDrawdOpen}
+          open={isDrawerOpen}
           onClose={handleDrawerClose}
           position="right"
         >
@@ -136,7 +319,7 @@ function RentalInviteList() {
                   <button
                     type="button"
                     className="self-end"
-                    onClick={() => setIsDrawdOpen(false)}
+                    onClick={() => setIsDrawerOpen(false)}
                   >
                     <img src={close} alt="close" />
                   </button>
@@ -154,13 +337,23 @@ function RentalInviteList() {
                         />
                       </svg>
                     </Link>
-                    <button className="flex items-center gap-x-2 outline-button-m hover:fill-white">
+                    <button
+                      type="button"
+                      className="flex items-center gap-x-2 outline-button-m hover:fill-white"
+                      data-orderid={drawerData.orderId}
+                      onClick={handleLeaseInvitationReject}
+                    >
                       拒絕
                       <svg width="16" height="16" viewBox="0 0 16 16">
                         <path d="M4.64689 4.64592C4.69334 4.59935 4.74851 4.56241 4.80926 4.5372C4.87001 4.512 4.93513 4.49902 5.00089 4.49902C5.06666 4.49902 5.13178 4.512 5.19253 4.5372C5.25327 4.56241 5.30845 4.59935 5.35489 4.64592L8.00089 7.29292L10.6469 4.64592C10.6934 4.59943 10.7486 4.56255 10.8093 4.53739C10.87 4.51223 10.9351 4.49929 11.0009 4.49929C11.0666 4.49929 11.1317 4.51223 11.1925 4.53739C11.2532 4.56255 11.3084 4.59943 11.3549 4.64592C11.4014 4.6924 11.4383 4.74759 11.4634 4.80833C11.4886 4.86907 11.5015 4.93417 11.5015 4.99992C11.5015 5.06566 11.4886 5.13076 11.4634 5.1915C11.4383 5.25224 11.4014 5.30743 11.3549 5.35392L8.70789 7.99992L11.3549 10.6459C11.4014 10.6924 11.4383 10.7476 11.4634 10.8083C11.4886 10.8691 11.5015 10.9342 11.5015 10.9999C11.5015 11.0657 11.4886 11.1308 11.4634 11.1915C11.4383 11.2522 11.4014 11.3074 11.3549 11.3539C11.3084 11.4004 11.2532 11.4373 11.1925 11.4624C11.1317 11.4876 11.0666 11.5005 11.0009 11.5005C10.9351 11.5005 10.87 11.4876 10.8093 11.4624C10.7486 11.4373 10.6934 11.4004 10.6469 11.3539L8.00089 8.70692L5.35489 11.3539C5.30841 11.4004 5.25322 11.4373 5.19248 11.4624C5.13174 11.4876 5.06664 11.5005 5.00089 11.5005C4.93515 11.5005 4.87005 11.4876 4.80931 11.4624C4.74857 11.4373 4.69338 11.4004 4.64689 11.3539C4.60041 11.3074 4.56353 11.2522 4.53837 11.1915C4.51321 11.1308 4.50026 11.0657 4.50026 10.9999C4.50026 10.9342 4.51321 10.8691 4.53837 10.8083C4.56353 10.7476 4.60041 10.6924 4.64689 10.6459L7.29389 7.99992L4.64689 5.35392C4.60033 5.30747 4.56339 5.2523 4.53818 5.19155C4.51297 5.13081 4.5 5.06568 4.5 4.99992C4.5 4.93415 4.51297 4.86903 4.53818 4.80828C4.56339 4.74754 4.60033 4.69236 4.64689 4.64592Z" />
                       </svg>
                     </button>
-                    <button className="flex items-center gap-x-2 filled-button-m fill-white">
+                    <button
+                      type="button"
+                      className="flex items-center gap-x-2 filled-button-m fill-white"
+                      data-orderid={drawerData.orderId}
+                      onClick={handleLeaseInvitationAccept}
+                    >
                       接受
                       <svg width="16" height="16" viewBox="0 0 16 16">
                         <path d="M12.7355 3.96993C12.8037 3.9003 12.8852 3.84498 12.9751 3.80722C13.065 3.76945 13.1615 3.75 13.259 3.75C13.3565 3.75 13.453 3.76945 13.5429 3.80722C13.6328 3.84498 13.7142 3.9003 13.7825 3.96993C14.0685 4.25893 14.0725 4.72593 13.7925 5.01993L7.87949 12.0099C7.81236 12.0837 7.73089 12.1429 7.64007 12.1841C7.54925 12.2252 7.45099 12.2474 7.3513 12.2493C7.25161 12.2511 7.15258 12.2327 7.06028 12.1949C6.96798 12.1572 6.88435 12.1011 6.81449 12.0299L3.21649 8.38393C3.07773 8.24242 3 8.05213 3 7.85393C3 7.65574 3.07773 7.46545 3.21649 7.32393C3.28474 7.2543 3.36619 7.19898 3.45608 7.16122C3.54597 7.12345 3.64249 7.104 3.73999 7.104C3.83749 7.104 3.93401 7.12345 4.0239 7.16122C4.11379 7.19898 4.19525 7.2543 4.26349 7.32393L7.31549 10.4169L12.7155 3.99193C12.7217 3.98421 12.7284 3.97686 12.7355 3.96993Z" />
@@ -269,7 +462,7 @@ function RentalInviteList() {
           </Drawer.Items>
         </Drawer>
       </Flowbite>
-      <section className="bg-Neutral-99 pt-8 pb-28">
+      <section className="flex-grow bg-Neutral-99 pt-8 pb-28">
         <div className="container layout-grid">
           <div className="col-span-7">
             <div className="p-5 bg-white rounded-xl">
@@ -378,7 +571,12 @@ function RentalInviteList() {
                             {/* 拒絕、接受 */}
                             <div className="ml-auto">
                               <div className="flex gap-x-4">
-                                <button type="button" className="flex items-center gap-x-2 outline-button-m hover:fill-white">
+                                <button
+                                  type="button"
+                                  className="flex items-center gap-x-2 outline-button-m hover:fill-white"
+                                  data-orderid={orderId}
+                                  onClick={handleLeaseInvitationReject}
+                                >
                                   拒絕
                                   <svg
                                     width="16"
@@ -388,7 +586,12 @@ function RentalInviteList() {
                                     <path d="M4.64689 4.64592C4.69334 4.59935 4.74851 4.56241 4.80926 4.5372C4.87001 4.512 4.93513 4.49902 5.00089 4.49902C5.06666 4.49902 5.13178 4.512 5.19253 4.5372C5.25327 4.56241 5.30845 4.59935 5.35489 4.64592L8.00089 7.29292L10.6469 4.64592C10.6934 4.59943 10.7486 4.56255 10.8093 4.53739C10.87 4.51223 10.9351 4.49929 11.0009 4.49929C11.0666 4.49929 11.1317 4.51223 11.1925 4.53739C11.2532 4.56255 11.3084 4.59943 11.3549 4.64592C11.4014 4.6924 11.4383 4.74759 11.4634 4.80833C11.4886 4.86907 11.5015 4.93417 11.5015 4.99992C11.5015 5.06566 11.4886 5.13076 11.4634 5.1915C11.4383 5.25224 11.4014 5.30743 11.3549 5.35392L8.70789 7.99992L11.3549 10.6459C11.4014 10.6924 11.4383 10.7476 11.4634 10.8083C11.4886 10.8691 11.5015 10.9342 11.5015 10.9999C11.5015 11.0657 11.4886 11.1308 11.4634 11.1915C11.4383 11.2522 11.4014 11.3074 11.3549 11.3539C11.3084 11.4004 11.2532 11.4373 11.1925 11.4624C11.1317 11.4876 11.0666 11.5005 11.0009 11.5005C10.9351 11.5005 10.87 11.4876 10.8093 11.4624C10.7486 11.4373 10.6934 11.4004 10.6469 11.3539L8.00089 8.70692L5.35489 11.3539C5.30841 11.4004 5.25322 11.4373 5.19248 11.4624C5.13174 11.4876 5.06664 11.5005 5.00089 11.5005C4.93515 11.5005 4.87005 11.4876 4.80931 11.4624C4.74857 11.4373 4.69338 11.4004 4.64689 11.3539C4.60041 11.3074 4.56353 11.2522 4.53837 11.1915C4.51321 11.1308 4.50026 11.0657 4.50026 10.9999C4.50026 10.9342 4.51321 10.8691 4.53837 10.8083C4.56353 10.7476 4.60041 10.6924 4.64689 10.6459L7.29389 7.99992L4.64689 5.35392C4.60033 5.30747 4.56339 5.2523 4.53818 5.19155C4.51297 5.13081 4.5 5.06568 4.5 4.99992C4.5 4.93415 4.51297 4.86903 4.53818 4.80828C4.56339 4.74754 4.60033 4.69236 4.64689 4.64592Z" />
                                   </svg>
                                 </button>
-                                <button type="button" className="flex items-center gap-x-2 filled-button-m fill-white">
+                                <button
+                                  type="button"
+                                  className="flex items-center gap-x-2 filled-button-m fill-white"
+                                  data-orderid={orderId}
+                                  onClick={handleLeaseInvitationAccept}
+                                >
                                   接受
                                   <svg
                                     width="16"
