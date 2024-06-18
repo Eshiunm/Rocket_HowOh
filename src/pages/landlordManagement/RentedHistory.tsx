@@ -44,7 +44,7 @@ export default function RentedHistory() {
   },[pageNumberControl]);
 
   return (
-    <main className="container layout-grid pt-6 mb-52">
+    <main className="flex-grow container layout-grid pt-6 mb-52">
       <div className="col-span-7 p-5">
         {
           listCount === 0 && getListLoading === false ? (

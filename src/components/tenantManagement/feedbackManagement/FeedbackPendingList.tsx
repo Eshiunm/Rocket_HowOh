@@ -141,7 +141,7 @@ function FeedbackPendingList() {
           </Drawer.Items>
         </Drawer>
       </Flowbite>
-      <section className={`${isAPIProcessing ? "" : "pb-[130px]"}`}>
+      <section className={`flex-grow ${isAPIProcessing ? "" : "pb-[130px]"}`}>
         <div className="container layout-grid">
           <div className="col-span-7 ">
             <div className="p-5 bg-white rounded-xl">

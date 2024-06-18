@@ -710,7 +710,7 @@ function HouseListPage() {
 
   return (
     <>
-      <div className="bg-Neutral-99 pt-6 pb-32">
+      <div className="flex-grow bg-Neutral-99 pt-6 pb-32">
         <div className="container layout-grid ">
           {/* 搜尋表單 */}
           <div className="col-span-4">

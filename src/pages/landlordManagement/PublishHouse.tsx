@@ -413,7 +413,7 @@ export default function PublishHouse() {
         </div>
       </header>
       <ForcedChangeModal setOpenQuickCheckModal={null} openForceChangeModal={openForceChangeModal} setOpenForceChangeModal={setOpenForceChangeModal} />
-      <main className="container layout-grid">
+      <main className="flex-grow container layout-grid">
         <div className="col-span-7 pt-6 pb-52">
           <HouseDatas houseDatas={houseDatas}/>
         </div>

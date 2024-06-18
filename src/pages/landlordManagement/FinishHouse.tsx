@@ -230,7 +230,7 @@ export default function FinishHouse() {
           </div>
         </div>
       </header>
-      <main className="container layout-grid">
+      <main className="flex-grow container layout-grid">
         <div className="col-span-7 pt-6 pb-32">
           <HouseDatas houseDatas={houseDatas}/>
         </div>

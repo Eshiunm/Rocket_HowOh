@@ -154,7 +154,7 @@ export default function HouseList() {
       {
         loading && <BigLoading />
       }
-      <main className="container mt-14 mb-32">
+      <main className="flex-grow container mt-14 mb-32">
       <ForcedChangeReload.Provider value={contextValue}>
         {/* 上方 anchor 區域 */}
         <LandlordAnchor refFnList={refFnList} listCount={listCount} />
