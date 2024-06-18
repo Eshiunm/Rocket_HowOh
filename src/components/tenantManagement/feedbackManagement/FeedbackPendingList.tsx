@@ -1,9 +1,6 @@
 import { useEffect, useState } from "react";
-import { CustomFlowbiteTheme, Flowbite, Drawer } from "flowbite-react";
 import { apiCommentList } from "../../../apis/apis";
 import NoResults from "../houseViewingManagement/NoResults";
-import close from "../../../assets/imgs/icons/close.svg";
-import ratingStarIcon from "../../../assets/imgs/SingleHousePage/ratingStarIcon.svg";
 import HouseViewingListSkeleton from "../houseViewingManagement/HouseViewingListSkeleton";
 import FeedbackPendingCard from "./FeedbackPendingCard";
 import RefreshBtn from "../../../components/buttons/RefreshBtn";
