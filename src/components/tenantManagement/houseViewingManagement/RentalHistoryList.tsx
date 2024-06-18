@@ -1,8 +1,7 @@
-import { useEffect, useState } from "react";
+import { MouseEvent, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { CustomFlowbiteTheme, Flowbite, Drawer } from "flowbite-react";
 import { apiAppointmentTenantHistoryList } from "../../../apis/apis";
-import picture from "../../../assets/imgs/tenantManagement/Rectangle 17.jpg";
 import landLordProfile from "../../../assets/imgs/SingleHousePage/landLordProfile.jpg";
 import ratingStarIcon from "../../../assets/imgs/SingleHousePage/ratingStarIcon.svg";
 import landLordIcon from "../../../assets/imgs/SingleHousePage/landLordIcon.svg";
@@ -45,7 +44,7 @@ function RentalHistoryList() {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [historyList, setHistoryList] = useState<any[]>([]);
   const [historyListTotalCounts, setHistoryListTotalCounts] = useState(0);
-  const [currentPageNumber, setCurrentPageNumber] = useState();
+  const [currentPageNumber, setCurrentPageNumber] = useState(0);
 
   const getFormattedDate = (dateString: string) => {
     const date = new Date(dateString);
@@ -56,27 +55,41 @@ function RentalHistoryList() {
     const formattedDate = `${year}年${month}月${day}日`;
     return formattedDate;
   };
-
   const getFormatPhoneNumber = (phoneNumber: string) => {
     return phoneNumber.replace(/(\d{4})(\d{3})(\d{3})/, "$1-$2-$3");
   };
-  const getHistoryList = async () => {
+  const getHistoryList = async (pageNumber:number) => {
     try {
-      const defaultPageNumber = 1;
-      const response = await apiAppointmentTenantHistoryList(defaultPageNumber);
+      const response = await apiAppointmentTenantHistoryList(pageNumber);
       const historyList = response.data.data.orderList;
       const historyListTotalCounts = response.data.data.totalCount;
       const currentPageNumber = response.data.data.page;
       setHistoryList(historyList);
       setHistoryListTotalCounts(historyListTotalCounts);
       setCurrentPageNumber(currentPageNumber);
-      console.log(response)
+      console.log(response);
     } catch (error) {
       console.log(error);
     }
   };
+  const handleNextPage = () =>{
+    getHistoryList(currentPageNumber+1);
+  }
+
+  const handlePrevPage = () =>{
+    getHistoryList(currentPageNumber-1);
+  }
+  const handleDrawerOpen = (e:MouseEvent<HTMLLIElement>) => {
+    //const orderId = e.currentTarget.dataset.orderid;
+    setIsDrawerOpen(true);
+  }
+  const handleDrawerClose = () => {
+    setIsDrawerOpen(false);
+  }
+  
   useEffect(() => {
-    getHistoryList();
+    const defaultPageNumber = 1;
+    getHistoryList(defaultPageNumber);
   }, []);
   return (
     <>
@@ -85,7 +98,7 @@ function RentalHistoryList() {
         <Drawer
           className="bg-Neutral-99"
           open={isDrawerOpen}
-          onClose={() => setIsDrawerOpen(false)}
+          onClose={handleDrawerClose}
           position="right"
         >
           <Drawer.Items>
@@ -206,7 +219,7 @@ function RentalHistoryList() {
           </Drawer.Items>
         </Drawer>
       </Flowbite>
-      <section className="bg-Neutral-99 pt-8 pb-28 h-screen">
+      <section className="flex-grow bg-Neutral-99 pt-8 pb-28">
         <div className="container layout-grid">
           <div className="col-span-7">
             <div className="p-5 bg-white rounded-xl">
@@ -232,6 +245,7 @@ function RentalHistoryList() {
                         currentPageNumber === 1 || historyListTotalCounts === 0
                       }
                       className="flex gap-x-[10px] rounded-r-none items-center filled-button-s"
+                      onClick={handlePrevPage}
                     >
                       <svg
                         className="fill-white"
@@ -255,6 +269,7 @@ function RentalHistoryList() {
                         historyListTotalCounts <= 12
                       }
                       className="flex gap-x-[10px] rounded-l-none items-center filled-button-s"
+                      onClick={handleNextPage}
                     >
                       下一頁
                       <svg
@@ -278,10 +293,10 @@ function RentalHistoryList() {
                   {historyList.map((houseData, index) => (
                     <li
                       key={index}
-                      className={`p-3 cursor-pointer hover:bg-Neutral-99 rounded-xl ${
-                        isDrawerOpen && "bg-Neutral-95"
-                      }`}
-                      onClick={() => setIsDrawerOpen(true)}
+                      tabIndex={0}
+                      className={`p-3 cursor-pointer hover:bg-Neutral-99 rounded-xl focus:bg-Neutral-95`}
+                      data-orderid={houseData.orderInfo.orderId}
+                      onClick={handleDrawerOpen}
                     >
                       <div className="flex justify-between">
                         <div className="flex gap-x-4">
@@ -315,7 +330,8 @@ function RentalHistoryList() {
                                 <span className="pr-2 border-r border-Tenant-70">
                                   房東
                                 </span>
-                                <span>{houseData.landlordInfo.lastName}</span>
+                                <span>{houseData.landlordInfo.lastName}{houseData.landlordInfo.firstName
+                                }</span>
                               </p>
                               <p className="flex gap-x-2">
                                 <span className="pr-2 border-r border-Tenant-70">
@@ -390,7 +406,6 @@ function RentalHistoryList() {
               ) : (
                 <NoResults />
               )}
-
               <div className="flex justify-between mt-4 pt-3 border-t border-Neutral-95">
                 <div></div>
                 <div>
@@ -413,6 +428,7 @@ function RentalHistoryList() {
                         currentPageNumber === 1 || historyListTotalCounts === 0
                       }
                       className="flex gap-x-[10px] rounded-r-none items-center filled-button-s"
+                      onClick={handlePrevPage}
                     >
                       <svg
                         className="fill-white"
@@ -436,6 +452,7 @@ function RentalHistoryList() {
                         historyListTotalCounts <= 12
                       }
                       className="flex gap-x-[10px] rounded-l-none items-center filled-button-s"
+                      onClick={handleNextPage}
                     >
                       下一頁
                       <svg
