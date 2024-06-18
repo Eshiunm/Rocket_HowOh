@@ -65,11 +65,11 @@ export default function Review() {
 
 
   return (
-    <div className="flex flex-col min-h-dvh">
+    <>
       <header className="bg-Landlord-99 py-6">
         <h2 className="container text-sans-b-h5">評價管理</h2>
       </header>
-      <main className="container layout-grid mt-6 mb-40">
+      <main className="flex-grow container layout-grid mt-6">
         <div className="col-span-7 px-5">
           <nav className="py-3.5 border-b border-Neutral-95">
             <RefreshBtn />
@@ -97,7 +97,10 @@ export default function Review() {
                 type="button"
                 className="text-sans-b-body2 filled-button-s rounded-r-none flex items-center gap-1"
                 disabled={pageNumberControl === 1}
-                onClick={() => setPageNumberControl(prev => prev - 1)}
+                onClick={() => {
+                  setPageNumberControl(prev => prev - 1)
+                  window.scrollTo(0,0);
+                }}
                 >
                 <img src={leftIcon_white} alt="left-icon" />
                 上一頁
@@ -106,7 +109,10 @@ export default function Review() {
                 type="button"
                 className="text-sans-b-body2 filled-button-s rounded-l-none flex items-center gap-1"
                 disabled={pageNumberControl === totalPage}
-                onClick={() => setPageNumberControl(prev => prev + 1)}
+                onClick={() => {
+                  setPageNumberControl(prev => prev + 1)
+                  window.scrollTo(0,0);
+                }}
               >
                 下一頁
                 <img src={rightIcon_white} alt="right-icon" />
@@ -115,9 +121,7 @@ export default function Review() {
           </div>
         </div>
       </main>
-      <div className="mt-auto">
-        <Footer />
-      </div>
-    </div>
+      <Footer />
+    </>
   );
 }

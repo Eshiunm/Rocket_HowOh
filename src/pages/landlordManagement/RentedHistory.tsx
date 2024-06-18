@@ -44,7 +44,7 @@ export default function RentedHistory() {
   },[pageNumberControl]);
 
   return (
-    <main className="container layout-grid pt-6 mb-52">
+    <main className="flex-grow container layout-grid pt-6 mb-52">
       <div className="col-span-7 p-5">
         {
           listCount === 0 && getListLoading === false ? (
@@ -86,9 +86,9 @@ export default function RentedHistory() {
                   <div className="flex gap-[10px] text-sans-body2">
                     <h6>
                       顯示
-                      <span className="text-sans-b-body2"> {pageNumberControl * 12 - 11} </span>
+                      <span className="text-sans-b-body2"> {listCount > 0 ? pageNumberControl * 12 - 11 : 0} </span>
                       至
-                      <span className="text-sans-b-body2"> {pageNumberControl === totalPage ? listCount % 12 + (pageNumberControl - 1) * 12 : pageNumberControl * 12} </span>
+                      <span className="text-sans-b-body2"> {pageNumberControl === totalPage ? listCount : pageNumberControl * 12} </span>
                       筆
                     </h6>
                     <h6>
@@ -101,7 +101,10 @@ export default function RentedHistory() {
                     <button
                       className="text-sans-b-body2 filled-button-s rounded-r-none flex items-center gap-1"
                       disabled={pageNumberControl === 1}
-                      onClick={() => setPageNumberControl(pageNumberControl - 1)}
+                      onClick={() => {
+                        setPageNumberControl(pageNumberControl - 1)
+                        window.scrollTo(0,0);
+                      }}
                     >
                       <img src={leftIcon_white} alt="left-icon" />
                       上一頁
@@ -109,7 +112,10 @@ export default function RentedHistory() {
                     <button
                       className="text-sans-b-body2 filled-button-s rounded-l-none flex items-center gap-1"
                       disabled={totalPage === pageNumberControl}
-                      onClick={() => setPageNumberControl(pageNumberControl + 1)}
+                      onClick={() => {
+                        setPageNumberControl(pageNumberControl + 1)
+                        window.scrollTo(0,0);
+                      }}
                     >
                       下一頁
                       <img src={rightIcon_white} alt="right-icon" />

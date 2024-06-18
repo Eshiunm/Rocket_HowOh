@@ -103,7 +103,7 @@ export default function TenantRequest() {
         </div>
       </header>
       <ReloadRequestList.Provider value={contextValue}>
-      <main className="container layout-grid mb-40">
+      <main className="flex-grow container layout-grid mb-40">
         <div className="col-span-7 px-5">
           <section className="flex items-start gap-6 pb-3 pt-6 border-b border-Neutral-95 mb-6">
             <div className="flex gap-3 pt-4">
@@ -140,7 +140,7 @@ export default function TenantRequest() {
                 <h6>
                   顯示
                   <span className="text-sans-b-body2 px-1">{
-                    requestTotalNumber ? 
+                    requestTotalNumber > 0 ? 
                     pageNumberControl * 12 - 11
                     : 0
                   } </span>
@@ -148,7 +148,7 @@ export default function TenantRequest() {
                   <span className="text-sans-b-body2 px-1">{
                     requestTotalNumber ? 
                       (pageNumberControl === totalPage ? 
-                      requestTotalNumber % 12 + (pageNumberControl - 1) * 12 
+                        requestTotalNumber
                       : pageNumberControl * 12)
                     : 0
                   }</span>
@@ -165,7 +165,10 @@ export default function TenantRequest() {
                   type="button"
                   className="text-sans-b-body2 filled-button-s rounded-r-none flex items-center gap-1"
                   disabled={pageNumberControl === 1}
-                  onClick={() => setPageNumberControl(pageNumberControl - 1)}
+                  onClick={() => {
+                    setPageNumberControl(pageNumberControl - 1)
+                    window.scrollTo(0, 0);
+                  }}
                 >
                   <img src={leftIcon_white} alt="left-icon" />
                   上一頁
@@ -174,7 +177,10 @@ export default function TenantRequest() {
                   type="button"
                   className="text-sans-b-body2 filled-button-s rounded-l-none flex items-center gap-1"
                   disabled={totalPage === pageNumberControl || requestTotalNumber === 0}
-                  onClick={() => setPageNumberControl(pageNumberControl + 1)} 
+                  onClick={() => {
+                    setPageNumberControl(pageNumberControl + 1)
+                    window.scrollTo(0, 0);
+                  }} 
                 >
                   下一頁
                   <img src={rightIcon_white} alt="right-icon" />
@@ -200,7 +206,7 @@ export default function TenantRequest() {
                 <h6>
                   顯示
                   <span className="text-sans-b-body2 px-1">{
-                    requestTotalNumber ? 
+                    requestTotalNumber > 0 ? 
                     pageNumberControl * 12 - 11
                     : 0
                   } </span>
@@ -208,7 +214,7 @@ export default function TenantRequest() {
                   <span className="text-sans-b-body2 px-1">{
                     requestTotalNumber ? 
                       (pageNumberControl === totalPage ? 
-                      requestTotalNumber % 12 + (pageNumberControl - 1) * 12 
+                        requestTotalNumber
                       : pageNumberControl * 12)
                     : 0
                   }</span>
@@ -225,7 +231,10 @@ export default function TenantRequest() {
                   type="button"
                   className="text-sans-b-body2 filled-button-s rounded-r-none flex items-center gap-1"
                   disabled={pageNumberControl === 1}
-                  onClick={() => setPageNumberControl(pageNumberControl - 1)}
+                  onClick={() => {
+                    setPageNumberControl(pageNumberControl - 1)
+                    window.scrollTo(0, 0);
+                  }}
                 >
                   <img src={leftIcon_white} alt="left-icon" />
                   上一頁
@@ -234,7 +243,10 @@ export default function TenantRequest() {
                   type="button"
                   className="text-sans-b-body2 filled-button-s rounded-l-none flex items-center gap-1"
                   disabled={totalPage === pageNumberControl || requestTotalNumber === 0}
-                  onClick={() => setPageNumberControl(pageNumberControl + 1)} 
+                  onClick={() => {
+                    setPageNumberControl(pageNumberControl + 1)
+                    window.scrollTo(0, 0);
+                  }} 
                 >
                   下一頁
                   <img src={rightIcon_white} alt="right-icon" />

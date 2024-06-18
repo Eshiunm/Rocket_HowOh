@@ -47,7 +47,7 @@ function HomePage() {
         </div>
       </section>
       <Recommendation />
-      <section className="aboutMe pt-16 pb-[88px] bg-Neutral-99">
+      <section className="aboutMe flex-grow pt-16 pb-[88px] bg-Neutral-99">
         <div className="container mb-16">
           <h3 className="text-sans-b-h4 text-center">
             <span className="before:block before:absolute before:h-6 before:w-[140px] before:bg-Tenant-95 before:bottom-[-10%] before:right-[-10%] before:rounded-md relative">
