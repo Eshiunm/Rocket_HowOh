@@ -114,7 +114,8 @@ export const apiTenantOrderAcceptOrReject = (orderId: string, isOrderAccepted: b
   const data = { acceptOrder: isOrderAccepted };
   return orderRequest.patch(`/tenant/${orderId}`,data, getToken())
 }; // ATH-2
-export const apiTenantHistoryCountAndCommentCount = () => orderRequest.get('/tenant/count', getToken());
+export const apiTenantHistoryCountAndCommentCount = () => orderRequest.get('/tenant/count', getToken());// ATH-3
+export const apiTenantHistorySingleInfo = (orderId: string) => orderRequest.get(`/tenant/orderInfo/${orderId}`, getToken()); // ATH-4
 
 // 預約-房東取得租客資訊相關的 api
 export const apiAppointmentLandlordSingleInfo = (appointmentId: number) => appointmentRequest.get(`/landlord/${appointmentId}`, getToken()); // ALA-1

@@ -1,8 +1,10 @@
 import { MouseEvent, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { CustomFlowbiteTheme, Flowbite, Drawer } from "flowbite-react";
-import { apiAppointmentTenantHistoryList } from "../../../apis/apis";
-import landLordProfile from "../../../assets/imgs/SingleHousePage/landLordProfile.jpg";
+import {
+  apiAppointmentTenantHistoryList,
+  apiTenantHistorySingleInfo,
+} from "../../../apis/apis";
 import ratingStarIcon from "../../../assets/imgs/SingleHousePage/ratingStarIcon.svg";
 import landLordIcon from "../../../assets/imgs/SingleHousePage/landLordIcon.svg";
 import NoResults from "./NoResults";
@@ -42,9 +44,10 @@ function RentalHistoryList() {
     },
   };
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [currentPageNumber, setCurrentPageNumber] = useState(0);
   const [historyList, setHistoryList] = useState<any[]>([]);
   const [historyListTotalCounts, setHistoryListTotalCounts] = useState(0);
-  const [currentPageNumber, setCurrentPageNumber] = useState(0);
+  const [historySingleInfo, setHistorySingleInfo] = useState<any>({});
 
   const getFormattedDate = (dateString: string) => {
     const date = new Date(dateString);
@@ -58,7 +61,7 @@ function RentalHistoryList() {
   const getFormatPhoneNumber = (phoneNumber: string) => {
     return phoneNumber.replace(/(\d{4})(\d{3})(\d{3})/, "$1-$2-$3");
   };
-  const getHistoryList = async (pageNumber:number) => {
+  const getHistoryList = async (pageNumber: number) => {
     try {
       const response = await apiAppointmentTenantHistoryList(pageNumber);
       const historyList = response.data.data.orderList;
@@ -72,22 +75,29 @@ function RentalHistoryList() {
       console.log(error);
     }
   };
-  const handleNextPage = () =>{
-    getHistoryList(currentPageNumber+1);
-  }
-
-  const handlePrevPage = () =>{
-    getHistoryList(currentPageNumber-1);
-  }
-  const handleDrawerOpen = (e:MouseEvent<HTMLLIElement>) => {
+  const getSingleCardInfo = async (orderId: string) => {
+    try {
+      const response = await apiTenantHistorySingleInfo(orderId);
+      const historySingleInfo = response.data.data;
+      setHistorySingleInfo(historySingleInfo);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const handleNextPage = () => {
+    getHistoryList(currentPageNumber + 1);
+  };
+  const handlePrevPage = () => {
+    getHistoryList(currentPageNumber - 1);
+  };
+  const handleDrawerOpen = (e: MouseEvent<HTMLLIElement>) => {
     const orderId = e.currentTarget.dataset.orderid;
-    console.log(orderId)
     setIsDrawerOpen(true);
-  }
+    getSingleCardInfo(orderId as string);
+  };
   const handleDrawerClose = () => {
     setIsDrawerOpen(false);
-  }
-  
+  };
   useEffect(() => {
     const defaultPageNumber = 1;
     getHistoryList(defaultPageNumber);
@@ -103,120 +113,142 @@ function RentalHistoryList() {
           position="right"
         >
           <Drawer.Items>
-            <div className="layout-grid mb-32">
-              <div className="col-span-12 flex flex-col gap-6">
-                <button
-                  type="button"
-                  className="self-end"
-                  onClick={() => setIsDrawerOpen(false)}
-                >
-                  <img src={close} alt="close" />
-                </button>
-                <div className="flex justify-between">
-                  <span></span>
-                  <Link
-                    to="/tenant/feedbackManagement/feedbackPendingList"
-                    className="flex items-center gap-x-2 filled-button-m fill-white"
+            {Object.keys(historySingleInfo).length > 0 && (
+              <div className="layout-grid mb-32">
+                <div className="col-span-12 flex flex-col gap-6">
+                  <button
+                    type="button"
+                    className="self-end"
+                    onClick={() => setIsDrawerOpen(false)}
                   >
-                    前往評價
-                    <svg width="16" height="16" viewBox="0 0 16 16">
-                      <path
-                        fillRule="evenodd"
-                        clipRule="evenodd"
-                        d="M13.9999 2.5C13.9999 2.36739 13.9472 2.24021 13.8535 2.14645C13.7597 2.05268 13.6325 2 13.4999 2H7.4999C7.36729 2 7.24011 2.05268 7.14635 2.14645C7.05258 2.24021 6.9999 2.36739 6.9999 2.5C6.9999 2.63261 7.05258 2.75979 7.14635 2.85355C7.24011 2.94732 7.36729 3 7.4999 3H12.2929L2.1459 13.146C2.09941 13.1925 2.06254 13.2477 2.03738 13.3084C2.01222 13.3692 1.99927 13.4343 1.99927 13.5C1.99927 13.5657 2.01222 13.6308 2.03738 13.6916C2.06254 13.7523 2.09941 13.8075 2.1459 13.854C2.19239 13.9005 2.24758 13.9374 2.30832 13.9625C2.36906 13.9877 2.43416 14.0006 2.4999 14.0006C2.56564 14.0006 2.63074 13.9877 2.69148 13.9625C2.75222 13.9374 2.80741 13.9005 2.8539 13.854L12.9999 3.707V8.5C12.9999 8.63261 13.0526 8.75979 13.1463 8.85355C13.2401 8.94732 13.3673 9 13.4999 9C13.6325 9 13.7597 8.94732 13.8535 8.85355C13.9472 8.75979 13.9999 8.63261 13.9999 8.5V2.5Z"
-                      />
-                    </svg>
-                  </Link>
-                </div>
-                {/* 承租資訊 */}
-                <div className="flex flex-col gap-y-6 bg-white rounded-2xl p-6">
-                  <h3 className="text-sans-b-h5">承租資訊</h3>
-                  <h4 className="text-sans-b-h6">費用</h4>
-                  <div className="flex gap-x-6">
-                    <div className="w-full">
-                      <span className="text-sans-body1">租金</span>
-                      <p className="p-3 text-sans-body1 border-b border-Neutral-70">
-                        15,000
-                      </p>
-                    </div>
-                    <div className="w-full">
-                      <span className="text-sans-body1">押金</span>
-                      <p className="p-3 text-sans-body1 border-b border-Neutral-70">
-                        2個月
-                      </p>
-                    </div>
-                  </div>
-                  <h4 className="text-sans-b-h6">租約起迄時間</h4>
-                  <div className="flex gap-x-6">
-                    <div className="w-full">
-                      <span className="text-sans-body1">合約起始日</span>
-                      <p className="p-3 text-sans-body1 border-b border-Neutral-70">
-                        2024年4月23日
-                      </p>
-                    </div>
-                    <div className="w-full">
-                      <span className="text-sans-body1">合約終止日</span>
-                      <p className="p-3 text-sans-body1 border-b border-Neutral-70">
-                        2025年4月21日
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                {/* 房東基本資訊 */}
-                <div className="bg-white rounded-2xl p-6">
-                  <ul className="flex flex-col gap-y-6">
-                    <li className="flex justify-between">
-                      <div>
-                        <img
-                          src={landLordIcon}
-                          alt="landLordIcon"
-                          className="mb-4"
+                    <img src={close} alt="close" />
+                  </button>
+                  <div className="flex justify-between">
+                    <span></span>
+                    <Link
+                      to="/tenant/feedbackManagement/feedbackPendingList"
+                      className="flex items-center gap-x-2 filled-button-m fill-white"
+                    >
+                      前往評價
+                      <svg width="16" height="16" viewBox="0 0 16 16">
+                        <path
+                          fillRule="evenodd"
+                          clipRule="evenodd"
+                          d="M13.9999 2.5C13.9999 2.36739 13.9472 2.24021 13.8535 2.14645C13.7597 2.05268 13.6325 2 13.4999 2H7.4999C7.36729 2 7.24011 2.05268 7.14635 2.14645C7.05258 2.24021 6.9999 2.36739 6.9999 2.5C6.9999 2.63261 7.05258 2.75979 7.14635 2.85355C7.24011 2.94732 7.36729 3 7.4999 3H12.2929L2.1459 13.146C2.09941 13.1925 2.06254 13.2477 2.03738 13.3084C2.01222 13.3692 1.99927 13.4343 1.99927 13.5C1.99927 13.5657 2.01222 13.6308 2.03738 13.6916C2.06254 13.7523 2.09941 13.8075 2.1459 13.854C2.19239 13.9005 2.24758 13.9374 2.30832 13.9625C2.36906 13.9877 2.43416 14.0006 2.4999 14.0006C2.56564 14.0006 2.63074 13.9877 2.69148 13.9625C2.75222 13.9374 2.80741 13.9005 2.8539 13.854L12.9999 3.707V8.5C12.9999 8.63261 13.0526 8.75979 13.1463 8.85355C13.2401 8.94732 13.3673 9 13.4999 9C13.6325 9 13.7597 8.94732 13.8535 8.85355C13.9472 8.75979 13.9999 8.63261 13.9999 8.5V2.5Z"
                         />
-                        <h4 className="text-sans-b-body1 text-Landlord-40 mb-4">
-                          房東
-                        </h4>
+                      </svg>
+                    </Link>
+                  </div>
+                  {/* 承租資訊 */}
+                  <div className="flex flex-col gap-y-6 bg-white rounded-2xl p-6">
+                    <h3 className="text-sans-b-h5">承租資訊</h3>
+                    <h4 className="text-sans-b-h6">費用</h4>
+                    <div className="flex gap-x-6">
+                      <div className="w-full">
+                        <span className="text-sans-body1">租金</span>
+                        <p className="p-3 text-sans-body1 border-b border-Neutral-70">
+                          {parseInt(
+                            historySingleInfo.orderInfo.rent
+                          ).toLocaleString()}
+                        </p>
+                      </div>
+                      <div className="w-full">
+                        <span className="text-sans-body1">押金</span>
+                        <p className="p-3 text-sans-body1 border-b border-Neutral-70">
+                          {historySingleInfo.orderInfo.securityDeposit}
+                        </p>
+                      </div>
+                    </div>
+                    <h4 className="text-sans-b-h6">租約起迄時間</h4>
+                    <div className="flex gap-x-6">
+                      <div className="w-full">
+                        <span className="text-sans-body1">合約起始日</span>
+                        <p className="p-3 text-sans-body1 border-b border-Neutral-70">
+                          {getFormattedDate(
+                            historySingleInfo.orderInfo.leaseStartTime
+                          )}
+                        </p>
+                      </div>
+                      <div className="w-full">
+                        <span className="text-sans-body1">合約終止日</span>
+                        <p className="p-3 text-sans-body1 border-b border-Neutral-70">
+                          {getFormattedDate(
+                            historySingleInfo.orderInfo.leaseEndTime
+                          )}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  {/* 房東基本資訊 */}
+                  <div className="bg-white rounded-2xl p-6">
+                    <ul className="flex flex-col gap-y-6">
+                      <li className="flex justify-between">
+                        <div>
+                          <img
+                            src={landLordIcon}
+                            alt="landLordIcon"
+                            className="mb-4"
+                          />
+                          <h4 className="text-sans-b-body1 text-Landlord-40 mb-4">
+                            房東
+                          </h4>
+                          <p>
+                            <span className="text-sans-b-h3">
+                              {historySingleInfo.landlordInfo.lastName}
+                            </span>{" "}
+                            {historySingleInfo.landlordInfo.firstName}
+                          </p>
+                        </div>
+                        <div className="w-[116px] h-[118px] rounded-2xl overflow-hidden">
+                          {historySingleInfo.landlordInfo.photo && (
+                            <img
+                              src={historySingleInfo.landlordInfo.photo}
+                              alt="landLordProfile"
+                            />
+                          )}
+                        </div>
+                      </li>
+                      <li className="flex justify-between gap-x-3">
+                        <div className="w-full shadow-elevation-2 rounded-lg p-4">
+                          <h5 className="text-sans-b-body1 text-Landlord-50 mb-4">
+                            評價
+                          </h5>
+                          <p className="flex justify-between items-end">
+                            <span className="text-sans-h4">
+                              {historySingleInfo.landlordInfo.ratingAvg
+                                ? historySingleInfo.landlordInfo.ratingAvg
+                                : 0}
+                            </span>
+                            <img src={ratingStarIcon} alt="ratingStarIcon" />
+                          </p>
+                        </div>
+                        <div className="w-full shadow-elevation-2 rounded-lg p-4">
+                          <h5 className="text-sans-b-body1 text-Landlord-50 mb-4">
+                            則數
+                          </h5>
+                          <p className="flex justify-between items-end">
+                            <span className="text-sans-h4">
+                              {historySingleInfo.landlordInfo.ratingCount
+                                ? historySingleInfo.landlordInfo.ratingCount
+                                : 0}
+                            </span>
+                            <span>則</span>
+                          </p>
+                        </div>
+                      </li>
+                      <li>
+                        <h5 className="text-sans-b-body1 text-Landlord-50 mb-3">
+                          自我介紹
+                        </h5>
                         <p>
-                          <span className="text-sans-b-h3">王</span> 太太
+                          {historySingleInfo.landlordInfo.description}
                         </p>
-                      </div>
-                      <img
-                        src={landLordProfile}
-                        alt="landLordProfile"
-                        className="rounded-2xl"
-                      />
-                    </li>
-                    <li className="flex justify-between gap-x-3">
-                      <div className="w-full shadow-elevation-2 rounded-lg p-4">
-                        <h5 className="text-sans-b-body1 text-Landlord-50 mb-4">
-                          評價
-                        </h5>
-                        <p className="flex justify-between items-end">
-                          <span className="text-sans-h4">4.8</span>
-                          <img src={ratingStarIcon} alt="ratingStarIcon" />
-                        </p>
-                      </div>
-                      <div className="w-full shadow-elevation-2 rounded-lg p-4">
-                        <h5 className="text-sans-b-body1 text-Landlord-50 mb-4">
-                          則數
-                        </h5>
-                        <p className="flex justify-between items-end">
-                          <span className="text-sans-h4">4</span>
-                          <span>則</span>
-                        </p>
-                      </div>
-                    </li>
-                    <li>
-                      <h5 className="text-sans-b-body1 text-Landlord-50 mb-3">
-                        自我介紹
-                      </h5>
-                      <p>
-                        租客您好，我平日是一名忙碌的菜販，在高雄有一間出租套房。雖然房源不華美，但非常乾淨。若房間有問題，會即時修理，不用擔心。
-                      </p>
-                    </li>
-                  </ul>
+                      </li>
+                    </ul>
+                  </div>
                 </div>
               </div>
-            </div>
+            )}
           </Drawer.Items>
         </Drawer>
       </Flowbite>
@@ -331,8 +363,10 @@ function RentalHistoryList() {
                                 <span className="pr-2 border-r border-Tenant-70">
                                   房東
                                 </span>
-                                <span>{houseData.landlordInfo.lastName}{houseData.landlordInfo.firstName
-                                }</span>
+                                <span>
+                                  {houseData.landlordInfo.lastName}
+                                  {houseData.landlordInfo.firstName}
+                                </span>
                               </p>
                               <p className="flex gap-x-2">
                                 <span className="pr-2 border-r border-Tenant-70">
