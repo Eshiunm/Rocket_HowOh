@@ -5,6 +5,7 @@ import close from "../../../assets/imgs/icons/close.svg";
 import ratingStarIcon from "../../../assets/imgs/SingleHousePage/ratingStarIcon.svg";
 import HouseViewingListSkeleton from "../houseViewingManagement/HouseViewingListSkeleton";
 import houseImg from "../../../assets/imgs/tenantManagement/Rectangle 17.jpg";
+import RefreshBtn from "../../../components/buttons/RefreshBtn";
 function FeedbackPendingList() {
   // offCanvas 樣式
   const customTheme: CustomFlowbiteTheme = {
@@ -44,16 +45,9 @@ function FeedbackPendingList() {
   const [feedbackList, setFeedbackList] = useState<any>([]);
 
   const handleOffCanvasOpen = () => {
-    // const houseId = e.currentTarget.dataset.houseid;
-    // setCurrentCardSelectedId(houseId);
-    // setIsCardSelected({ ...isCardSelected, [`cardId${houseId}`]: true });
     setIsHouseOffCanvasOpen(true);
   };
   const handleOffCanvasClose = () => {
-    // setIsCardSelected({
-    //   ...isCardSelected,
-    //   [`cardId${currentCardSelectedId}`]: false,
-    // });
     setIsHouseOffCanvasOpen(false);
   };
 
@@ -146,29 +140,7 @@ function FeedbackPendingList() {
           <div className="col-span-7 ">
             <div className="p-5 bg-white rounded-xl">
               <div className="flex justify-between mb-6 pb-[26px] border-b border-Neutral-95">
-                <button
-                  type="button"
-                  className="flex items-center gap-x-2 outline-button-m"
-                >
-                  重新整理
-                  <svg
-                    width="16"
-                    height="16"
-                    viewBox="0 0 16 16"
-                    className="hover:fill-white"
-                  >
-                    <path
-                      d="M11.5312 7.00051H15.4632C15.5107 7.00053 15.5572 7.01408 15.5973 7.03958C15.6373 7.06508 15.6693 7.10147 15.6895 7.14449C15.7096 7.18751 15.7171 7.23538 15.711 7.28249C15.7049 7.32961 15.6856 7.37401 15.6552 7.41051L13.6892 9.77051C13.6657 9.79865 13.6363 9.82128 13.6032 9.83682C13.57 9.85235 13.5338 9.8604 13.4972 9.8604C13.4605 9.8604 13.4243 9.85235 13.3912 9.83682C13.358 9.82128 13.3286 9.79865 13.3052 9.77051L11.3392 7.41051C11.3088 7.37401 11.2894 7.32961 11.2833 7.28249C11.2772 7.23538 11.2847 7.18751 11.3048 7.14449C11.325 7.10147 11.357 7.06508 11.3971 7.03958C11.4371 7.01408 11.4837 7.00053 11.5312 7.00051ZM0.531156 9.00051H4.46316C4.51066 9.0005 4.55718 8.98694 4.59726 8.96144C4.63734 8.93595 4.66932 8.89956 4.68947 8.85654C4.70961 8.81352 4.71709 8.76565 4.71101 8.71853C4.70493 8.67142 4.68556 8.62701 4.65516 8.59051L2.68916 6.23051C2.66569 6.20238 2.63633 6.17974 2.60316 6.16421C2.56998 6.14868 2.53379 6.14062 2.49716 6.14062C2.46052 6.14062 2.42434 6.14868 2.39116 6.16421C2.35798 6.17974 2.32862 6.20238 2.30516 6.23051L0.339156 8.59051C0.308754 8.62701 0.28938 8.67142 0.283304 8.71853C0.277227 8.76565 0.2847 8.81352 0.304846 8.85654C0.324992 8.89956 0.356977 8.93595 0.397058 8.96144C0.437138 8.98694 0.483653 9.0005 0.531156 9.00051Z"
-                      fill="currentColor"
-                    />
-                    <path
-                      fill-rule="evenodd"
-                      clip-rule="evenodd"
-                      d="M8.00294 2.99974C6.45094 2.99974 5.06294 3.70674 4.14594 4.81774C4.10499 4.87082 4.05379 4.91512 3.99538 4.948C3.93697 4.98089 3.87254 5.0017 3.80593 5.00919C3.73931 5.01668 3.67187 5.0107 3.60762 4.9916C3.54336 4.9725 3.48361 4.94068 3.4319 4.89803C3.38019 4.85537 3.33758 4.80275 3.30661 4.7433C3.27565 4.68385 3.25695 4.61878 3.25164 4.55195C3.24632 4.48513 3.2545 4.41792 3.27568 4.35432C3.29686 4.29073 3.33062 4.23204 3.37494 4.18174C4.10713 3.29527 5.07853 2.63776 6.1736 2.2874C7.26867 1.93704 8.44134 1.90859 9.55211 2.20543C10.6629 2.50227 11.665 3.11191 12.4393 3.96183C13.2137 4.81175 13.7276 5.8662 13.9199 6.99974H12.9029C12.6721 5.87055 12.0583 4.85574 11.1655 4.12689C10.2726 3.39804 9.15549 2.99989 8.00294 2.99974ZM3.10294 8.99974C3.29225 9.92437 3.73929 10.7766 4.39241 11.4579C5.04554 12.1392 5.8781 12.6218 6.7939 12.85C7.7097 13.0782 8.67138 13.0427 9.56783 12.7475C10.4643 12.4522 11.2589 11.9094 11.8599 11.1817C11.9009 11.1287 11.9521 11.0844 12.0105 11.0515C12.0689 11.0186 12.1333 10.9978 12.1999 10.9903C12.2666 10.9828 12.334 10.9888 12.3983 11.0079C12.4625 11.027 12.5223 11.0588 12.574 11.1015C12.6257 11.1441 12.6683 11.1967 12.6993 11.2562C12.7302 11.3156 12.7489 11.3807 12.7542 11.4475C12.7596 11.5144 12.7514 11.5816 12.7302 11.6452C12.709 11.7088 12.6753 11.7675 12.6309 11.8177C11.8987 12.7042 10.9273 13.3617 9.83227 13.7121C8.7372 14.0624 7.56454 14.0909 6.45376 13.7941C5.34299 13.4972 4.34084 12.8876 3.56653 12.0377C2.79221 11.1877 2.27831 10.1333 2.08594 8.99974H3.10294Z"
-                      fill="currentColor"
-                    />
-                  </svg>
-                </button>
+                <RefreshBtn></RefreshBtn>
               </div>
               {/* 列表 */}
               {isAPIProcessing ? (
@@ -177,8 +149,9 @@ function FeedbackPendingList() {
                 <ul>
                   {/* 租客未評、房東未評 */}
                   <li
-                    className={`p-3 rounded-xl cursor-pointer hover:bg-Neutral-99`}
+                    tabIndex={0}
                     data-houseid="1"
+                    className={`p-3 rounded-xl cursor-pointer hover:bg-Neutral-99 focus:bg-Tenant-95`}
                     onClick={handleOffCanvasOpen}
                   >
                     <div className="flex justify-between">
