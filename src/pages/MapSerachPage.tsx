@@ -43,13 +43,13 @@ const PlacesAutocomplete = ({
 
   const getMapSearchResults = async (position: any) => {
     try {
-      console.log(position);
+      (position);
       const res = await apiGetMapSearchList(position);
       const searchResult = res.data;
-      console.log(searchResult);
+      (searchResult);
       setMarkers(searchResult);
     } catch (err) {
-      console.log(err);
+      (err);
     }
   };
 
@@ -116,9 +116,9 @@ function MapSearchPage() {
       const res = await apiGetMapSearchList(position);
       const searchResult = res.data;
       setMarkers(searchResult);
-      console.log(searchResult);
+      (searchResult);
     } catch (err) {
-      console.log(err);
+      (err);
     }
   };
   const handleDistanceChange = (e: any) => {
