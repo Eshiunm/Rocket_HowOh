@@ -127,7 +127,7 @@ function MapSearchPage() {
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
                   onChange={handleDistanceChange}
                 >
-                  <option value="">選擇距離</option>
+                  <option value="0">選擇距離</option>
                   <option value="200">200公尺</option>
                   <option value="500">500公尺</option>
                   <option value="1000">1公里</option>
