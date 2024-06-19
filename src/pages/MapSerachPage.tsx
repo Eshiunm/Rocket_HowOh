@@ -23,7 +23,16 @@ import {
 } from "@reach/combobox";
 import "@reach/combobox/styles.css";
 
-const PlacesAutocomplete = ({ setSelectedPlace }: any) => {
+type Location = {
+  lat: number;
+  lng: number;
+};
+
+const PlacesAutocomplete = ({
+  setSelectedPlace,
+  setMarkers,
+  setRadius,
+}: any) => {
   const {
     ready,
     value,
@@ -32,12 +41,32 @@ const PlacesAutocomplete = ({ setSelectedPlace }: any) => {
     clearSuggestions,
   } = usePlacesAutocomplete();
 
+  const getMapSearchResults = async (position: any) => {
+    try {
+      console.log(position);
+      const res = await apiGetMapSearchList(position);
+      const searchResult = res.data;
+      console.log(searchResult);
+      setMarkers(searchResult);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   const handleSelectPlace = async (address: any) => {
     setValue(address, false); // "false" means "No need to obtain external data"
-    clearSuggestions(); // 因為已經選定地址，所以將推薦選項區塊清除
-
+    clearSuggestions(); // 若已經選定地址，則將推薦選項區塊清除
     const results = await getGeocode({ address }); // 將地址轉成經緯度
     const { lat, lng } = getLatLng(results[0]);
+    const position = {
+      latitude: lat,
+      longitude: lng,
+      distance: "1000",
+      pageNumber: 1,
+    };
+
+    getMapSearchResults(position);
+    setRadius("1000");
     setSelectedPlace({ lat, lng });
   };
 
@@ -63,51 +92,46 @@ const PlacesAutocomplete = ({ setSelectedPlace }: any) => {
 };
 
 function MapSearchPage() {
+  //定位預設高雄火車站
+  const defaultPosition = {
+    lat: 22.63945521250786,
+    lng: 120.3026356954051,
+  };
   // 記錄目前被點擊的 marker 是哪一個
   const [activeMarker, setActiveMarker] = useState(null);
-  const [selectedPlace, setSelectedPlace] = useState(undefined);
+  const [selectedPlace, setSelectedPlace] = useState<Location>();
   const [markers, setMarkers] = useState<any[]>([]);
-  const [distance, setDistance] = useState('');
-
-  //定位預設高雄火車站
-  const defaultCenter = {
-    lat: 22.63964471528547,
-    lng: 120.30283893636098,
-  };
+  const [radius, setRadius] = useState("0");
   // 判斷是否載入成功
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAP_API,
     libraries: ["places"],
   });
-
-  // 處理 marker 被點擊時
+  // marker 被點擊
   const handleActiveMarker = (marker: any) => {
     marker === activeMarker ? "" : setActiveMarker(marker);
   };
-
-  const handleDistanceChange = (e: any) => {
-    const selectedDistance = e.target.value;
-    const getMapSearchList = async (position: any) => {
-      try {
-        const res1 = await apiGetMapSearchList(position);
-        const searchResult = res1.data;
-        setMarkers(searchResult);
-      } catch (err) {
-        console.log(err);
-      }
-    };
-    const defaultCenter = {
-      // 經緯度預設是高雄火車站
-      latitude: "22.63964471528547",
-      longitude: "120.30283893636098",
-      distance: selectedDistance,
-      pageNumber: "1",
-    };
-    getMapSearchList(defaultCenter);
-    setDistance(selectedDistance);
+  const getMapSearchList = async (position: any) => {
+    try {
+      const res = await apiGetMapSearchList(position);
+      const searchResult = res.data;
+      setMarkers(searchResult);
+      console.log(searchResult);
+    } catch (err) {
+      console.log(err);
+    }
   };
-
-  useEffect(() => {}, []);
+  const handleDistanceChange = (e: any) => {
+    const selectedRadius = e.target.value;
+    const position = {
+      latitude: selectedPlace?.lat,
+      longitude: selectedPlace?.lng,
+      distance: selectedRadius,
+      pageNumber: 1,
+    };
+    setRadius(selectedRadius);
+    getMapSearchList(position);
+  };
 
   return (
     <>
@@ -116,25 +140,31 @@ function MapSearchPage() {
         <div className="w-full">
           {isLoaded && (
             <div className="relative w-full h-[100vh]">
-              <div className="absolute top-3 left-1/4 z-10 w-[300px]">
-                <PlacesAutocomplete setSelectedPlace={setSelectedPlace} />
+              <div className="flex justify-evenly">
+                <div className="xl:absolute xl:top-3 xl:left-1/4 z-10 w-[300px]">
+                  <PlacesAutocomplete
+                    setSelectedPlace={setSelectedPlace}
+                    setMarkers={setMarkers}
+                    setRadius={setRadius}
+                  />
+                </div>
+                <form className="xl:absolute top-3 left-2/4 z-10 flex w-[150px]">
+                  <select
+                    id="countries"
+                    value={radius}
+                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
+                    onChange={handleDistanceChange}
+                  >
+                    <option value="1">選擇距離</option>\
+                    <option value="500">500公尺內</option>
+                    <option value="1000">1公里內</option>
+                    <option value="2000">2公里內</option>
+                  </select>
+                </form>
               </div>
-              <form className="absolute top-3 left-2/4 z-10 flex w-[150px]">
-                <select
-                  id="countries"
-                  defaultValue="0"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
-                  onChange={handleDistanceChange}
-                >
-                  <option value="0">選擇距離</option>
-                  <option value="200">200公尺</option>
-                  <option value="500">500公尺</option>
-                  <option value="1000">1公里</option>
-                  <option value="2000">2公里</option>
-                </select>
-              </form>
+
               <GoogleMap
-                center={selectedPlace || defaultCenter}
+                center={selectedPlace || defaultPosition}
                 zoom={15}
                 onClick={() => setActiveMarker(null)}
                 mapContainerStyle={{ width: "100%", height: "100%" }}
@@ -267,8 +297,8 @@ function MapSearchPage() {
 
                   {
                     <Circle
-                      center={selectedPlace}
-                      radius={parseInt(distance)}
+                      center={selectedPlace || defaultPosition}
+                      radius={parseInt(radius)}
                       options={{
                         strokeColor: "red",
                         strokeOpacity: 0.5,
