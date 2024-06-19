@@ -187,7 +187,7 @@ export default function RequestCard({data, status = "none", isHidden}: RequestCa
             <h4>{tenantInfo.job}</h4>
           </div>
           <a
-            href={`+886-${tenantInfo.phoneNumber.replace(/^0/, '').replace(/(\d{3})(\d{3})(\d{3})/, '$1-$2-$3')}`}
+            href={`tel:+886-${tenantInfo.phoneNumber.replace(/^0/, '').replace(/(\d{3})(\d{3})(\d{3})/, '$1-$2-$3')}`}
             className="text-sans-body1">
             {tenantInfo.phoneNumber.replace(/(\d{4})(\d{3})(\d{3})/, '$1-$2-$3')}
           </a>
@@ -292,7 +292,7 @@ export default function RequestCard({data, status = "none", isHidden}: RequestCa
                             }</h4>
                           </div>
                           <a
-                            href={`+886-${tenantDetails?.tenantInfo[0].phonenumber.replace(/^0/, '').replace(/(\d{3})(\d{3})(\d{3})/, '$1-$2-$3')}`}
+                            href={`tel:+886-${tenantDetails?.tenantInfo[0].phonenumber.replace(/^0/, '').replace(/(\d{3})(\d{3})(\d{3})/, '$1-$2-$3')}`}
                             className="text-sans-body1">
                             {tenantDetails?.tenantInfo[0].phonenumber.replace(/(\d{4})(\d{3})(\d{3})/, '$1-$2-$3')}
                           </a>
