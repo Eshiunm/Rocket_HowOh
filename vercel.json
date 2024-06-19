@@ -1,9 +1,4 @@
 {
-  "build": {
-    "env": {
-      "NPM_FLAGS": "--legacy-peer-deps"
-    }
-  },
   "rewrites": [
     {
       "source": "/api/:path*",
