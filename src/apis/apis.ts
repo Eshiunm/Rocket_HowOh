@@ -52,6 +52,11 @@ const commentRequest = axios.create({
   // baseURL: 'http://98.70.102.116/api/comment'
   baseURL: '/api/comment'
 });
+//地圖搜尋相關的 api
+const mapRequest = axios.create({
+  baseURL: '/api/house/common',
+  
+});
 
 
 // 登入登出-相關的 api
@@ -87,7 +92,7 @@ export const apiHouseCommonListCount = () => houseRequest.get('/common/totalNumb
 // 租賃-房東合約相關的 api
 export const apiOrderViewPublishHouseContract = (houseId: string | undefined) => orderRequest.get(`/landlord/viewHouseContract/${houseId}`, {
   headers: {
-    "Content-Type": "application/json",
+    "Content-Type": "multipart/form-data",
     "Authorization": `Bearer ${localStorage.getItem("authToken")}`,
     },
   responseType: 'blob',
@@ -140,3 +145,6 @@ export const apiUserInfoGet = () => userRequest.get('/tenant/info',getToken()); 
 export const apiCommentList = (querystring: string) => commentRequest.get(`/common/list/all?${querystring}`, getToken()); // ACC-1
 export const apiCommentPost = (data: ReviewPostDataType, orderId: number) => commentRequest.post(`/common/${orderId}`, data, getToken()); // ACC-5
 export const apiCommentReply = (data: ReplyDataType, commentId: number) => commentRequest.post(`/common/reply/${commentId}`, data, getToken()); // ACC-6
+
+// 地圖搜尋
+export const apiGetMapSearchList = (data:any) => mapRequest.post('/map/list',data);

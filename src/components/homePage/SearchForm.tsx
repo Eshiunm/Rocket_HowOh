@@ -2,7 +2,7 @@ import { useState, useEffect, ChangeEvent, MouseEvent, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { changeContent } from "../../../redux/searchForm/inputSearchSlice";
 import { setCountryDropdownState } from "../../../redux/searchForm/cityDropdownSlice";
 import {
@@ -747,12 +747,17 @@ function SearchForm() {
             </div>
           </li>
         </ul>
-        <button
-          type="submit"
-          className="w-[520px] mx-auto filled-button-l py-3 shadow-elevation-5"
-        >
-          搜尋
-        </button>
+        <div className="relative">
+          <button
+            type="submit"
+            className="w-[520px] mx-auto filled-button-l py-3 shadow-elevation-5"
+          >
+            搜尋
+          </button>
+          <Link to="/mapSearch" target="_blank" className="filled-button-m absolute right-0 top-0">
+            地圖搜尋
+          </Link>
+        </div>
       </form>
     </>
   );

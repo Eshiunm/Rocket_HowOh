@@ -1,6 +1,7 @@
 import { Routes, Route, BrowserRouter } from "react-router-dom";
 import Header from "./components/header/Header";
 import HomePage from "./pages/HomePage";
+import MapSearchPage from "./pages/MapSerachPage";
 import HouseListPage from "./pages/HouseListPage";
 import SingleHousePage from "./pages/SingleHousePage";
 import SwitchIdentityPage from "./pages/signUp/SwitchIdentityPage";
@@ -31,6 +32,7 @@ function App() {
         <Header />
         <Routes>
           <Route index element={<HomePage />}></Route>
+          <Route path="mapSearch" element={<MapSearchPage />}></Route>
           <Route path="houseList">
             <Route index element={<HouseListPage />}></Route>
             <Route path=":houseId" element={<SingleHousePage />}></Route>
