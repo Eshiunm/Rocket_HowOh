@@ -5,5 +5,10 @@
       "destination": "http://52.140.100.60/api/:path*"
     },
     { "source": "/(.*)", "destination": "/" }
-  ]
+  ],
+  "build": {
+    "env": {
+      "NPM_FLAGS": "--legacy-peer-deps"
+    }
+  }
 }
