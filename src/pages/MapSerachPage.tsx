@@ -96,7 +96,6 @@ function MapSearchPage() {
         console.log(err);
       }
     };
-    console.log(selectedDistance);
     const defaultCenter = {
       // 經緯度預設是高雄火車站
       latitude: "22.63964471528547",
@@ -123,7 +122,7 @@ function MapSearchPage() {
               <form className="absolute top-3 left-2/4 z-10 flex w-[150px]">
                 <select
                   id="countries"
-                  defaultValue=""
+                  defaultValue="0"
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
                   onChange={handleDistanceChange}
                 >
