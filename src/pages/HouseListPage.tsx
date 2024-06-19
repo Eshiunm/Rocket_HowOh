@@ -672,7 +672,7 @@ function HouseListPage() {
       const cityQueryParams = "city=" + cityId;
       queryString += cityQueryParams;
       if (searchContent) {
-        const searchContentQueryParams = "search=" + searchContent;
+        const searchContentQueryParams = "content=" + searchContent;
         queryString += "&" + searchContentQueryParams;
       }
       if (districtNumbers.length > 0) {
@@ -698,6 +698,7 @@ function HouseListPage() {
       }
 
       const getHouseListData = async (queryString: any) => {
+        console.log(queryString)
         setIsAPIProcessing(true);
         const res = await apiHouseCommonSearchList(queryString);
         setSearchResults(res.data.Houses);
@@ -710,7 +711,7 @@ function HouseListPage() {
 
   return (
     <>
-      <div className="bg-Neutral-99 pt-6 pb-32">
+      <div className="flex-grow bg-Neutral-99 pt-6 pb-32">
         <div className="container layout-grid ">
           {/* 搜尋表單 */}
           <div className="col-span-4">
@@ -1279,9 +1280,11 @@ function HouseListPage() {
                 </Link>
                 <div>
                   <p className="text-sans-b-body2 text-center text-Brand-10 mb-2">
-                    顯示 {searchResults.length > 0 ? 1 : 0} 至{" "}
-                    {searchResults.length >= 12 ? 12 : searchResults.length} 筆
-                    共 {searchResults.length} 筆
+                    {searchResults.length > 0
+                      ? searchResults.length > 12
+                        ? `顯示 1 至 12 筆 共 ${searchResults.length} 筆`
+                        : `顯示 1 至 ${searchResults.length} 筆 共 ${searchResults.length} 筆`
+                      : "顯示 0 至 0 筆 共 0 筆"}
                   </p>
                   <div className="flex gap-x-1">
                     <button
@@ -1310,7 +1313,7 @@ function HouseListPage() {
                     return (
                       <li
                         key={index}
-                        className="p-3 flex justify-between cursor-pointer"
+                        className="p-3 flex justify-between cursor-pointer hover:bg-Neutral-99"
                         data-houseid={house.houseId}
                         onClick={turnToSingleHousePage}
                       >
@@ -1464,9 +1467,11 @@ function HouseListPage() {
                 <button type="button"></button>
                 <div>
                   <p className="text-sans-b-body2 text-center text-Brand-10 mb-2">
-                    顯示 {searchResults.length > 0 ? 1 : 0} 至{" "}
-                    {searchResults.length >= 12 ? 12 : searchResults.length} 筆
-                    共 {searchResults.length} 筆
+                    {searchResults.length > 0
+                      ? searchResults.length > 12
+                        ? `顯示 1 至 12 筆 共 ${searchResults.length} 筆`
+                        : `顯示 1 至 ${searchResults.length} 筆 共 ${searchResults.length} 筆`
+                      : "顯示 0 至 0 筆 共 0 筆"}
                   </p>
                   <div className="flex gap-x-1">
                     <button

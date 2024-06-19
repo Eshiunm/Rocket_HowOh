@@ -14,9 +14,10 @@ export default function LandlordAnchor({refFnList, listCount}: {refFnList: refFn
         const response = await apiHouseLandlordUnratedCount();
         setUnratedCount(response.data.data.count);
       } catch (error) {
-        localStorage.clear();
-        alert("您不是房東，請先登入房東帳號");
-        navigate("/");
+        console.log(error);
+        // localStorage.clear();
+        // alert("您不是房東，請先登入房東帳號");
+        // navigate("/");
       }
     }
     getUnratedCount();
@@ -47,7 +48,7 @@ export default function LandlordAnchor({refFnList, listCount}: {refFnList: refFn
             alt="anchor-house"
             className="absolute right-0 top-9 group-hover:-translate-y-7 duration-500"
           />
-          <h3 className="opacity-80 text-sans-b-h6 p-[10px]">已承租</h3>
+          <h3 className="opacity-80 text-sans-b-h6 p-[10px]">已出租</h3>
           <h4 className="px-[10px] py-3 text-sans-h2">{listCount.rented}</h4>
           <button className="letter-button-dark absolute z-10 bottom-3 right-3">
             <span>查看</span>

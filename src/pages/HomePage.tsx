@@ -7,15 +7,14 @@ import { Link } from "react-router-dom";
 function HomePage() {
   return (
     <>
-      <section className="search bg-homeSearchImg bg-center bg-cover h-[842px]">
+      <section className="search bg-homeSearchImg bg-center bg-cover h-[842px] ">
         {/* Title */}
-        <div className="container pt-20 mb-8">
-          <h2 className="w-[559px] mx-auto text-center bg-Neutral-10 text-white font-Dela-Gothic-One text-dela-display1 pl-8 rounded-[12px]">
-            {/* <span className="text-Brand-90 font-Dela-Gothic-One text-dela-display1">
-              找好房東
-            </span> */}
+        <div className="container pt-20 mb-8 text-center">
+          <h2 className="inline-block max-w-full  mx-auto text-center bg-Neutral-10 text-white font-Dela-Gothic-One text-dela-display1 pl-8 rounded-[12px]">
             <TypeAnimation
               sequence={[
+                "家的100種形狀",
+                1500,
                 // Same substring at the start will only be typed out once, initially
                 "找好房東",
                 1500, // wait 1s before replacing "Mice" with "Hamsters"
@@ -27,6 +26,7 @@ function HomePage() {
                 1500,
                 "租屋補助",
                 1500,
+                
               ]}
               wrapper="span"
               speed={{ type: "keyStrokeDelayInMs", value: 250 }}
@@ -47,7 +47,7 @@ function HomePage() {
         </div>
       </section>
       <Recommendation />
-      <section className="aboutMe pt-16 pb-[88px] bg-Neutral-99">
+      <section className="aboutMe flex-grow pt-16 pb-[88px] bg-Neutral-99">
         <div className="container mb-16">
           <h3 className="text-sans-b-h4 text-center">
             <span className="before:block before:absolute before:h-6 before:w-[140px] before:bg-Tenant-95 before:bottom-[-10%] before:right-[-10%] before:rounded-md relative">
@@ -60,13 +60,13 @@ function HomePage() {
             <ul className="flex flex-wrap gap-x-6">
               <li className="md:w-[338px] w-full relative">
                 <div className="bg-aboutMeImg_1 bg-cover bg-no-repeat rounded-2xl">
-                  <div className="bg-transparent rounded-2xl hover:bg-black hover:bg-opacity-40 transition delay-150 duration-300 ease-in">
+                  <div className="bg-transparent rounded-2xl">
                     <Link
                       to="/article"
-                      className="inline-block text-white pt-5 px-5 h-[380px] rounded-2xl"
+                      className="inline-block text-black pt-5 px-5 h-[380px] rounded-2xl "
                     >
                       <h5 className="text-sans-body2 mb-3 z-10">評價守則</h5>
-                      <p className="text-sans-b-h5">
+                      <p className="text-sans-b-h5 ">
                         避免謾罵字眼，好的租賃環境需要你我守護
                       </p>
                     </Link>
@@ -93,7 +93,7 @@ function HomePage() {
                   <div className="bg-transparent rounded-2xl  hover:bg-black hover:bg-opacity-40 transition delay-150 duration-300 ease-in">
                     <Link
                       to="/article"
-                      className="inline-block text-black pt-5 px-5 h-[380px] rounded-2xl hover:text-white transition delay-150 duration-300 ease-in"
+                      className="inline-block text-black pt-5 px-5 h-[380px] rounded-2xl hover:text-white transition delay-150 duration-100 ease-in"
                     >
                       <h5 className="text-sans-body2 mb-3 z-10">透明</h5>
                       <p className="text-sans-b-h5 ">

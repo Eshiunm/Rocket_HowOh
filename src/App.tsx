@@ -13,15 +13,17 @@ import HouseList from "./components/landLordManagement/index/HouseList";
 import PublishHouse from "./pages/landlordManagement/PublishHouse";
 import TenantRequest from "./pages/landlordManagement/TenantRequest";
 import HouseViewingManagementPage from "./pages/tenantManagement/HouseViewingManagementPage";
+import FeedbackManagementPage from "./pages/tenantManagement/FeedbackManagementPage";
 import HouseViewingList from "./components/tenantManagement/houseViewingManagement/HouseViewingList";
 import RentalInviteList from "./components/tenantManagement/houseViewingManagement/RentalInviteList";
 import RentalHistoryList from "./components/tenantManagement/houseViewingManagement/RentalHistoryList";
-import FeedbackPendingList from "./components/tenantManagement/houseViewingManagement/FeedbackPendingList";
+import FeedbackPendingList from "./components/tenantManagement/feedbackManagement/FeedbackPendingList";
 import RentedHouse from "./pages/landlordManagement/RentedHouse";
 import FinishHouse from "./pages/landlordManagement/FinishHouse";
 import RentedHistory from "./pages/landlordManagement/RentedHistory";
 import ContractPreview from "./pages/landlordManagement/ContractPreview";
 import Article_1 from "./pages/article/Article_1";
+import Review from "./pages/landlordManagement/review";
 
 function App() {
   return (
@@ -60,7 +62,7 @@ function App() {
             <Route path="finished">
               <Route path=":houseId" element={<FinishHouse />} />
             </Route>
-            <Route path="review" element={<h1>評價管理</h1>} />
+            <Route path="review" element={<Review />} />
           </Route>
           <Route path="tenant">
             <Route
@@ -80,6 +82,11 @@ function App() {
                 path="rentalHistoryList"
                 element={<RentalHistoryList />}
               ></Route>
+            </Route>
+            <Route
+              path="feedbackManagement" // 評價管理頁面
+              element={<FeedbackManagementPage />}
+            >
               <Route
                 path="feedbackPendingList"
                 element={<FeedbackPendingList />}

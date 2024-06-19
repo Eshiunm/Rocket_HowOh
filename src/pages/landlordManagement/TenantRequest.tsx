@@ -1,24 +1,45 @@
-import { useEffect, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Toast } from "flowbite-react";
 import leftIcon_white from "../../assets/imgs/icons/leftIcon_white.svg";
 import rightIcon_white from "../../assets/imgs/icons/rightIcon_white.svg";
-import noListImg from "../../assets/imgs/tenantManagement/whenNoItemsShowThisImg.svg";
+import noListImg from "../../assets/imgs/landlord-management/Young man working on a laptop.svg";
 import RequestList from "../../components/landLordManagement/request/RequestList";
 import Footer from "../../components/footer/Footer";
 import { apiAppointmentCommonTotalNumber } from "../../apis/apis";
+
+type contextValueType = {
+  reloadRequestList: boolean;
+  setReloadRequestList: (value: boolean) => void;
+  setShowToast: (value: boolean) => void;
+}
+
+export const ReloadRequestList = createContext<contextValueType>(
+  {} as contextValueType
+);
 
 export default function TenantRequest() {
   const navigate = useNavigate();
   const [requestTotalNumber, setRequestTotalNumber] = useState(1);
   const [sortOrder, setSortOrder] = useState('oldFirst'); // 默認排序為舊至新
   const [pageNumberControl, setPageNumberControl] = useState(1);
+  const [showToast, setShowToast] = useState(false);
   const totalPage = Math.ceil(requestTotalNumber / 12)
 
   const handleSortOrderChange = (e: React.MouseEvent<HTMLButtonElement>) => {
     const sortType = e.currentTarget.getAttribute('data-sort');
     if (sortType) {
       setSortOrder(sortType);
-    }
+      }
+    setShowToast(false);
+  };
+
+  // 當更改租客邀請狀態時，更改 false 為 true
+  const [reloadRequestList, setReloadRequestList] = useState(false);
+  const contextValue = {
+    reloadRequestList,
+    setReloadRequestList,
+    setShowToast,
   };
 
   useEffect(() => {
@@ -56,10 +77,19 @@ export default function TenantRequest() {
       }
     }
     getRequestTotalNumber();
-  }, [sortOrder]);
+    return setReloadRequestList(false);
+  }, [sortOrder, reloadRequestList]);
 
   return (
     <>
+      {
+        showToast && (
+          <Toast className="z-50 shadow-elevation-1 shadow-Neutral-60 w-auto gap-2 fixed bottom-10 left-1/2 -translate-x-1/2 bg-black rounded px-2.5 py-1">
+            <div className="text-white text-sans-body1">{ sortOrder === "hidden" ? "租客已顯示" : "租客已隱藏"}</div>
+            <Toast.Toggle className="bg-transparent ml-0 focus:ring-0 text-white hover:text-Neutral-60 hover:bg-transparent" />
+          </Toast>
+        )
+      }
       <header className="bg-Landlord-99">
         <div className="container py-6 flex justify-between items-end">
           <h2 className="text-sans-b-h5">租客預約請求</h2>
@@ -72,7 +102,8 @@ export default function TenantRequest() {
           </button>
         </div>
       </header>
-      <main className="container layout-grid mb-40">
+      <ReloadRequestList.Provider value={contextValue}>
+      <main className="flex-grow container layout-grid mb-24">
         <div className="col-span-7 px-5">
           <section className="flex items-start gap-6 pb-3 pt-6 border-b border-Neutral-95 mb-6">
             <div className="flex gap-3 pt-4">
@@ -109,7 +140,7 @@ export default function TenantRequest() {
                 <h6>
                   顯示
                   <span className="text-sans-b-body2 px-1">{
-                    requestTotalNumber ? 
+                    requestTotalNumber > 0 ? 
                     pageNumberControl * 12 - 11
                     : 0
                   } </span>
@@ -117,7 +148,7 @@ export default function TenantRequest() {
                   <span className="text-sans-b-body2 px-1">{
                     requestTotalNumber ? 
                       (pageNumberControl === totalPage ? 
-                      requestTotalNumber % 12 + (pageNumberControl - 1) * 12 
+                        requestTotalNumber
                       : pageNumberControl * 12)
                     : 0
                   }</span>
@@ -134,7 +165,10 @@ export default function TenantRequest() {
                   type="button"
                   className="text-sans-b-body2 filled-button-s rounded-r-none flex items-center gap-1"
                   disabled={pageNumberControl === 1}
-                  onClick={() => setPageNumberControl(pageNumberControl - 1)}
+                  onClick={() => {
+                    setPageNumberControl(pageNumberControl - 1)
+                    window.scrollTo(0, 0);
+                  }}
                 >
                   <img src={leftIcon_white} alt="left-icon" />
                   上一頁
@@ -143,7 +177,10 @@ export default function TenantRequest() {
                   type="button"
                   className="text-sans-b-body2 filled-button-s rounded-l-none flex items-center gap-1"
                   disabled={totalPage === pageNumberControl || requestTotalNumber === 0}
-                  onClick={() => setPageNumberControl(pageNumberControl + 1)} 
+                  onClick={() => {
+                    setPageNumberControl(pageNumberControl + 1)
+                    window.scrollTo(0, 0);
+                  }} 
                 >
                   下一頁
                   <img src={rightIcon_white} alt="right-icon" />
@@ -156,9 +193,9 @@ export default function TenantRequest() {
               requestTotalNumber ?
               <RequestList sort={sortOrder} pageNumberControl={pageNumberControl} />
               : (
-                <div className="flex gap-3 items-center px-5 pb-5">
-                  <img src={noListImg} alt="no list image" />
-                  <p>此狀態分類尚無租客預約資料</p>
+                <div className="flex gap-3 items-center px-5 py-4 mb-6 bg-Landlord-99 rounded-xl">
+                  <img src={noListImg} alt="no-list-image" />
+                  <p>此狀態分類尚無租客預約資料。</p>
                 </div>
               )
             }
@@ -169,7 +206,7 @@ export default function TenantRequest() {
                 <h6>
                   顯示
                   <span className="text-sans-b-body2 px-1">{
-                    requestTotalNumber ? 
+                    requestTotalNumber > 0 ? 
                     pageNumberControl * 12 - 11
                     : 0
                   } </span>
@@ -177,7 +214,7 @@ export default function TenantRequest() {
                   <span className="text-sans-b-body2 px-1">{
                     requestTotalNumber ? 
                       (pageNumberControl === totalPage ? 
-                      requestTotalNumber % 12 + (pageNumberControl - 1) * 12 
+                        requestTotalNumber
                       : pageNumberControl * 12)
                     : 0
                   }</span>
@@ -194,7 +231,10 @@ export default function TenantRequest() {
                   type="button"
                   className="text-sans-b-body2 filled-button-s rounded-r-none flex items-center gap-1"
                   disabled={pageNumberControl === 1}
-                  onClick={() => setPageNumberControl(pageNumberControl - 1)}
+                  onClick={() => {
+                    setPageNumberControl(pageNumberControl - 1)
+                    window.scrollTo(0, 0);
+                  }}
                 >
                   <img src={leftIcon_white} alt="left-icon" />
                   上一頁
@@ -203,7 +243,10 @@ export default function TenantRequest() {
                   type="button"
                   className="text-sans-b-body2 filled-button-s rounded-l-none flex items-center gap-1"
                   disabled={totalPage === pageNumberControl || requestTotalNumber === 0}
-                  onClick={() => setPageNumberControl(pageNumberControl + 1)} 
+                  onClick={() => {
+                    setPageNumberControl(pageNumberControl + 1)
+                    window.scrollTo(0, 0);
+                  }} 
                 >
                   下一頁
                   <img src={rightIcon_white} alt="right-icon" />
@@ -213,6 +256,7 @@ export default function TenantRequest() {
           </section>
         </div>
       </main>
+      </ReloadRequestList.Provider>
       <Footer />
     </>
   );

@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import RequestCard from "./RequestCard";
 import { apiAppointmentCommonList } from "../../../apis/apis";
+import { ReloadRequestList } from "../../../pages/landlordManagement/TenantRequest";
 
 export type RequestListType = {
   "appointmentId": number; //預約Id
@@ -33,8 +34,8 @@ type RequestListProps = {
 
 export default function RequestList(prop : RequestListProps) {
   const { sort, pageNumberControl } = prop;
+  const { reloadRequestList } = useContext(ReloadRequestList);
   const [getListLoading, setGetListLoading] = useState(false);
-  // const [pageNumberControl, setPageNumberControl] = useState(1);
   const [requestList, setRequestList] = useState<RequestListType[]>([]);
 
   useEffect(() => {
@@ -71,7 +72,7 @@ export default function RequestList(prop : RequestListProps) {
       setGetListLoading(false);
     }
     getSortList();
-  },[sort, pageNumberControl]);
+  },[sort, pageNumberControl, reloadRequestList]);
 
   return (
     <ul>
@@ -108,21 +109,24 @@ export default function RequestList(prop : RequestListProps) {
               <RequestCard
                 key={`appointment-${request?.appointmentId}`}
                 data={request}
-                status="send" />
+                status="send"
+                isHidden={sort === "hidden"} />
             )
           } else if ( request.description.orderInfo[0]?.status === "租客已拒絕租約" ) {
             return (
               <RequestCard
                 key={`appointment-${request.appointmentId}`} 
                 data={request}
-                status="reject" />
+                status="reject"
+                isHidden={sort === "hidden"} />
             )
           } else {
             return (
               <RequestCard
                 key={`appointment-${request.appointmentId}`}
                 data={request}
-                status="none" />
+                status="none"
+                isHidden={sort === "hidden"} />
             )
           }
         })

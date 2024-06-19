@@ -225,12 +225,12 @@ export default function FinishHouse() {
                 type="button"
                 className="filled-button-m h-full"
                 onClick={() => navigate("/landlord/history")}
-              >前往承租歷史</button>
+              >前往出租歷史</button>
             </div>
           </div>
         </div>
       </header>
-      <main className="container layout-grid">
+      <main className="flex-grow container layout-grid">
         <div className="col-span-7 pt-6 pb-32">
           <HouseDatas houseDatas={houseDatas}/>
         </div>

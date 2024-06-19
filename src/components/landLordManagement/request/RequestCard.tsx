@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { Tooltip, Drawer, Flowbite, CustomFlowbiteTheme } from "flowbite-react";
 import rightIcon_black from "../../../assets/imgs/icons/rightIcon_black.svg";
 import close from "../../../assets/imgs/icons/close.svg";
@@ -6,7 +6,8 @@ import star from "../../../assets/imgs/icons/star.svg";
 import { RequestListType } from "../request/RequestList";
 // 轉換承租時間
 import moment from 'moment-timezone';
-import { apiAppointmentLandlordSingleInfo } from "../../../apis/apis";
+import { apiAppointmentLandlordHiddenTenant, apiAppointmentLandlordRevealTenant, apiAppointmentLandlordSingleInfo } from "../../../apis/apis";
+import { ReloadRequestList } from "../../../pages/landlordManagement/TenantRequest";
 
 type TenantInfoType = {
   lastName: string; //租客名
@@ -64,7 +65,13 @@ type TenantDetailsType = {
   }
 };
 
-export default function RequestCard({data, status = "none"}: {data: RequestListType, status: string}) {
+type RequestCardPropsType = {
+  data: RequestListType;
+  status: string;
+  isHidden: boolean;
+}
+
+export default function RequestCard({data, status = "none", isHidden}: RequestCardPropsType) {
   const customTheme: CustomFlowbiteTheme = {
     drawer: {
       "root": {
@@ -96,7 +103,9 @@ export default function RequestCard({data, status = "none"}: {data: RequestListT
     }
   };
 
+  const {setReloadRequestList, setShowToast} = useContext(ReloadRequestList);
   const [isOpen, setIsOpen] = useState(false);
+  // const [showToast, setShowToast] = useState(false)
   const [getInfoLoading, setGetInfoLoading] = useState(false);
   const [tenantDetails, setTenantDetails] = useState<TenantDetailsType | null>(null);
   const orderList = tenantDetails?.orderList?.orderInfo;
@@ -121,6 +130,21 @@ export default function RequestCard({data, status = "none"}: {data: RequestListT
     setIsOpen(true);
     getSingleTenantInfo(appointmentId);
   };
+
+  const handleHiddenTenant = async () => {
+    try {
+      if (isHidden) {
+        apiAppointmentLandlordRevealTenant(appointmentId);
+      } else {
+        apiAppointmentLandlordHiddenTenant(appointmentId);
+      }
+      handleClose();
+      setShowToast(true);
+      setReloadRequestList(true);
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   return (
     <>
@@ -150,7 +174,7 @@ export default function RequestCard({data, status = "none"}: {data: RequestListT
               status === "reject" && (
                 <div className="badge-s bg-Alert-95">
                   <h5 className="pr-2 mr-2 border-r border-Tenant-70">租約邀請已拒絕</h5>
-                  <time>{orderInfo[0].createTime}</time>
+                  <time>{moment(orderInfo[0].createTime).tz('Asia/Taipei').format('YYYY年M月D日')}</time>
                 </div>
               )
             }
@@ -163,7 +187,7 @@ export default function RequestCard({data, status = "none"}: {data: RequestListT
             <h4>{tenantInfo.job}</h4>
           </div>
           <a
-            href={`+886-${tenantInfo.phoneNumber.replace(/^0/, '').replace(/(\d{3})(\d{3})(\d{3})/, '$1-$2-$3')}`}
+            href={`tel:+886-${tenantInfo.phoneNumber.replace(/^0/, '').replace(/(\d{3})(\d{3})(\d{3})/, '$1-$2-$3')}`}
             className="text-sans-body1">
             {tenantInfo.phoneNumber.replace(/(\d{4})(\d{3})(\d{3})/, '$1-$2-$3')}
           </a>
@@ -244,8 +268,11 @@ export default function RequestCard({data, status = "none"}: {data: RequestListT
                     <button
                       type="button"
                       className="outline-button-m flex items-center gap-2"
+                      onClick={handleHiddenTenant}
                     >
-                      隱藏租客
+                      {
+                        isHidden ? "顯示租客" : "隱藏租客"
+                      }
                       <span className="material-symbols-outlined text-base">visibility_off</span>
                     </button>
                     <div className="w-full p-6 rounded-2xl bg-white">
@@ -265,7 +292,7 @@ export default function RequestCard({data, status = "none"}: {data: RequestListT
                             }</h4>
                           </div>
                           <a
-                            href={`+886-${tenantDetails?.tenantInfo[0].phonenumber.replace(/^0/, '').replace(/(\d{3})(\d{3})(\d{3})/, '$1-$2-$3')}`}
+                            href={`tel:+886-${tenantDetails?.tenantInfo[0].phonenumber.replace(/^0/, '').replace(/(\d{3})(\d{3})(\d{3})/, '$1-$2-$3')}`}
                             className="text-sans-body1">
                             {tenantDetails?.tenantInfo[0].phonenumber.replace(/(\d{4})(\d{3})(\d{3})/, '$1-$2-$3')}
                           </a>
@@ -296,7 +323,7 @@ export default function RequestCard({data, status = "none"}: {data: RequestListT
                       </div>
                     </div>
                     {
-                      hasAnyRating?.length && (
+                      hasAnyRating?.length ? (
                         <div className="w-full">
                           <h4 className="text-sans-b-h6 mb-4">房東評價</h4>
                           {
@@ -338,7 +365,7 @@ export default function RequestCard({data, status = "none"}: {data: RequestListT
                             })
                           }
                         </div>
-                      )
+                      ) : null
                     }
                   </>
                 )
