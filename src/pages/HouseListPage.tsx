@@ -672,7 +672,7 @@ function HouseListPage() {
       const cityQueryParams = "city=" + cityId;
       queryString += cityQueryParams;
       if (searchContent) {
-        const searchContentQueryParams = "search=" + searchContent;
+        const searchContentQueryParams = "content=" + searchContent;
         queryString += "&" + searchContentQueryParams;
       }
       if (districtNumbers.length > 0) {
@@ -698,6 +698,7 @@ function HouseListPage() {
       }
 
       const getHouseListData = async (queryString: any) => {
+        console.log(queryString)
         setIsAPIProcessing(true);
         const res = await apiHouseCommonSearchList(queryString);
         setSearchResults(res.data.Houses);
