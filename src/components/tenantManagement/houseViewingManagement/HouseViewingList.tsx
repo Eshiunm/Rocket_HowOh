@@ -54,7 +54,24 @@ function HouseViewingList() {
   const [rentalListTotalNumbers, setRentalListTotalNumbers] = useState(0);
   const [houseViewingDetail, setHouseViewingDetail] = useState<any>({});
   const [currentPageNumber, setCurrentPageNumber] = useState(1);
+  const getFormattedDate = (dateString: string) => {
+    const date = new Date(dateString);
 
+    // 將日期轉換為 "xxxx年xx月xx日" 的格式
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1; // getMonth() 返回的月份是 0-11，所以需要加 1
+    const day = date.getDate();
+    const formattedDate = `${year}年${month}月${day}日`;
+    return formattedDate;
+  };
+  const getFormattedTime = (timeString: string) => {
+    const time = new Date(timeString);
+    // 將時間轉換為 24 小時制的格式
+    const hours = time.getHours();
+    const minutes = time.getMinutes().toString().padStart(2, "0");
+    const formattedTime = `${hours}:${minutes}`;
+    return formattedTime;
+  };
   const getRentalListData = async (queryString: string) => {
     try {
       setIsAPIProcessing(true);
@@ -75,18 +92,12 @@ function HouseViewingList() {
       console.log(error);
     }
   };
-  // 初始化預約看房清單(預設渲染未出租)
-  useEffect(() => {
-    const userId = localStorage.getItem("userId")!.toString();
-    getRentalListData(userId);
-    getRentalListTotalCounts(userId);
-  }, []);
 
-  // 切換出租清單類型，有未出租和已出租兩種
   const handleRentalListType = (e: any) => {
     const rentalType = e.currentTarget.dataset.rentaltype;
     const userId = localStorage.getItem("userId")!.toString();
-    if (rentalType === "rented") {  
+    setCurrentPageNumber(1);
+    if (rentalType === "rented") {
       console.log("渲染已出租清單");
       const queryString = userId + "&houseStatus=20";
       getRentalListData(queryString);
@@ -121,25 +132,52 @@ function HouseViewingList() {
     setIsHouseOffCanvasOpen(false);
   };
 
-  const getFormattedDate = (dateString: string) => {
-    const date = new Date(dateString);
-
-    // 將日期轉換為 "xxxx年xx月xx日" 的格式
-    const year = date.getFullYear();
-    const month = date.getMonth() + 1; // getMonth() 返回的月份是 0-11，所以需要加 1
-    const day = date.getDate();
-    const formattedDate = `${year}年${month}月${day}日`;
-    return formattedDate;
+  const handlePrevPage = () => {
+    const newCurrentPageNumber = currentPageNumber - 1;
+    setCurrentPageNumber(newCurrentPageNumber);
+    if (rentalListTypeState === "rented") {
+      const queryString =
+        localStorage.getItem("userId")!.toString() +
+        "&houseStatus=20&pageNumber =" +
+        newCurrentPageNumber;
+      getRentalListData(queryString);
+      getRentalListTotalCounts(queryString);
+    } else if (rentalListTypeState === "unrented") {
+      const queryString =
+        localStorage.getItem("userId")!.toString() +
+        "&houseStatus=10&pageNumber=" +
+        newCurrentPageNumber;
+      getRentalListData(queryString);
+      getRentalListTotalCounts(queryString);
+    }
   };
-  const getFormattedTime = (timeString: string) => {
-    const time = new Date(timeString);
-    // 將時間轉換為 24 小時制的格式
-    const hours = time.getHours();
-    const minutes = time.getMinutes().toString().padStart(2, "0");
-    const formattedTime = `${hours}:${minutes}`;
-    return formattedTime;
+
+  const handleNextPage = () => {
+    const newCurrentPageNumber = currentPageNumber + 1;
+    setCurrentPageNumber(newCurrentPageNumber);
+    if (rentalListTypeState === "rented") {
+      const queryString =
+        localStorage.getItem("userId")!.toString() +
+        "&houseStatus=20&pageNumber =" +
+        newCurrentPageNumber;
+      getRentalListData(queryString);
+      getRentalListTotalCounts(queryString);
+    } else if (rentalListTypeState === "unrented") {
+      const queryString =
+        localStorage.getItem("userId")!.toString() +
+        "&houseStatus=10&pageNumber=" +
+        newCurrentPageNumber;
+      getRentalListData(queryString);
+      getRentalListTotalCounts(queryString);
+    }
   };
 
+  // 初始化預約看房清單(預設渲染未出租)
+  useEffect(() => {
+    const userId = localStorage.getItem("userId")!.toString();
+    getRentalListData(userId);
+    getRentalListTotalCounts(userId);
+  }, []);
   return (
     <>
       {/* offCanvas */}
@@ -1146,9 +1184,10 @@ function HouseViewingList() {
                   </p>
                   <div className="flex gap-x-1">
                     <button
-                      disabled={rentalListTotalNumbers > 12 ? false : true}
+                      disabled={currentPageNumber === 1}
                       type="button"
                       className="flex gap-x-[10px] items-center filled-button-s rounded-r-none"
+                      onClick={handlePrevPage}
                     >
                       <svg
                         className="fill-white"
@@ -1165,9 +1204,13 @@ function HouseViewingList() {
                       上一頁
                     </button>
                     <button
-                      disabled={rentalListTotalNumbers > 12 ? false : true}
+                      disabled={
+                        currentPageNumber ===
+                        Math.ceil(rentalListTotalNumbers / 12)
+                      }
                       type="button"
                       className="flex gap-x-[10px] items-center filled-button-s rounded-l-none"
+                      onClick={handleNextPage}
                     >
                       下一頁
                       <svg
@@ -1324,9 +1367,10 @@ function HouseViewingList() {
                   </p>
                   <div className="flex gap-x-1">
                     <button
-                      disabled={rentalListTotalNumbers > 12 ? false : true}
+                      disabled={currentPageNumber === 1}
                       type="button"
                       className="flex gap-x-[10px] items-center filled-button-s rounded-r-none"
+                      onClick={handlePrevPage}
                     >
                       <svg
                         className="fill-white"
@@ -1343,9 +1387,13 @@ function HouseViewingList() {
                       上一頁
                     </button>
                     <button
-                      disabled={rentalListTotalNumbers > 12 ? false : true}
+                      disabled={
+                        currentPageNumber ===
+                        Math.ceil(rentalListTotalNumbers / 12)
+                      }
                       type="button"
                       className="flex gap-x-[10px] items-center filled-button-s rounded-l-none"
+                      onClick={handleNextPage}
                     >
                       下一頁
                       <svg
