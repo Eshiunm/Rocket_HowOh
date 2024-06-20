@@ -64,7 +64,6 @@ function RentalHistoryList() {
   const getHistoryList = async (pageNumber: number) => {
     try {
       const response = await apiAppointmentTenantHistoryList(pageNumber);
-      console.log(response.data.data);
       const historyListData = response.data.data.orderList;
       const historyListTotalCounts = response.data.data.totalCount;
       const currentPageNumber = response.data.data.page;
@@ -84,11 +83,15 @@ function RentalHistoryList() {
       console.log(error);
     }
   };
-  const handleNextPage = () => {
-    getHistoryList(currentPageNumber + 1);
-  };
   const handlePrevPage = () => {
-    getHistoryList(currentPageNumber - 1);
+    const newCurrentPageNumber = currentPageNumber - 1;
+    setCurrentPageNumber(newCurrentPageNumber);
+    getHistoryList(newCurrentPageNumber);
+  };
+  const handleNextPage = () => {
+    const newCurrentPageNumber = currentPageNumber + 1;
+    setCurrentPageNumber(newCurrentPageNumber);
+    getHistoryList(newCurrentPageNumber);
   };
   const handleDrawerOpen = (e: MouseEvent<HTMLLIElement>) => {
     const orderId = e.currentTarget.dataset.orderid;
@@ -240,9 +243,7 @@ function RentalHistoryList() {
                         <h5 className="text-sans-b-body1 text-Landlord-50 mb-3">
                           自我介紹
                         </h5>
-                        <p>
-                          {historySingleInfo.landlordInfo.description}
-                        </p>
+                        <p>{historySingleInfo.landlordInfo.description}</p>
                       </li>
                     </ul>
                   </div>
@@ -260,23 +261,18 @@ function RentalHistoryList() {
                 <div></div>
                 <div>
                   <p className="text-sans-b-body2 text-center text-Brand-10 mb-2">
-                    {`${
-                      historyListTotalCounts > 0
-                        ? `顯示 1 至 ${historyListTotalCounts} 筆 共 ${historyListTotalCounts} 筆`
-                        : ""
-                    }`}
-                    {`${
-                      historyListTotalCounts > 12
-                        ? `顯示 1 至 12 筆 共 ${historyListTotalCounts} 筆`
-                        : ""
-                    }`}
+                    {historyListTotalCounts > 0
+                      ? historyListTotalCounts > 12
+                        ? `顯示 ${1 + (currentPageNumber - 1) * 12} 至 ${
+                            currentPageNumber * 12
+                          } 筆 共 ${historyListTotalCounts} 筆`
+                        : `顯示 1 至 ${historyListTotalCounts} 筆 共 ${historyListTotalCounts} 筆`
+                      : "顯示 0 至 0 筆 共 0 筆"}
                   </p>
                   <div className="flex gap-x-1">
                     <button
                       type="button"
-                      disabled={
-                        currentPageNumber === 1 || historyListTotalCounts === 0
-                      }
+                      disabled={currentPageNumber === 1}
                       className="flex gap-x-[10px] rounded-r-none items-center filled-button-s"
                       onClick={handlePrevPage}
                     >
@@ -298,8 +294,7 @@ function RentalHistoryList() {
                       type="button"
                       disabled={
                         currentPageNumber ===
-                          Math.floor(historyListTotalCounts / 12) ||
-                        historyListTotalCounts <= 12
+                        Math.ceil(historyListTotalCounts / 12)
                       }
                       className="flex gap-x-[10px] rounded-l-none items-center filled-button-s"
                       onClick={handleNextPage}
