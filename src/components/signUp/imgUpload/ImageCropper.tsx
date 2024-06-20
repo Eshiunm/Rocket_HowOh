@@ -122,8 +122,6 @@ function ImageCropper({ setAvatarUrl, closeModal }: ModalProps) {
                     imgRef.current?.height ?? 0
                   )
                 );
-                console.log(imgRef.current);
-                console.log(previewCanvasRef.current);
               }}
             >
               預覽

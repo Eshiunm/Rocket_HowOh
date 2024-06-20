@@ -122,12 +122,7 @@ function BasicInfoForm() {
     }
     dispatch(setSignUpForm(signUpFormData));
     try {
-      // await axios.post(
-      //   "http://98.70.102.116/api/register/common/signup",
-      //   signUpFormData
-      // );
       await apiRegisterSignUp(signUpFormData);
-      dispatch(setRegisterIdentityState(null));
       dispatch(setCurrentStepState(currentStepState + 1));
     } catch (errors) {
       console.log(errors);
@@ -136,7 +131,7 @@ function BasicInfoForm() {
   };
 
   return (
-    <div className="wrap bg-Neutral-99 py-[60px]">
+    <div className="wrap flex-grow bg-Neutral-99 py-[60px]">
       <div className="container layout-grid">
         <div className="col-span-6 col-start-4 ">
           <form
