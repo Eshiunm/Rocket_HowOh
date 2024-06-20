@@ -103,6 +103,7 @@ function SingleHousePage() {
     useState(false);
   const [isConfirmAPIProcessing, setConfirmIsAPIProcessing] =
     useState<boolean>(false);
+  const [landlordContactInfo, setLandlordContactInfo] = useState<any>({});
   const goIntroductionRef = () => {
     window.scrollTo({
       top: introductionRef.current!.offsetTop - 100,
@@ -148,6 +149,7 @@ function SingleHousePage() {
         if (response.status === 200) {
           setIsReserveModalOpen(false);
           setIsComparePassModalOpen(true);
+          setLandlordContactInfo(response.data.data);
         }
         setConfirmIsAPIProcessing(false);
       } catch (errors: any) {
@@ -177,7 +179,6 @@ function SingleHousePage() {
       try {
         const response = await apiUserInfoGet();
         setReserveModalData(response.data.data);
-        console.log(response.data.data);
       } catch (error: any) {
         console.log(error.response.status);
         if (error.response.status === 401) {
@@ -1600,14 +1601,14 @@ function SingleHousePage() {
                   onClick={() => setIsComparePassModalOpen(false)}
                 />
               </div>
-              <p className="mb-10">請參考以下範例聯繫房東的方式</p>
+              <p className="mb-10">請參考以下資訊聯繫房東</p>
               <span className="inline-block mb-1">電話</span>
               <p className="p-3 mb-10 border-b border-Neutral-70">
-                0929-239-238
+                {landlordContactInfo.landlordTel}
               </p>
               <span className="inline-block mb-1">Line</span>
               <p className="p-3 mb-10 border-b border-Neutral-70">
-                Wanginthehouse
+              {landlordContactInfo.landlordLineId}
               </p>
               <div className="flex justify-end gap-x-6">
                 <button
