@@ -382,6 +382,22 @@ function SearchForm() {
         onSubmit={handleSubmit(onSubmit)}
         className="bg-white shadow-elevation-3 rounded-[20px] p-8"
       >
+        {/* map search */}
+        <div className="flex gap-x-3 mb-6">
+        <Link
+            to="/"
+            className="inline-block py-1 px-4 bg-Brand-90 rounded-3xl"
+          >
+            一般搜尋
+          </Link>
+          <Link
+            to="/mapSearch"
+            target="_blank"
+            className="inline-block py-1 px-4 rounded-3xl border border-black hover:bg-Brand-90 hover:border-Brand-90"
+          >
+            地圖搜尋
+          </Link>
+        </div>
         {/* dropdown & search */}
         <div className="flex gap-x-6 mb-6 ">
           {/* dropdown component */}
@@ -747,17 +763,12 @@ function SearchForm() {
             </div>
           </li>
         </ul>
-        <div className="relative">
-          <button
-            type="submit"
-            className="w-[520px] mx-auto filled-button-l py-3 shadow-elevation-5"
-          >
-            搜尋
-          </button>
-          <Link to="/mapSearch" target="_blank" className="filled-button-m absolute right-0 top-0">
-            地圖搜尋
-          </Link>
-        </div>
+        <button
+          type="submit"
+          className="w-[520px] mx-auto filled-button-l py-3 shadow-elevation-5"
+        >
+          搜尋
+        </button>
       </form>
     </>
   );
