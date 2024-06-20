@@ -1178,7 +1178,9 @@ function HouseViewingList() {
                   <p className="text-sans-b-body2 text-center text-Brand-10 mb-2">
                     {rentalList.length > 0
                       ? rentalList.length > 12
-                        ? `顯示 1 至 12 筆 共 ${rentalListTotalNumbers} 筆`
+                        ? `顯示 ${1 + (currentPageNumber - 1) * 12} 至 ${
+                            currentPageNumber * 12
+                          }筆 共 ${rentalListTotalNumbers} 筆`
                         : `顯示 1 至 ${rentalList.length} 筆 共 ${rentalList.length} 筆`
                       : "顯示 0 至 0 筆 共 0 筆"}
                   </p>

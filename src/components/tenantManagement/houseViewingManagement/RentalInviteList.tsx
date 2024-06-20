@@ -5,6 +5,7 @@ import {
   apiAppointmentTenantInvitedList,
   apiAppointmentTenantInvitedHouseDetail,
   apiTenantOrderAcceptOrReject,
+  apiAppointmentTenantInvitedListTotalNumber,
 } from "../../../apis/apis";
 import ratingStarIcon from "../../../assets/imgs/SingleHousePage/ratingStarIcon.svg";
 import landLordIcon from "../../../assets/imgs/SingleHousePage/landLordIcon.svg";
@@ -71,10 +72,7 @@ const DoubleCheck = ({ isOpen, handleOpen, isOrderAccepted }: any) => {
   };
   const handleOrderAccept_API = async (orderId: string) => {
     try {
-      await apiTenantOrderAcceptOrReject(
-        orderId,
-        isAccepted as boolean
-      );
+      await apiTenantOrderAcceptOrReject(orderId, isAccepted as boolean);
       window.location.reload();
     } catch (errors) {
       console.log(errors);
@@ -213,24 +211,23 @@ function RentalInviteList() {
   const [inviteList, setInviteList] = useState<any>([]);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [drawerData, setDrawerData] = useState<any>({});
-  const [isCardSelected, setIsCardSelected] = useState<any>({});
-  const [currentCardSelectedId, setCurrentCardSelectedId] = useState("");
   const [isDoubleCheckModalOpen, setIsDoubleCheckModalOpen] = useState(false);
   const [isOrderAccepted, setIsOrderAccepted] = useState<any>({});
-  const getInviteList = async () => {
+  const [inviteListTotalCount, setInviteListTotalCount] = useState(0);
+  const [currentPageNumber, setCurrentPageNumber] = useState(1);
+
+  const getInviteListData = async (pageNumber: string) => {
     try {
-      const defaultPageNumber = "1";
-      const response = await apiAppointmentTenantInvitedList(defaultPageNumber);
-      // 某個卡片被點擊，開啟offCanvas後，卡片要有 selected 效果
-      const isCardSelected = response.data.reduce(
-        (acc: any, { houseId }: any) => {
-          acc[`cardId${houseId}`] = false;
-          return acc;
-        },
-        {}
-      );
-      setIsCardSelected(isCardSelected);
+      const response = await apiAppointmentTenantInvitedList(pageNumber);
       setInviteList(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const getInviteListTotalCount = async () => {
+    try {
+      const response = await apiAppointmentTenantInvitedListTotalNumber();
+      setInviteListTotalCount(response.data.totalNumber);
     } catch (error) {
       console.log(error);
     }
@@ -263,19 +260,11 @@ function RentalInviteList() {
   };
 
   const handleDrawerOpen = (e: any) => {
-    const houseId = e.currentTarget.dataset.houseid;
     const orderId = e.currentTarget.dataset.orderid;
-
     getHouseDetailInfo(orderId.toString());
-    setCurrentCardSelectedId(houseId);
-    setIsCardSelected({ ...isCardSelected, [`cardId${houseId}`]: true });
     setIsDrawerOpen(true);
   };
   const handleDrawerClose = () => {
-    setIsCardSelected({
-      ...isCardSelected,
-      [`cardId${currentCardSelectedId}`]: false,
-    });
     setIsDrawerOpen(false);
   };
   const handleLeaseInvitationReject = (e: MouseEvent<HTMLButtonElement>) => {
@@ -290,10 +279,24 @@ function RentalInviteList() {
     setIsDoubleCheckModalOpen(true);
     setIsOrderAccepted({ isOrderAccepted: true, orderId });
   };
+  const handlePrevPage = () => {
+    const newCurrentPageNumber = currentPageNumber - 1;
+    getInviteListData(newCurrentPageNumber.toString());
+    setCurrentPageNumber(newCurrentPageNumber);
+
+  };
+
+  const handleNextPage = () => {
+    const newCurrentPageNumber = currentPageNumber + 1;
+    getInviteListData(newCurrentPageNumber.toString());
+    setCurrentPageNumber(newCurrentPageNumber);
+  };
 
   // 初始化租屋邀請清單
   useEffect(() => {
-    getInviteList();
+    const defaultPageNumber = "1";
+    getInviteListData(defaultPageNumber);
+    getInviteListTotalCount();
   }, []);
 
   return (
@@ -484,10 +487,9 @@ function RentalInviteList() {
                       orderCreateTime,
                     }: any) => (
                       <li
+                        tabIndex={0}
                         key={orderCreateTime}
-                        className={`p-3 cursor-pointer hover:bg-Neutral-99 rounded-xl ${
-                          isCardSelected[`cardId${houseId}`] && "bg-Neutral-95"
-                        }`}
+                        className={`p-3 cursor-pointer hover:bg-Neutral-99 rounded-xl focus:bg-Neutral-95`}
                         data-houseid={houseId}
                         data-orderid={orderId}
                         onClick={handleDrawerOpen}
@@ -617,12 +619,20 @@ function RentalInviteList() {
                 <div></div>
                 <div>
                   <p className="text-sans-b-body2 text-center text-Brand-10 mb-2">
-                    顯示 1 至 12 筆 共 59 筆
+                    {inviteListTotalCount > 0
+                      ? inviteListTotalCount > 12
+                        ? `顯示 ${1 + (currentPageNumber - 1) * 12} 至 ${
+                            currentPageNumber * 12
+                          } 筆 共 ${inviteListTotalCount} 筆`
+                        : `顯示 1 至 ${inviteListTotalCount} 筆 共 ${inviteListTotalCount} 筆`
+                      : "顯示 0 至 0 筆 共 0 筆"}
                   </p>
                   <div className="flex gap-x-1">
                     <button
                       type="button"
-                      className="flex gap-x-[10px] rounded-l-lg items-center text-sans-b-body1 text-white p-2 hover:opacity-80 bg-Neutral-90"
+                      disabled={currentPageNumber === 1}
+                      className="flex gap-x-[10px] items-center filled-button-s rounded-r-none"
+                      onClick={handlePrevPage}
                     >
                       <svg
                         className="fill-white"
@@ -640,7 +650,9 @@ function RentalInviteList() {
                     </button>
                     <button
                       type="button"
-                      className="flex gap-x-[10px] rounded-r-lg items-center text-sans-b-body1 text-white p-2 hover:opacity-80 bg-black"
+                      disabled={currentPageNumber === Math.ceil(inviteListTotalCount/12)}
+                      className="flex gap-x-[10px] items-center filled-button-s rounded-l-none"
+                      onClick={handleNextPage}
                     >
                       下一頁
                       <svg
