@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import BigLoading from "../components/loading/BigLoading";
 // Load google maps necessary packages
 import { apiGetMapSearchList } from "../apis/apis";
 import markerIcon from "../assets/imgs/mapSearch/mapMarker.svg";
@@ -32,6 +33,7 @@ const PlacesAutocomplete = ({
   setSelectedPlace,
   setMarkers,
   setRadius,
+  setIsAPIProcessing
 }: any) => {
   const {
     ready,
@@ -43,13 +45,14 @@ const PlacesAutocomplete = ({
 
   const getMapSearchResults = async (position: any) => {
     try {
-      (position);
+      setIsAPIProcessing(true);
       const res = await apiGetMapSearchList(position);
       const searchResult = res.data;
-      (searchResult);
       setMarkers(searchResult);
+      setIsAPIProcessing(false);
     } catch (err) {
-      (err);
+      console.log(err);
+      setIsAPIProcessing(false);
     }
   };
 
@@ -102,6 +105,7 @@ function MapSearchPage() {
   const [selectedPlace, setSelectedPlace] = useState<Location>();
   const [markers, setMarkers] = useState<any[]>([]);
   const [radius, setRadius] = useState("0");
+  const [isAPIProcessing, setIsAPIProcessing] = useState(false);
   // 判斷是否載入成功
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAP_API,
@@ -113,12 +117,14 @@ function MapSearchPage() {
   };
   const getMapSearchList = async (position: any) => {
     try {
+      setIsAPIProcessing(true);
       const res = await apiGetMapSearchList(position);
       const searchResult = res.data;
       setMarkers(searchResult);
-      (searchResult);
+      setIsAPIProcessing(false);
     } catch (err) {
-      (err);
+      console.log(err);
+      setIsAPIProcessing(false);
     }
   };
   const handleDistanceChange = (e: any) => {
@@ -135,6 +141,7 @@ function MapSearchPage() {
 
   return (
     <>
+      {isAPIProcessing && <BigLoading />}
       <div className="flex">
         {/* 地圖 */}
         <div className="w-full">
@@ -146,6 +153,7 @@ function MapSearchPage() {
                     setSelectedPlace={setSelectedPlace}
                     setMarkers={setMarkers}
                     setRadius={setRadius}
+                    setIsAPIProcessing={setIsAPIProcessing}
                   />
                 </div>
                 <form className="xl:absolute top-3 left-2/4 z-10 flex w-[150px]">
