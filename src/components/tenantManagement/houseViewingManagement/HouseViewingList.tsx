@@ -48,69 +48,60 @@ function HouseViewingList() {
     },
   };
   const [isAPIProcessing, setIsAPIProcessing] = useState(false);
-  const [currentCardSelectedId, setCurrentCardSelectedId] = useState("");
   const [isHouseOffCanvasOpen, setIsHouseOffCanvasOpen] = useState(false);
-  const [isCardSelected, setIsCardSelected] = useState<any>({});
   const [rentalListTypeState, setRentalListTypeState] = useState("unrented"); // 預設渲染未出租清單
   const [rentalList, setRentalList] = useState<any>([]);
   const [rentalListTotalNumbers, setRentalListTotalNumbers] = useState(0);
   const [houseViewingDetail, setHouseViewingDetail] = useState<any>({});
+  const [currentPageNumber, setCurrentPageNumber] = useState(1);
 
-  // 初始化出租清單(預設渲染未出租)
+  const getRentalListData = async (queryString: string) => {
+    try {
+      setIsAPIProcessing(true);
+      const response = await apiAppointmentCommonList(queryString);
+      setRentalList(response.data.result);
+      setIsAPIProcessing(false);
+    } catch (errors) {
+      console.log(errors);
+    }
+  };
+  const getRentalListTotalCounts = async (queryString: string) => {
+    try {
+      setIsAPIProcessing(true);
+      const response = await apiAppointmentCommonTotalNumber(queryString);
+      setRentalListTotalNumbers(response.data.totalNumber);
+      setIsAPIProcessing(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  // 初始化預約看房清單(預設渲染未出租)
   useEffect(() => {
-    const getRentalListData = async () => {
-      try {
-        setIsAPIProcessing(true);
-        const userId = localStorage.getItem("userId");
-        const response = await apiAppointmentCommonList(userId as string);
-        setRentalList(response.data.result);
-        // 某個卡片被點擊，開啟offCanvas後，卡片要有 selected 效果
-        const isCardSelected = response.data.result.reduce(
-          (acc: any, { description }: any) => {
-            acc[`cardId${description.detail[0].houseId}`] = false;
-            return acc;
-          },
-          {}
-        );
-        setIsCardSelected(isCardSelected);
-        setIsAPIProcessing(false);
-      } catch (errors) {
-        console.log(errors);
-      }
-    };
-    getRentalListData();
+    const userId = localStorage.getItem("userId")!.toString();
+    getRentalListData(userId);
+    getRentalListTotalCounts(userId);
   }, []);
-  // 取得出租清單總筆數
-  useEffect(() => {
-    const getRentalListTotalNumbers = async () => {
-      const userId = localStorage.getItem("userId");
-      try {
-        const response = await apiAppointmentCommonTotalNumber(
-          userId as string
-        );
-        setRentalListTotalNumbers(response.data.totalNumber);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    getRentalListTotalNumbers();
-  }, [rentalListTotalNumbers]);
 
   // 切換出租清單類型，有未出租和已出租兩種
   const handleRentalListType = (e: any) => {
     const rentalType = e.currentTarget.dataset.rentaltype;
-    if (rentalType === "rented") {
+    const userId = localStorage.getItem("userId")!.toString();
+    if (rentalType === "rented") {  
+      console.log("渲染已出租清單");
+      const queryString = userId + "&houseStatus=20";
+      getRentalListData(queryString);
+      getRentalListTotalCounts(queryString);
       setRentalListTypeState("rented");
     } else if (rentalType === "unrented") {
+      const queryString = userId + "&houseStatus=10";
+      getRentalListData(queryString);
+      getRentalListTotalCounts(queryString);
       setRentalListTypeState("unrented");
     }
   };
 
   const handleOffCanvasOpen = (e: any) => {
-    const houseId = e.currentTarget.dataset.houseid;
     const appointmentId = e.currentTarget.dataset.appointmentid;
-    setCurrentCardSelectedId(houseId);
-    setIsCardSelected({ ...isCardSelected, [`cardId${houseId}`]: true });
     setIsHouseOffCanvasOpen(true);
 
     const getHouseDetailInfo = async (appointmentId: string) => {
@@ -127,10 +118,6 @@ function HouseViewingList() {
   };
 
   const handleOffCanvasClose = () => {
-    setIsCardSelected({
-      ...isCardSelected,
-      [`cardId${currentCardSelectedId}`]: false,
-    });
     setIsHouseOffCanvasOpen(false);
   };
 
@@ -1118,9 +1105,7 @@ function HouseViewingList() {
           </Drawer.Items>
         </Drawer>
       </Flowbite>
-      <section
-        className={`flex-grow bg-Neutral-99 pt-8 pb-28 `}
-      >
+      <section className={`flex-grow bg-Neutral-99 pt-8 pb-28 `}>
         <div className="container layout-grid">
           <div className="col-span-7">
             <div className="p-5 bg-white rounded-xl">
@@ -1213,12 +1198,9 @@ function HouseViewingList() {
                       appointmentId,
                     }: any) => (
                       <li
+                        tabIndex={1}
                         key={appointmentCreateTime}
-                        className={`p-3 rounded-xl cursor-pointer hover:bg-Neutral-99 ${
-                          isCardSelected[
-                            `cardId${description.detail[0].houseId}`
-                          ] && "bg-Neutral-95"
-                        }`}
+                        className={`p-3 rounded-xl cursor-pointer hover:bg-Neutral-99 focus:bg-Neutral-95`}
                         data-houseid={description.detail[0].houseId}
                         data-appointmentid={appointmentId}
                         onClick={handleOffCanvasOpen}
@@ -1330,7 +1312,6 @@ function HouseViewingList() {
               ) : (
                 <NoResults />
               )}
-
               <div className="flex justify-between mt-2 pt-3 border-t border-Neutral-95">
                 <div></div>
                 <div>
