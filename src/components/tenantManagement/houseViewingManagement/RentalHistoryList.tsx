@@ -64,7 +64,8 @@ function RentalHistoryList() {
   const getHistoryList = async (pageNumber: number) => {
     try {
       const response = await apiAppointmentTenantHistoryList(pageNumber);
-      const historyListData = response.data.data.data;
+      console.log(response.data.data);
+      const historyListData = response.data.data.orderList;
       const historyListTotalCounts = response.data.data.totalCount;
       const currentPageNumber = response.data.data.page;
       setHistoryList(historyListData);
