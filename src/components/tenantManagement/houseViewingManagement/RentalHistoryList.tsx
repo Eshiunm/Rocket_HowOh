@@ -64,13 +64,12 @@ function RentalHistoryList() {
   const getHistoryList = async (pageNumber: number) => {
     try {
       const response = await apiAppointmentTenantHistoryList(pageNumber);
-      const historyList = response.data.data.orderList;
+      const historyListData = response.data.data.data;
       const historyListTotalCounts = response.data.data.totalCount;
       const currentPageNumber = response.data.data.page;
-      setHistoryList(historyList);
+      setHistoryList(historyListData);
       setHistoryListTotalCounts(historyListTotalCounts);
       setCurrentPageNumber(currentPageNumber);
-      console.log(response);
     } catch (error) {
       console.log(error);
     }
