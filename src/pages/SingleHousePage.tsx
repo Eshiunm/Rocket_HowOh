@@ -1,6 +1,6 @@
 import "../components/singleHousePage/mainPicture_carousel.css"; //客製化上一張、下一張箭頭的樣式
 import { useEffect, useRef, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Spinner } from "flowbite-react";
@@ -282,7 +282,11 @@ function SingleHousePage() {
                         className="w-[200px] overflow-hidden"
                         onClick={() => setIsHousePicturesCarouselOpen(true)}
                       >
-                       <img src={defaultImg} alt="defaultImg" className="h-[200px]" />
+                        <img
+                          src={defaultImg}
+                          alt="defaultImg"
+                          className="h-[200px]"
+                        />
                       </li>
                     )}
                     {isFilterPhotos[1] ? (
@@ -298,11 +302,15 @@ function SingleHousePage() {
                       </li>
                     ) : (
                       <li
-                      className="w-[200px] overflow-hidden"
-                      onClick={() => setIsHousePicturesCarouselOpen(true)}
-                    >
-                     <img src={defaultImg} alt="defaultImg" className="h-[200px]" />
-                    </li>
+                        className="w-[200px] overflow-hidden"
+                        onClick={() => setIsHousePicturesCarouselOpen(true)}
+                      >
+                        <img
+                          src={defaultImg}
+                          alt="defaultImg"
+                          className="h-[200px]"
+                        />
+                      </li>
                     )}
                     {isFilterPhotos[2] ? (
                       <li
@@ -320,7 +328,11 @@ function SingleHousePage() {
                         className="w-[200px] overflow-hidden"
                         onClick={() => setIsHousePicturesCarouselOpen(true)}
                       >
-                       <img src={defaultImg} alt="defaultImg" className="h-[200px]" />
+                        <img
+                          src={defaultImg}
+                          alt="defaultImg"
+                          className="h-[200px]"
+                        />
                       </li>
                     )}
                     {isFilterPhotos[3] ? (
@@ -339,7 +351,11 @@ function SingleHousePage() {
                         className="w-[200px] overflow-hidden"
                         onClick={() => setIsHousePicturesCarouselOpen(true)}
                       >
-                       <img src={defaultImg} alt="defaultImg" className="h-[200px]" />
+                        <img
+                          src={defaultImg}
+                          alt="defaultImg"
+                          className="h-[200px]"
+                        />
                       </li>
                     )}
                   </ul>
@@ -1598,7 +1614,7 @@ function SingleHousePage() {
                   src={close}
                   alt="close"
                   className=" cursor-pointer"
-                  onClick={() => setIsComparePassModalOpen(false)}
+                  onClick={() => window.location.reload()}
                 />
               </div>
               <p className="mb-10">請參考以下資訊聯繫房東</p>
@@ -1608,7 +1624,7 @@ function SingleHousePage() {
               </p>
               <span className="inline-block mb-1">Line</span>
               <p className="p-3 mb-10 border-b border-Neutral-70">
-              {landlordContactInfo.landlordLineId}
+                {landlordContactInfo.landlordLineId}
               </p>
               <div className="flex justify-end gap-x-6">
                 <button
@@ -1620,13 +1636,13 @@ function SingleHousePage() {
                 >
                   我的預約
                 </button>
-                <button
+                <Link
+                  to={"/houseList"}
                   type="button"
                   className="filled-button-m"
-                  onClick={() => setIsComparePassModalOpen(false)}
                 >
                   繼續找房
-                </button>
+                </Link>
               </div>
             </Modal.Body>
           </Modal>
