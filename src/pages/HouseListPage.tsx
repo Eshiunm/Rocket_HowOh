@@ -25,7 +25,10 @@ import {
   setLandLordRatingNoLimitState,
   setLandLordRatingItemsState,
 } from "../../redux/searchForm/landLordRatingSlice";
-import { apiHouseCommonSearchList } from "../apis/apis";
+import {
+  apiHouseCommonSearchList,
+  apiHouseCommonListCount,
+} from "../apis/apis";
 import dropdownCities from "../constants/searchFormCondition/dropdownCities";
 import dropdownIcon from "../assets/imgs/icons/dropdownIcon.svg";
 import searchIcon from "../assets/imgs/icons/searchIcon.svg";
@@ -53,15 +56,6 @@ interface RentRange {
   content: string;
   checked: boolean;
 }
-// interface HouseFeatures {
-//   content: string;
-//   checked: boolean;
-// }
-// interface LandLordRating {
-//   content: string;
-//   checked: boolean;
-// }
-
 function HouseListPage() {
   const { handleSubmit, reset, register } = useForm();
   const navigate = useNavigate();
@@ -88,7 +82,31 @@ function HouseListPage() {
   const [isCityDropdownFocused, setIsCityDropdownFocused] = useState(false); // 偵測縣市的Dropdown是否被 focused
   const [cityDropdownModalIsOpen, setCityDropdownModalIsOpen] = useState(false);
   const [searchResults, setSearchResults] = useState<any[]>([]); // 房源列表清單
+  const [searchResultsCount, setSearchResultsCount] = useState<number>(0); // 房源列表總筆數
+  const [queryParams, setQueryParams] = useState<string>("");
+  const [currentPageNUmber, setCurrentPageNumber] = useState<number>(1);
 
+  const getHouseListData = async (queryString: any) => {
+    try {
+      setIsAPIProcessing(true);
+      const res = await apiHouseCommonSearchList(queryString);
+      console.log(res);
+      setSearchResults(res.data.Houses);
+      setIsAPIProcessing(false);
+    } catch (error) {
+      console.log(error);
+      setIsAPIProcessing(false);
+    }
+  };
+  const getHouseListCount = async (queryString: any) => {
+    try {
+      const res = await apiHouseCommonListCount(queryString);
+      const { totalNumber } = res.data;
+      setSearchResultsCount(totalNumber);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   /* 初始化表單內所有的checkbox元素狀態 */
   useEffect(() => {
     // 如果縣市狀態在Redux裡為空，就把縣市預設為高雄市
@@ -604,8 +622,20 @@ function HouseListPage() {
     }
     reset();
   };
+  const handlePrePage = () => {
+    const newCurrentPage = currentPageNUmber - 1;
+    const newQueryString = queryParams + `&pageNumber=${newCurrentPage}`;
+    setCurrentPageNumber(newCurrentPage);
+    getHouseListData(newQueryString);
+  };
+  const handleNextPage = () => {
+    const newCurrentPage = currentPageNUmber + 1;
+    const newQueryString = queryParams + `&pageNumber=${newCurrentPage}`;
+    setCurrentPageNumber(newCurrentPage);
+    getHouseListData(newQueryString);
+  };
 
-  // 當區域、類型、租金、特色、房價的 checkbox 狀態有變動時，會直接打 API 取得房源列表
+  // 當區域、類型、租金、特色、房價的 checkbox 狀態有變動時，直接打 API 取得房源列表
   useEffect(() => {
     if (
       districtState.districts.length > 0 &&
@@ -696,16 +726,10 @@ function HouseListPage() {
           "rating=" + landLordRatingNumbers.join(",");
         queryString += "&" + landLordRatingQueryParams;
       }
-
-      const getHouseListData = async (queryString: any) => {
-        console.log(queryString)
-        setIsAPIProcessing(true);
-        const res = await apiHouseCommonSearchList(queryString);
-        setSearchResults(res.data.Houses);
-        setIsAPIProcessing(false);
-      };
-
+      setQueryParams(queryString);
+      setCurrentPageNumber(1);
       getHouseListData(queryString);
+      getHouseListCount(queryString);
     }
   };
 
@@ -1280,7 +1304,7 @@ function HouseListPage() {
                 </Link>
                 <div>
                   <p className="text-sans-b-body2 text-center text-Brand-10 mb-2">
-                    {searchResults.length > 0
+                    {searchResultsCount > 0
                       ? searchResults.length > 12
                         ? `顯示 1 至 12 筆 共 ${searchResults.length} 筆`
                         : `顯示 1 至 ${searchResults.length} 筆 共 ${searchResults.length} 筆`
@@ -1289,14 +1313,20 @@ function HouseListPage() {
                   <div className="flex gap-x-1">
                     <button
                       type="button"
-                      className="flex gap-x-[10px] rounded-l-lg items-center text-sans-b-body1 text-white p-2 hover:opacity-80 bg-Neutral-90"
+                      disabled={currentPageNUmber === 1}
+                      className="flex gap-x-[10px] filled-button-s rounded-r-none"
+                      onClick={handlePrePage}
                     >
                       <img src={leftIcon_white} alt="rightIcon" />
                       上一頁
                     </button>
                     <button
                       type="button"
-                      className="flex gap-x-[10px] rounded-r-lg items-center text-sans-b-body1 text-white p-2 hover:opacity-80 bg-black"
+                      disabled={
+                        currentPageNUmber === Math.ceil(searchResultsCount / 12)
+                      }
+                      className="flex gap-x-[10px] filled-button-s rounded-l-none"
+                      onClick={handleNextPage}
                     >
                       下一頁
                       <img src={rightIcon_white} alt="rightIcon" />
@@ -1423,7 +1453,7 @@ function HouseListPage() {
                                   <span>房東</span>
                                 </li>
                                 <li>
-                                  <span>{`${house.landlordlastName}${house.landlordFirstName}`}</span>
+                                  <span>{`${house.landlordlastName}${house.landlordgender === 0 ? "先生" : "小姐"}`}</span>
                                 </li>
                               </ul>
                             </div>
@@ -1467,7 +1497,7 @@ function HouseListPage() {
                 <button type="button"></button>
                 <div>
                   <p className="text-sans-b-body2 text-center text-Brand-10 mb-2">
-                    {searchResults.length > 0
+                    {searchResultsCount > 0
                       ? searchResults.length > 12
                         ? `顯示 1 至 12 筆 共 ${searchResults.length} 筆`
                         : `顯示 1 至 ${searchResults.length} 筆 共 ${searchResults.length} 筆`
@@ -1476,14 +1506,20 @@ function HouseListPage() {
                   <div className="flex gap-x-1">
                     <button
                       type="button"
-                      className="flex gap-x-[10px] rounded-l-lg items-center text-sans-b-body1 text-white p-2 hover:opacity-80 bg-Neutral-90"
+                      disabled={currentPageNUmber === 1}
+                      className="flex gap-x-[10px] filled-button-s rounded-r-none"
+                      onClick={handlePrePage}
                     >
                       <img src={leftIcon_white} alt="rightIcon" />
                       上一頁
                     </button>
                     <button
                       type="button"
-                      className="flex gap-x-[10px] rounded-r-lg items-center text-sans-b-body1 text-white p-2 hover:opacity-80 bg-black"
+                      disabled={
+                        currentPageNUmber === Math.ceil(searchResultsCount / 12)
+                      }
+                      className="flex gap-x-[10px] filled-button-s rounded-l-none"
+                      onClick={handleNextPage}
                     >
                       下一頁
                       <img src={rightIcon_white} alt="rightIcon" />

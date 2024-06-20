@@ -383,17 +383,17 @@ function SearchForm() {
         className="bg-white shadow-elevation-3 rounded-[20px] p-8"
       >
         {/* map search */}
-        <div className="flex gap-x-3 mb-6">
+        <div className="flex gap-x-3 mb-8">
         <Link
             to="/"
-            className="inline-block py-1 px-4 bg-Brand-90 rounded-3xl"
+            className="inline-block py-1 px-4 bg-Brand-90 rounded-3xl text-sans-b-body1"
           >
             一般搜尋
           </Link>
           <Link
             to="/mapSearch"
             target="_blank"
-            className="inline-block py-1 px-4 rounded-3xl border border-black hover:bg-Brand-90 hover:border-Brand-90"
+            className="inline-block py-1 px-4 rounded-3xl text-sans-b-body1 border border-black hover:bg-Brand-90 hover:border-Brand-90"
           >
             地圖搜尋
           </Link>

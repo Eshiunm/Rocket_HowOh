@@ -87,7 +87,7 @@ export const apiHouseLandlordChangeFinish = (houseId: string|null) => houseReque
 export const apiHouseCommonSingleInfo = (id: string) => houseRequest.get(`/common/info/${id}`,getToken()); // FCO-3
 export const apiHouseCommonSearchList = (querystring: string) => houseRequest.get(`/common/list/search?${querystring}`); // FCO-2 帶入 querystring
 export const apiHouseCommonRecommendedList = () => houseRequest.get('/common/list'); // FCO-1
-export const apiHouseCommonListCount = () => houseRequest.get('/common/totalNumber'); // FCO-4
+export const apiHouseCommonListCount = (querystring: string) => houseRequest.get(`/common/totalNumber?${querystring}`); // FCO-4
 
 // 租賃-房東合約相關的 api
 export const apiOrderViewPublishHouseContract = (houseId: string | undefined) => orderRequest.get(`/landlord/viewHouseContract/${houseId}`, {
