@@ -1,6 +1,5 @@
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import { setRegisterIdentityState } from "../../../../redux/common/registerIdentitySlice";
 import { setCurrentStepState } from "../../../../redux/signUp/stepSlice";
 import { setSignUpForm } from "../../../../redux/signUp/signupFormSlice";
 import { useNavigate } from "react-router-dom";
