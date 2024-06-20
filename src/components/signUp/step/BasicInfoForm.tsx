@@ -1,6 +1,5 @@
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import { setRegisterIdentityState } from "../../../../redux/common/registerIdentitySlice";
 import { setCurrentStepState } from "../../../../redux/signUp/stepSlice";
 import { setSignUpForm } from "../../../../redux/signUp/signupFormSlice";
 import { useNavigate } from "react-router-dom";
@@ -122,12 +121,7 @@ function BasicInfoForm() {
     }
     dispatch(setSignUpForm(signUpFormData));
     try {
-      // await axios.post(
-      //   "http://98.70.102.116/api/register/common/signup",
-      //   signUpFormData
-      // );
       await apiRegisterSignUp(signUpFormData);
-      dispatch(setRegisterIdentityState(null));
       dispatch(setCurrentStepState(currentStepState + 1));
     } catch (errors) {
       console.log(errors);
@@ -136,7 +130,7 @@ function BasicInfoForm() {
   };
 
   return (
-    <div className="wrap bg-Neutral-99 py-[60px]">
+    <div className="wrap flex-grow bg-Neutral-99 py-[60px]">
       <div className="container layout-grid">
         <div className="col-span-6 col-start-4 ">
           <form

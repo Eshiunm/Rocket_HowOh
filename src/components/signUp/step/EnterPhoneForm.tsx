@@ -54,7 +54,7 @@ function EnterPhoneForm() {
   };
 
   return (
-    <div className="wrap h-screen bg-Neutral-99 pt-[60px] ">
+    <div className="wrap flex-grow bg-Neutral-99 pt-[60px] ">
       <div className="container layout-grid">
         <div className="col-span-6 col-start-4 ">
           <form
