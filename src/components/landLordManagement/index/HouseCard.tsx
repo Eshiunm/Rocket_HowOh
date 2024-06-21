@@ -89,7 +89,7 @@ export default function HouseCard({data, houseStatus}: {data:any, houseStatus:st
       });
     } else if ( houseStatus === "finishedList" ) {
       event.stopPropagation();
-      navigate("/landlord/review");
+      window.open("/landlord/review","_blank")
     }
   }
 

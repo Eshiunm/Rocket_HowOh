@@ -1,12 +1,10 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { refFnListType } from "./HouseList";
 import anchorHouse from "../../../assets/imgs/landlord-management/AnchorHouse.svg";
 import { listCountType } from "./HouseList";
 import { apiHouseLandlordUnratedCount } from "../../../apis/apis";
 
 export default function LandlordAnchor({refFnList, listCount}: {refFnList: refFnListType, listCount: listCountType}) {
-  const navigate = useNavigate();
   const [unratedCount, setUnratedCount] = useState(0);
   useEffect(() => {
     const getUnratedCount = async () => {
@@ -72,7 +70,7 @@ export default function LandlordAnchor({refFnList, listCount}: {refFnList: refFn
         </li>
         <li
           className="cursor-pointer group relative overflow-hidden col-span-3 text-white rounded-xl p-3 bg-Neutral-50"
-          onClick={() => navigate("/landlord/review")}
+          onClick={() => window.open("/landlord/review","_blank")}
         >
           <img
             src={anchorHouse}

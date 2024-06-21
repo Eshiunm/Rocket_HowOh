@@ -75,7 +75,7 @@ export default function RequestCard({data, status = "none", isHidden}: RequestCa
   const customTheme: CustomFlowbiteTheme = {
     drawer: {
       "root": {
-        "base": "bg-Landlord-95 fixed z-40 overflow-y-auto px-10 pt-10 transition-transform",
+        "base": "bg-Neutral-99 fixed z-40 overflow-y-auto px-10 pt-10 transition-transform",
         "backdrop": "fixed inset-0 z-30 bg-transparent",
         "edge": "bottom-16",
         "position": {
