@@ -1,12 +1,10 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { refFnListType } from "./HouseList";
 import anchorHouse from "../../../assets/imgs/landlord-management/AnchorHouse.svg";
 import { listCountType } from "./HouseList";
 import { apiHouseLandlordUnratedCount } from "../../../apis/apis";
 
 export default function LandlordAnchor({refFnList, listCount}: {refFnList: refFnListType, listCount: listCountType}) {
-  const navigate = useNavigate();
   const [unratedCount, setUnratedCount] = useState(0);
   useEffect(() => {
     const getUnratedCount = async () => {
