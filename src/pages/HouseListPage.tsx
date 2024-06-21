@@ -1334,7 +1334,7 @@ function HouseListPage() {
                 </div>
               </div>
               {/* 列表 */}
-              <ul>
+              <ul className="flex flex-col gap-y-2">
                 {isAPIProcessing ? (
                   <HouseListSkeleton />
                 ) : searchResults.length > 0 ? (
@@ -1342,12 +1342,12 @@ function HouseListPage() {
                     return (
                       <li
                         key={index}
-                        className="p-3 flex justify-between cursor-pointer hover:bg-Neutral-99"
+                        className="p-3 flex justify-between rounded-[20px] cursor-pointer hover:bg-Neutral-99"
                         data-houseid={house.houseId}
                         onClick={turnToSingleHousePage}
                       >
                         <div className="flex gap-x-4">
-                          <div className="rounded-2xl overflow-hidden w-[248px] h-[189px]">
+                          <div className="rounded-2xl overflow-hidden w-[248px] h-[168px]">
                             <img
                               src={house.image[0].coverIamgePath}
                               alt="housePicture"

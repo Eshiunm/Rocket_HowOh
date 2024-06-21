@@ -297,7 +297,7 @@ function HouseViewingList() {
                     </ul>
                   </div>
                   {/* 房源特色、基本資訊 */}
-                  <div className="bg-white p-5 border-b border-Neutral-95">
+                  <div className="bg-white rounded-2xl p-5 border-b border-Neutral-95">
                     <h2 className="text-sans-b-h3 mb-6">
                       {houseViewingDetail.info.title}
                     </h2>
@@ -393,7 +393,7 @@ function HouseViewingList() {
                     </div>
                   </div>
                   {/* 房源介紹 */}
-                  <div className="bg-white p-5 border-b border-Neutral-95">
+                  <div className="bg-white rounded-2xl p-5 border-b border-Neutral-95">
                     <h3 className="text-sans-b-h6 mb-5">
                       <span className="before:block before:absolute before:h-5 before:w-[100%] before:bg-Neutral-95 before:bottom-[-5%] before:-right-[0%] before:rounded-md relative">
                         <span className="relative text-black px-3">
@@ -406,7 +406,7 @@ function HouseViewingList() {
                     </p>
                   </div>
                   {/* 設備設施 */}
-                  <div className="bg-white p-5 border-b border-Neutral-95">
+                  <div className="bg-white rounded-2xl p-5 border-b border-Neutral-95">
                     <h3 className="text-sans-b-h6 mb-5">
                       <span className="before:block before:absolute before:h-5 before:w-[100%] before:bg-Neutral-95 before:bottom-[-5%] before:-right-[0%] before:rounded-md relative">
                         <span className="relative text-black px-3">
@@ -870,7 +870,7 @@ function HouseViewingList() {
                     </div>
                   </div>
                   {/* 雜支 */}
-                  <div className="bg-white p-5 border-b border-Neutral-95">
+                  <div className="bg-white rounded-2xl p-5 border-b border-Neutral-95">
                     <h3 className="text-sans-b-h6 mb-5">
                       <span className="before:block before:absolute before:h-5 before:w-[100%] before:bg-Neutral-95 before:bottom-[-5%] before:-right-[0%] before:rounded-md relative">
                         <span className="relative text-black px-3">雜支</span>
@@ -935,7 +935,7 @@ function HouseViewingList() {
                     </p>
                   </div>
                   {/* 評價 */}
-                  <div className="bg-white p-5 border-b border-Neutral-95">
+                  <div className="bg-white rounded-2xl p-5 border-b border-Neutral-95">
                     <h3 className="text-sans-b-h6 mb-5">
                       <span className="before:block before:absolute before:h-5 before:w-[100%] before:bg-Neutral-95 before:bottom-[-5%] before:-right-[0%] before:rounded-md relative">
                         <span className="relative text-black px-3">評價</span>

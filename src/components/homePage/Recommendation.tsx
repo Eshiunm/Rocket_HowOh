@@ -104,7 +104,7 @@ function Recommendation() {
                       />
                     </div>
                     <h4 className="text-sans-b-h6 mb-3">{house.title}</h4>
-                    <div className="card_header mb-6">
+                    <div className="card_header mb-4">
                       <ul className="flex gap-2 flex-wrap">
                         {getDisplayedTags(
                           house.isRentSubsidy as boolean,
