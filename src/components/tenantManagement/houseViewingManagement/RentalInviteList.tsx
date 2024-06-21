@@ -214,6 +214,7 @@ function RentalInviteList() {
   const [isDoubleCheckModalOpen, setIsDoubleCheckModalOpen] = useState(false);
   const [isOrderAccepted, setIsOrderAccepted] = useState<any>({});
   const [inviteListTotalCount, setInviteListTotalCount] = useState(0);
+  console.log(Math.ceil(inviteListTotalCount / 12));
   const [currentPageNumber, setCurrentPageNumber] = useState(1);
 
   const getInviteListData = async (pageNumber: string) => {
@@ -283,7 +284,6 @@ function RentalInviteList() {
     const newCurrentPageNumber = currentPageNumber - 1;
     getInviteListData(newCurrentPageNumber.toString());
     setCurrentPageNumber(newCurrentPageNumber);
-
   };
 
   const handleNextPage = () => {
@@ -650,7 +650,11 @@ function RentalInviteList() {
                     </button>
                     <button
                       type="button"
-                      disabled={currentPageNumber === Math.ceil(inviteListTotalCount/12)}
+                      disabled={
+                        currentPageNumber ===
+                          Math.ceil(inviteListTotalCount / 12) ||
+                        inviteListTotalCount === 0
+                      }
                       className="flex gap-x-[10px] items-center filled-button-s rounded-l-none"
                       onClick={handleNextPage}
                     >
