@@ -72,7 +72,7 @@ export default function LandlordAnchor({refFnList, listCount}: {refFnList: refFn
         </li>
         <li
           className="cursor-pointer group relative overflow-hidden col-span-3 text-white rounded-xl p-3 bg-Neutral-50"
-          onClick={() => navigate("/landlord/review")}
+          onClick={() => window.open("/landlord/review","_blank")}
         >
           <img
             src={anchorHouse}
