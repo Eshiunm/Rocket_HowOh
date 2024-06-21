@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { CustomFlowbiteTheme, Flowbite, Drawer } from "flowbite-react";
+import { CustomFlowbiteTheme, Flowbite, Drawer, Tooltip } from "flowbite-react";
 import {
   apiAppointmentCommonList,
   apiAppointmentTenantHouseDetail,
@@ -49,7 +49,7 @@ function HouseViewingList() {
   };
   const [isAPIProcessing, setIsAPIProcessing] = useState(false);
   const [isHouseOffCanvasOpen, setIsHouseOffCanvasOpen] = useState(false);
-  const [rentalListTypeState, setRentalListTypeState] = useState("unrented"); // 預設渲染未出租清單
+  const [rentalListTypeState, setRentalListTypeState] = useState("unrented"); // 未出租清單類型
   const [rentalList, setRentalList] = useState<any>([]);
   const [rentalListTotalNumbers, setRentalListTotalNumbers] = useState(0);
   const [houseViewingDetail, setHouseViewingDetail] = useState<any>({});
@@ -77,6 +77,7 @@ function HouseViewingList() {
       setIsAPIProcessing(true);
       const response = await apiAppointmentCommonList(queryString);
       setRentalList(response.data.result);
+      console.log(response);
       setIsAPIProcessing(false);
     } catch (errors) {
       console.log(errors);
@@ -1246,7 +1247,7 @@ function HouseViewingList() {
                         tabIndex={1}
                         key={appointmentCreateTime}
                         className={`p-3 rounded-xl cursor-pointer hover:bg-Neutral-99 focus:bg-Neutral-95`}
-                        data-houseid={description.detail[0].houseId}
+                        data-houseid={description.detail[0].houseId || 1}
                         data-appointmentid={appointmentId}
                         onClick={handleOffCanvasOpen}
                       >
@@ -1301,29 +1302,20 @@ function HouseViewingList() {
                             </div>
                           </div>
                           <div className="flex flex-col justify-between">
-                            <p
-                              className="flex gap-x-2 cursor-pointer"
-                              data-tooltip-target="tooltip-default-1"
+                            <Tooltip
+                              className="bg-Landlord-30 text-sans-body2 rounded-lg py-1 px-11 text-white text-center whitespace-pre-line"
+                              content={"租客申請預約時間"}
                             >
-                              <span className="pr-2 border-r border-Tenant-70">
-                                {getFormattedDate(appointmentCreateTime)}
-                              </span>
-                              <span>
-                                {getFormattedTime(appointmentCreateTime)}
-                              </span>
-                            </p>
-                            {/* tooltip */}
-                            <div
-                              id="tooltip-default-1"
-                              role="tooltip"
-                              className="absolute z-10 invisible inline-block  w-[200px] px-3 py-2 text-center text-sans-body2 text-white transition-opacity duration-300 bg-Tenant-30 rounded-lg shadow-sm opacity-0 tooltip"
-                            >
-                              申請預約的時間
-                              <div
-                                className="tooltip-arrow"
-                                data-popper-arrow
-                              ></div>
-                            </div>
+                              <time className="cursor-pointer">
+                                <span className="pr-2 mr-2 border-r border-Tenant-70">
+                                  {getFormattedDate(appointmentCreateTime)}
+                                </span>
+                                <span>
+                                  {getFormattedTime(appointmentCreateTime)}
+                                </span>
+                              </time>
+                            </Tooltip>
+
                             {/* 查看更多 */}
                             <div className="flex justify-between hover:opacity-75">
                               <span></span>
