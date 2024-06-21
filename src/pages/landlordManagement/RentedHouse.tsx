@@ -278,7 +278,7 @@ export default function RentedHouse() {
         </div>
       </header>
       <main className="container layout-grid pt-6 pb-52">
-        <section className="col-span-7 rounded-lg bg-Landlord-99 p-5 mb-6">
+        <section className="col-span-7 rounded-lg bg-Landlord-99 p-5">
           <h3 className="text-sans-h5 mb-6">出租資訊</h3>
           <h4 className="text-sans-b-h6 mb-6">租約起迄時間</h4>
           <div className="flex gap-6">
