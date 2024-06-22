@@ -271,6 +271,11 @@ export default {
         landLordLoginImg: "url('/src/assets/imgs/login/landLordLoginImg.svg')",
         articleBannerImg_1: "url('/src/assets/imgs/article/bannerImg_1.jpg')",
       },
+      animation: {
+        'bounce-1': 'bounce 1s .1s infinite',
+        'bounce-2': 'bounce 1s .4s infinite',
+        'bounce-3': 'bounce 1s .7s infinite',
+      }
     },
   },
   plugins: [flow_bite.plugin()],
