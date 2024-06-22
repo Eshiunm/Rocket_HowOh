@@ -735,10 +735,10 @@ function HouseListPage() {
 
   return (
     <>
-      <div className="flex-grow bg-Neutral-99 pt-6 pb-32">
+      <div className="flex-grow sm:bg-Neutral-99 sm:pt-6 pb-32">
         <div className="container layout-grid ">
           {/* 搜尋表單 */}
-          <div className="col-span-4">
+          <div className="hidden sm:block sm:col-span-4">
             <form
               onSubmit={handleSubmit(onSubmit)}
               className="bg-white rounded-[20px] p-5"
@@ -1292,7 +1292,7 @@ function HouseListPage() {
             </form>
           </div>
           {/* 房源列表區塊 */}
-          <div className="col-span-8">
+          <div className="col-span-4 sm:col-span-8">
             <div className="bg-white rounded-xl p-5">
               <div className="flex justify-between mb-6 pb-3 border-b border-Neutral-95">
                 <Link
