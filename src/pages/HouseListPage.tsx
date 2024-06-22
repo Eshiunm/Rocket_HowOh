@@ -83,6 +83,7 @@ function HouseListPage() {
   const [cityDropdownModalIsOpen, setCityDropdownModalIsOpen] = useState(false);
   const [searchResults, setSearchResults] = useState<any[]>([]); // 房源列表清單
   const [searchResultsCount, setSearchResultsCount] = useState<number>(0); // 房源列表總筆數
+  console.log(searchResultsCount);
   const [queryParams, setQueryParams] = useState<string>("");
   const [currentPageNUmber, setCurrentPageNumber] = useState<number>(1);
 
@@ -1304,9 +1305,13 @@ function HouseListPage() {
                 <div>
                   <p className="text-sans-b-body2 text-center text-Brand-10 mb-2">
                     {searchResultsCount > 0
-                      ? searchResults.length > 12
-                        ? `顯示 1 至 12 筆 共 ${searchResults.length} 筆`
-                        : `顯示 1 至 ${searchResults.length} 筆 共 ${searchResults.length} 筆`
+                      ? searchResultsCount > 12
+                        ? `顯示 ${(currentPageNUmber - 1) * 12 + 1} 至 ${
+                            currentPageNUmber * 12 > searchResultsCount
+                              ? searchResultsCount
+                              : currentPageNUmber * 12
+                          } 筆 共 ${searchResultsCount} 筆`
+                        : `顯示 1 至 ${searchResultsCount} 筆 共 ${searchResultsCount} 筆`
                       : "顯示 0 至 0 筆 共 0 筆"}
                   </p>
                   <div className="flex gap-x-1">
@@ -1322,7 +1327,9 @@ function HouseListPage() {
                     <button
                       type="button"
                       disabled={
-                        currentPageNUmber === Math.ceil(searchResultsCount / 12)
+                        currentPageNUmber ===
+                          Math.ceil(searchResultsCount / 12) ||
+                        searchResultsCount === 0
                       }
                       className="flex gap-x-[10px] filled-button-s rounded-l-none"
                       onClick={handleNextPage}
@@ -1452,7 +1459,9 @@ function HouseListPage() {
                                   <span>房東</span>
                                 </li>
                                 <li>
-                                  <span>{`${house.landlordlastName}${house.landlordgender === 0 ? "先生" : "小姐"}`}</span>
+                                  <span>{`${house.landlordlastName}${
+                                    house.landlordgender === 0 ? "先生" : "小姐"
+                                  }`}</span>
                                 </li>
                               </ul>
                             </div>
@@ -1497,9 +1506,13 @@ function HouseListPage() {
                 <div>
                   <p className="text-sans-b-body2 text-center text-Brand-10 mb-2">
                     {searchResultsCount > 0
-                      ? searchResults.length > 12
-                        ? `顯示 1 至 12 筆 共 ${searchResults.length} 筆`
-                        : `顯示 1 至 ${searchResults.length} 筆 共 ${searchResults.length} 筆`
+                      ? searchResultsCount > 12
+                        ? `顯示 ${(currentPageNUmber - 1) * 12 + 1} 至 ${
+                            currentPageNUmber * 12 > searchResultsCount
+                              ? searchResultsCount
+                              : currentPageNUmber * 12
+                          } 筆 共 ${searchResultsCount} 筆`
+                        : `顯示 1 至 ${searchResultsCount} 筆 共 ${searchResultsCount} 筆`
                       : "顯示 0 至 0 筆 共 0 筆"}
                   </p>
                   <div className="flex gap-x-1">
@@ -1515,7 +1528,9 @@ function HouseListPage() {
                     <button
                       type="button"
                       disabled={
-                        currentPageNUmber === Math.ceil(searchResultsCount / 12)
+                        currentPageNUmber ===
+                          Math.ceil(searchResultsCount / 12) ||
+                        searchResultsCount === 0
                       }
                       className="flex gap-x-[10px] filled-button-s rounded-l-none"
                       onClick={handleNextPage}
