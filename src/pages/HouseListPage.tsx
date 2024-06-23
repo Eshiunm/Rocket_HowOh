@@ -1344,14 +1344,15 @@ function HouseListPage() {
                 >
                   <select
                     id="city"
+                    name="city"
                     className="block w-full p-0 pl-1 text-sans-body2 text-black bg-transparent border-none appearance-none focus:ring-0 peer"
-                    {...register("city")}
                   >
-                    {cities.map(({ city }) => (
+                    <option value="高雄市" selected>高雄市</option>
+                    {/* {cities.map(({ city }) => (
                       <option value={city} key={city}>
                         {city}
                       </option>
-                    ))}
+                    ))} */}
                   </select>
                 </div>
                 <div
@@ -1360,12 +1361,10 @@ function HouseListPage() {
                   <select
                     id="city"
                     name="city"
-                    defaultValue={"不限"}
                     className="block w-full p-0 pl-1 text-sans-body2 text-black bg-transparent border-none appearance-none focus:ring-0 peer"
                   >
                     {
-                      /* 監聽所在縣市，並顯示該縣市的區域 */
-                      cities
+                     cities
                         .find(item => item.city === "高雄市")
                         ?.districts.map(district => (
                           <option value={district} key={district}>
@@ -1410,15 +1409,16 @@ function HouseListPage() {
           </div>
           {/* 房源列表區塊 */}
           <div className="col-span-4 sm:col-span-8">
-            <div className="bg-white rounded-xl p-5">
-              <div className="flex justify-between mb-6 pb-3 border-b border-Neutral-95">
+            <div className="bg-white rounded-xl sm:p-5">
+              <div className="flex justify-between mb-6 pb-3 sm:border-b sm:border-Neutral-95">
                 <Link
                   to={"/"}
-                  className="flex gap-x-[10px] items-center text-sans-b-body1 hover:opacity-80"
+                  className="hidden sm:flex gap-x-[10px] items-center text-sans-b-body1 hover:opacity-80"
                 >
                   <img src={leftIcon_black} alt="leftIcon" />
                   返回
                 </Link>
+                <h2 className="text-sans-b-h4 px-3">搜尋結果</h2>
                 <div>
                   <p className="text-sans-b-body2 text-center text-Brand-10 mb-2">
                     {searchResultsCount > 0
@@ -1431,7 +1431,7 @@ function HouseListPage() {
                         : `顯示 1 至 ${searchResultsCount} 筆 共 ${searchResultsCount} 筆`
                       : "顯示 0 至 0 筆 共 0 筆"}
                   </p>
-                  <div className="flex gap-x-1">
+                  <div className="flex gap-x-px">
                     <button
                       type="button"
                       disabled={currentPageNUmber === 1}
