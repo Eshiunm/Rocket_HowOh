@@ -17,32 +17,71 @@ function NavigationDefault() {
     navigate("/signup");
   };
   return (
-    <ul className="flex gap-6">
-      <li>
-        <button
-          className="text-sans-b-body1 p-2 hover:opacity-70"
-          onClick={directToLandLordLogin}
-        >
-          我是房東
-        </button>
-      </li>
-      <li>
-        <button
-          className="text-sans-b-body1 p-2 hover:opacity-70"
-          onClick={directToTenantLogin}
-        >
-          我是租客
-        </button>
-      </li>
-      <li>
-        <button
-          className="text-sans-b-body1 p-2 hover:opacity-70"
-          onClick={directToCreateAccount}
-        >
-          建立帳號
-        </button>
-      </li>
-    </ul>
+    <>
+      {/* Hamburger menu */}
+      <button type="button" className="space-y-[6px] group sm:hidden ">
+        <div className="w-7 h-[2px] rounded-full bg-black"></div>
+        <div className="w-7 h-[2px] rounded-full bg-black"></div>
+        <div className="w-7 h-[2px] rounded-full bg-black"></div>
+        {/* menu */}
+        <ul className="bg-white w-screen absolute -top-[425%] right-0 group-focus:top-0 duration-150 flex flex-col justify-end">
+          <button type="button" className="px-10 py-8 relative ml-auto">
+            <div className="w-6 h-1 rotate-45 absolute bg-black"></div>
+            <div className="w-6 h-1 -rotate-45 absolute bg-black"></div>
+          </button>
+          <li className="flex justify-center w-full py-4 hover:bg-Neutral-95 border-b border-Neutral-95">
+            <button
+              className="text-sans-b-body1 p-2 hover:opacity-70"
+              onClick={directToLandLordLogin}
+            >
+              我是房東
+            </button>
+          </li>
+          <li className="flex justify-center w-full py-4 hover:bg-Neutral-95 border-b border-Neutral-95">
+            <button
+              className="text-sans-b-body1 p-2 hover:opacity-70"
+              onClick={directToTenantLogin}
+            >
+              我是租客
+            </button>
+          </li>
+          <li className="flex justify-center w-full py-4 hover:bg-Neutral-95">
+            <button
+              className="text-sans-b-body1 p-2 hover:opacity-70"
+              onClick={directToCreateAccount}
+            >
+              建立帳號
+            </button>
+          </li>
+        </ul>
+      </button>
+      <ul className="hidden sm:flex gap-6">
+        <li>
+          <button
+            className="text-sans-b-body1 p-2 hover:opacity-70"
+            onClick={directToLandLordLogin}
+          >
+            我是房東
+          </button>
+        </li>
+        <li>
+          <button
+            className="text-sans-b-body1 p-2 hover:opacity-70"
+            onClick={directToTenantLogin}
+          >
+            我是租客
+          </button>
+        </li>
+        <li>
+          <button
+            className="text-sans-b-body1 p-2 hover:opacity-70"
+            onClick={directToCreateAccount}
+          >
+            建立帳號
+          </button>
+        </li>
+      </ul>
+    </>
   );
 }
 export default NavigationDefault;
