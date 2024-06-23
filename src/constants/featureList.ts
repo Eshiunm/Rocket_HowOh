@@ -6,7 +6,7 @@ const mainFeatures = [
   },
   {
     id: "isCookAllowed",
-    title: "可開火",
+    title: "可開伙",
     icon: "skillet"
   },
   {
