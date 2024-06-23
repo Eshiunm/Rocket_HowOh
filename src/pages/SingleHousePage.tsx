@@ -37,7 +37,7 @@ function SingleHousePage() {
   const customTheme: CustomFlowbiteTheme = {
     modal: {
       root: {
-        base: "z-50 backdrop-blur-md fixed inset-x-0 top-0 z-50 h-screen overflow-y-auto overflow-x-hidden md:inset-0 md:h-full",
+        base: "z-50 backdrop-blur-md fixed inset-x-0 top-0 z-50 h-screen overflow-y-auto overflow-x-hidden inset-0 h-full",
         show: {
           on: "flex bg-black bg-opacity-20",
           off: "hidden",
@@ -67,7 +67,7 @@ function SingleHousePage() {
         },
       },
       content: {
-        base: "relative h-full w-full p-4 md:h-auto",
+        base: "relative h-full w-full p-4 h-auto",
         inner:
           "relative flex max-h-[90dvh] flex-col rounded-2xl bg-white shadow dark:bg-gray-700",
       },
@@ -109,6 +109,7 @@ function SingleHousePage() {
   const equipmentRef = useRef<HTMLDivElement>(null);
   const usageFeeRef = useRef<HTMLDivElement>(null);
   const evaluateRef = useRef<HTMLDivElement>(null);
+  const anchorRef = useRef<HTMLAnchorElement>(null);
   const [singleHouseData, setSingleHouseData] = useState<any>({});
   const [isFilterPhotos, setIsFilterPhotos] = useState<any>([]); //取得去掉首圖url後的array
   const [isAPIProcessing, setIsAPIProcessing] = useState<boolean>(false);
@@ -168,6 +169,13 @@ function SingleHousePage() {
       }
     }
   };
+
+  const handleLabelClick = () => {
+    if (anchorRef.current) {
+      anchorRef.current.click();
+    }
+  };
+
   // 將首圖過濾掉
   const filterPhotos = (photos: any, firstPhotoUrl: any) => {
     if (photos.length > 0) {
@@ -1489,7 +1497,6 @@ function SingleHousePage() {
           position="bottom"
         >
           <Drawer.Header className="p-4" />
-
           {Object.keys(reserveModalData).length > 0 && (
             <Drawer.Items>
               <div className="flex items-center justify-between mb-6">
@@ -1497,7 +1504,7 @@ function SingleHousePage() {
               </div>
               {/* 租客基本資訊 */}
               <div className="flex flex-col gap-y-6 bg-Neutral-99 rounded-2xl p-4 mb-6 shadow-elevation-2 ">
-                <div className="flex gap-x-6"> 
+                <div className="flex gap-x-6">
                   <div className="flex flex-col gap-y-3">
                     <h4 className="text-sans-b-body1 text-Landlord-40">
                       租客
@@ -1593,8 +1600,9 @@ function SingleHousePage() {
         </Drawer>
       </Flowbite>
 
-      {/* 桌機版預約看房modal */}
+      
       <Flowbite theme={{ theme: customTheme }}>
+        {/* 桌機版預約看房modal */}
         {Object.keys(reserveModalData).length > 0 ? (
           <Modal
             show={isReserveModalOpen}
@@ -1772,13 +1780,13 @@ function SingleHousePage() {
             popup
           >
             <Modal.Header className="p-0" />
-            <Modal.Body className="p-10">
+            <Modal.Body className="p-6 sm:p-10">
               <div className="flex items-center justify-between mb-10">
-                <h3 className="text-sans-h5">很抱歉，房東有設定條件限制</h3>
+                <h3 className="text-sans-b-h6 sm:text-sans-h5">很抱歉，房東有設定條件限制</h3>
                 <img
                   src={close}
                   alt="close"
-                  className=" cursor-pointer"
+                  className="hidden sm:block cursor-pointer"
                   onClick={() => setIsCompareFalseModalOpen(false)}
                 />
               </div>
@@ -1787,7 +1795,7 @@ function SingleHousePage() {
               </p>
               <button
                 type="button"
-                className="ml-auto filled-button-m"
+                className="w-full sm:w-max ml-auto filled-button-m"
                 onClick={() => setIsCompareFalseModalOpen(false)}
               >
                 沒關係，繼續找好房東
@@ -1806,8 +1814,10 @@ function SingleHousePage() {
           >
             <Modal.Header className="p-0" />
             <Modal.Body className="p-10">
-              <div className="flex items-center justify-between mb-10">
-                <h3 className="text-sans-h5">房東聯絡資訊</h3>
+              <div className="flex items-center justify-between mb-3 sm:mb-10">
+                <h3 className="text-sans-b-h6  sm:text-sans-h5">
+                  房東聯絡資訊
+                </h3>
                 <img
                   src={close}
                   alt="close"
@@ -1815,16 +1825,47 @@ function SingleHousePage() {
                   onClick={() => window.location.reload()}
                 />
               </div>
-              <p className="mb-10">請參考以下資訊聯繫房東</p>
-              <span className="inline-block mb-1">電話</span>
-              <p className="p-3 mb-10 border-b border-Neutral-70">
-                {landlordContactInfo.landlordTel}
-              </p>
-              <span className="inline-block mb-1">Line</span>
-              <p className="p-3 mb-10 border-b border-Neutral-70">
-                {landlordContactInfo.landlordLineId}
-              </p>
-              <div className="flex justify-end gap-x-6">
+              <div className="mb-6 sm:mb-0">
+                <span className="inline-block mb-1">電話</span>
+                <a
+                  href={`tel:${landlordContactInfo.landlordTel}`}
+                  className="block p-3 mb-10 border-b border-Neutral-70"
+                  ref={anchorRef}
+                >
+                  {landlordContactInfo.landlordTel}
+                </a>
+              </div>
+              <div className="hidden sm:block">
+                <span className="inline-block mb-1">Line</span>
+                <p className="p-3 mb-10 border-b border-Neutral-70">
+                  {landlordContactInfo.landlordLineId}
+                </p>
+              </div>
+              <div className="flex flex-col gap-y-3">
+                <button
+                  type="button"
+                  className="outline-button-m"
+                  onClick={() =>
+                    navigate("/tenant/houseViewingManagement/houseViewingList")
+                  }
+                >
+                  <span className="sm:hidden">前往</span>我的預約
+                </button>
+                <Link
+                  to={"/houseList"}
+                  type="button"
+                  className="text-center outline-button-m"
+                >
+                  繼續找房
+                </Link>
+                <label
+                  className="text-center filled-button-m"
+                  onClick={handleLabelClick}
+                >
+                  立即撥號
+                </label>
+              </div>
+              <div className="hidden sm:justify-end sm:gap-x-6 sm:flex">
                 <button
                   type="button"
                   className="outline-button-m"
