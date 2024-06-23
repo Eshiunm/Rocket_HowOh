@@ -1380,7 +1380,7 @@ function HouseListPage() {
                               )}
                               {house.isCookAllowd && (
                                 <li className="text-sans-body2 py-1 px-2 bg-Tenant-90 rounded-lg">
-                                  可開火
+                                  可開伙
                                 </li>
                               )}
                               {house.isSTRAllowed && (

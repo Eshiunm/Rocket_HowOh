@@ -3,7 +3,6 @@ import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Spinner } from "flowbite-react";
 // Import Swiper styles
 import "swiper/css";
 import "swiper/css/navigation";
@@ -11,7 +10,13 @@ import "swiper/css/pagination";
 // import required modules
 import { Navigation, Pagination } from "swiper/modules";
 import { apiHouseCommonSingleInfo } from "../apis/apis";
-import { CustomFlowbiteTheme, Modal, Flowbite } from "flowbite-react";
+import {
+  CustomFlowbiteTheme,
+  Modal,
+  Flowbite,
+  Drawer,
+  Spinner,
+} from "flowbite-react";
 import { apiUserInfoGet, apiUserInfoCompare } from "../apis/apis";
 import SingleHousePageSkeleton from "../components/singleHousePage/SingleHousePageSkeleton";
 import HousePicturesModal from "../components/singleHousePage/HousePicturesModal";
@@ -32,7 +37,7 @@ function SingleHousePage() {
   const customTheme: CustomFlowbiteTheme = {
     modal: {
       root: {
-        base: "z-50 backdrop-blur-md fixed inset-x-0 top-0 z-50 h-screen overflow-y-auto overflow-x-hidden md:inset-0 md:h-full",
+        base: "z-50 backdrop-blur-md fixed inset-x-0 top-0 z-50 h-screen overflow-y-auto overflow-x-hidden inset-0 h-full",
         show: {
           on: "flex bg-black bg-opacity-20",
           off: "hidden",
@@ -62,7 +67,7 @@ function SingleHousePage() {
         },
       },
       content: {
-        base: "relative h-full w-full p-4 md:h-auto",
+        base: "relative h-full w-full p-4 h-auto",
         inner:
           "relative flex max-h-[90dvh] flex-col rounded-2xl bg-white shadow dark:bg-gray-700",
       },
@@ -83,6 +88,20 @@ function SingleHousePage() {
         popup: "border-t",
       },
     },
+    drawer: {
+      header: {
+        inner: {
+          closeButton:
+            "absolute end-2.5 top-2.5 flex h-8 w-8 items-center justify-center rounded-lg bg-transparent text-sm text-black hover:bg-gray-200 hover:text-gray-900 dark:hover:bg-gray-600 dark:hover:text-white",
+          closeIcon: "h-6 w-6",
+          titleIcon: "hidden",
+          titleText: "text-transparent",
+        },
+      },
+      items: {
+        base: "",
+      },
+    },
   };
   const navigate = useNavigate();
   const { houseId } = useParams<{ houseId: string }>();
@@ -90,10 +109,12 @@ function SingleHousePage() {
   const equipmentRef = useRef<HTMLDivElement>(null);
   const usageFeeRef = useRef<HTMLDivElement>(null);
   const evaluateRef = useRef<HTMLDivElement>(null);
+  const anchorRef = useRef<HTMLAnchorElement>(null);
   const [singleHouseData, setSingleHouseData] = useState<any>({});
   const [isFilterPhotos, setIsFilterPhotos] = useState<any>([]); //取得去掉首圖url後的array
   const [isAPIProcessing, setIsAPIProcessing] = useState<boolean>(false);
   const [isReserveModalOpen, setIsReserveModalOpen] = useState(false);
+  const [isReserveDrawerOpen, setIsReserveDrawerOpen] = useState(false);
   const [reserveModalData, setReserveModalData] = useState<any>({});
   const [isComparePassModalOpen, setIsComparePassModalOpen] = useState(false);
   const [isCompareFalseModalOpen, setIsCompareFalseModalOpen] = useState(false);
@@ -130,6 +151,29 @@ function SingleHousePage() {
       top: evaluateRef.current!.offsetTop - 100,
       behavior: "smooth",
     });
+  };
+  const getTenantData = async () => {
+    try {
+      const response = await apiUserInfoGet();
+      setReserveModalData(response.data.data);
+    } catch (error: any) {
+      console.log(error.response.status);
+      if (error.response.status === 401) {
+        alert(`您尚未登入，或有效期限過期，即將導向到登入頁`);
+        setIsReserveModalOpen(false);
+        navigate("/signup");
+      }
+      if (error.response.status === 400) {
+        alert(`登入租客帳號後即可使用此功能`);
+        setIsReserveModalOpen(false);
+      }
+    }
+  };
+
+  const handleLabelClick = () => {
+    if (anchorRef.current) {
+      anchorRef.current.click();
+    }
   };
 
   // 將首圖過濾掉
@@ -174,27 +218,15 @@ function SingleHousePage() {
   };
 
   // 秀租客基本資訊
-  const showTenantInfo = () => {
-    const getTenantData = async () => {
-      try {
-        const response = await apiUserInfoGet();
-        setReserveModalData(response.data.data);
-      } catch (error: any) {
-        console.log(error.response.status);
-        if (error.response.status === 401) {
-          alert(`您尚未登入，或有效期限過期，即將導向到登入頁`);
-          setIsReserveModalOpen(false);
-          navigate("/signup");
-        }
-        if (error.response.status === 400) {
-          alert(`登入租客帳號後即可使用此功能`);
-          setIsReserveModalOpen(false);
-        }
-      }
-    };
-
-    setIsReserveModalOpen(true);
-    getTenantData();
+  const showTenantInfo = (e: any) => {
+    const openType = e.target.dataset.opentype;
+    if (openType === "phone") {
+      setIsReserveDrawerOpen(true);
+      getTenantData();
+    } else {
+      setIsReserveModalOpen(true);
+      getTenantData();
+    }
   };
 
   useEffect(() => {
@@ -227,23 +259,28 @@ function SingleHousePage() {
         Object.keys(singleHouseData).length > 0 && (
           <div className="wrap bg-Neutral-99 pb-32">
             {/* 房源圖片 */}
-            <div className="container layout-grid pt-6 mb-6">
+            <div className="sm:container sm:layout-grid sm:pt-6 mb-6 ">
               {/* 首圖 */}
-              <div className="col-span-6 col-start-2 overflow-hidden">
+              <div className="2xl:col-span-6 2xl:col-start-2 sm:col-span-12  overflow-hidden">
                 {/* 首圖位置輪播特效 */}
                 <Swiper
+                  dir="rtl"
                   slidesPerView={1}
                   spaceBetween={30}
                   loop={true}
                   navigation={true}
+                  pagination={{
+                    clickable: true,
+                  }}
                   modules={[Pagination, Navigation]}
                   className="mainImgSwiper cursor-pointer"
                   onClick={() => setIsHousePicturesCarouselOpen(true)}
                 >
                   {/* 輪播首圖 */}
                   <SwiperSlide>
-                    <div className="singleHousePageSwiper w-[648px] h-[425px]">
+                    <div className="singleHousePageSwiper w-[376px] h-[320px] sm:w-[648px] sm:h-[425px]">
                       <img
+                        className="w-full h-full"
                         src={singleHouseData.photos.firstPic}
                         alt="mainImg"
                       />
@@ -255,7 +292,7 @@ function SingleHousePage() {
                     singleHouseData.photos.firstPic
                   ).map((photo: any) => (
                     <SwiperSlide key={photo}>
-                      <div className="singleHousePageSwiper w-[648px] h-[425px]">
+                      <div className="singleHousePageSwiper w-[376px] h-[320px] sm:w-[648px] sm:h-[425px]">
                         <img src={photo} alt="restImg" />
                       </div>
                     </SwiperSlide>
@@ -263,7 +300,7 @@ function SingleHousePage() {
                 </Swiper>
               </div>
               {/* 次要圖片 */}
-              <div className="col-span-4">
+              <div className="col-span-4 hidden 2xl:block">
                 <div className="sideImg">
                   <ul className="flex flex-wrap justify-between gap-y-6">
                     {isFilterPhotos[0] ? (
@@ -364,10 +401,12 @@ function SingleHousePage() {
             </div>
 
             {/* 房源細項內容 */}
-            <div className="container layout-grid">
+            <div className="container 2xl:layout-grid">
               {/* 房源描述 */}
-              <div className="col-span-6 col-start-2">
-                <h2 className="text-sans-b-h3 mb-6">{singleHouseData.name}</h2>
+              <div className="2xl:col-span-6 2xl:col-start-2">
+                <h2 className="text-sans-b-h5 mb-6 sm:text-sans-b-h3">
+                  {singleHouseData.name}
+                </h2>
                 {/* 房源特色：可短租、可養寵、可開火等等 */}
                 <div className="mb-10">
                   <ul className="flex flex-wrap gap-x-4 gap-y-4">
@@ -410,7 +449,7 @@ function SingleHousePage() {
                   </ul>
                 </div>
                 {/* 基本資訊 */}
-                <div className="pb-6 border-b border-Neutral-95 mb-10">
+                <div className="pb-6 border-b border-Neutral-95 2xl:mb-10 mb-4">
                   <h3 className="text-sans-b-h6 mb-5">
                     <span className="before:block before:absolute before:h-5 before:w-[100%] before:bg-Neutral-95 before:bottom-[-5%] before:-right-[0%] before:rounded-md relative">
                       <span className="relative text-black px-3">基本資訊</span>
@@ -456,7 +495,7 @@ function SingleHousePage() {
                 {/* 介紹、設備、雜支、評價 */}
                 <div>
                   {/* 快捷按鈕 */}
-                  <ul className="flex gap-x-3 mb-10">
+                  <ul className="flex flex-wrap justify-center gap-3 mb-6 border-b border-Neutral-95 pb-4 sm:justify-start md:border-none 2xl:mb-10 :border-none 2xl:pb-0">
                     <li className="">
                       <button
                         className="w-[153px] flex justify-start items-center gap-x-2 py-3 pl-3 rounded-lg bg-Neutral-95"
@@ -529,7 +568,7 @@ function SingleHousePage() {
                       <h4 className="text-sans-b-body1 text-Tenant-50 mb-3">
                         附近機能
                       </h4>
-                      <ul className="flex flex-wrap gap-y-6 gap-x-6">
+                      <ul className="flex flex-wrap gap-y-6 gap-x-20 md:gap-x-6">
                         <li className="w-[30.86%] flex items-center gap-x-2">
                           <div
                             className={`flex justify-center items-center w-5 h-5 border-2 border-black rounded-[4px] ${
@@ -627,7 +666,7 @@ function SingleHousePage() {
                       <h4 className="text-sans-b-body1 text-Tenant-50 mb-3">
                         屋源特色
                       </h4>
-                      <ul className="flex flex-wrap gap-y-6 gap-x-6">
+                      <ul className="flex flex-wrap gap-y-6 gap-x-20 md:gap-x-6">
                         <li className="w-[30.86%] flex items-center gap-x-2">
                           <div
                             className={`flex justify-center items-center w-5 h-5 border-2 border-black rounded-[4px] ${
@@ -680,7 +719,7 @@ function SingleHousePage() {
                       <h4 className="text-sans-b-body1 text-Tenant-50 mb-3">
                         設備
                       </h4>
-                      <ul className="flex flex-wrap gap-y-3 gap-x-6">
+                      <ul className="flex flex-wrap gap-y-3 gap-x-20 md:gap-x-6">
                         <li className="w-[30.86%] flex items-center gap-x-2">
                           <div
                             className={`flex justify-center items-center w-5 h-5 border-2 border-black rounded-[4px] ${
@@ -823,7 +862,7 @@ function SingleHousePage() {
                       <h4 className="text-sans-b-body1 text-Tenant-50 mb-3">
                         交通
                       </h4>
-                      <ul className="flex flex-wrap gap-y-6 gap-x-6">
+                      <ul className="flex flex-wrap gap-y-6 gap-x-20 md:gap-x-6">
                         <li className="w-[30.86%] flex flex-wrap items-start gap-x-2">
                           <div className="flex items-center gap-x-2">
                             <div
@@ -1050,220 +1089,13 @@ function SingleHousePage() {
                         `隨房租繳納，每月 ${singleHouseData.cost.managementFee.managementFeePerMonth} 元`}
                     </p>
                   </div>
-
-                  {/* 評價 */}
-                  <div
-                    className="mb-10 border-b border-Neutral-95"
-                    ref={evaluateRef}
-                  >
-                    <h3 className="text-sans-b-h6 mb-5">
-                      <span className="before:block before:absolute before:h-5 before:w-[100%] before:bg-Neutral-95 before:bottom-[-5%] before:-right-[0%] before:rounded-md relative">
-                        <span className="relative text-black px-3">評價</span>
-                      </span>
-                    </h3>
-                    {/* 評價列表(API 待補上) */}
-                    <ul className="flex flex-col gap-y-4">
-                      <li className="p-4 rounded-lg shadow-elevation-3">
-                        {/* card title */}
-                        <div className="flex flex-col gap-y-2 mb-4">
-                          <h4 className="text-sans-b-body1 text-Tenant-50">
-                            李先生
-                          </h4>
-                          <h5 className="text-sans-b-body1">
-                            信義國小套房 捷運3分鐘
-                          </h5>
-                          <span className="block">
-                            2023年4月22日
-                            <span className="inline-block h-full bg-Tenant-70 w-[1px] text-white mx-2">
-                              |
-                            </span>
-                            2024年4月22日
-                          </span>
-                          {/* 評價的星星數 */}
-                          <ul className="flex gap-x-2">
-                            <li>
-                              <img src={ratingStarIcon} alt="ratingStarIcon" />
-                            </li>
-                            <li>
-                              <img src={ratingStarIcon} alt="ratingStarIcon" />
-                            </li>
-                            <li>
-                              <img src={ratingStarIcon} alt="ratingStarIcon" />
-                            </li>
-                            <li>
-                              <img src={ratingStarIcon} alt="ratingStarIcon" />
-                            </li>
-                            <li>
-                              <img src={ratingStarIcon} alt="ratingStarIcon" />
-                            </li>
-                          </ul>
-                        </div>
-                        {/* card body */}
-                        <p className="mb-4">
-                          王媽媽如同我高雄的媽媽，非常親切友善。
-                          <br />
-                          房源很讚，雖然不大，但住起來很舒適！
-                        </p>
-                        <div className="pt-6 border-t-2">
-                          <h4 className="text-sans-b-body1 text-Landlord-50 mb-4">
-                            房東回覆
-                          </h4>
-                          <p>謝謝你，回來高雄隨時歡迎來找我。</p>
-                        </div>
-                      </li>
-                      <li className="p-4 rounded-lg shadow-elevation-3">
-                        {/* card title */}
-                        <div className="flex flex-col gap-y-2 mb-4">
-                          <h4 className="text-sans-b-body1 text-Tenant-50">
-                            李先生
-                          </h4>
-                          <h5 className="text-sans-b-body1">
-                            信義國小套房 捷運3分鐘
-                          </h5>
-                          <span className="block">
-                            2023年4月22日
-                            <span className="inline-block h-full bg-Tenant-70 w-[1px] text-white mx-2">
-                              |
-                            </span>
-                            2024年4月22日
-                          </span>
-                          {/* 評價的星星數 */}
-                          <ul className="flex gap-x-2">
-                            <li>
-                              <img src={ratingStarIcon} alt="ratingStarIcon" />
-                            </li>
-                            <li>
-                              <img src={ratingStarIcon} alt="ratingStarIcon" />
-                            </li>
-                            <li>
-                              <img src={ratingStarIcon} alt="ratingStarIcon" />
-                            </li>
-                            <li>
-                              <img src={ratingStarIcon} alt="ratingStarIcon" />
-                            </li>
-                            <li>
-                              <img src={ratingStarIcon} alt="ratingStarIcon" />
-                            </li>
-                          </ul>
-                        </div>
-                        {/* card body */}
-                        <p className="mb-4">
-                          王媽媽如同我高雄的媽媽，非常親切友善。
-                          <br />
-                          房源很讚，雖然不大，但住起來很舒適！
-                        </p>
-                        <div className="pt-6 border-t-2">
-                          <h4 className="text-sans-b-body1 text-Landlord-50 mb-4">
-                            房東回覆
-                          </h4>
-                          <p>謝謝你，回來高雄隨時歡迎來找我。</p>
-                        </div>
-                      </li>
-                      <li className="p-4 rounded-lg shadow-elevation-3">
-                        {/* card title */}
-                        <div className="flex flex-col gap-y-2 mb-4">
-                          <h4 className="text-sans-b-body1 text-Tenant-50">
-                            李先生
-                          </h4>
-                          <h5 className="text-sans-b-body1">
-                            信義國小套房 捷運3分鐘
-                          </h5>
-                          <span className="block">
-                            2023年4月22日
-                            <span className="inline-block h-full bg-Tenant-70 w-[1px] text-white mx-2">
-                              |
-                            </span>
-                            2024年4月22日
-                          </span>
-                          {/* 評價的星星數 */}
-                          <ul className="flex gap-x-2">
-                            <li>
-                              <img src={ratingStarIcon} alt="ratingStarIcon" />
-                            </li>
-                            <li>
-                              <img src={ratingStarIcon} alt="ratingStarIcon" />
-                            </li>
-                            <li>
-                              <img src={ratingStarIcon} alt="ratingStarIcon" />
-                            </li>
-                            <li>
-                              <img src={ratingStarIcon} alt="ratingStarIcon" />
-                            </li>
-                            <li>
-                              <img src={ratingStarIcon} alt="ratingStarIcon" />
-                            </li>
-                          </ul>
-                        </div>
-                        {/* card body */}
-                        <p className="mb-4">
-                          王媽媽如同我高雄的媽媽，非常親切友善。
-                          <br />
-                          房源很讚，雖然不大，但住起來很舒適！
-                        </p>
-                        <div className="pt-6 border-t-2">
-                          <h4 className="text-sans-b-body1 text-Landlord-50 mb-4">
-                            房東回覆
-                          </h4>
-                          <p>謝謝你，回來高雄隨時歡迎來找我。</p>
-                        </div>
-                      </li>
-                      <li className="p-4 rounded-lg shadow-elevation-3">
-                        {/* card title */}
-                        <div className="flex flex-col gap-y-2 mb-4">
-                          <h4 className="text-sans-b-body1 text-Tenant-50">
-                            李先生
-                          </h4>
-                          <h5 className="text-sans-b-body1">
-                            信義國小套房 捷運3分鐘
-                          </h5>
-                          <span className="block">
-                            2023年4月22日
-                            <span className="inline-block h-full bg-Tenant-70 w-[1px] text-white mx-2">
-                              |
-                            </span>
-                            2024年4月22日
-                          </span>
-                          {/* 評價的星星數 */}
-                          <ul className="flex gap-x-2">
-                            <li>
-                              <img src={ratingStarIcon} alt="ratingStarIcon" />
-                            </li>
-                            <li>
-                              <img src={ratingStarIcon} alt="ratingStarIcon" />
-                            </li>
-                            <li>
-                              <img src={ratingStarIcon} alt="ratingStarIcon" />
-                            </li>
-                            <li>
-                              <img src={ratingStarIcon} alt="ratingStarIcon" />
-                            </li>
-                            <li>
-                              <img src={ratingStarIcon} alt="ratingStarIcon" />
-                            </li>
-                          </ul>
-                        </div>
-                        {/* card body */}
-                        <p className="mb-4">
-                          王媽媽如同我高雄的媽媽，非常親切友善。
-                          <br />
-                          房源很讚，雖然不大，但住起來很舒適！
-                        </p>
-                        <div className="pt-6 border-t-2">
-                          <h4 className="text-sans-b-body1 text-Landlord-50 mb-4">
-                            房東回覆
-                          </h4>
-                          <p>謝謝你，回來高雄隨時歡迎來找我。</p>
-                        </div>
-                      </li>
-                    </ul>
-                  </div>
                 </div>
               </div>
 
               {/* 房東基本資訊 */}
-              <div className="col-span-3 col-start-9 ">
+              <div className="mb-6 2xl:col-span-3 2xl:col-start-9">
                 {/* 查看更多照片 */}
-                <div className="flex justify-between">
+                <div className="hidden 2xl:flex justify-between ">
                   <span></span>
                   <button
                     className="flex items-center mb-7 filled-button-s"
@@ -1274,9 +1106,9 @@ function SingleHousePage() {
                   </button>
                 </div>
 
-                <div className="sticky top-[80px]">
+                <div className=" sm:block 2xl:sticky 2xl:top-[80px]">
                   {/* 預約看房 */}
-                  <div className=" shadow-elevation-3 rounded-2xl p-6 mb-[14px]">
+                  <div className="hidden shadow-elevation-3 rounded-2xl p-6 mb-[14px] 2xl:block">
                     <ul className="flex flex-col gap-y-[34px]">
                       <li>
                         <h5 className="text-center">
@@ -1303,6 +1135,7 @@ function SingleHousePage() {
                       </li>
                       <li>
                         <button
+                          data-opentype="pc"
                           className={`w-full text-sans-b-body1 text-center border-Neutral-90 bg-Brand-90 py-2 rounded-lg shadow-elevation-2 hover:bg-Brand-95 ${
                             singleHouseData.appointmentAvailable === false
                               ? localStorage.getItem("currentIdentity") ===
@@ -1391,12 +1224,385 @@ function SingleHousePage() {
                 </div>
               </div>
             </div>
+
+            {/* 評價 */}
+            <div className="container 2xl:layout-grid">
+              {/* 房源描述 */}
+              <div className="col-span-6 col-start-2">
+                {/* 評價 */}
+                <div
+                  className="mb-10 border-b border-Neutral-95"
+                  ref={evaluateRef}
+                >
+                  <h3 className="text-sans-b-h6 mb-5">
+                    <span className="before:block before:absolute before:h-5 before:w-[100%] before:bg-Neutral-95 before:bottom-[-5%] before:-right-[0%] before:rounded-md relative">
+                      <span className="relative text-black px-3">評價</span>
+                    </span>
+                  </h3>
+                  {/* 評價列表(API 待補上) */}
+                  <ul className="flex flex-col gap-y-4">
+                    <li className="p-4 rounded-lg shadow-elevation-3">
+                      {/* card title */}
+                      <div className="flex flex-col gap-y-2 mb-4">
+                        <h4 className="text-sans-b-body1 text-Tenant-50">
+                          李先生
+                        </h4>
+                        <h5 className="text-sans-b-body1">
+                          信義國小套房 捷運3分鐘
+                        </h5>
+                        <span className="block">
+                          2023年4月22日
+                          <span className="inline-block h-full bg-Tenant-70 w-[1px] text-white mx-2">
+                            |
+                          </span>
+                          2024年4月22日
+                        </span>
+                        {/* 評價的星星數 */}
+                        <ul className="flex gap-x-2">
+                          <li>
+                            <img src={ratingStarIcon} alt="ratingStarIcon" />
+                          </li>
+                          <li>
+                            <img src={ratingStarIcon} alt="ratingStarIcon" />
+                          </li>
+                          <li>
+                            <img src={ratingStarIcon} alt="ratingStarIcon" />
+                          </li>
+                          <li>
+                            <img src={ratingStarIcon} alt="ratingStarIcon" />
+                          </li>
+                          <li>
+                            <img src={ratingStarIcon} alt="ratingStarIcon" />
+                          </li>
+                        </ul>
+                      </div>
+                      {/* card body */}
+                      <p className="mb-4">
+                        王媽媽如同我高雄的媽媽，非常親切友善。
+                        <br />
+                        房源很讚，雖然不大，但住起來很舒適！
+                      </p>
+                      <div className="pt-6 border-t-2">
+                        <h4 className="text-sans-b-body1 text-Landlord-50 mb-4">
+                          房東回覆
+                        </h4>
+                        <p>謝謝你，回來高雄隨時歡迎來找我。</p>
+                      </div>
+                    </li>
+                    <li className="p-4 rounded-lg shadow-elevation-3">
+                      {/* card title */}
+                      <div className="flex flex-col gap-y-2 mb-4">
+                        <h4 className="text-sans-b-body1 text-Tenant-50">
+                          李先生
+                        </h4>
+                        <h5 className="text-sans-b-body1">
+                          信義國小套房 捷運3分鐘
+                        </h5>
+                        <span className="block">
+                          2023年4月22日
+                          <span className="inline-block h-full bg-Tenant-70 w-[1px] text-white mx-2">
+                            |
+                          </span>
+                          2024年4月22日
+                        </span>
+                        {/* 評價的星星數 */}
+                        <ul className="flex gap-x-2">
+                          <li>
+                            <img src={ratingStarIcon} alt="ratingStarIcon" />
+                          </li>
+                          <li>
+                            <img src={ratingStarIcon} alt="ratingStarIcon" />
+                          </li>
+                          <li>
+                            <img src={ratingStarIcon} alt="ratingStarIcon" />
+                          </li>
+                          <li>
+                            <img src={ratingStarIcon} alt="ratingStarIcon" />
+                          </li>
+                          <li>
+                            <img src={ratingStarIcon} alt="ratingStarIcon" />
+                          </li>
+                        </ul>
+                      </div>
+                      {/* card body */}
+                      <p className="mb-4">
+                        王媽媽如同我高雄的媽媽，非常親切友善。
+                        <br />
+                        房源很讚，雖然不大，但住起來很舒適！
+                      </p>
+                      <div className="pt-6 border-t-2">
+                        <h4 className="text-sans-b-body1 text-Landlord-50 mb-4">
+                          房東回覆
+                        </h4>
+                        <p>謝謝你，回來高雄隨時歡迎來找我。</p>
+                      </div>
+                    </li>
+                    <li className="p-4 rounded-lg shadow-elevation-3">
+                      {/* card title */}
+                      <div className="flex flex-col gap-y-2 mb-4">
+                        <h4 className="text-sans-b-body1 text-Tenant-50">
+                          李先生
+                        </h4>
+                        <h5 className="text-sans-b-body1">
+                          信義國小套房 捷運3分鐘
+                        </h5>
+                        <span className="block">
+                          2023年4月22日
+                          <span className="inline-block h-full bg-Tenant-70 w-[1px] text-white mx-2">
+                            |
+                          </span>
+                          2024年4月22日
+                        </span>
+                        {/* 評價的星星數 */}
+                        <ul className="flex gap-x-2">
+                          <li>
+                            <img src={ratingStarIcon} alt="ratingStarIcon" />
+                          </li>
+                          <li>
+                            <img src={ratingStarIcon} alt="ratingStarIcon" />
+                          </li>
+                          <li>
+                            <img src={ratingStarIcon} alt="ratingStarIcon" />
+                          </li>
+                          <li>
+                            <img src={ratingStarIcon} alt="ratingStarIcon" />
+                          </li>
+                          <li>
+                            <img src={ratingStarIcon} alt="ratingStarIcon" />
+                          </li>
+                        </ul>
+                      </div>
+                      {/* card body */}
+                      <p className="mb-4">
+                        王媽媽如同我高雄的媽媽，非常親切友善。
+                        <br />
+                        房源很讚，雖然不大，但住起來很舒適！
+                      </p>
+                      <div className="pt-6 border-t-2">
+                        <h4 className="text-sans-b-body1 text-Landlord-50 mb-4">
+                          房東回覆
+                        </h4>
+                        <p>謝謝你，回來高雄隨時歡迎來找我。</p>
+                      </div>
+                    </li>
+                    <li className="p-4 rounded-lg shadow-elevation-3">
+                      {/* card title */}
+                      <div className="flex flex-col gap-y-2 mb-4">
+                        <h4 className="text-sans-b-body1 text-Tenant-50">
+                          李先生
+                        </h4>
+                        <h5 className="text-sans-b-body1">
+                          信義國小套房 捷運3分鐘
+                        </h5>
+                        <span className="block">
+                          2023年4月22日
+                          <span className="inline-block h-full bg-Tenant-70 w-[1px] text-white mx-2">
+                            |
+                          </span>
+                          2024年4月22日
+                        </span>
+                        {/* 評價的星星數 */}
+                        <ul className="flex gap-x-2">
+                          <li>
+                            <img src={ratingStarIcon} alt="ratingStarIcon" />
+                          </li>
+                          <li>
+                            <img src={ratingStarIcon} alt="ratingStarIcon" />
+                          </li>
+                          <li>
+                            <img src={ratingStarIcon} alt="ratingStarIcon" />
+                          </li>
+                          <li>
+                            <img src={ratingStarIcon} alt="ratingStarIcon" />
+                          </li>
+                          <li>
+                            <img src={ratingStarIcon} alt="ratingStarIcon" />
+                          </li>
+                        </ul>
+                      </div>
+                      {/* card body */}
+                      <p className="mb-4">
+                        王媽媽如同我高雄的媽媽，非常親切友善。
+                        <br />
+                        房源很讚，雖然不大，但住起來很舒適！
+                      </p>
+                      <div className="pt-6 border-t-2">
+                        <h4 className="text-sans-b-body1 text-Landlord-50 mb-4">
+                          房東回覆
+                        </h4>
+                        <p>謝謝你，回來高雄隨時歡迎來找我。</p>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
           </div>
         )
       )}
+      {/* 手機版預約看房區塊固定在畫面最下方 */}
+      {Object.keys(singleHouseData).length > 0 && (
+        <div className="sticky bottom-0 rounded-t-2xl bg-Neutral-99 shadow-elevation-3 sm:hidden">
+          <div className="flex justify-center items-center gap-x-6 p-6">
+            <div className="width-[97px]">
+              <div className="mb-3">
+                <span className="before:block before:absolute before:h-[18%] before:w-[110%] before:bg-[#bac6e6] before:bottom-[5%] before:left-[-6%] relative">
+                  <span className="relative text-sans-b-h6">
+                    {parseInt(singleHouseData.price.rent).toLocaleString()}
+                  </span>
+                </span>
+                <span className="text-sans-b-h6"> $</span>
+              </div>
 
-      {/* 預約看房按鈕 pop-up */}
+              <span className="block text-center">
+                押金
+                <span className="inline-block h-full bg-Tenant-70 w-[1px] text-white mx-2">
+                  |
+                </span>
+                {singleHouseData.price.securityDeposit}個月
+              </span>
+            </div>
+            <div className="w-[205px]">
+              <button
+                data-drawer-target="drawer-bottom-example"
+                data-drawer-show="drawer-bottom-example"
+                data-drawer-placement="bottom"
+                data-opentype="phone"
+                className={`w-full h-[60px] text-sans-b-body1 text-center border-Neutral-90 bg-Brand-90 py-2 rounded-lg shadow-elevation-2 hover:bg-Brand-95 ${
+                  singleHouseData.appointmentAvailable === false
+                    ? localStorage.getItem("currentIdentity") === "landLord"
+                      ? "hidden"
+                      : "cursor-not-allowed"
+                    : ""
+                }`}
+                onClick={showTenantInfo}
+                disabled={
+                  singleHouseData.appointmentAvailable === false ? true : false
+                }
+              >
+                {singleHouseData.appointmentAvailable === false
+                  ? "已申請預約看房"
+                  : "預約看房"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* 手機版預約看房 drawer */}
       <Flowbite theme={{ theme: customTheme }}>
+        <Drawer
+          open={isReserveDrawerOpen}
+          onClose={() => setIsReserveDrawerOpen(false)}
+          position="bottom"
+        >
+          <Drawer.Header className="p-4" />
+          {Object.keys(reserveModalData).length > 0 && (
+            <Drawer.Items>
+              <div className="flex items-center justify-between mb-6">
+                <h3 className="text-sans-b-h6">您將會提供基本資料與評價</h3>
+              </div>
+              {/* 租客基本資訊 */}
+              <div className="flex flex-col gap-y-6 bg-Neutral-99 rounded-2xl p-4 mb-6 shadow-elevation-2 ">
+                <div className="flex gap-x-6">
+                  <div className="flex flex-col gap-y-3">
+                    <h4 className="text-sans-b-body1 text-Landlord-40">
+                      租客
+                      <span className="inline-block text-black text-sans-b-body1 pl-3">
+                        {reserveModalData.lastName + reserveModalData.firstName}
+                      </span>
+                    </h4>
+                    <div>
+                      <p className="text-sans-caption">
+                        {reserveModalData.telphone.toLocaleString()}
+                      </p>
+                      <p className="text-sans-caption">
+                        <span className="pr-2 border-r border-Tenant-70 mr-2">
+                          {reserveModalData.gender}
+                        </span>
+                        {reserveModalData.job}
+                      </p>
+                    </div>
+
+                    <div className="w-[130px] h-[68px] rounded-2xl overflow-hidden">
+                      {reserveModalData.photo && (
+                        <img
+                          className="w-full h-full object-cover"
+                          src={reserveModalData.photo}
+                          alt="landLordProfile"
+                        />
+                      )}
+                    </div>
+                  </div>
+                  <div className="w-full flex flex-col gap-y-3">
+                    <div className="flex flex-col justify-between w-full bg-Neutral-99 rounded-lg p-2 shadow-elevation-2">
+                      <h5 className="text-sans-b-body2 text-Landlord-50 mb-2">
+                        評價
+                      </h5>
+                      <p className="flex justify-between items-end">
+                        {reserveModalData.ratingAvg ===
+                        "新用戶，尚未被評價過" ? (
+                          <span className="text-sans-h6">
+                            新用戶，
+                            <br /> 尚未被評價過
+                          </span>
+                        ) : (
+                          <span className="text-sans-h6">
+                            {reserveModalData.ratingAvg}
+                          </span>
+                        )}
+                        <img src={ratingStarIcon} alt="ratingStarIcon" />
+                      </p>
+                    </div>
+                    <div className="flex flex-col justify-between w-full bg-Neutral-99 rounded-lg p-2 shadow-elevation-2">
+                      <h5 className="text-sans-b-body2 text-Landlord-50 mb-2">
+                        則數
+                      </h5>
+                      <p className="flex justify-between items-end">
+                        <span className="text-sans-h6">
+                          {reserveModalData.ratingCount}
+                        </span>
+                        <span>則</span>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <h5 className="text-sans-b-body1 text-Landlord-50 mb-3">
+                    自我介紹
+                  </h5>
+                  <p>您好，{reserveModalData.userIntro.trim()}</p>
+                </div>
+              </div>
+              <div className="flex gap-x-3">
+                <button
+                  type="button"
+                  className="w-full outline-button-m"
+                  onClick={() => setIsReserveModalOpen(false)}
+                >
+                  不提供
+                </button>
+                <button
+                  type="button"
+                  className="w-full filled-button-m"
+                  onClick={provideTenantInfo}
+                  disabled={isConfirmAPIProcessing}
+                >
+                  {isConfirmAPIProcessing ? (
+                    <Spinner color="info" size="md" className="mr-4" />
+                  ) : (
+                    "確認提供"
+                  )}
+                </button>
+              </div>
+            </Drawer.Items>
+          )}
+        </Drawer>
+      </Flowbite>
+
+      
+      <Flowbite theme={{ theme: customTheme }}>
+        {/* 桌機版預約看房modal */}
         {Object.keys(reserveModalData).length > 0 ? (
           <Modal
             show={isReserveModalOpen}
@@ -1574,13 +1780,13 @@ function SingleHousePage() {
             popup
           >
             <Modal.Header className="p-0" />
-            <Modal.Body className="p-10">
+            <Modal.Body className="p-6 sm:p-10">
               <div className="flex items-center justify-between mb-10">
-                <h3 className="text-sans-h5">很抱歉，房東有設定條件限制</h3>
+                <h3 className="text-sans-b-h6 sm:text-sans-h5">很抱歉，房東有設定條件限制</h3>
                 <img
                   src={close}
                   alt="close"
-                  className=" cursor-pointer"
+                  className="hidden sm:block cursor-pointer"
                   onClick={() => setIsCompareFalseModalOpen(false)}
                 />
               </div>
@@ -1589,7 +1795,7 @@ function SingleHousePage() {
               </p>
               <button
                 type="button"
-                className="ml-auto filled-button-m"
+                className="w-full sm:w-max ml-auto filled-button-m"
                 onClick={() => setIsCompareFalseModalOpen(false)}
               >
                 沒關係，繼續找好房東
@@ -1608,8 +1814,10 @@ function SingleHousePage() {
           >
             <Modal.Header className="p-0" />
             <Modal.Body className="p-10">
-              <div className="flex items-center justify-between mb-10">
-                <h3 className="text-sans-h5">房東聯絡資訊</h3>
+              <div className="flex items-center justify-between mb-3 sm:mb-10">
+                <h3 className="text-sans-b-h6  sm:text-sans-h5">
+                  房東聯絡資訊
+                </h3>
                 <img
                   src={close}
                   alt="close"
@@ -1617,16 +1825,47 @@ function SingleHousePage() {
                   onClick={() => window.location.reload()}
                 />
               </div>
-              <p className="mb-10">請參考以下資訊聯繫房東</p>
-              <span className="inline-block mb-1">電話</span>
-              <p className="p-3 mb-10 border-b border-Neutral-70">
-                {landlordContactInfo.landlordTel}
-              </p>
-              <span className="inline-block mb-1">Line</span>
-              <p className="p-3 mb-10 border-b border-Neutral-70">
-                {landlordContactInfo.landlordLineId}
-              </p>
-              <div className="flex justify-end gap-x-6">
+              <div className="mb-6 sm:mb-0">
+                <span className="inline-block mb-1">電話</span>
+                <a
+                  href={`tel:${landlordContactInfo.landlordTel}`}
+                  className="block p-3 mb-10 border-b border-Neutral-70"
+                  ref={anchorRef}
+                >
+                  {landlordContactInfo.landlordTel}
+                </a>
+              </div>
+              <div className="hidden sm:block">
+                <span className="inline-block mb-1">Line</span>
+                <p className="p-3 mb-10 border-b border-Neutral-70">
+                  {landlordContactInfo.landlordLineId}
+                </p>
+              </div>
+              <div className="flex flex-col gap-y-3">
+                <button
+                  type="button"
+                  className="outline-button-m"
+                  onClick={() =>
+                    navigate("/tenant/houseViewingManagement/houseViewingList")
+                  }
+                >
+                  <span className="sm:hidden">前往</span>我的預約
+                </button>
+                <Link
+                  to={"/houseList"}
+                  type="button"
+                  className="text-center outline-button-m"
+                >
+                  繼續找房
+                </Link>
+                <label
+                  className="text-center filled-button-m"
+                  onClick={handleLabelClick}
+                >
+                  立即撥號
+                </label>
+              </div>
+              <div className="hidden sm:justify-end sm:gap-x-6 sm:flex">
                 <button
                   type="button"
                   className="outline-button-m"

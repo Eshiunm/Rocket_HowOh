@@ -22,3 +22,13 @@
   transition: linear;
   transition-duration: 300ms;
 }
+
+.swiper-pagination-bullet{
+  background-color: white !important;
+  opacity: 0.5 !important;
+}
+
+.swiper-pagination-bullet-active{
+  background-color: white !important;
+  opacity: 1  !important;
+}
