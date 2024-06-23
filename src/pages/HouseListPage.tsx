@@ -60,7 +60,7 @@ interface RentRange {
   checked: boolean;
 }
 function HouseListPage() {
-  const { handleSubmit, reset, register, watch } = useForm();
+  const { handleSubmit, reset, register } = useForm();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const searchContent = useSelector(
@@ -738,8 +738,6 @@ function HouseListPage() {
 
   // RWD 新增的
   const [phoneSearchForm, setPhoneSearchForm] = useState(false);
-  const selectedCity = watch("city");
-  console.log(selectedCity)
 
   return (
     <>
@@ -1382,17 +1380,14 @@ function HouseListPage() {
                   className="w-full p-3 rounded bg-Neutral-99"
                 >
                   <select
-                    id="city"
-                    name="city"
-                    defaultValue={"不限"}
+                    name="type"
                     className="block w-full p-0 pl-1 text-sans-body2 text-black bg-transparent border-none appearance-none focus:ring-0 peer"
                   >
-                    <option value="不限" >縣市</option>
-                    {cities.map(({ city }) => (
-                      <option value={city} key={city}>
-                        {city}
-                      </option>
-                    ))}
+                    <option value="整層住家" >整層住家</option>
+                    <option value="獨立套房" >獨立套房</option>
+                    <option value="分租套房" >分租套房</option>
+                    <option value="雅房" >雅房</option>
+                    <option value="其他" >其他</option>
                   </select>
                 </div>
                 <div
