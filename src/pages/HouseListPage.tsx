@@ -1394,55 +1394,17 @@ function HouseListPage() {
                   className="w-full p-3 rounded bg-Neutral-99"
                 >
                   <select
-                    id="city"
-                    name="city"
-                    defaultValue={"不限"}
+                    name="price"
                     className="block w-full p-0 pl-1 text-sans-body2 text-black bg-transparent border-none appearance-none focus:ring-0 peer"
                   >
-                    <option value="不限" >縣市</option>
-                    {cities.map(({ city }) => (
-                      <option value={city} key={city}>
-                        {city}
-                      </option>
-                    ))}
+                    <option value="5,000以下" >5,000以下</option>
+                    <option value="5,000-10,000" >5,000-10,000</option>
+                    <option value="10,000-15,000" >10,000-15,000</option>
+                    <option value="15,000-20,000" >15,000-20,000</option>
+                    <option value="20,000-30,000" >20,000-30,000</option>
+                    <option value="30,000以上" >30,000以上</option>
                   </select>
                 </div>
-                {/* <div
-                  tabIndex={0}
-                  className={`relative flex w-full p-3 rounded ${
-                    errors.district
-                      ? "border-Alert-50 border"
-                      : isDistrictFocused
-                      ? "border-Brand-30 border-2 -m-[1px]"
-                      : "border-black border"
-                  }`}
-                  onFocus={() => setIsDistrictFocused(true)}
-                  onBlur={() => setIsDistrictFocused(false)}
-                >
-                  <select
-                    id="district"
-                    className="block w-full p-0 pl-1 text-sans-body1 text-black bg-transparent border-none appearance-none focus:ring-0 peer"
-                    {...register("district", {
-                      required: { value: true, message: "必填欄位" },
-                    })}
-                  >
-                    {
-                      cities
-                        .find(item => item.city === selectedCity)
-                        ?.districts.map(district => (
-                          <option value={district} key={district}>
-                            {district}
-                          </option>
-                        ))
-                    }
-                  </select>
-                  <label
-                    htmlFor="district"
-                    className="absolute text-sans-body1 text-Neutral-50 duration-200 transform -translate-y-4 scale-75 top-[3px] z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-black peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-[3px] peer-focus:scale-75 peer-focus:-translate-y-4 start-3"
-                  >
-                    區域
-                  </label>
-                </div> */}
               </div>
             </form>
           </div>
