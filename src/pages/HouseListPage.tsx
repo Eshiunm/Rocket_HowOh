@@ -45,6 +45,7 @@ import HouseListSkeleton from "../components/houseList/houseListSkeleton";
 import NoResults from "../components/tenantManagement/houseViewingManagement/NoResults";
 // RWD 新增的
 import close from "../assets/imgs/icons/close.svg";
+import cities from "../constants/locations/cities";
 
 interface District {
   content: string;
@@ -59,7 +60,7 @@ interface RentRange {
   checked: boolean;
 }
 function HouseListPage() {
-  const { handleSubmit, reset, register } = useForm();
+  const { handleSubmit, reset, register, watch } = useForm();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const searchContent = useSelector(
@@ -737,6 +738,8 @@ function HouseListPage() {
 
   // RWD 新增的
   const [phoneSearchForm, setPhoneSearchForm] = useState(false);
+  const selectedCity = watch("city");
+  console.log(selectedCity)
 
   return (
     <>
@@ -1316,12 +1319,12 @@ function HouseListPage() {
             <form onSubmit={handleSubmit(onSubmit)}>
               <div
                 tabIndex={0}
-                className="relative flex w-full bg-Neutral-99 p-3 rounded-[4px]"
+                className="relative flex w-full bg-Neutral-99 p-3 rounded-[4px] mb-1.5"
               >
                 <input
                   type="text"
                   id="floating_outlined"
-                  className="block w-full p-0 pl-1 text-black bg-transparent border-none appearance-none focus:ring-0 peer"
+                  className="text-sans-body2 block w-full p-0 pl-1 text-black bg-transparent border-none appearance-none focus:ring-0 peer"
                   placeholder=""
                   defaultValue={searchContent}
                   {...register("searchContent")}
@@ -1329,13 +1332,122 @@ function HouseListPage() {
                 />
                 <label
                   htmlFor="floating_outlined"
-                  className="absolute text-sans-body1 text-black duration-200 transform -translate-y-4 scale-75 top-[3px] z-10 origin-[0] bg-transparent px-2 peer-focus:px-2 peer-focus:text-Brand-30 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-[3px] peer-focus:scale-75 peer-focus:-translate-y-4 start-3"
+                  className="absolute text-sans-body2 text-black duration-200 transform -translate-y-4 scale-75 top-[3px] z-10 origin-[0] bg-transparent px-2 peer-focus:px-2 peer-focus:text-Brand-30 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-[3px] peer-focus:scale-75 peer-focus:-translate-y-4 start-3"
                 >
                   搜尋
                 </label>
                 <button type="submit">
                   <img src={searchIcon} alt="searchIcon" />
                 </button>
+              </div>
+              <div className="flex gap-2">
+                <div
+                  className="w-full p-3 rounded bg-Neutral-99"
+                >
+                  <select
+                    id="city"
+                    className="block w-full p-0 pl-1 text-sans-body2 text-black bg-transparent border-none appearance-none focus:ring-0 peer"
+                    {...register("city")}
+                  >
+                    {cities.map(({ city }) => (
+                      <option value={city} key={city}>
+                        {city}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div
+                  className="w-full p-3 rounded bg-Neutral-99"
+                >
+                  <select
+                    id="city"
+                    name="city"
+                    defaultValue={"不限"}
+                    className="block w-full p-0 pl-1 text-sans-body2 text-black bg-transparent border-none appearance-none focus:ring-0 peer"
+                  >
+                    {
+                      /* 監聽所在縣市，並顯示該縣市的區域 */
+                      cities
+                        .find(item => item.city === "高雄市")
+                        ?.districts.map(district => (
+                          <option value={district} key={district}>
+                            {district}
+                          </option>
+                          )
+                        )
+                    }
+                  </select>
+                </div>
+                <div
+                  className="w-full p-3 rounded bg-Neutral-99"
+                >
+                  <select
+                    id="city"
+                    name="city"
+                    defaultValue={"不限"}
+                    className="block w-full p-0 pl-1 text-sans-body2 text-black bg-transparent border-none appearance-none focus:ring-0 peer"
+                  >
+                    <option value="不限" >縣市</option>
+                    {cities.map(({ city }) => (
+                      <option value={city} key={city}>
+                        {city}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div
+                  className="w-full p-3 rounded bg-Neutral-99"
+                >
+                  <select
+                    id="city"
+                    name="city"
+                    defaultValue={"不限"}
+                    className="block w-full p-0 pl-1 text-sans-body2 text-black bg-transparent border-none appearance-none focus:ring-0 peer"
+                  >
+                    <option value="不限" >縣市</option>
+                    {cities.map(({ city }) => (
+                      <option value={city} key={city}>
+                        {city}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                {/* <div
+                  tabIndex={0}
+                  className={`relative flex w-full p-3 rounded ${
+                    errors.district
+                      ? "border-Alert-50 border"
+                      : isDistrictFocused
+                      ? "border-Brand-30 border-2 -m-[1px]"
+                      : "border-black border"
+                  }`}
+                  onFocus={() => setIsDistrictFocused(true)}
+                  onBlur={() => setIsDistrictFocused(false)}
+                >
+                  <select
+                    id="district"
+                    className="block w-full p-0 pl-1 text-sans-body1 text-black bg-transparent border-none appearance-none focus:ring-0 peer"
+                    {...register("district", {
+                      required: { value: true, message: "必填欄位" },
+                    })}
+                  >
+                    {
+                      cities
+                        .find(item => item.city === selectedCity)
+                        ?.districts.map(district => (
+                          <option value={district} key={district}>
+                            {district}
+                          </option>
+                        ))
+                    }
+                  </select>
+                  <label
+                    htmlFor="district"
+                    className="absolute text-sans-body1 text-Neutral-50 duration-200 transform -translate-y-4 scale-75 top-[3px] z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-black peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-[3px] peer-focus:scale-75 peer-focus:-translate-y-4 start-3"
+                  >
+                    區域
+                  </label>
+                </div> */}
               </div>
             </form>
           </div>
