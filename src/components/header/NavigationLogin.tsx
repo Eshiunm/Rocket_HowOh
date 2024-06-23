@@ -68,11 +68,6 @@ function NavigationLogin() {
                     </Link>
                   </Dropdown.Item>
                   <Dropdown.Item>
-                    <Link to={"/login"} className="w-full text-sans-b-body1">
-                      設定
-                    </Link>
-                  </Dropdown.Item>
-                  <Dropdown.Item>
                     <span
                       className="w-full text-sans-b-body1"
                       onClick={handleLogout}

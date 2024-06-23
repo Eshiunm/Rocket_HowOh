@@ -83,7 +83,6 @@ function HouseListPage() {
   const [cityDropdownModalIsOpen, setCityDropdownModalIsOpen] = useState(false);
   const [searchResults, setSearchResults] = useState<any[]>([]); // 房源列表清單
   const [searchResultsCount, setSearchResultsCount] = useState<number>(0); // 房源列表總筆數
-  console.log(searchResultsCount);
   const [queryParams, setQueryParams] = useState<string>("");
   const [currentPageNUmber, setCurrentPageNumber] = useState<number>(1);
 
