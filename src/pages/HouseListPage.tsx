@@ -43,6 +43,8 @@ import landLordRating from "../constants/searchFormCondition/landLordRating";
 import Footer from "../components/footer/Footer";
 import HouseListSkeleton from "../components/houseList/houseListSkeleton";
 import NoResults from "../components/tenantManagement/houseViewingManagement/NoResults";
+// RWD 新增的
+import close from "../assets/imgs/icons/close.svg";
 
 interface District {
   content: string;
@@ -733,9 +735,14 @@ function HouseListPage() {
     }
   };
 
+  // RWD 新增的
+  const [phoneSearchForm, setPhoneSearchForm] = useState(false);
+
   return (
     <>
-      <div className="flex-grow sm:bg-Neutral-99 sm:pt-6 pb-32">
+      <div className={`flex-grow sm:bg-Neutral-99 pb-3 ${
+        !phoneSearchForm && "pt-6"
+      }`}>
         <div className="container layout-grid ">
           {/* 搜尋表單 */}
           <div className="hidden sm:block sm:col-span-4">
@@ -1289,6 +1296,47 @@ function HouseListPage() {
                   </div>
                 </li>
               </ul>
+            </form>
+          </div>
+          <button className={`sm:hidden outline-button-m col-span-4 text-center ${
+            phoneSearchForm && "hidden"
+          }`}
+            onClick={() => setPhoneSearchForm(true)}
+          >篩選條件</button>
+          <div className={`md:hidden col-span-4 flex flex-col ${
+            phoneSearchForm ? "block" : "hidden"
+          }`}>
+            <button
+              type="button"
+              className="self-end"
+              onClick={() => setPhoneSearchForm(false)}
+            >
+              <img src={close} alt="close" />
+            </button>
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <div
+                tabIndex={0}
+                className="relative flex w-full bg-Neutral-99 p-3 rounded-[4px]"
+              >
+                <input
+                  type="text"
+                  id="floating_outlined"
+                  className="block w-full p-0 pl-1 text-black bg-transparent border-none appearance-none focus:ring-0 peer"
+                  placeholder=""
+                  defaultValue={searchContent}
+                  {...register("searchContent")}
+                  onChange={setSearchContent}
+                />
+                <label
+                  htmlFor="floating_outlined"
+                  className="absolute text-sans-body1 text-black duration-200 transform -translate-y-4 scale-75 top-[3px] z-10 origin-[0] bg-transparent px-2 peer-focus:px-2 peer-focus:text-Brand-30 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-[3px] peer-focus:scale-75 peer-focus:-translate-y-4 start-3"
+                >
+                  搜尋
+                </label>
+                <button type="submit">
+                  <img src={searchIcon} alt="searchIcon" />
+                </button>
+              </div>
             </form>
           </div>
           {/* 房源列表區塊 */}
