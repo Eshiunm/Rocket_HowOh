@@ -18,13 +18,13 @@ function HouseViewingList() {
   const customTheme: CustomFlowbiteTheme = {
     drawer: {
       root: {
-        base: "fixed z-40 overflow-y-auto px-10 pt-10 transition-transform",
+        base: "fixed z-40 overflow-y-auto px-3  transition-transform md:px-10 md:pt-10",
         backdrop: "fixed inset-0 z-30 bg-transparent",
         edge: "bottom-16",
         position: {
           right: {
-            on: "shadow-elevation-3 right-0 top-[64px] bottom-0 w-5/12 transform-none scrollbar-hide",
-            off: "right-0 top-[152px] h-screen w-5/12 translate-x-full",
+            on: "shadow-elevation-3 right-0 top-[64px] bottom-0 w-full transform-none scrollbar-hide xl:w-5/12",
+            off: "right-0 top-[152px] h-screen w-full translate-x-full xl:w-5/12",
           },
         },
       },
@@ -77,7 +77,6 @@ function HouseViewingList() {
       setIsAPIProcessing(true);
       const response = await apiAppointmentCommonList(queryString);
       setRentalList(response.data.result);
-      console.log(response);
       setIsAPIProcessing(false);
     } catch (errors) {
       console.log(errors);
@@ -99,7 +98,6 @@ function HouseViewingList() {
     const userId = localStorage.getItem("userId")!.toString();
     setCurrentPageNumber(1);
     if (rentalType === "rented") {
-      console.log("渲染已出租清單");
       const queryString = userId + "&houseStatus=20";
       getRentalListData(queryString);
       getRentalListTotalCounts(queryString);
@@ -119,7 +117,6 @@ function HouseViewingList() {
     const getHouseDetailInfo = async (appointmentId: string) => {
       try {
         const response = await apiAppointmentTenantHouseDetail(appointmentId);
-        console.log(response.data[0]);
         setHouseViewingDetail(response.data[0]);
       } catch (errors) {
         console.log(errors);
@@ -201,7 +198,7 @@ function HouseViewingList() {
                     <img src={close} alt="close" />
                   </button>
                   <div className="flex justify-end gap-x-6">
-                    <button
+                    {/* <button
                       type="button"
                       className="flex items-center gap-x-2 px-2 rounded-lg border border-black hover:bg-black hover:text-white hover:fill-white"
                     >
@@ -214,7 +211,7 @@ function HouseViewingList() {
                           d="M14.5 3C14.5 3.26522 14.3946 3.51957 14.2071 3.70711C14.0196 3.89464 13.7652 4 13.5 4H13V13C13 13.5304 12.7893 14.0391 12.4142 14.4142C12.0391 14.7893 11.5304 15 11 15H5C4.46957 15 3.96086 14.7893 3.58579 14.4142C3.21071 14.0391 3 13.5304 3 13V4H2.5C2.23478 4 1.98043 3.89464 1.79289 3.70711C1.60536 3.51957 1.5 3.26522 1.5 3V2C1.5 1.73478 1.60536 1.48043 1.79289 1.29289C1.98043 1.10536 2.23478 1 2.5 1H6C6 0.734784 6.10536 0.48043 6.29289 0.292893C6.48043 0.105357 6.73478 0 7 0L9 0C9.26522 0 9.51957 0.105357 9.70711 0.292893C9.89464 0.48043 10 0.734784 10 1H13.5C13.7652 1 14.0196 1.10536 14.2071 1.29289C14.3946 1.48043 14.5 1.73478 14.5 2V3ZM4.118 4L4 4.059V13C4 13.2652 4.10536 13.5196 4.29289 13.7071C4.48043 13.8946 4.73478 14 5 14H11C11.2652 14 11.5196 13.8946 11.7071 13.7071C11.8946 13.5196 12 13.2652 12 13V4.059L11.882 4H4.118ZM2.5 3V2H13.5V3H2.5Z"
                         />
                       </svg>
-                    </button>
+                    </button> */}
                     <Link
                       to={`/houseList/${houseViewingDetail.houseId}`}
                       className="flex items-center gap-x-2 p-2 rounded-lg border border-black text-sans-b-body1 hover:bg-black hover:text-white hover:fill-white"
@@ -299,11 +296,11 @@ function HouseViewingList() {
                   </div>
                   {/* 房源特色、基本資訊 */}
                   <div className="bg-white rounded-2xl p-5 border-b border-Neutral-95">
-                    <h2 className="text-sans-b-h3 mb-6">
+                    <h2 className="text-sans-b-h6 md:text-sans-b-h3 mb-6">
                       {houseViewingDetail.info.title}
                     </h2>
                     <div className="mb-10">
-                      <ul className="flex flex-wrap gap-4">
+                      <ul className="flex flex-wrap gap-4 ">
                         {houseViewingDetail.info.tagList.rentSubsidy && (
                           <li className="flex items-center px-4 py-2 bg-Tenant-90 rounded-full">
                             <span className="material-symbols-outlined mr-1">
@@ -1146,8 +1143,8 @@ function HouseViewingList() {
       </Flowbite>
       <section className={`flex-grow bg-Neutral-99 pt-8 pb-28 `}>
         <div className="container layout-grid">
-          <div className="col-span-7">
-            <div className="p-5 bg-white rounded-xl">
+          <div className="col-span-4 sm:col-span-12 xl:col-span-7">
+            <div className="py-5 sm:p-5 bg-white rounded-xl">
               <div className="flex justify-between mb-6 pb-3 border-b border-Neutral-95">
                 <div className="flex gap-x-3 items-center ml-3">
                   <button
@@ -1175,7 +1172,7 @@ function HouseViewingList() {
                     已出租
                   </button>
                 </div>
-                <div>
+                <div className="hidden sm:block">
                   <p className="text-sans-b-body2 text-center text-Brand-10 mb-2">
                     {rentalList.length > 0
                       ? rentalList.length > 12
@@ -1253,7 +1250,7 @@ function HouseViewingList() {
                       >
                         <div className="flex justify-between">
                           <div className="flex gap-x-4">
-                            <div className="w-[136px] rounded-xl overflow-hidden">
+                            <div className="w-[121px] sm:w-[136px] rounded-xl overflow-hidden">
                               <img
                                 className="w-full h-full"
                                 src={
@@ -1265,11 +1262,24 @@ function HouseViewingList() {
                             </div>
 
                             <div className="flex flex-col justify-between">
-                              <h3 className="text-sans-b-h6">
+                              <Tooltip
+                                className="bg-Landlord-30 text-sans-body2 rounded-lg py-1 px-11 text-white text-center whitespace-pre-line"
+                                content={"租客申請預約時間"}
+                              >
+                                <time className="cursor-pointer text-sans-caption sm:hidden">
+                                  <span className="pr-2 mr-2 border-r border-Tenant-70">
+                                    {getFormattedDate(appointmentCreateTime)}
+                                  </span>
+                                  <span>
+                                    {getFormattedTime(appointmentCreateTime)}
+                                  </span>
+                                </time>
+                              </Tooltip>
+                              <h3 className="text-sans-b-body1 sm:text-sans-b-h6">
                                 {description.detail[0].houseTitle}
                               </h3>
                               <p className="flex gap-x-2">
-                                <span className="pr-2 border-r border-Tenant-70">
+                                <span className="pr-2 border-r border-Tenant-70 ">
                                   房東
                                 </span>
                                 <span>
@@ -1306,7 +1316,7 @@ function HouseViewingList() {
                               className="bg-Landlord-30 text-sans-body2 rounded-lg py-1 px-11 text-white text-center whitespace-pre-line"
                               content={"租客申請預約時間"}
                             >
-                              <time className="cursor-pointer">
+                              <time className="cursor-pointer  hidden sm:block">
                                 <span className="pr-2 mr-2 border-r border-Tenant-70">
                                   {getFormattedDate(appointmentCreateTime)}
                                 </span>
@@ -1315,9 +1325,8 @@ function HouseViewingList() {
                                 </span>
                               </time>
                             </Tooltip>
-
                             {/* 查看更多 */}
-                            <div className="flex justify-between hover:opacity-75">
+                            <div className="justify-between hover:opacity-75 hidden sm:flex">
                               <span></span>
                               <button
                                 type="button"
