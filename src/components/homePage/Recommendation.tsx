@@ -32,7 +32,7 @@ function Recommendation() {
     if (tags.length < 2 && isCookAllowed) {
       tags.push(
         <li className="py-1 px-2 bg-Tenant-90 rounded-lg" key="cookAllowed">
-          可開火
+          可開伙
         </li>
       );
     }

@@ -18,10 +18,9 @@ interface ModalProps {
 }
 
 function HousePicturesModal({ closeModal, housePicturesData }: ModalProps) {
-  console.log(housePicturesData);
   const [thumbsSwiper, setThumbsSwiper] = useState<SwiperClass | null>(null);
   return (
-    <div className="relative z-[60]">
+    <div className="relative z-[60] hidden md:block">
       {/* Modal 打開時的背景模糊效果 */}
       <div className="fixed inset-0 bg-gray-900 bg-opacity-75 transition-all backdrop-blur-sm"></div>
 
