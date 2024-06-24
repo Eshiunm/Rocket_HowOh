@@ -18,13 +18,13 @@ function HouseViewingList() {
   const customTheme: CustomFlowbiteTheme = {
     drawer: {
       root: {
-        base: "fixed z-40 overflow-y-auto px-10 pt-10 transition-transform",
+        base: "fixed z-40 overflow-y-auto px-3  transition-transform md:px-10 md:pt-10",
         backdrop: "fixed inset-0 z-30 bg-transparent",
         edge: "bottom-16",
         position: {
           right: {
-            on: "shadow-elevation-3 right-0 top-[64px] bottom-0 w-5/12 transform-none scrollbar-hide",
-            off: "right-0 top-[152px] h-screen w-5/12 translate-x-full",
+            on: "shadow-elevation-3 right-0 top-[64px] bottom-0 w-full transform-none scrollbar-hide xl:w-5/12",
+            off: "right-0 top-[152px] h-screen w-full translate-x-full xl:w-5/12",
           },
         },
       },
@@ -198,7 +198,7 @@ function HouseViewingList() {
                     <img src={close} alt="close" />
                   </button>
                   <div className="flex justify-end gap-x-6">
-                    <button
+                    {/* <button
                       type="button"
                       className="flex items-center gap-x-2 px-2 rounded-lg border border-black hover:bg-black hover:text-white hover:fill-white"
                     >
@@ -211,7 +211,7 @@ function HouseViewingList() {
                           d="M14.5 3C14.5 3.26522 14.3946 3.51957 14.2071 3.70711C14.0196 3.89464 13.7652 4 13.5 4H13V13C13 13.5304 12.7893 14.0391 12.4142 14.4142C12.0391 14.7893 11.5304 15 11 15H5C4.46957 15 3.96086 14.7893 3.58579 14.4142C3.21071 14.0391 3 13.5304 3 13V4H2.5C2.23478 4 1.98043 3.89464 1.79289 3.70711C1.60536 3.51957 1.5 3.26522 1.5 3V2C1.5 1.73478 1.60536 1.48043 1.79289 1.29289C1.98043 1.10536 2.23478 1 2.5 1H6C6 0.734784 6.10536 0.48043 6.29289 0.292893C6.48043 0.105357 6.73478 0 7 0L9 0C9.26522 0 9.51957 0.105357 9.70711 0.292893C9.89464 0.48043 10 0.734784 10 1H13.5C13.7652 1 14.0196 1.10536 14.2071 1.29289C14.3946 1.48043 14.5 1.73478 14.5 2V3ZM4.118 4L4 4.059V13C4 13.2652 4.10536 13.5196 4.29289 13.7071C4.48043 13.8946 4.73478 14 5 14H11C11.2652 14 11.5196 13.8946 11.7071 13.7071C11.8946 13.5196 12 13.2652 12 13V4.059L11.882 4H4.118ZM2.5 3V2H13.5V3H2.5Z"
                         />
                       </svg>
-                    </button>
+                    </button> */}
                     <Link
                       to={`/houseList/${houseViewingDetail.houseId}`}
                       className="flex items-center gap-x-2 p-2 rounded-lg border border-black text-sans-b-body1 hover:bg-black hover:text-white hover:fill-white"
@@ -296,11 +296,11 @@ function HouseViewingList() {
                   </div>
                   {/* 房源特色、基本資訊 */}
                   <div className="bg-white rounded-2xl p-5 border-b border-Neutral-95">
-                    <h2 className="text-sans-b-h3 mb-6">
+                    <h2 className="text-sans-b-h6 md:text-sans-b-h3 mb-6">
                       {houseViewingDetail.info.title}
                     </h2>
                     <div className="mb-10">
-                      <ul className="flex flex-wrap gap-4">
+                      <ul className="flex flex-wrap gap-4 ">
                         {houseViewingDetail.info.tagList.rentSubsidy && (
                           <li className="flex items-center px-4 py-2 bg-Tenant-90 rounded-full">
                             <span className="material-symbols-outlined mr-1">

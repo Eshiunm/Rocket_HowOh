@@ -1489,118 +1489,6 @@ function SingleHousePage() {
         </div>
       )}
 
-      {/* 手機版預約看房 drawer */}
-      <Flowbite theme={{ theme: customTheme }}>
-        <Drawer
-          open={isReserveDrawerOpen}
-          onClose={() => setIsReserveDrawerOpen(false)}
-          position="bottom"
-        >
-          <Drawer.Header className="p-4" />
-          {Object.keys(reserveModalData).length > 0 && (
-            <Drawer.Items>
-              <div className="flex items-center justify-between mb-6">
-                <h3 className="text-sans-b-h6">您將會提供基本資料與評價</h3>
-              </div>
-              {/* 租客基本資訊 */}
-              <div className="flex flex-col gap-y-6 bg-Neutral-99 rounded-2xl p-4 mb-6 shadow-elevation-2 ">
-                <div className="flex gap-x-6">
-                  <div className="flex flex-col gap-y-3">
-                    <h4 className="text-sans-b-body1 text-Landlord-40">
-                      租客
-                      <span className="inline-block text-black text-sans-b-body1 pl-3">
-                        {reserveModalData.lastName + reserveModalData.firstName}
-                      </span>
-                    </h4>
-                    <div>
-                      <p className="text-sans-caption">
-                        {reserveModalData.telphone.toLocaleString()}
-                      </p>
-                      <p className="text-sans-caption">
-                        <span className="pr-2 border-r border-Tenant-70 mr-2">
-                          {reserveModalData.gender}
-                        </span>
-                        {reserveModalData.job}
-                      </p>
-                    </div>
-
-                    <div className="w-[130px] h-[68px] rounded-2xl overflow-hidden">
-                      {reserveModalData.photo && (
-                        <img
-                          className="w-full h-full object-cover"
-                          src={reserveModalData.photo}
-                          alt="landLordProfile"
-                        />
-                      )}
-                    </div>
-                  </div>
-                  <div className="w-full flex flex-col gap-y-3">
-                    <div className="flex flex-col justify-between w-full bg-Neutral-99 rounded-lg p-2 shadow-elevation-2">
-                      <h5 className="text-sans-b-body2 text-Landlord-50 mb-2">
-                        評價
-                      </h5>
-                      <p className="flex justify-between items-end">
-                        {reserveModalData.ratingAvg ===
-                        "新用戶，尚未被評價過" ? (
-                          <span className="text-sans-h6">
-                            新用戶，
-                            <br /> 尚未被評價過
-                          </span>
-                        ) : (
-                          <span className="text-sans-h6">
-                            {reserveModalData.ratingAvg}
-                          </span>
-                        )}
-                        <img src={ratingStarIcon} alt="ratingStarIcon" />
-                      </p>
-                    </div>
-                    <div className="flex flex-col justify-between w-full bg-Neutral-99 rounded-lg p-2 shadow-elevation-2">
-                      <h5 className="text-sans-b-body2 text-Landlord-50 mb-2">
-                        則數
-                      </h5>
-                      <p className="flex justify-between items-end">
-                        <span className="text-sans-h6">
-                          {reserveModalData.ratingCount}
-                        </span>
-                        <span>則</span>
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                <div>
-                  <h5 className="text-sans-b-body1 text-Landlord-50 mb-3">
-                    自我介紹
-                  </h5>
-                  <p>您好，{reserveModalData.userIntro.trim()}</p>
-                </div>
-              </div>
-              <div className="flex gap-x-3">
-                <button
-                  type="button"
-                  className="w-full outline-button-m"
-                  onClick={() => setIsReserveModalOpen(false)}
-                >
-                  不提供
-                </button>
-                <button
-                  type="button"
-                  className="w-full filled-button-m"
-                  onClick={provideTenantInfo}
-                  disabled={isConfirmAPIProcessing}
-                >
-                  {isConfirmAPIProcessing ? (
-                    <Spinner color="info" size="md" className="mr-4" />
-                  ) : (
-                    "確認提供"
-                  )}
-                </button>
-              </div>
-            </Drawer.Items>
-          )}
-        </Drawer>
-      </Flowbite>
-
-      
       <Flowbite theme={{ theme: customTheme }}>
         {/* 桌機版預約看房modal */}
         {Object.keys(reserveModalData).length > 0 ? (
@@ -1770,6 +1658,114 @@ function SingleHousePage() {
             </Modal.Body>
           </Modal>
         )}
+        {/* 手機版預約看房 drawer */}
+        {Object.keys(reserveModalData).length > 0 && (
+          <Drawer
+            open={isReserveDrawerOpen}
+            onClose={() => setIsReserveDrawerOpen(false)}
+            position="bottom"
+          >
+            <Drawer.Header className="p-4" />
+            <Drawer.Items>
+              <div className="flex items-center justify-between mb-6">
+                <h3 className="text-sans-b-h6">您將會提供基本資料與評價</h3>
+              </div>
+              {/* 租客基本資訊 */}
+              <div className="flex flex-col gap-y-6 bg-Neutral-99 rounded-2xl p-4 mb-6 shadow-elevation-2 ">
+                <div className="flex gap-x-6">
+                  <div className="flex flex-col gap-y-3">
+                    <h4 className="text-sans-b-body1 text-Landlord-40">
+                      租客
+                      <span className="inline-block text-black text-sans-b-body1 pl-3">
+                        {reserveModalData.lastName + reserveModalData.firstName}
+                      </span>
+                    </h4>
+                    <div>
+                      <p className="text-sans-caption">
+                        {reserveModalData.telphone.toLocaleString()}
+                      </p>
+                      <p className="text-sans-caption">
+                        <span className="pr-2 border-r border-Tenant-70 mr-2">
+                          {reserveModalData.gender}
+                        </span>
+                        {reserveModalData.job}
+                      </p>
+                    </div>
+
+                    <div className="w-[130px] h-[68px] rounded-2xl overflow-hidden">
+                      {reserveModalData.photo && (
+                        <img
+                          className="w-full h-full object-cover"
+                          src={reserveModalData.photo}
+                          alt="landLordProfile"
+                        />
+                      )}
+                    </div>
+                  </div>
+                  <div className="w-full flex flex-col gap-y-3">
+                    <div className="flex flex-col justify-between w-full bg-Neutral-99 rounded-lg p-2 shadow-elevation-2">
+                      <h5 className="text-sans-b-body2 text-Landlord-50 mb-2">
+                        評價
+                      </h5>
+                      <p className="flex justify-between items-end">
+                        {reserveModalData.ratingAvg ===
+                        "新用戶，尚未被評價過" ? (
+                          <span className="text-sans-h6">
+                            新用戶，
+                            <br /> 尚未被評價過
+                          </span>
+                        ) : (
+                          <span className="text-sans-h6">
+                            {reserveModalData.ratingAvg}
+                          </span>
+                        )}
+                        <img src={ratingStarIcon} alt="ratingStarIcon" />
+                      </p>
+                    </div>
+                    <div className="flex flex-col justify-between w-full bg-Neutral-99 rounded-lg p-2 shadow-elevation-2">
+                      <h5 className="text-sans-b-body2 text-Landlord-50 mb-2">
+                        則數
+                      </h5>
+                      <p className="flex justify-between items-end">
+                        <span className="text-sans-h6">
+                          {reserveModalData.ratingCount}
+                        </span>
+                        <span>則</span>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <h5 className="text-sans-b-body1 text-Landlord-50 mb-3">
+                    自我介紹
+                  </h5>
+                  <p>您好，{reserveModalData.userIntro.trim()}</p>
+                </div>
+              </div>
+              <div className="flex gap-x-3">
+                <button
+                  type="button"
+                  className="w-full outline-button-m"
+                  onClick={() => setIsReserveDrawerOpen(false)}
+                >
+                  不提供
+                </button>
+                <button
+                  type="button"
+                  className="w-full filled-button-m"
+                  onClick={provideTenantInfo}
+                  disabled={isConfirmAPIProcessing}
+                >
+                  {isConfirmAPIProcessing ? (
+                    <Spinner color="info" size="md" className="mr-4" />
+                  ) : (
+                    "確認提供"
+                  )}
+                </button>
+              </div>
+            </Drawer.Items>
+          </Drawer>
+        )}
 
         {/* 租客條件與房東設定的條件匹配失敗時，會跳此 Modal */}
         {
@@ -1782,7 +1778,9 @@ function SingleHousePage() {
             <Modal.Header className="p-0" />
             <Modal.Body className="p-6 sm:p-10">
               <div className="flex items-center justify-between mb-10">
-                <h3 className="text-sans-b-h6 sm:text-sans-h5">很抱歉，房東有設定條件限制</h3>
+                <h3 className="text-sans-b-h6 sm:text-sans-h5">
+                  很抱歉，房東有設定條件限制
+                </h3>
                 <img
                   src={close}
                   alt="close"

@@ -1,5 +1,11 @@
 import { MouseEvent, useEffect, useState } from "react";
-import { CustomFlowbiteTheme, Flowbite, Modal, Drawer } from "flowbite-react";
+import {
+  CustomFlowbiteTheme,
+  Flowbite,
+  Modal,
+  Drawer,
+  Tooltip,
+} from "flowbite-react";
 import NoResults from "./NoResults";
 import {
   apiAppointmentTenantInvitedList,
@@ -126,13 +132,13 @@ function RentalInviteList() {
   const customTheme: CustomFlowbiteTheme = {
     drawer: {
       root: {
-        base: "fixed z-40 overflow-y-auto px-10 pt-10 transition-transform",
+        base: "fixed z-40 overflow-y-auto px-3  transition-transform md:px-10 md:pt-10",
         backdrop: "fixed inset-0 z-30 bg-transparent",
         edge: "bottom-16",
         position: {
           right: {
-            on: "shadow-elevation-3 right-0 top-[64px] bottom-0 w-5/12 transform-none scrollbar-hide",
-            off: "right-0 top-[152px] h-screen w-5/12 translate-x-full",
+            on: "shadow-elevation-3 right-0 top-[64px] bottom-0 w-full transform-none scrollbar-hide xl:w-5/12",
+            off: "right-0 top-[152px] h-screen w-full translate-x-full xl:w-5/12",
           },
         },
       },
@@ -186,7 +192,7 @@ function RentalInviteList() {
         },
       },
       content: {
-        base: "relative h-full w-full p-4 md:h-auto",
+        base: "relative h-full w-full p-4 h-auto",
         inner:
           "relative flex max-h-[90dvh] flex-col rounded-2xl bg-white shadow dark:bg-gray-700",
       },
@@ -466,9 +472,9 @@ function RentalInviteList() {
       </Flowbite>
       <section className="flex-grow bg-Neutral-99 pt-8 pb-28">
         <div className="container layout-grid">
-          <div className="col-span-7">
-            <div className="p-5 bg-white rounded-xl">
-              <div className="flex justify-between mb-6 pl-3 pt-[14px] pb-[26px] border-b border-Neutral-95">
+          <div className="col-span-12 xl:col-span-7">
+            <div className="md:p-5 bg-white rounded-xl">
+              <div className="flex justify-between mb-6 px-3 pt-[14px] pb-[26px] border-b border-Neutral-95">
                 <p className="flex gap-x-2 p-2 bg-Alert-95 rounded-lg">
                   <img src={messageIcon} alt="messageIcon" />
                   當您填寫承租資訊時，您可以在合約結束後與該租客互相評價
@@ -493,18 +499,32 @@ function RentalInviteList() {
                         data-orderid={orderId}
                         onClick={handleDrawerOpen}
                       >
-                        <div className="flex justify-between">
-                          <div className="flex gap-x-4">
-                            <div className="w-[136px] h-[124px] rounded-2xl overflow-hidden">
+                        <div className="flex flex-wrap justify-between md:flex-nowrap">
+                          <div className="flex flex-wrap mb-3 sm:mb-0 sm:gap-x-4 sm:flex-nowrap">
+                            <div className="w-full mb-4 sm:mb-0 sm:w-[136px] h-[124px] rounded-2xl overflow-hidden">
                               <img
+                                className="w-full h-full object-cover"
                                 src={
                                   houseInfo.houseDetail.housePhoto[0].photoPath
                                 }
                                 alt="previewPicture"
                               />
                             </div>
-                            <div className="flex flex-col justify-between">
-                              <h3 className="text-sans-b-h6">
+                            <div className="flex flex-col gap-y-1 justify-between">
+                              <Tooltip
+                                className="bg-Landlord-30 text-sans-body2 rounded-lg py-1 px-11 text-white text-center whitespace-pre-line"
+                                content={"房東發送租約邀請時間"}
+                              >
+                                <time className="text-sans-caption cursor-pointer sm:hidden">
+                                  <span className="pr-2 mr-2 border-r border-Tenant-70">
+                                    {getFormattedDate(orderCreateTime)}
+                                  </span>
+                                  <span>
+                                    {getFormattedTime(orderCreateTime)}
+                                  </span>
+                                </time>
+                              </Tooltip>
+                              <h3 className="text-sans-b-body1 md:text-sans-b-h6">
                                 {houseInfo.houseDetail.title}
                               </h3>
                               <p className="flex gap-x-2">
@@ -547,34 +567,25 @@ function RentalInviteList() {
                               </p>
                             </div>
                           </div>
-                          <div className="flex flex-col justify-between">
-                            <p
-                              className="flex gap-x-2 cursor-pointer"
-                              data-tooltip-target="tooltip-default"
+                          <div className="w-full md:w-max flex md:flex-col justify-between">
+                            <Tooltip
+                              className="bg-Landlord-30 text-sans-body2 rounded-lg py-1 px-11 text-white text-center whitespace-pre-line"
+                              content={"房東發送租約邀請時間"}
                             >
-                              <span className="pr-2 border-r border-Tenant-70">
-                                {getFormattedDate(orderCreateTime)}
-                              </span>
-                              <span>{getFormattedTime(orderCreateTime)}</span>
-                            </p>
-                            {/* tooltip */}
-                            <div
-                              id="tooltip-default"
-                              role="tooltip"
-                              className="absolute z-10 invisible inline-block  w-[200px] px-3 py-2 text-center text-sans-body2 text-white transition-opacity duration-300 bg-Tenant-30 rounded-lg shadow-sm opacity-0 tooltip"
-                            >
-                              房東發送邀請的時間
-                              <div
-                                className="tooltip-arrow"
-                                data-popper-arrow
-                              ></div>
-                            </div>
+                              <time className="cursor-pointer hidden md:block">
+                                <span className="pr-2 mr-2 border-r border-Tenant-70">
+                                  {getFormattedDate(orderCreateTime)}
+                                </span>
+                                <span>{getFormattedTime(orderCreateTime)}</span>
+                              </time>
+                            </Tooltip>
+
                             {/* 拒絕、接受 */}
-                            <div className="ml-auto">
-                              <div className="flex gap-x-4">
+                            <div className="w-full md:ml-auto">
+                              <div className="flex justify-between gap-x-3 md:justify-start md:gap-x-4">
                                 <button
                                   type="button"
-                                  className="flex items-center gap-x-2 outline-button-m hover:fill-white"
+                                  className="w-full flex justify-center items-center gap-x-2 outline-button-m hover:fill-white md:w-max"
                                   data-orderid={orderId}
                                   onClick={handleLeaseInvitationReject}
                                 >
@@ -589,7 +600,7 @@ function RentalInviteList() {
                                 </button>
                                 <button
                                   type="button"
-                                  className="flex items-center gap-x-2 filled-button-m fill-white"
+                                  className="w-full flex justify-center items-center gap-x-2 filled-button-m fill-white md:w-max"
                                   data-orderid={orderId}
                                   onClick={handleLeaseInvitationAccept}
                                 >
@@ -613,7 +624,6 @@ function RentalInviteList() {
               ) : (
                 <NoResults />
               )}
-
               <div className="flex justify-between mt-2 pt-3 border-t border-Neutral-95">
                 <div></div>
                 <div>
@@ -621,7 +631,9 @@ function RentalInviteList() {
                     {inviteListTotalCount > 0
                       ? inviteListTotalCount > 12
                         ? `顯示 ${1 + (currentPageNumber - 1) * 12} 至 ${
-                            currentPageNumber * 12
+                            currentPageNumber * 12 > inviteListTotalCount
+                              ? inviteListTotalCount
+                              : currentPageNumber * 12
                           } 筆 共 ${inviteListTotalCount} 筆`
                         : `顯示 1 至 ${inviteListTotalCount} 筆 共 ${inviteListTotalCount} 筆`
                       : "顯示 0 至 0 筆 共 0 筆"}
