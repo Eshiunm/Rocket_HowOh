@@ -214,7 +214,6 @@ function RentalInviteList() {
   const [isDoubleCheckModalOpen, setIsDoubleCheckModalOpen] = useState(false);
   const [isOrderAccepted, setIsOrderAccepted] = useState<any>({});
   const [inviteListTotalCount, setInviteListTotalCount] = useState(0);
-  console.log(Math.ceil(inviteListTotalCount / 12));
   const [currentPageNumber, setCurrentPageNumber] = useState(1);
 
   const getInviteListData = async (pageNumber: string) => {

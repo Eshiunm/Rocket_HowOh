@@ -105,10 +105,10 @@ function HouseViewingManagementPage() {
       <section className="py-6 border-b border-t border-Neutral-95">
         <div className="container">
           <h2 className="text-sans-b-h5 mb-6">租屋管理</h2>
-          <ul className="flex gap-x-6">
+          <ul className="flex flex-wrap justify-evenly gap-y-3 sm:gap-x-6 md:flex-nowrap">
             <li
               data-linkid="houseViewingList"
-              className={`w-full cursor-pointer group relative overflow-hidden text-Landlord-50 rounded-xl p-3 border border-Neutral-90 ${
+              className={`w-[45%] sm:w-full cursor-pointer group relative overflow-hidden text-Landlord-50 rounded-xl p-3 border border-Neutral-90 ${
                 activeLink === "houseViewingList"
                   ? "bg-Landlord-95"
                   : "bg-white"
@@ -142,7 +142,7 @@ function HouseViewingManagementPage() {
             </li>
             <li
               data-linkid="rentalInviteList"
-              className={`w-full cursor-pointer group relative overflow-hidden text-Alert-50 rounded-xl p-3 border border-Neutral-90 ${
+              className={`w-[45%] sm:w-full cursor-pointer group relative overflow-hidden text-Alert-50 rounded-xl p-3 border border-Neutral-90 ${
                 activeLink === "rentalInviteList" ? "bg-Alert-95" : "bg-white"
               }`}
               onClick={handleRouteSetting}
@@ -171,7 +171,7 @@ function HouseViewingManagementPage() {
             </li>
             <li
               data-linkid="rentalHistoryList"
-              className={`w-full cursor-pointer group relative overflow-hidden text-Brand-50 rounded-xl p-3 border border-Neutral-90 ${
+              className={`w-[45%] sm:w-full cursor-pointer group relative overflow-hidden text-Brand-50 rounded-xl p-3 border border-Neutral-90 ${
                 activeLink === "rentalHistoryList" ? "bg-Tenant-95" : "bg-white"
               }`}
               onClick={handleRouteSetting}
@@ -200,7 +200,7 @@ function HouseViewingManagementPage() {
             </li>
             <li
               data-linkid="feedbackPendingList"
-              className={`w-full cursor-pointer group relative overflow-hidden text-Neutral-30 rounded-xl p-3 border border-Neutral-90 ${
+              className={`w-[45%] sm:w-full cursor-pointer group relative overflow-hidden text-Neutral-30 rounded-xl p-3 border border-Neutral-90 ${
                 activeLink === "feedbackPendingList"
                   ? "bg-Neutral-80"
                   : "bg-white"

@@ -77,7 +77,6 @@ function HouseViewingList() {
       setIsAPIProcessing(true);
       const response = await apiAppointmentCommonList(queryString);
       setRentalList(response.data.result);
-      console.log(response);
       setIsAPIProcessing(false);
     } catch (errors) {
       console.log(errors);
@@ -99,7 +98,6 @@ function HouseViewingList() {
     const userId = localStorage.getItem("userId")!.toString();
     setCurrentPageNumber(1);
     if (rentalType === "rented") {
-      console.log("渲染已出租清單");
       const queryString = userId + "&houseStatus=20";
       getRentalListData(queryString);
       getRentalListTotalCounts(queryString);
@@ -119,7 +117,6 @@ function HouseViewingList() {
     const getHouseDetailInfo = async (appointmentId: string) => {
       try {
         const response = await apiAppointmentTenantHouseDetail(appointmentId);
-        console.log(response.data[0]);
         setHouseViewingDetail(response.data[0]);
       } catch (errors) {
         console.log(errors);
@@ -1146,8 +1143,8 @@ function HouseViewingList() {
       </Flowbite>
       <section className={`flex-grow bg-Neutral-99 pt-8 pb-28 `}>
         <div className="container layout-grid">
-          <div className="col-span-7">
-            <div className="p-5 bg-white rounded-xl">
+          <div className="col-span-4 sm:col-span-12 xl:col-span-7">
+            <div className="py-5 sm:p-5 bg-white rounded-xl">
               <div className="flex justify-between mb-6 pb-3 border-b border-Neutral-95">
                 <div className="flex gap-x-3 items-center ml-3">
                   <button
@@ -1175,7 +1172,7 @@ function HouseViewingList() {
                     已出租
                   </button>
                 </div>
-                <div>
+                <div className="hidden sm:block">
                   <p className="text-sans-b-body2 text-center text-Brand-10 mb-2">
                     {rentalList.length > 0
                       ? rentalList.length > 12
@@ -1253,7 +1250,7 @@ function HouseViewingList() {
                       >
                         <div className="flex justify-between">
                           <div className="flex gap-x-4">
-                            <div className="w-[136px] rounded-xl overflow-hidden">
+                            <div className="w-[121px] sm:w-[136px] rounded-xl overflow-hidden">
                               <img
                                 className="w-full h-full"
                                 src={
@@ -1265,11 +1262,24 @@ function HouseViewingList() {
                             </div>
 
                             <div className="flex flex-col justify-between">
-                              <h3 className="text-sans-b-h6">
+                              <Tooltip
+                                className="bg-Landlord-30 text-sans-body2 rounded-lg py-1 px-11 text-white text-center whitespace-pre-line"
+                                content={"租客申請預約時間"}
+                              >
+                                <time className="cursor-pointer text-sans-caption sm:hidden">
+                                  <span className="pr-2 mr-2 border-r border-Tenant-70">
+                                    {getFormattedDate(appointmentCreateTime)}
+                                  </span>
+                                  <span>
+                                    {getFormattedTime(appointmentCreateTime)}
+                                  </span>
+                                </time>
+                              </Tooltip>
+                              <h3 className="text-sans-b-body1 sm:text-sans-b-h6">
                                 {description.detail[0].houseTitle}
                               </h3>
                               <p className="flex gap-x-2">
-                                <span className="pr-2 border-r border-Tenant-70">
+                                <span className="pr-2 border-r border-Tenant-70 ">
                                   房東
                                 </span>
                                 <span>
@@ -1306,7 +1316,7 @@ function HouseViewingList() {
                               className="bg-Landlord-30 text-sans-body2 rounded-lg py-1 px-11 text-white text-center whitespace-pre-line"
                               content={"租客申請預約時間"}
                             >
-                              <time className="cursor-pointer">
+                              <time className="cursor-pointer  hidden sm:block">
                                 <span className="pr-2 mr-2 border-r border-Tenant-70">
                                   {getFormattedDate(appointmentCreateTime)}
                                 </span>
@@ -1315,9 +1325,8 @@ function HouseViewingList() {
                                 </span>
                               </time>
                             </Tooltip>
-
                             {/* 查看更多 */}
-                            <div className="flex justify-between hover:opacity-75">
+                            <div className="justify-between hover:opacity-75 hidden sm:flex">
                               <span></span>
                               <button
                                 type="button"
