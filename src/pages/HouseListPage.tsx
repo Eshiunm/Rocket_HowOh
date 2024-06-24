@@ -43,6 +43,9 @@ import landLordRating from "../constants/searchFormCondition/landLordRating";
 import Footer from "../components/footer/Footer";
 import HouseListSkeleton from "../components/houseList/houseListSkeleton";
 import NoResults from "../components/tenantManagement/houseViewingManagement/NoResults";
+// RWD 新增的
+import close from "../assets/imgs/icons/close.svg";
+import cities from "../constants/locations/cities";
 
 interface District {
   content: string;
@@ -626,12 +629,14 @@ function HouseListPage() {
     const newQueryString = queryParams + `&pageNumber=${newCurrentPage}`;
     setCurrentPageNumber(newCurrentPage);
     getHouseListData(newQueryString);
+    window.scrollTo(0, 0);
   };
   const handleNextPage = () => {
     const newCurrentPage = currentPageNUmber + 1;
     const newQueryString = queryParams + `&pageNumber=${newCurrentPage}`;
     setCurrentPageNumber(newCurrentPage);
     getHouseListData(newQueryString);
+    window.scrollTo(0, 0);
   };
 
   // 當區域、類型、租金、特色、房價的 checkbox 狀態有變動時，直接打 API 取得房源列表
@@ -732,12 +737,17 @@ function HouseListPage() {
     }
   };
 
+  // RWD 新增的
+  const [phoneSearchForm, setPhoneSearchForm] = useState(false);
+
   return (
     <>
-      <div className="flex-grow bg-Neutral-99 pt-6 pb-32">
+      <div className={`flex-grow sm:bg-Neutral-99 pb-3 ${
+        !phoneSearchForm && "pt-6"
+      }`}>
         <div className="container layout-grid ">
           {/* 搜尋表單 */}
-          <div className="col-span-4">
+          <div className="hidden sm:block sm:col-span-4">
             <form
               onSubmit={handleSubmit(onSubmit)}
               className="bg-white rounded-[20px] p-5"
@@ -1290,17 +1300,126 @@ function HouseListPage() {
               </ul>
             </form>
           </div>
+          <button className={`sm:hidden outline-button-m col-span-4 text-center ${
+            phoneSearchForm && "hidden"
+          }`}
+            onClick={() => setPhoneSearchForm(true)}
+          >篩選條件</button>
+          <div className={`md:hidden col-span-4 flex flex-col ${
+            phoneSearchForm ? "block" : "hidden"
+          }`}>
+            <button
+              type="button"
+              className="self-end"
+              onClick={() => setPhoneSearchForm(false)}
+            >
+              <img src={close} alt="close" />
+            </button>
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <div
+                tabIndex={0}
+                className="relative flex w-full bg-Neutral-99 p-3 rounded-[4px] mb-1.5"
+              >
+                <input
+                  type="text"
+                  id="floating_outlined"
+                  className="text-sans-body2 block w-full p-0 pl-1 text-black bg-transparent border-none appearance-none focus:ring-0 peer"
+                  placeholder=""
+                  defaultValue={searchContent}
+                  {...register("searchContent-RWD")}
+                  onChange={setSearchContent}
+                />
+                <label
+                  htmlFor="floating_outlined"
+                  className="absolute text-sans-body2 text-black duration-200 transform -translate-y-4 scale-75 top-[3px] z-10 origin-[0] bg-transparent px-2 peer-focus:px-2 peer-focus:text-Brand-30 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-[3px] peer-focus:scale-75 peer-focus:-translate-y-4 start-3"
+                >
+                  搜尋
+                </label>
+                <button type="submit">
+                  <img src={searchIcon} alt="searchIcon" />
+                </button>
+              </div>
+              <div className="flex gap-2">
+                <div
+                  className="w-full p-3 rounded bg-Neutral-99"
+                >
+                  <select
+                    id="city"
+                    name="city"
+                    className="block w-full p-0 pl-1 text-sans-body2 text-black bg-transparent border-none appearance-none focus:ring-0 peer"
+                  >
+                    <option value="高雄市" selected>高雄市</option>
+                    {cities.map(({ city }) => (
+                      <option value={city} key={city}>
+                        {city}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div
+                  className="w-full p-3 rounded bg-Neutral-99"
+                >
+                  <select
+                    id="city"
+                    name="city"
+                    className="block w-full p-0 pl-1 text-sans-body2 text-black bg-transparent border-none appearance-none focus:ring-0 peer"
+                  >
+                    {
+                     cities
+                        .find(item => item.city === "高雄市")
+                        ?.districts.map(district => (
+                          <option value={district} key={district}>
+                            {district}
+                          </option>
+                          )
+                        )
+                    }
+                  </select>
+                </div>
+                <div
+                  className="w-full p-3 rounded bg-Neutral-99"
+                >
+                  <select
+                    name="type"
+                    className="block w-full p-0 pl-1 text-sans-body2 text-black bg-transparent border-none appearance-none focus:ring-0 peer"
+                  >
+                    <option value="整層住家" >整層住家</option>
+                    <option value="獨立套房" >獨立套房</option>
+                    <option value="分租套房" >分租套房</option>
+                    <option value="雅房" >雅房</option>
+                    <option value="其他" >其他</option>
+                  </select>
+                </div>
+                <div
+                  className="w-full p-3 rounded bg-Neutral-99"
+                >
+                  <select
+                    name="price"
+                    className="block w-full p-0 pl-1 text-sans-body2 text-black bg-transparent border-none appearance-none focus:ring-0 peer"
+                  >
+                    <option value="5,000以下" >5,000以下</option>
+                    <option value="5,000-10,000" >5,000-10,000</option>
+                    <option value="10,000-15,000" >10,000-15,000</option>
+                    <option value="15,000-20,000" >15,000-20,000</option>
+                    <option value="20,000-30,000" >20,000-30,000</option>
+                    <option value="30,000以上" >30,000以上</option>
+                  </select>
+                </div>
+              </div>
+            </form>
+          </div>
           {/* 房源列表區塊 */}
-          <div className="col-span-8">
-            <div className="bg-white rounded-xl p-5">
-              <div className="flex justify-between mb-6 pb-3 border-b border-Neutral-95">
+          <div className="col-span-4 sm:col-span-8">
+            <div className="bg-white rounded-xl sm:p-5">
+              <div className="flex justify-between mb-6 pb-3 sm:border-b sm:border-Neutral-95">
                 <Link
                   to={"/"}
-                  className="flex gap-x-[10px] items-center text-sans-b-body1 hover:opacity-80"
+                  className="hidden sm:flex gap-x-[10px] items-center text-sans-b-body1 hover:opacity-80"
                 >
                   <img src={leftIcon_black} alt="leftIcon" />
                   返回
                 </Link>
+                <h2 className="text-sans-b-h4 px-3">搜尋結果</h2>
                 <div>
                   <p className="text-sans-b-body2 text-center text-Brand-10 mb-2">
                     {searchResultsCount > 0
@@ -1313,7 +1432,7 @@ function HouseListPage() {
                         : `顯示 1 至 ${searchResultsCount} 筆 共 ${searchResultsCount} 筆`
                       : "顯示 0 至 0 筆 共 0 筆"}
                   </p>
-                  <div className="flex gap-x-1">
+                  <div className="flex gap-x-px">
                     <button
                       type="button"
                       disabled={currentPageNUmber === 1}
@@ -1348,12 +1467,12 @@ function HouseListPage() {
                     return (
                       <li
                         key={index}
-                        className="p-3 flex justify-between rounded-[20px] cursor-pointer hover:bg-Neutral-99"
+                        className="p-3 flex flex-col sm:flex-row justify-between rounded-[20px] cursor-pointer hover:bg-Neutral-99"
                         data-houseid={house.houseId}
                         onClick={turnToSingleHousePage}
                       >
-                        <div className="flex gap-x-4">
-                          <div className="rounded-2xl overflow-hidden w-[248px] h-[168px]">
+                        <div className="flex flex-col sm:flex-row gap-4">
+                          <div className="rounded-2xl overflow-hidden sm:w-[248px] h-52 sm:h-[168px]">
                             <img
                               src={house.image[0].coverIamgePath}
                               alt="housePicture"
@@ -1362,28 +1481,43 @@ function HouseListPage() {
                           </div>
                           <div className="relative flex flex-col justify-between">
                             {/* 房源名稱 */}
-                            <h3 className="text-sans-b-h6 mb-3">
-                              {house.title}
-                            </h3>
+                            <div className="flex justify-between items-center mb-3">
+                              <h3 className="text-sans-b-h6">
+                                {house.title}
+                              </h3>
+                              {/* 評分 */}
+                              <div className="sm:hidden flex justify-between">
+                                <div className="flex items-center gap-x-[10px] px-2 py-[3px] sm:py-2 bg-Neutral-95 rounded-lg ">
+                                  <span className="text-sans-body1">
+                                    {house.ratingDetails.AverageRating}
+                                  </span>
+                                  <img
+                                    src={starIcon}
+                                    alt="starIcon"
+                                    className="w-4 h-4"
+                                  />
+                                </div>
+                              </div>
+                            </div>
                             {/* 房源特色 */}
                             <ul className="flex gap-x-2 mb-[15px]">
                               {house.isRentSubsidy && (
-                                <li className="text-sans-body2 py-1 px-2 bg-Tenant-90 rounded-lg">
+                                <li className="text-sans-caption sm:text-sans-body2 py-0.5 sm:py-1 px-1 sm:px-2 bg-Tenant-90 rounded-lg">
                                   可申請租屋補助
                                 </li>
                               )}
                               {house.isPetAllowd && (
-                                <li className="text-sans-body2 py-1 px-2 bg-Tenant-90 rounded-lg">
+                                <li className="text-sans-caption sm:text-sans-body2 py-0.5 sm:py-1 px-1 sm:px-2 bg-Tenant-90 rounded-lg">
                                   寵物友善
                                 </li>
                               )}
                               {house.isCookAllowd && (
-                                <li className="text-sans-body2 py-1 px-2 bg-Tenant-90 rounded-lg">
-                                  可開伙
+                                <li className="text-sans-caption sm:text-sans-body2 py-0.5 sm:py-1 px-1 sm:px-2 bg-Tenant-90 rounded-lg">
+                                  可開火
                                 </li>
                               )}
                               {house.isSTRAllowed && (
-                                <li className="text-sans-body2 py-1 px-2 bg-Tenant-90 rounded-lg">
+                                <li className="text-sans-caption sm:text-sans-body2 py-0.5 sm:py-1 px-1 sm:px-2 bg-Tenant-90 rounded-lg">
                                   可短租
                                 </li>
                               )}
@@ -1420,6 +1554,8 @@ function HouseListPage() {
                                     {house.bathRoomNumbers > 0
                                       ? `${house.bathRoomNumbers}衛`
                                       : ""}
+                                  </span>
+                                  <span className="hidden sm:inline">
                                     {house.livingRoomNumbers > 0
                                       ? ` ${house.livingRoomNumbers}廳`
                                       : ""}{" "}
@@ -1448,7 +1584,7 @@ function HouseListPage() {
                                 </li>
                               </ul>
                               {/* 地址 */}
-                              <p className="mb-2">
+                              <p className="mb-2 text-sans-body2 sm:text-sans-body1">
                                 {getAddress(house.city, house.district) +
                                   `${house.road && house.road}`}
                               </p>
@@ -1468,7 +1604,7 @@ function HouseListPage() {
                         </div>
                         <div className="flex flex-col justify-between">
                           {/* 評分 */}
-                          <div className="flex justify-between">
+                          <div className="hidden sm:flex justify-between">
                             <span></span>
                             <div className="flex items-center gap-x-[10px] p-2 bg-Neutral-95 rounded-lg ">
                               <span className="text-sans-body1">
@@ -1482,7 +1618,7 @@ function HouseListPage() {
                             </div>
                           </div>
                           {/* 價格 */}
-                          <div>
+                          <div className="self-end">
                             <span className="before:block before:absolute before:h-[10%] before:w-[95%] before:bg-[#bac6e6] before:bottom-[5%] before:right-[7%] relative">
                               <span className="relative text-sans-b-h5 mr-2">
                                 {parseInt(house.rent).toLocaleString()}
@@ -1501,6 +1637,13 @@ function HouseListPage() {
                 )}
               </ul>
               <div className="flex justify-between mt-2 pt-3 border-t border-Neutral-95">
+                <Link
+                  to={"/"}
+                  className="flex sm:hidden gap-x-[10px] items-center text-sans-b-body1 hover:opacity-80"
+                >
+                  <img src={leftIcon_black} alt="leftIcon" />
+                  返回
+                </Link>
                 <button type="button"></button>
                 <div>
                   <p className="text-sans-b-body2 text-center text-Brand-10 mb-2">
@@ -1514,7 +1657,7 @@ function HouseListPage() {
                         : `顯示 1 至 ${searchResultsCount} 筆 共 ${searchResultsCount} 筆`
                       : "顯示 0 至 0 筆 共 0 筆"}
                   </p>
-                  <div className="flex gap-x-1">
+                  <div className="flex gap-x-px">
                     <button
                       type="button"
                       disabled={currentPageNUmber === 1}
