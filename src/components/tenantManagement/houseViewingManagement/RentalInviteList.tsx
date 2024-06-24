@@ -624,7 +624,7 @@ function RentalInviteList() {
               ) : (
                 <NoResults />
               )}
-              <div className="flex justify-between mt-2 pt-3 border-t border-Neutral-95">
+              <div className="flex justify-between mt-2 p-3 border-t border-Neutral-95">
                 <div></div>
                 <div>
                   <p className="text-sans-b-body2 text-center text-Brand-10 mb-2">

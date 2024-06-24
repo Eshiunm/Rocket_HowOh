@@ -407,7 +407,7 @@ function SingleHousePage() {
                 <h2 className="text-sans-b-h5 mb-6 sm:text-sans-b-h3">
                   {singleHouseData.name}
                 </h2>
-                {/* 房源特色：可短租、可養寵、可開火等等 */}
+                {/* 房源特色：可短租、可養寵、可開伙等等 */}
                 <div className="mb-10">
                   <ul className="flex flex-wrap gap-x-4 gap-y-4">
                     {singleHouseData.features.isRentSubsidy && (
