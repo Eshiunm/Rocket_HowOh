@@ -1,8 +1,10 @@
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setRegisterIdentityState } from "../../../redux/common/registerIdentitySlice";
+import { useState } from "react";
 
 function NavigationDefault() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const directToLandLordLogin = () => {
@@ -16,16 +18,31 @@ function NavigationDefault() {
   const directToCreateAccount = () => {
     navigate("/signup");
   };
+  const handleMenuToggle = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
   return (
     <>
       {/* Hamburger menu */}
-      <button type="button" className="space-y-[6px] group sm:hidden ">
+      <button
+        type="button"
+        className="space-y-[6px] group sm:hidden"
+        onClick={handleMenuToggle}
+      >
         <div className="w-7 h-[2px] rounded-full bg-black"></div>
         <div className="w-7 h-[2px] rounded-full bg-black"></div>
         <div className="w-7 h-[2px] rounded-full bg-black"></div>
         {/* menu */}
-        <ul className="bg-white w-screen absolute -top-[425%] right-0 group-focus:top-0 duration-150 flex flex-col justify-end">
-          <button type="button" className="px-10 py-8 relative ml-auto">
+        <ul
+          className={`bg-white w-screen absolute right-0 duration-150 flex flex-col justify-end ${
+            isMenuOpen ? "top-0" : "-top-[425%]"
+          }`}
+        >
+          <button
+            type="button"
+            className="px-10 py-8 relative ml-auto"
+            onClick={handleMenuToggle}
+          >
             <div className="w-6 h-1 rotate-45 absolute bg-black"></div>
             <div className="w-6 h-1 -rotate-45 absolute bg-black"></div>
           </button>

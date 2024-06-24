@@ -266,7 +266,7 @@ function SingleHousePage() {
                 <Swiper
                   dir="rtl"
                   slidesPerView={1}
-                  spaceBetween={30}
+                  spaceBetween={10}
                   loop={true}
                   navigation={true}
                   pagination={{
@@ -278,7 +278,7 @@ function SingleHousePage() {
                 >
                   {/* 輪播首圖 */}
                   <SwiperSlide>
-                    <div className="singleHousePageSwiper w-[376px] h-[320px] sm:w-[648px] sm:h-[425px]">
+                    <div className="singleHousePageSwiper w-screen h-[320px] sm:w-[648px] sm:h-[425px]">
                       <img
                         className="w-full h-full"
                         src={singleHouseData.photos.firstPic}
@@ -292,7 +292,7 @@ function SingleHousePage() {
                     singleHouseData.photos.firstPic
                   ).map((photo: any) => (
                     <SwiperSlide key={photo}>
-                      <div className="singleHousePageSwiper w-[376px] h-[320px] sm:w-[648px] sm:h-[425px]">
+                      <div className="singleHousePageSwiper w-screen h-[320px] sm:w-[648px] sm:h-[425px]">
                         <img src={photo} alt="restImg" />
                       </div>
                     </SwiperSlide>
