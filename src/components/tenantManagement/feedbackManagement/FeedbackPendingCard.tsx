@@ -38,7 +38,7 @@ export default function FeedbackPendingCard ({data}: {data: ReviewListType}) {
   };
 
   const {orderInfo, commentInfo} = data;
-  const canClick: boolean | null = (commentInfo.canComment || commentInfo.myComment || commentInfo.tenantComment) && true;
+  const canClick: boolean | null = (commentInfo.canComment || commentInfo.myComment || commentInfo.landlordComment) && true;
 
   const [isOffcanvasOpen, setIsOffcanvasOpen] = useState(false);
   const handleOffcanvasCanvas = (bool: boolean) => setIsOffcanvasOpen(bool);
@@ -78,7 +78,7 @@ export default function FeedbackPendingCard ({data}: {data: ReviewListType}) {
             {!commentInfo.canComment && commentInfo.myComment && (
               <span className="px-1 py-0.5 rounded text-sans-caption text-white bg-Brand-60">您已評價</span>
             )}
-            {commentInfo.tenantComment && (
+            {commentInfo.landlordComment && (
               <span className="px-1 py-0.5 rounded text-sans-caption text-white bg-Landlord-60">房東已評價</span>
             )}
           </div>
