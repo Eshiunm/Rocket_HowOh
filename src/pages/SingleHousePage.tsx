@@ -1252,7 +1252,7 @@ function SingleHousePage() {
                   </h3>
                   {/* 評價列表*/}
                   <ul className="flex flex-col gap-y-4">
-                    {singleHouseData.ratings.map((commentInfo, index) => {
+                    {singleHouseData.ratings.map((commentInfo:any, index:any) => {
                       return (
                         <li
                           key={index}
