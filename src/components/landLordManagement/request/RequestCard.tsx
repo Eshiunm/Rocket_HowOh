@@ -308,7 +308,7 @@ export default function RequestCard({data, status = "none", isHidden}: RequestCa
                       <div className="flex gap-3 mb-6">
                         <div className="flex-1 p-4 rounded-lg bg-Neutral-95 flex gap-4 flex-wrap justify-between">
                           <h5 className="w-full text-Tenant-50 text-sans-b-body1">評價</h5>
-                          <h4 className="text-sans-h4">{tenantDetails?.tenantRatingInfo.Average || "尚無評價"}</h4>
+                          <h4 className="text-sans-h4">{tenantDetails?.tenantRatingInfo.Average.toFixed(1) || "尚無評價"}</h4>
                           <img src={star} alt="star" className="self-end" />
                         </div>
                         <div className="flex-1 p-4 rounded-lg bg-Neutral-95 flex gap-4 flex-wrap justify-between">
