@@ -380,7 +380,7 @@ export default function RentedHouse() {
           </div>
         </Drawer.Items>
       </Drawer>
-      <Drawer className="w-5/12 bg-white" open={isCreateContractOpen} onClose={handleCreateContractClose} position="right">
+      <Drawer className="w-6/12 bg-white" open={isCreateContractOpen} onClose={handleCreateContractClose} position="right">
         <Drawer.Items>
           <CreateContract handleCreateContractClose={handleCreateContractClose} orderId={tenantData?.orderId}/>
         </Drawer.Items>

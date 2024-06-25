@@ -86,7 +86,7 @@ export default function CreateContract({handleCreateContractClose, orderId}: Cre
         isLoading && <BigLoading />
       }
       <div className="layout-grid gap-4 mb-32">
-        <div className="col-span-10 flex flex-col gap-6">
+        <div className="col-span-12 flex flex-col gap-6">
           <button
             type="button"
             className="self-end"

@@ -423,7 +423,7 @@ export default function PublishHouse() {
         <Drawer className="bg-Neutral-99" open={isRentedOpen} onClose={() => handleRentedCanvas(false)} position="right">
           <Drawer.Items>
             <div className="layout-grid mb-32">
-              <div className="col-span-10 flex flex-col gap-6">
+              <div className="col-span-12 flex flex-col gap-6">
                 <button
                   type="button"
                   className="self-end"

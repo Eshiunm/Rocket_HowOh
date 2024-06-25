@@ -215,7 +215,7 @@ export default function RequestCard({data, status = "none", isHidden}: RequestCa
       <Drawer open={isOpen} onClose={handleClose} position="right">
         <Drawer.Items>
           <div className="layout-grid gap-4 mb-32">
-            <div className="col-span-10 flex flex-col gap-6 items-end">
+            <div className="col-span-12 flex flex-col gap-6 items-end">
               <button
                 type="button"
                 onClick={handleClose}
