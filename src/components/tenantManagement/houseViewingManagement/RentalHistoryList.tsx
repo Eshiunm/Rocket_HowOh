@@ -14,13 +14,13 @@ function RentalHistoryList() {
   const customTheme: CustomFlowbiteTheme = {
     drawer: {
       root: {
-        base: "fixed z-40 overflow-y-auto px-10 pt-10 transition-transform",
+        base: "fixed z-40 overflow-y-aut px-3 transition-transform xl:px-10 xl:pt-10",
         backdrop: "fixed inset-0 z-30 bg-transparent",
         edge: "bottom-16",
         position: {
           right: {
-            on: "shadow-elevation-3 right-0 top-[64px] bottom-0 w-5/12 transform-none scrollbar-hide",
-            off: "right-0 top-[152px] h-screen w-5/12 translate-x-full",
+            on: "shadow-elevation-3 right-0 top-[64px] bottom-0 w-screen transform-none scrollbar-hide xl:w-5/12",
+            off: "right-0 top-[152px] h-screen w-screen translate-x-full xl:w-5/12",
           },
         },
       },
@@ -143,7 +143,7 @@ function RentalHistoryList() {
                     </Link>
                   </div>
                   {/* 承租資訊 */}
-                  <div className="flex flex-col gap-y-6 bg-white rounded-2xl p-6">
+                  <div className="flex flex-col gap-y-6 bg-white rounded-2xl p-3 xl:p-6">
                     <h3 className="text-sans-b-h5">承租資訊</h3>
                     <h4 className="text-sans-b-h6">費用</h4>
                     <div className="flex gap-x-6">
@@ -255,9 +255,9 @@ function RentalHistoryList() {
       </Flowbite>
       <section className="flex-grow bg-Neutral-99 pt-8 pb-28">
         <div className="container layout-grid">
-          <div className="col-span-7">
-            <div className="p-5 bg-white rounded-xl">
-              <div className="flex justify-between mt-2 pb-3 border-b border-Neutral-95 mb-6">
+          <div className="col-span-12 xl:col-span-7">
+            <div className="bg-white rounded-xl md:p-5">
+              <div className="flex justify-between mt-2 p-3 border-b border-Neutral-95 mb-6 md:p-0 md:pb-3">
                 <div></div>
                 <div>
                   <p className="text-sans-b-body2 text-center text-Brand-10 mb-2">
@@ -322,23 +322,44 @@ function RentalHistoryList() {
                     <li
                       key={index}
                       tabIndex={0}
-                      className={`p-3 cursor-pointer hover:bg-Neutral-99 rounded-xl focus:bg-Neutral-95`}
+                      className={`p-3 cursor-pointer hover:bg-Neutral-99 rounded-xl focus:bg-Neutral-95 `}
                       data-orderid={houseData.orderInfo.orderId}
                       onClick={handleDrawerOpen}
                     >
-                      <div className="flex justify-between">
-                        <div className="flex gap-x-4">
-                          <div className="h-[124px] w-[136px] rounded-2xl overflow-hidden">
+                      <div className="flex flex-wrap justify-between md:flex-nowrap">
+                        <div className="flex flex-wrap justify-center gap-x-4 mb-3 md:flex-nowrap md:mb-0">
+                          <div className="w-[327px] h-[199px] rounded-2xl overflow-hidden mb-4 md:h-[124px] md:w-[136px] md:mb-0">
                             <img
                               className="w-full h-full object-cover"
                               src={houseData.houseInfo.photo}
                               alt="picture"
                             />
                           </div>
-                          <div className="flex flex-col justify-between">
-                            <h3 className="text-sans-b-h6">
-                              {houseData.houseInfo.name}
-                            </h3>
+                          <div className="flex flex-col justify-between gap-y-1 md:gap-0">
+                            <div className="flex justify-between ">
+                              <h3 className="text-sans-b-body1 sm:text-sans-b-h6">
+                                {houseData.houseInfo.name}
+                              </h3>
+                              <span
+                                className={`rounded-lg px-2 py-1 text-sans-body1 md:hidden
+                                ${
+                                  houseData.orderInfo.orderStatus ===
+                                    "已承租" && "bg-Brand-90"
+                                }
+                                ${
+                                  houseData.orderInfo.orderStatus ===
+                                    "待評價" && "bg-Neutral-50 text-white"
+                                }
+                                ${
+                                  houseData.orderInfo.orderStatus ===
+                                    "已完成" && "bg-Neutral-99 text-Neutral-80"
+                                }
+                                `}
+                              >
+                                {houseData.orderInfo.orderStatus}
+                              </span>
+                            </div>
+
                             <p className="flex gap-x-2">
                               <span className="pr-2 border-r border-Tenant-70">
                                 合約起迄
@@ -386,8 +407,8 @@ function RentalHistoryList() {
                             </p>
                           </div>
                         </div>
-                        <div className="flex flex-col justify-between">
-                          <ul className="flex justify-end">
+                        <div className="flex flex-col justify-between w-full md:w-max">
+                          <ul className="hidden md:flex justify-end">
                             <li>
                               <span
                                 className={` rounded-lg px-2 py-1 
@@ -412,7 +433,7 @@ function RentalHistoryList() {
                           <div className="flex justify-between">
                             <Link
                               to="/tenant/feedbackManagement/feedbackPendingList"
-                              className={`flex items-center gap-x-2 filled-button-m fill-white ${
+                              className={`w-full flex justify-center items-center gap-x-2 filled-button-m fill-white md:w-max ${
                                 houseData.orderInfo.orderStatus !== "待評價"
                                   ? "hidden"
                                   : ""
@@ -436,7 +457,7 @@ function RentalHistoryList() {
               ) : (
                 <NoResults />
               )}
-              <div className="flex justify-between mt-4 py-3 border-t border-Neutral-95">
+              <div className="flex justify-between mt-4 p-3 border-t border-Neutral-95 md:px-0">
                 <div></div>
                 <div>
                   <p className="text-sans-b-body2 text-center text-Brand-10 mb-2">
