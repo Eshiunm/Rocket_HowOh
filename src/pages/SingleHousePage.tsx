@@ -125,6 +125,16 @@ function SingleHousePage() {
   const [isConfirmAPIProcessing, setConfirmIsAPIProcessing] =
     useState<boolean>(false);
   const [landlordContactInfo, setLandlordContactInfo] = useState<any>({});
+  const getFormattedDate = (dateString: string) => {
+    const date = new Date(dateString);
+
+    // 將日期轉換為 "xxxx年xx月xx日" 的格式
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1; // getMonth() 返回的月份是 0-11，所以需要加 1
+    const day = date.getDate();
+    const formattedDate = `${year}年${month}月${day}日`;
+    return formattedDate;
+  };
   const goIntroductionRef = () => {
     window.scrollTo({
       top: introductionRef.current!.offsetTop - 100,
@@ -234,6 +244,7 @@ function SingleHousePage() {
       try {
         setIsAPIProcessing(true);
         const response = await apiHouseCommonSingleInfo(houseId);
+        console.log(response);
         setSingleHouseData(response.data.data);
         setIsFilterPhotos(
           filterPhotos(
@@ -305,7 +316,7 @@ function SingleHousePage() {
                   <ul className="flex flex-wrap justify-between gap-y-6">
                     {isFilterPhotos[0] ? (
                       <li
-                        className="h-[200px] overflow-hidden"
+                        className="h-[200px] w-[200px] overflow-hidden"
                         onClick={() => setIsHousePicturesCarouselOpen(true)}
                       >
                         <img
@@ -328,7 +339,7 @@ function SingleHousePage() {
                     )}
                     {isFilterPhotos[1] ? (
                       <li
-                        className="h-[200px] overflow-hidden"
+                        className="h-[200px] w-[200px] overflow-hidden"
                         onClick={() => setIsHousePicturesCarouselOpen(true)}
                       >
                         <img
@@ -351,7 +362,7 @@ function SingleHousePage() {
                     )}
                     {isFilterPhotos[2] ? (
                       <li
-                        className="h-[200px] overflow-hidden"
+                        className="h-[200px] w-[200px] overflow-hidden"
                         onClick={() => setIsHousePicturesCarouselOpen(true)}
                       >
                         <img
@@ -374,7 +385,7 @@ function SingleHousePage() {
                     )}
                     {isFilterPhotos[3] ? (
                       <li
-                        className="h-[200px] overflow-hidden"
+                        className="h-[200px] w-[200px] overflow-hidden"
                         onClick={() => setIsHousePicturesCarouselOpen(true)}
                       >
                         <img
@@ -407,7 +418,7 @@ function SingleHousePage() {
                 <h2 className="text-sans-b-h5 mb-6 sm:text-sans-b-h3">
                   {singleHouseData.name}
                 </h2>
-                {/* 房源特色：可短租、可養寵、可開火等等 */}
+                {/* 房源特色：可短租、可養寵、可開伙等等 */}
                 <div className="mb-10">
                   <ul className="flex flex-wrap gap-x-4 gap-y-4">
                     {singleHouseData.features.isRentSubsidy && (
@@ -1239,200 +1250,60 @@ function SingleHousePage() {
                       <span className="relative text-black px-3">評價</span>
                     </span>
                   </h3>
-                  {/* 評價列表(API 待補上) */}
+                  {/* 評價列表*/}
                   <ul className="flex flex-col gap-y-4">
-                    <li className="p-4 rounded-lg shadow-elevation-3">
-                      {/* card title */}
-                      <div className="flex flex-col gap-y-2 mb-4">
-                        <h4 className="text-sans-b-body1 text-Tenant-50">
-                          李先生
-                        </h4>
-                        <h5 className="text-sans-b-body1">
-                          信義國小套房 捷運3分鐘
-                        </h5>
-                        <span className="block">
-                          2023年4月22日
-                          <span className="inline-block h-full bg-Tenant-70 w-[1px] text-white mx-2">
-                            |
-                          </span>
-                          2024年4月22日
-                        </span>
-                        {/* 評價的星星數 */}
-                        <ul className="flex gap-x-2">
-                          <li>
-                            <img src={ratingStarIcon} alt="ratingStarIcon" />
-                          </li>
-                          <li>
-                            <img src={ratingStarIcon} alt="ratingStarIcon" />
-                          </li>
-                          <li>
-                            <img src={ratingStarIcon} alt="ratingStarIcon" />
-                          </li>
-                          <li>
-                            <img src={ratingStarIcon} alt="ratingStarIcon" />
-                          </li>
-                          <li>
-                            <img src={ratingStarIcon} alt="ratingStarIcon" />
-                          </li>
-                        </ul>
-                      </div>
-                      {/* card body */}
-                      <p className="mb-4">
-                        王媽媽如同我高雄的媽媽，非常親切友善。
-                        <br />
-                        房源很讚，雖然不大，但住起來很舒適！
-                      </p>
-                      <div className="pt-6 border-t-2">
-                        <h4 className="text-sans-b-body1 text-Landlord-50 mb-4">
-                          房東回覆
-                        </h4>
-                        <p>謝謝你，回來高雄隨時歡迎來找我。</p>
-                      </div>
-                    </li>
-                    <li className="p-4 rounded-lg shadow-elevation-3">
-                      {/* card title */}
-                      <div className="flex flex-col gap-y-2 mb-4">
-                        <h4 className="text-sans-b-body1 text-Tenant-50">
-                          李先生
-                        </h4>
-                        <h5 className="text-sans-b-body1">
-                          信義國小套房 捷運3分鐘
-                        </h5>
-                        <span className="block">
-                          2023年4月22日
-                          <span className="inline-block h-full bg-Tenant-70 w-[1px] text-white mx-2">
-                            |
-                          </span>
-                          2024年4月22日
-                        </span>
-                        {/* 評價的星星數 */}
-                        <ul className="flex gap-x-2">
-                          <li>
-                            <img src={ratingStarIcon} alt="ratingStarIcon" />
-                          </li>
-                          <li>
-                            <img src={ratingStarIcon} alt="ratingStarIcon" />
-                          </li>
-                          <li>
-                            <img src={ratingStarIcon} alt="ratingStarIcon" />
-                          </li>
-                          <li>
-                            <img src={ratingStarIcon} alt="ratingStarIcon" />
-                          </li>
-                          <li>
-                            <img src={ratingStarIcon} alt="ratingStarIcon" />
-                          </li>
-                        </ul>
-                      </div>
-                      {/* card body */}
-                      <p className="mb-4">
-                        王媽媽如同我高雄的媽媽，非常親切友善。
-                        <br />
-                        房源很讚，雖然不大，但住起來很舒適！
-                      </p>
-                      <div className="pt-6 border-t-2">
-                        <h4 className="text-sans-b-body1 text-Landlord-50 mb-4">
-                          房東回覆
-                        </h4>
-                        <p>謝謝你，回來高雄隨時歡迎來找我。</p>
-                      </div>
-                    </li>
-                    <li className="p-4 rounded-lg shadow-elevation-3">
-                      {/* card title */}
-                      <div className="flex flex-col gap-y-2 mb-4">
-                        <h4 className="text-sans-b-body1 text-Tenant-50">
-                          李先生
-                        </h4>
-                        <h5 className="text-sans-b-body1">
-                          信義國小套房 捷運3分鐘
-                        </h5>
-                        <span className="block">
-                          2023年4月22日
-                          <span className="inline-block h-full bg-Tenant-70 w-[1px] text-white mx-2">
-                            |
-                          </span>
-                          2024年4月22日
-                        </span>
-                        {/* 評價的星星數 */}
-                        <ul className="flex gap-x-2">
-                          <li>
-                            <img src={ratingStarIcon} alt="ratingStarIcon" />
-                          </li>
-                          <li>
-                            <img src={ratingStarIcon} alt="ratingStarIcon" />
-                          </li>
-                          <li>
-                            <img src={ratingStarIcon} alt="ratingStarIcon" />
-                          </li>
-                          <li>
-                            <img src={ratingStarIcon} alt="ratingStarIcon" />
-                          </li>
-                          <li>
-                            <img src={ratingStarIcon} alt="ratingStarIcon" />
-                          </li>
-                        </ul>
-                      </div>
-                      {/* card body */}
-                      <p className="mb-4">
-                        王媽媽如同我高雄的媽媽，非常親切友善。
-                        <br />
-                        房源很讚，雖然不大，但住起來很舒適！
-                      </p>
-                      <div className="pt-6 border-t-2">
-                        <h4 className="text-sans-b-body1 text-Landlord-50 mb-4">
-                          房東回覆
-                        </h4>
-                        <p>謝謝你，回來高雄隨時歡迎來找我。</p>
-                      </div>
-                    </li>
-                    <li className="p-4 rounded-lg shadow-elevation-3">
-                      {/* card title */}
-                      <div className="flex flex-col gap-y-2 mb-4">
-                        <h4 className="text-sans-b-body1 text-Tenant-50">
-                          李先生
-                        </h4>
-                        <h5 className="text-sans-b-body1">
-                          信義國小套房 捷運3分鐘
-                        </h5>
-                        <span className="block">
-                          2023年4月22日
-                          <span className="inline-block h-full bg-Tenant-70 w-[1px] text-white mx-2">
-                            |
-                          </span>
-                          2024年4月22日
-                        </span>
-                        {/* 評價的星星數 */}
-                        <ul className="flex gap-x-2">
-                          <li>
-                            <img src={ratingStarIcon} alt="ratingStarIcon" />
-                          </li>
-                          <li>
-                            <img src={ratingStarIcon} alt="ratingStarIcon" />
-                          </li>
-                          <li>
-                            <img src={ratingStarIcon} alt="ratingStarIcon" />
-                          </li>
-                          <li>
-                            <img src={ratingStarIcon} alt="ratingStarIcon" />
-                          </li>
-                          <li>
-                            <img src={ratingStarIcon} alt="ratingStarIcon" />
-                          </li>
-                        </ul>
-                      </div>
-                      {/* card body */}
-                      <p className="mb-4">
-                        王媽媽如同我高雄的媽媽，非常親切友善。
-                        <br />
-                        房源很讚，雖然不大，但住起來很舒適！
-                      </p>
-                      <div className="pt-6 border-t-2">
-                        <h4 className="text-sans-b-body1 text-Landlord-50 mb-4">
-                          房東回覆
-                        </h4>
-                        <p>謝謝你，回來高雄隨時歡迎來找我。</p>
-                      </div>
-                    </li>
+                    {singleHouseData.ratings.map((commentInfo:any, index:any) => {
+                      return (
+                        <li
+                          key={index}
+                          className="p-4 rounded-lg shadow-elevation-3"
+                        >
+                          {/* card title */}
+                          <div className="flex flex-col gap-y-2 mb-4">
+                            <h4 className="text-sans-b-body1 text-Tenant-50">
+                              {commentInfo.tenantName}
+                              {commentInfo.tenantGender === "女"
+                                ? "小姐"
+                                : "先生"}
+                            </h4>
+                            <h5 className="text-sans-b-body1">
+                              {commentInfo.houseName}
+                            </h5>
+                            <span className="block">
+                              {getFormattedDate(commentInfo.leaseStartTime)}
+                              <span className="inline-block h-full bg-Tenant-70 w-[1px] text-white mx-2">
+                                |
+                              </span>
+                              {getFormattedDate(commentInfo.leaseEndTime)}
+                            </span>
+                            {/* 評價的星星數 */}
+                            <ul className="flex gap-x-2">
+                              {Array.from(
+                                { length: commentInfo.ratingScore },
+                                () => (
+                                  <li>
+                                    <img
+                                      src={ratingStarIcon}
+                                      alt="ratingStarIcon"
+                                    />
+                                  </li>
+                                )
+                              )}
+                            </ul>
+                          </div>
+                          {/* card body */}
+                          <p className="mb-4">{commentInfo.comment}</p>
+                          {commentInfo.landlordReply && (
+                            <div className="pt-6 border-t-2">
+                              <h4 className="text-sans-b-body1 text-Landlord-50 mb-4">
+                                房東回覆
+                              </h4>
+                              <p>{commentInfo.landlordReply}</p>
+                            </div>
+                          )}
+                        </li>
+                      );
+                    })}
                   </ul>
                 </div>
               </div>

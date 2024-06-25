@@ -229,7 +229,7 @@ function MapSearchPage() {
                                   )}
                                   {houseInfo.isCookAllowed && (
                                     <li className="text-sans-b-caption py-[2px] px-1 bg-Tenant-90 rounded-lg">
-                                      可開火
+                                      可開伙
                                     </li>
                                   )}
                                   {houseInfo.isSTRAllowed && (
