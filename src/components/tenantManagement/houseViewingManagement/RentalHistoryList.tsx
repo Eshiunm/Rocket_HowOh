@@ -14,13 +14,13 @@ function RentalHistoryList() {
   const customTheme: CustomFlowbiteTheme = {
     drawer: {
       root: {
-        base: "fixed z-40 overflow-y-aut px-3 transition-transform xl:px-10 xl:pt-10",
+        base: "fixed z-40 overflow-y-auto px-5 transition-transform xl:px-10 xl:pt-10",
         backdrop: "fixed inset-0 z-30 bg-transparent",
         edge: "bottom-16",
         position: {
           right: {
             on: "shadow-elevation-3 right-0 top-[64px] bottom-0 w-screen transform-none scrollbar-hide xl:w-5/12",
-            off: "right-0 top-[152px] h-screen w-screen translate-x-full xl:w-5/12",
+            off: "right-0 top-[152px] h-screen w-5/12 translate-x-full",
           },
         },
       },
@@ -143,7 +143,7 @@ function RentalHistoryList() {
                     </Link>
                   </div>
                   {/* 承租資訊 */}
-                  <div className="flex flex-col gap-y-6 bg-white rounded-2xl p-3 xl:p-6">
+                  <div className="flex flex-col gap-y-6 bg-white rounded-2xl p-3 md:p-6">
                     <h3 className="text-sans-b-h5">承租資訊</h3>
                     <h4 className="text-sans-b-h6">費用</h4>
                     <div className="flex gap-x-6">
@@ -183,7 +183,7 @@ function RentalHistoryList() {
                     </div>
                   </div>
                   {/* 房東基本資訊 */}
-                  <div className="bg-white rounded-2xl p-6">
+                  <div className="bg-white rounded-2xl p-3 md:p-6">
                     <ul className="flex flex-col gap-y-6">
                       <li className="flex justify-between">
                         <div>

@@ -18,7 +18,7 @@ function HouseViewingList() {
   const customTheme: CustomFlowbiteTheme = {
     drawer: {
       root: {
-        base: "fixed z-40 overflow-y-auto px-3  transition-transform md:px-10 md:pt-10",
+        base: "fixed z-40 overflow-y-auto px-3 pb-10 transition-transform md:px-10 md:pt-10",
         backdrop: "fixed inset-0 z-30 bg-transparent",
         edge: "bottom-16",
         position: {
