@@ -206,7 +206,7 @@ export default function AddNew() {
           <AddNewProcedure />
         </div>
       </section>
-      <main className="bg-Neutral-99 pt-7 pb-32">
+      <main className="flex-1 bg-Neutral-99 pt-7 pb-32">
         {/* 刊登房源頁面填寫資料區域 */}
         <div className="container layout-grid">
           <AddNewData />
