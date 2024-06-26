@@ -5,7 +5,7 @@ function SingleHousePageSkeleton() {
         {/* 房源圖片 */}
         <div className="container layout-grid pt-6 mb-6">
           {/* 首圖 */}
-          <div className="col-span-6 col-start-2 overflow-hidden">
+          <div className="col-span-12 h-80 xl:w-max xl:col-span-6 xl:col-start-2 overflow-hidden">
             <div className="animate-pulse flex items-center justify-center w-full h-full bg-gray-300 rounded ">
               <svg
                 className="w-10 h-10 text-gray-200 dark:text-gray-600"
@@ -19,7 +19,7 @@ function SingleHousePageSkeleton() {
             </div>
           </div>
           {/* 次要圖片 */}
-          <div className="col-span-4 flex flex-wrap gap-6">
+          <div className="hidden col-span-4 md:flex flex-wrap gap-6">
             <div className="animate-pulse flex items-center justify-center w-[200px] h-[200px] bg-gray-300 rounded ">
               <svg
                 className="w-10 h-10 text-gray-200 dark:text-gray-600"
@@ -68,9 +68,9 @@ function SingleHousePageSkeleton() {
         </div>
 
         {/* 房源細項內容 */}
-        <div className="container layout-grid animate-pulse">
+        <div className="container layout-grid animate-pulse ">
           {/* 房源描述 */}
-          <div className="col-span-6 col-start-2">
+          <div className="col-span-4 md:col-span-6 md:col-start-2">
             {/* 房源標題 */}
             <div className="h-10 bg-gray-200 rounded-full w-[360px] mb-6"></div>
             {/* 房源特色 */}
@@ -309,7 +309,7 @@ function SingleHousePageSkeleton() {
           </div>
 
           {/* 房東基本資訊 */}
-          <div className="col-span-3 col-start-9 ">
+          <div className="col-span-4 md:col-span-3 md:col-start-9 ">
             {/* 查看更多照片 */}
             <div className="flex justify-between">
               <div className="w-40 h-9 ml-auto bg-gray-300 rounded-xl mb-4"></div>
