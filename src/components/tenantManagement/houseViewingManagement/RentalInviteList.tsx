@@ -644,7 +644,7 @@ function RentalInviteList() {
                         : `顯示 1 至 ${inviteListTotalCount} 筆 共 ${inviteListTotalCount} 筆`
                       : "顯示 0 至 0 筆 共 0 筆"}
                   </p>
-                  <div className="flex gap-x-1">
+                  <div className="flex gap-x-px">
                     <button
                       type="button"
                       disabled={currentPageNumber === 1}
