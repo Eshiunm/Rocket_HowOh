@@ -1185,7 +1185,7 @@ function HouseViewingList() {
                         : `顯示 1 至 ${rentalListTotalNumbers} 筆 共 ${rentalListTotalNumbers} 筆`
                       : "顯示 0 至 0 筆 共 0 筆"}
                   </p>
-                  <div className="flex gap-x-1">
+                  <div className="flex gap-x-px">
                     <button
                       disabled={currentPageNumber === 1}
                       type="button"
@@ -1375,7 +1375,7 @@ function HouseViewingList() {
                         : `顯示 1 至 ${rentalListTotalNumbers} 筆 共 ${rentalListTotalNumbers} 筆`
                       : "顯示 0 至 0 筆 共 0 筆"}
                   </p>
-                  <div className="flex gap-x-1">
+                  <div className="flex gap-x-px">
                     <button
                       disabled={currentPageNumber === 1}
                       type="button"

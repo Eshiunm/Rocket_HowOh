@@ -541,7 +541,13 @@ function RentalInviteList() {
                                   <span className="pr-2 border-r border-Tenant-70">
                                     房東
                                   </span>
-                                  <span>王太太</span>
+                                  {/* <span>王太太</span> */}
+                                  {
+                                    houseInfo.houseDetail.landlordInfo.gender === "男" && houseInfo.houseDetail.landlordInfo.lastName + "先生"
+                                  }
+                                  {
+                                    houseInfo.houseDetail.landlordInfo.gender === "女" && houseInfo.houseDetail.landlordInfo.lastName + "小姐"
+                                  }
                                 </p>
                                 <p className="flex gap-x-2">
                                   <span className="pr-2 border-r border-Tenant-70">
@@ -638,7 +644,7 @@ function RentalInviteList() {
                         : `顯示 1 至 ${inviteListTotalCount} 筆 共 ${inviteListTotalCount} 筆`
                       : "顯示 0 至 0 筆 共 0 筆"}
                   </p>
-                  <div className="flex gap-x-1">
+                  <div className="flex gap-x-px">
                     <button
                       type="button"
                       disabled={currentPageNumber === 1}

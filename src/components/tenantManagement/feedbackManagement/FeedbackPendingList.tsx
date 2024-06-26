@@ -88,7 +88,7 @@ function FeedbackPendingList() {
                         : `顯示 1 至 ${feedbackList.length} 筆 共 ${feedbackList.length} 筆`
                       : "顯示 0 至 0 筆 共 0 筆"}
                   </p>
-                  <div className="flex gap-x-1">
+                  <div className="flex gap-x-px">
                     <button
                       type="button"
                       className="flex gap-x-[10px] rounded-l-lg items-center text-sans-b-body1 text-white p-2 hover:opacity-80 bg-Neutral-90"
