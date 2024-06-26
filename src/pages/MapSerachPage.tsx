@@ -203,16 +203,16 @@ function MapSearchPage() {
                             <Link
                               to={`/houseList/${houseInfo.houseId}`}
                               target="_blank"
-                              className="max-w-[375px] flex gap-x-2"
+                              className="sm:max-w-[375px] sm:flex gap-x-2 "
                             >
-                              <div className="w-[144px]  rounded-lg overflow-hidden">
+                              <div className="w-[150px] mb-2 sm:mb-0 sm:w-[144px] rounded-lg overflow-hidden">
                                 <img
                                   src={houseInfo.coverImage}
                                   alt="coverImage"
                                   className="w-full h-full"
                                 />
                               </div>
-                              <div className="flex flex-col justify-between">
+                              <div className="w-[150px] sm:w-[144px] flex flex-col gap-y-[2px] justify-between">
                                 <h3 className="text-sans-b-body1">
                                   {houseInfo.title}
                                 </h3>
