@@ -203,16 +203,16 @@ function MapSearchPage() {
                             <Link
                               to={`/houseList/${houseInfo.houseId}`}
                               target="_blank"
-                              className="sm:max-w-[375px] sm:flex gap-x-2 "
+                              className="max-w-[375px] flex gap-x-2"
                             >
-                              <div className="w-[150px] mb-2 sm:mb-0 sm:w-[144px] rounded-lg overflow-hidden">
+                              <div className="w-[144px]  rounded-lg overflow-hidden">
                                 <img
                                   src={houseInfo.coverImage}
                                   alt="coverImage"
                                   className="w-full h-full"
                                 />
                               </div>
-                              <div className="w-[150px] sm:w-[144px] flex flex-col gap-y-[2px] justify-between">
+                              <div className="flex flex-col justify-between">
                                 <h3 className="text-sans-b-body1">
                                   {houseInfo.title}
                                 </h3>
@@ -241,7 +241,10 @@ function MapSearchPage() {
                                 <ul className="flex flex-wrap gap-1 text-sans-b-caption">
                                   <li className="pr-2 border-r-[1px] border-r-Tenant-70">
                                     <span>
-                                      {houseInfo.type === 1
+                                      {
+                                        houseInfo.type
+                                      }
+                                      {/* {houseInfo.type === 1
                                         ? "獨立套房"
                                         : houseInfo.type === 2
                                         ? "分租套房"
@@ -249,7 +252,7 @@ function MapSearchPage() {
                                         ? "雅房"
                                         : houseInfo.type === 4
                                         ? "其他"
-                                        : "整層住家"}
+                                        : "整層住家"} */}
                                     </span>
                                   </li>
                                   <li
