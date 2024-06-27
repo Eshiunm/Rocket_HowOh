@@ -203,7 +203,7 @@ function MapSearchPage() {
                             <Link
                               to={`/houseList/${houseInfo.houseId}`}
                               target="_blank"
-                              className="sm:max-w-[375px] sm:flex gap-x-2 "
+                              className="sm:max-w-[375px] sm:flex gap-x-2"
                             >
                               <div className="w-[150px] mb-2 sm:mb-0 sm:w-[144px] rounded-lg overflow-hidden">
                                 <img
@@ -241,7 +241,10 @@ function MapSearchPage() {
                                 <ul className="flex flex-wrap gap-1 text-sans-b-caption">
                                   <li className="pr-2 border-r-[1px] border-r-Tenant-70">
                                     <span>
-                                      {houseInfo.type === 1
+                                      {
+                                        houseInfo.type
+                                      }
+                                      {/* {houseInfo.type === 1
                                         ? "獨立套房"
                                         : houseInfo.type === 2
                                         ? "分租套房"
@@ -249,7 +252,7 @@ function MapSearchPage() {
                                         ? "雅房"
                                         : houseInfo.type === 4
                                         ? "其他"
-                                        : "整層住家"}
+                                        : "整層住家"} */}
                                     </span>
                                   </li>
                                   <li
