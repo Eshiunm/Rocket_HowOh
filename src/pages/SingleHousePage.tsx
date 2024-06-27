@@ -112,7 +112,7 @@ function SingleHousePage() {
   const anchorRef = useRef<HTMLAnchorElement>(null);
   const [singleHouseData, setSingleHouseData] = useState<any>({});
   const [isFilterPhotos, setIsFilterPhotos] = useState<any>([]); //取得去掉首圖url後的array
-  const [isAPIProcessing, setIsAPIProcessing] = useState<boolean>(false);
+  const [isAPIProcessing, setIsAPIProcessing] = useState<boolean>(true);
   const [isReserveModalOpen, setIsReserveModalOpen] = useState(false);
   const [isReserveDrawerOpen, setIsReserveDrawerOpen] = useState(false);
   const [reserveModalData, setReserveModalData] = useState<any>({});
