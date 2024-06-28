@@ -580,7 +580,7 @@ function SingleHousePage() {
                         附近機能
                       </h4>
                       <ul className="flex flex-wrap gap-y-6 gap-x-20 md:gap-x-6">
-                        <li className="w-[30.86%] flex items-center gap-x-2">
+                        <li className="w-[36%] flex items-center gap-x-2">
                           <div
                             className={`flex justify-center items-center w-5 h-5 border-2 border-black rounded-[4px] ${
                               singleHouseData.facilities.lifeFunctions
@@ -595,7 +595,7 @@ function SingleHousePage() {
                           </div>
                           <span className="text-sans-body1">百貨商場</span>
                         </li>
-                        <li className="w-[30.86%] flex items-center gap-x-2">
+                        <li className="w-[36%] flex items-center gap-x-2">
                           <div
                             className={`flex justify-center items-center w-5 h-5 border-2 border-black rounded-[4px] ${
                               singleHouseData.facilities.lifeFunctions
@@ -610,7 +610,7 @@ function SingleHousePage() {
                           </div>
                           <span className="text-sans-body1">早市</span>
                         </li>
-                        <li className="w-[30.86%] flex items-center gap-x-2">
+                        <li className="w-[36%] flex items-center gap-x-2">
                           <div
                             className={`flex justify-center items-center w-5 h-5 border-2 border-black rounded-[4px] ${
                               singleHouseData.facilities.lifeFunctions
@@ -625,7 +625,7 @@ function SingleHousePage() {
                           </div>
                           <span className="text-sans-body1">夜市</span>
                         </li>
-                        <li className="w-[30.86%] flex items-center gap-x-2">
+                        <li className="w-[36%] flex items-center gap-x-2">
                           <div
                             className={`flex justify-center items-center w-5 h-5 border-2 border-black rounded-[4px] ${
                               singleHouseData.facilities.lifeFunctions
@@ -640,7 +640,7 @@ function SingleHousePage() {
                           </div>
                           <span className="text-sans-body1">公園綠地</span>
                         </li>
-                        <li className="w-[30.86%] flex items-center gap-x-2">
+                        <li className="w-[36%] flex items-center gap-x-2">
                           <div
                             className={`flex justify-center items-center w-5 h-5 border-2 border-black rounded-[4px] ${
                               singleHouseData.facilities.lifeFunctions
@@ -655,7 +655,7 @@ function SingleHousePage() {
                           </div>
                           <span className="text-sans-body1">學校</span>
                         </li>
-                        <li className="w-[30.86%] flex items-center gap-x-2">
+                        <li className="w-[36%] flex items-center gap-x-2">
                           <div
                             className={`flex justify-center items-center w-5 h-5 border-2 border-black rounded-[4px] ${
                               singleHouseData.facilities.lifeFunctions
@@ -678,7 +678,7 @@ function SingleHousePage() {
                         屋源特色
                       </h4>
                       <ul className="flex flex-wrap gap-y-6 gap-x-20 md:gap-x-6">
-                        <li className="w-[30.86%] flex items-center gap-x-2">
+                        <li className="w-[36%] flex items-center gap-x-2">
                           <div
                             className={`flex justify-center items-center w-5 h-5 border-2 border-black rounded-[4px] ${
                               singleHouseData.facilities.otherFeatures
@@ -693,7 +693,7 @@ function SingleHousePage() {
                           </div>
                           <span className="text-sans-body1">垃圾集中處理</span>
                         </li>
-                        <li className="w-[30.86%] flex items-center gap-x-2">
+                        <li className="w-[36%] flex items-center gap-x-2">
                           <div
                             className={`flex justify-center items-center w-5 h-5 border-2 border-black rounded-[4px] ${
                               singleHouseData.facilities.otherFeatures
@@ -708,7 +708,7 @@ function SingleHousePage() {
                           </div>
                           <span className="text-sans-body1">浴室開窗</span>
                         </li>
-                        <li className="w-[30.86%] flex items-center gap-x-2">
+                        <li className="w-[36%] flex items-center gap-x-2">
                           <div
                             className={`flex justify-center items-center w-5 h-5 border-2 border-black rounded-[4px] ${
                               singleHouseData.facilities.otherFeatures
@@ -731,7 +731,7 @@ function SingleHousePage() {
                         設備
                       </h4>
                       <ul className="flex flex-wrap gap-y-3 gap-x-20 md:gap-x-6">
-                        <li className="w-[30.86%] flex items-center gap-x-2">
+                        <li className="w-[36%] flex items-center gap-x-2">
                           <div
                             className={`flex justify-center items-center w-5 h-5 border-2 border-black rounded-[4px] ${
                               singleHouseData.facilities.furnitures
@@ -746,7 +746,7 @@ function SingleHousePage() {
                           </div>
                           <span className="text-sans-body1">冷氣</span>
                         </li>
-                        <li className="w-[30.86%] flex items-center gap-x-2">
+                        <li className="w-[36%] flex items-center gap-x-2">
                           <div
                             className={`flex justify-center items-center w-5 h-5 border-2 border-black rounded-[4px] ${
                               singleHouseData.facilities.furnitures
@@ -761,7 +761,7 @@ function SingleHousePage() {
                           </div>
                           <span className="text-sans-body1">洗衣機</span>
                         </li>
-                        <li className="w-[30.86%] flex items-center gap-x-2">
+                        <li className="w-[36%] flex items-center gap-x-2">
                           <div
                             className={`flex justify-center items-center w-5 h-5 border-2 border-black rounded-[4px] ${
                               singleHouseData.facilities.furnitures
@@ -776,7 +776,7 @@ function SingleHousePage() {
                           </div>
                           <span className="text-sans-body1">冰箱</span>
                         </li>
-                        <li className="w-[30.86%] flex items-center gap-x-2">
+                        <li className="w-[36%] flex items-center gap-x-2">
                           <div
                             className={`flex justify-center items-center w-5 h-5 border-2 border-black rounded-[4px] ${
                               singleHouseData.facilities.furnitures.hasCloset &&
@@ -791,7 +791,7 @@ function SingleHousePage() {
                           </div>
                           <span className="text-sans-body1">衣櫃</span>
                         </li>
-                        <li className="w-[30.86%] flex items-center gap-x-2">
+                        <li className="w-[36%] flex items-center gap-x-2">
                           <div
                             className={`flex justify-center items-center w-5 h-5 border-2 border-black rounded-[4px] ${
                               singleHouseData.facilities.furnitures
@@ -806,7 +806,7 @@ function SingleHousePage() {
                           </div>
                           <span className="text-sans-body1">桌椅</span>
                         </li>
-                        <li className="w-[30.86%] flex items-center gap-x-2">
+                        <li className="w-[36%] flex items-center gap-x-2">
                           <div
                             className={`flex justify-center items-center w-5 h-5 border-2 border-black rounded-[4px] ${
                               singleHouseData.facilities.furnitures
@@ -821,7 +821,7 @@ function SingleHousePage() {
                           </div>
                           <span className="text-sans-body1">熱水器</span>
                         </li>
-                        <li className="w-[30.86%] flex items-center gap-x-2">
+                        <li className="w-[36%] flex items-center gap-x-2">
                           <div
                             className={`flex justify-center items-center w-5 h-5 border-2 border-black rounded-[4px] ${
                               singleHouseData.facilities.furnitures
@@ -836,7 +836,7 @@ function SingleHousePage() {
                           </div>
                           <span className="text-sans-body1">網路</span>
                         </li>
-                        <li className="w-[30.86%] flex items-center gap-x-2">
+                        <li className="w-[36%] flex items-center gap-x-2">
                           <div
                             className={`flex justify-center items-center w-5 h-5 border-2 border-black rounded-[4px] ${
                               singleHouseData.facilities.furnitures.hasBed &&
@@ -851,7 +851,7 @@ function SingleHousePage() {
                           </div>
                           <span className="text-sans-body1">床</span>
                         </li>
-                        <li className="w-[30.86%] flex items-center gap-x-2">
+                        <li className="w-[36%] flex items-center gap-x-2">
                           <div
                             className={`flex justify-center items-center w-5 h-5 border-2 border-black rounded-[4px] ${
                               singleHouseData.facilities.furnitures.hasTV &&
@@ -874,7 +874,7 @@ function SingleHousePage() {
                         交通
                       </h4>
                       <ul className="flex flex-wrap gap-y-6 gap-x-20 md:gap-x-6">
-                        <li className="w-[30.86%] flex flex-wrap items-start gap-x-2">
+                        <li className="w-[36%] flex flex-wrap items-start gap-x-2">
                           <div className="flex items-center gap-x-2">
                             <div
                               className={`flex justify-center items-center w-5 h-5 border-2 border-black rounded-[4px] ${
@@ -905,7 +905,7 @@ function SingleHousePage() {
                             </div>
                           )}
                         </li>
-                        <li className="w-[30.86%] flex flex-wrap items-start gap-x-2">
+                        <li className="w-[36%] flex flex-wrap items-start gap-x-2">
                           <div className="flex items-center gap-x-2">
                             <div
                               className={`flex justify-center items-center w-5 h-5 border-2 border-black rounded-[4px] ${
@@ -936,7 +936,7 @@ function SingleHousePage() {
                             </div>
                           )}
                         </li>
-                        <li className="w-[30.86%] flex flex-wrap items-start gap-x-2">
+                        <li className="w-[36%] flex flex-wrap items-start gap-x-2">
                           <div className="flex items-center gap-x-2">
                             <div
                               className={`flex justify-center items-center w-5 h-5 border-2 border-black rounded-[4px] ${
@@ -967,7 +967,7 @@ function SingleHousePage() {
                             </div>
                           )}
                         </li>
-                        <li className="w-[30.86%] flex flex-wrap items-start gap-x-2">
+                        <li className="w-[36%] flex flex-wrap items-start gap-x-2">
                           <div className="flex items-center gap-x-2">
                             <div
                               className={`flex justify-center items-center w-5 h-5 border-2 border-black rounded-[4px] ${
@@ -998,7 +998,7 @@ function SingleHousePage() {
                             </div>
                           )}
                         </li>
-                        <li className="w-[30.86%] flex flex-wrap items-start gap-x-2">
+                        <li className="w-[36%] flex flex-wrap items-start gap-x-2">
                           <div className="flex items-center gap-x-2">
                             <div
                               className={`flex justify-center items-center w-5 h-5 border-2 border-black rounded-[4px] ${

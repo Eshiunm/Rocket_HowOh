@@ -69,6 +69,5 @@
 </div>
 <div style="display:flex; justify-content:center; column-gap:4px; margin: 12px;">
   <img alt="ESLINT" src="https://img.shields.io/badge/eslint-3A33D1?style=for-the-badge&logo=eslint&logoColor=white" />
-  </li>
 </div>
 
