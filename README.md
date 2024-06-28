@@ -1,4 +1,4 @@
-<h1 style="display: flex; align-items: center; justify-content: center; font-weight: 700;">
+<h1 align="center" style="display: flex; align-items: center; justify-content: center; font-weight: 700;">
 		<img src="https://raw.githubusercontent.com/Eshiunm/Rocket_HowOh/dev/src/assets/imgs/Howoh.ico" alt="HowOhLogo" />
 	&nbsp;HowOh｜租屋交易與評價系統平台
 </h1>
@@ -43,31 +43,30 @@
 
 ## **Technologies In Frontend**
 
-<div style="display:flex; justify-content:center; column-gap:4px; margin: 12px;">
+<div align="center" style="display:flex; justify-content:center; column-gap:4px; margin: 12px;">
   <img alt="NPM" src="https://img.shields.io/badge/NPM-%23CB3837.svg?style=for-the-badge&logo=npm&logoColor=white" /> 
 </div>
-<div style="display:flex; justify-content:center; column-gap:4px; margin: 12px;">
+<div align="center" style="display:flex; justify-content:center; column-gap:4px; margin: 12px;">
   <img alt="VS Code" src="https://img.shields.io/badge/VS_Code-%23007ACC?style=for-the-badge&logo=visualstudiocode" />
   <img alt="VITE" src="https://img.shields.io/badge/vite-%23646CFF.svg?style=for-the-badge&logo=vite&logoColor=white" />
 </div>
-<div style="display:flex; justify-content:center; column-gap:4px; margin: 12px;">
+<div align="center" style="display:flex; justify-content:center; column-gap:4px; margin: 12px;">
   <img alt="Vercel" src="https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white" />
   <img alt="GItHUB" src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white" />
   <img alt="Git" src="https://img.shields.io/badge/GIT-E44C30?style=for-the-badge&logo=git&logoColor=white" />
 </div>
-<div style="display:flex; justify-content:center; column-gap:4px; margin: 12px;">
+<div align="center" style="display:flex; justify-content:center; column-gap:4px; margin: 12px;">
  <img alt="React" src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" />
   <img alt="React Hook Form" src="https://img.shields.io/badge/%20React_Hook_Form-pink?style=for-the-badge&logo=reacthookform" />
     <img alt="REDUX" src="https://img.shields.io/badge/Redux-593D88?style=for-the-badge&logo=redux&logoColor=white" />
 </div>
-<div style="display:flex; justify-content:center; column-gap:4px; margin: 12px;">
+<div align="center" style="display:flex; justify-content:center; column-gap:4px; margin: 12px;">
   <img alt="AXIOS" src="https://img.shields.io/badge/axios-%235A29E4?style=for-the-badge&logo=axios" />
   <img alt="TypeScript" src="https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white" />
   <img alt="TailwindCSS" src="https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white" />
-  <img alt="Swiper" src="https://img.shields.io/badge/Swiper-%236332F6?style=for-the-badge&logo=swiper
-    " />
+  <img alt="Swiper" src="https://img.shields.io/badge/Swiper-%236332F6?style=for-the-badge&logo=swiper"/>
 </div>
-<div style="display:flex; justify-content:center; column-gap:4px; margin: 12px;">
+<div align="center" style="display:flex; justify-content:center; column-gap:4px; margin: 12px;">
   <img alt="ESLINT" src="https://img.shields.io/badge/eslint-3A33D1?style=for-the-badge&logo=eslint&logoColor=white" />
 </div>
 
