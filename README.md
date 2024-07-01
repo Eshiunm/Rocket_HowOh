@@ -104,4 +104,19 @@
 <div align="center" style="display:flex; justify-content:center; column-gap:4px; margin: 12px;">
   <img alt="ESLINT" src="https://img.shields.io/badge/eslint-3A33D1?style=for-the-badge&logo=eslint&logoColor=white" />
 </div>
+<br>
 
+<ul>
+　<li>
+    框架：使用 React.JS 建構網站，透過 React 完善的生態系(Hooks、Redux、Router 等等），高效地建構網站。
+ </li>
+<li>
+    語言：使用 TypeScript 來預防變數型別上的錯誤，增加程式碼的可讀性及維護性。
+ </li>
+<li>
+    網站樣式：使用 TailWindCSS，透過 Utility-First 避免了定義自訂類別，減少了 CSS 文件的複雜度，
+ </li>
+<li>
+    雲端伺服器：使用 Vercel 進行佈署，實現快速的自動化部署流程，簡化開發到上線的過程。
+ </li>
+</ul>
