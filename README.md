@@ -2,6 +2,31 @@
 		<img src="https://raw.githubusercontent.com/Eshiunm/Rocket_HowOh/dev/src/assets/imgs/Howoh.ico" alt="HowOhLogo" />
 	&nbsp;HowOh｜租屋交易與評價系統平台
 </h1>
+<div align="center" style="margin-bottom:24px">
+  <a href="https://drive.google.com/file/d/1PA-nUPBaDxbWcsjRX8_U9CmcTLuKvKSq/view?usp=drive_link">
+    簡報介紹
+  </a>
+  <span>｜</span>
+  <a href="https://howoh.vercel.app/">
+  佈署網址 
+  </a>
+  <span>｜</span>
+  <a href="https://github.com/Eshiunm/Rocket_HowOh">
+   前端 Github Repo 
+  </a>
+  <span>｜</span>
+  <a href="https://github.com/Che1z/HowohBackEnd">
+    後端 Github Repo 
+  </a>
+  <span>｜</span>
+  <a href="http://52.140.100.60/swagger/ui/index">
+  API swagger
+  </a>
+  <span>｜</span>
+  <a href="https://smart-governor-e0d.notion.site/b5ca7a9893f9435ba967d608b0cbc2d4?pvs=4">
+  Notion
+  </a>
+</div>
 
 ## 專案發想原由
 
@@ -14,22 +39,26 @@
 最後，我們認為黑市問題導致的資訊不透明是可以改善的，因此有了『**好窩租屋交易與評價系統平台**』。
 
 ## 功能清單
-
-- 建立租客帳號、房東帳號
-- 使用一般搜尋查找房源
-- 使用地圖搜尋查找房源
+### 租客身份功能
+- 建立個人帳號、大頭貼
+- 可使用一般搜尋查找房源
+- 可透過搜尋的條件快速過濾出房源
+- 
+- 可使用地圖搜尋查找房源
 - 點選地圖標記導向單一房源頁面
+  
+### 房東身份功能
 
-## Git FLow
+## Git 規範
 ### Commit
 
-|   類型   |   格式    | 說明                                             |
+|   類型   |   格式    | 說明                                          	|
 | :------: | :-------: | :----------------------------------------------- |
-| 新增功能 |   feat:   | 新增功能                                         |
-| 修補錯誤 |   fix:    | 修正現有功能的錯誤                               |
-| 重構程式 | refactor: | 重組、優化程式(邏輯不變)                         |
-| 樣式相關 |  style:   | 修改程式碼風格 (不影響程式碼運行的變動)          |
-| 維護資料 |  chore:   | 更新專案建置、版本…其他 (不影響程式碼運行的變動) |
+| 新增功能 |   feat:   | 新增功能                                     	|
+| 修補錯誤 |   fix:    | 修正現有功能的錯誤                        	|
+| 重構程式 | refactor: | 重組、優化程式(邏輯不變)                         	|
+| 樣式相關 |  style:   | 修改程式碼風格 (不影響程式碼運行的變動)          	|
+| 維護資料 |  chore:   | 更新專案建置、版本…其他 (不影響程式碼運行的變動) 	|
 
 ### Branch
 
@@ -41,7 +70,7 @@
 |   修正功能   |  bugfix/  |
 |   緊急修復   |  hotfix/  |
 
-## **Technologies In Frontend**
+## **前端技術**
 
 <div align="center" style="display:flex; justify-content:center; column-gap:4px; margin: 12px;">
   <img alt="NPM" src="https://img.shields.io/badge/NPM-%23CB3837.svg?style=for-the-badge&logo=npm&logoColor=white" /> 
