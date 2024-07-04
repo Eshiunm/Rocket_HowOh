@@ -2,6 +2,11 @@
 		<img src="https://raw.githubusercontent.com/Eshiunm/Rocket_HowOh/dev/src/assets/imgs/Howoh.ico" alt="HowOhLogo" />
 	&nbsp;HowOh｜租屋交易與評價系統平台
 </h1>
+<p align="center">
+  <a href="https://sun-live.vercel.app">
+    <img width="1200" src ="https://github.com/Eshiunm/Rocket_HowOh/blob/dev/src/assets/imgs/Frame%201335.jpg">
+  </a>
+</p>
 <div align="center" style="margin-bottom:24px">
   <a href="https://drive.google.com/file/d/1PA-nUPBaDxbWcsjRX8_U9CmcTLuKvKSq/view?usp=drive_link">
     簡報介紹
@@ -164,6 +169,7 @@
     <img alt="POSTMAN" src="https://img.shields.io/badge/Postman-FF6C37?style=for-the-badge&logo=Postman&logoColor=white" />
     <img alt="GoogleCloud" src="https://img.shields.io/badge/GoogleCloud-%234285F4.svg?style=for-the-badge&logo=google-cloud&logoColor=white">
   </div>
+<br>
 
   - 資料庫存取：Microsoft SQL Server 搭配 Entity Framework Code First 以及 LINQ 進行資料庫存取。
   - 雲端服務：Azure 上建立虛擬機(VM)，並於 VM 上建立 SQL Server 與 IIS 環境，部署 Web API Application。
