@@ -8,7 +8,7 @@
   </a>
 </p>
 <div align="center" style="margin-bottom:24px">
-  <a href="https://drive.google.com/file/d/1PA-nUPBaDxbWcsjRX8_U9CmcTLuKvKSq/view?usp=drive_link">
+  <a href="https://drive.google.com/file/d/1hcfLX_uuGds_Hcj_s5jX05fxovyP9N9D/view?usp=sharing">
     簡報介紹
   </a>
   <span>｜</span>
