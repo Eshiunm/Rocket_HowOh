@@ -64,6 +64,7 @@ function Recommendation() {
       try {
         setIsAPIProcessing(true);
         const res = await apiHouseCommonRecommendedList();
+        console.log(res.data);
         setSearchResults(res.data);
         setIsAPIProcessing(false);
       } catch (error) {
@@ -99,7 +100,7 @@ function Recommendation() {
                   <Link to={`/houseList/${house.Id}`}>
                     <div className="w-[289px] h-[188px] rounded-[20px] mb-4 overflow-hidden">
                       <img
-                        src={house.image.imagePath}
+                        src={house.image && house.image.imagePath}
                         alt="recommendationPicture"
                       />
                     </div>

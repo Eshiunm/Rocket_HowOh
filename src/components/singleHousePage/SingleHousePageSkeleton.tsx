@@ -5,7 +5,7 @@ function SingleHousePageSkeleton() {
         {/* 房源圖片 */}
         <div className="container layout-grid pt-6 mb-6">
           {/* 首圖 */}
-          <div className="col-span-12 h-80 xl:w-max xl:col-span-6 xl:col-start-2 overflow-hidden">
+          <div className="col-span-12 h-80 xl:h-full xl:col-span-6 xl:col-start-2 overflow-hidden">
             <div className="animate-pulse flex items-center justify-center w-full h-full bg-gray-300 rounded ">
               <svg
                 className="w-10 h-10 text-gray-200 dark:text-gray-600"
@@ -97,7 +97,7 @@ function SingleHousePageSkeleton() {
             </div>
 
             {/* 快捷按鈕 */}
-            <ul className="flex gap-x-3 mb-10">
+            <ul className="flex flex-wrap gap-3 mb-10">
               <li className="">
                 <button className="w-[153px] flex justify-start items-center gap-x-2 py-3 pl-3 rounded-lg text-Neutral-95 bg-Neutral-95">
                   房源介紹

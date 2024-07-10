@@ -1208,8 +1208,9 @@ function HouseViewingList() {
                     </button>
                     <button
                       disabled={
+                        rentalListTotalNumbers === 0 ||
                         currentPageNumber ===
-                        Math.ceil(rentalListTotalNumbers / 12)
+                          Math.ceil(rentalListTotalNumbers / 12)
                       }
                       type="button"
                       className="flex gap-x-[10px] items-center filled-button-s rounded-l-none"
@@ -1365,7 +1366,7 @@ function HouseViewingList() {
                 <div></div>
                 <div>
                   <p className="text-sans-b-body2 text-center text-Brand-10 mb-2">
-                  {rentalListTotalNumbers > 0
+                    {rentalListTotalNumbers > 0
                       ? rentalListTotalNumbers > 12
                         ? `顯示 ${1 + (currentPageNumber - 1) * 12} 至 ${
                             currentPageNumber * 12 > rentalListTotalNumbers
@@ -1398,8 +1399,9 @@ function HouseViewingList() {
                     </button>
                     <button
                       disabled={
+                        rentalListTotalNumbers === 0 ||
                         currentPageNumber ===
-                        Math.ceil(rentalListTotalNumbers / 12)
+                          Math.ceil(rentalListTotalNumbers / 12)
                       }
                       type="button"
                       className="flex gap-x-[10px] items-center filled-button-s rounded-l-none"
