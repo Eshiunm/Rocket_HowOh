@@ -8,7 +8,7 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": {
-        target: "http://52.140.100.60",
+        target: "https://howoh.rocket-coding.com",
         changeOrigin: true,
       },
     },
