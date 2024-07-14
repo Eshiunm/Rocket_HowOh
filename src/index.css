@@ -1,3 +1,180 @@
+@import url("https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Noto+Sans+TC:wght@400;700&display=swap");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  body {
+    font-family: "Noto Sans TC", sans-serif;
+  }
+  .container {
+    @apply w-full mr-auto ml-auto pr-3 pl-3;
+  }
+  .layout-grid {
+    /*以下為網格系統必要屬性*/
+    @apply grid grid-cols-4 sm:grid-cols-12 gap-6;
+  }
+  label,
+  input,
+  button {
+    @apply block;
+  }
+  input[type="number"]::-webkit-outer-spin-button,
+  input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  /* For Webkit-based browsers (Chrome, Safari and Opera) */
+  .scrollbar-hide::-webkit-scrollbar {
+    @apply hidden
+  }
+
+  /* For IE, Edge and Firefox */
+  .scrollbar-hide {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+}
+
+@layer components {
+  .add-new-step-index-active {
+    @apply w-8 h-8 text-center bg-Landlord-80 text-sans-body1 flex justify-center items-center text-Landlord-50 rounded-full;
+  }
+  .add-new-step-index {
+    @apply w-8 h-8 text-center bg-Neutral-80 text-sans-body1 flex justify-center items-center text-Neutral-50 rounded-full;
+  }
+  .add-new-input {
+    @apply w-full border focus:border-2 focus:-m-[1px] border-black focus:border-Brand-30 rounded px-5 py-3 appearance-none focus:ring-0;
+  }
+  .add-new-input-block {
+    @apply flex-1 flex items-center gap-2;
+  }
+  .add-new-input-unit {
+    @apply relative after:absolute after:right-3 after:bottom-3 after:z-10;
+  }
+  .add-new-btn {
+    @apply px-4 py-2 bg-slate-700 rounded-3xl text-white;
+  }
+  .add-new-back-btn {
+    @apply text-base font-bold border-b-2 border-black;
+  }
+  .add-new-next-btn {
+    @apply self-start mt-12;
+  }
+  .add-new-title {
+    @apply text-sans-h5 mb-6;
+  }
+  .add-new-small-title {
+    @apply text-sans-caption mb-1;
+  }
+  .option-label {
+    @apply flex items-center w-full gap-2 mb-3;
+  }
+  .filled-button-l {
+    @apply text-sans-b-h6 rounded-lg px-20 py-3 bg-black text-white hover:bg-Neutral-40 disabled:bg-Neutral-90 disabled:text-white;
+  }
+  .filled-button-l-disable {
+    @apply text-sans-b-h6 rounded-lg px-20 py-3 bg-Neutral-90 text-white;
+  }
+  .filled-button-m {
+    @apply text-sans-b-body1 rounded-lg p-2 bg-black text-white hover:bg-Neutral-40 disabled:bg-Neutral-90 disabled:text-white;
+  }
+  .filled-button-m-disable {
+    @apply text-sans-b-body1 rounded-lg p-2 bg-Neutral-90 text-white;
+  }
+  .filled-button-s {
+    @apply text-sans-b-body2 rounded-lg p-2 bg-black text-white hover:bg-Neutral-40 disabled:bg-Neutral-90 disabled:text-white;
+  }
+  .filled-button-s-disable {
+    @apply text-sans-b-body2 rounded-lg p-2 bg-Neutral-90 text-white;
+  }
+  .outline-button-l {
+    @apply text-sans-b-h6 border border-black rounded-lg px-20 py-3 bg-transparent text-black hover:bg-black hover:text-white disabled:bg-Neutral-90 disabled:text-white disabled:border-Neutral-90;
+  }
+  .outline-button-l-disable {
+    @apply text-sans-b-h6 border border-Neutral-90 rounded-lg px-20 py-3 bg-Neutral-90 text-white;
+  }
+  .outline-button-m {
+    @apply text-sans-b-body1 border border-black rounded-lg p-2 bg-transparent text-black hover:bg-black hover:text-white disabled:bg-Neutral-90 disabled:text-white disabled:border-Neutral-90;
+  }
+  .outline-button-m-disable {
+    @apply text-sans-b-body1 border border-Neutral-90 rounded-lg p-2 bg-Neutral-90 text-white;
+  }
+  .outline-button-s {
+    @apply text-sans-b-body2 border border-black rounded-lg p-2 bg-transparent text-black hover:bg-black hover:text-white disabled:bg-Neutral-90 disabled:text-white disabled:border-Neutral-90;
+  }
+  .outline-button-s-disable {
+    @apply text-sans-b-body2 border border-Neutral-90 rounded-lg p-2 bg-Neutral-90 text-white;
+  }
+  .post-alert {
+    @apply text-sans-caption text-Alert-50 pt-1 pl-5;
+  }
+  .tab-button-m {
+    @apply text-sans-b-body1 px-4 py-2 bg-transparent text-black border border-Landlord-50 rounded-3xl hover:border-2 hover:-m-[1px];
+  }
+  .tab-button-m-select {
+    @apply text-sans-b-body1 px-4 py-2 bg-Landlord-50 text-white border border-Landlord-50 rounded-3xl;
+  }
+  .shadow-elevation-1 {
+    box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
+    box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.3);
+  }
+  .shadow-elevation-2 {
+    box-shadow: 0px 2px 6px 2px rgba(0, 0, 0, 0.15);
+    box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.3);
+  }
+  .shadow-elevation-3 {
+    box-shadow: 0px 1px 3px 0px #0000004d;
+    box-shadow: 0px 4px 8px 3px #00000026;
+  }
+  .shadow-elevation-4 {
+    box-shadow: 0px 2px 3px 0px #0000004d;
+    box-shadow: 0px 6px 10px 4px #00000026;
+  }
+  .shadow-elevation-5 {
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.3);
+    box-shadow: 0px 8px 12px 6px rgba(0, 0, 0, 0.15);
+  }
+  .letter-button-light {
+    @apply py-1 flex items-center gap-[10px] text-sans-b-body1 text-black hover:text-Neutral-30 disabled:text-Neutral-90;
+  }
+  .letter-button-dark {
+    @apply p-2 flex items-center gap-[10px] text-sans-b-body1 text-white hover:text-Neutral-80 disabled:text-Neutral-40;
+  }
+  .confirm-data {
+    @apply p-3 border-b border-Neutral-70;
+  }
+  .badge-m {
+    @apply px-2 py-1 text-sans-body2 text-black rounded-lg;
+  }
+  .badge-s {
+    @apply text-sans-caption flex px-2 py-0.5 rounded;
+  }
+  .checkBox-black {
+    @apply w-5 h-5 text-black focus:ring-transparent rounded-sm border-2 border-black cursor-pointer;
+  }
+  /* 首頁 Title 的打字效果 */
+  .type-animation::after {
+    content: "" !important;
+    display: inline-block;
+    vertical-align: sub;
+    width: 4px; /* 設定游標寬度 */
+    height: 80px; /* 設定游標高度 */
+    background-color: white; /* 設定游標顏色 */
+    animation: cursor-blink 1s infinite !important; /* 設定游標閃爍週期 */
+  }
+  /* 游標閃爍動畫 */
+  @keyframes cursor-blink {
+    0% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+}
+

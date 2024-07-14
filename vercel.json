@@ -1,0 +1,9 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/:path*",
+      "destination": "https://howoh.rocket-coding.com/api/:path*"
+    },
+    { "source": "/(.*)", "destination": "/" }
+  ]
+}
