@@ -4,6 +4,9 @@ import { setCurrentStepState } from "../../../../redux/signUp/stepSlice";
 import { useNavigate } from "react-router-dom";
 import { RootState } from "../../../../redux/store";
 import { setSignUpForm } from "../../../../redux/signUp/signupFormSlice";
+import { apiRegisterPhoneNumberVerifi } from "../../../apis/apis";
+import { Spinner } from "flowbite-react";
+import { useState } from "react";
 
 interface formDataType {
   telphone: string;
@@ -12,6 +15,10 @@ interface formDataType {
 function EnterPhoneForm() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  // 是否正在打 API
+  const [isPosting, setPosting] = useState(false);
+  // 打API後跳出的錯誤訊息
+  const [apiErrorMessage, setApiErrorMessage] = useState("");
   const {
     handleSubmit,
     register,
@@ -20,22 +27,34 @@ function EnterPhoneForm() {
   const currentStepState = useSelector(
     (store: RootState) => store.signUpStepState.currentStepState
   );
-  const identityState = useSelector(
-    (store: RootState) => store.identityState.identity
+  const registerIdentityState = useSelector(
+    (store: RootState) => store.registerIdentityState.registerIdentity
   );
 
   const cancelSignUp = () => {
     dispatch(setCurrentStepState(0));
-    navigate("/signUp");
+    navigate("/signup");
   };
 
-  const onSubmit = (data: formDataType) => {
-    dispatch(setSignUpForm(data));
-    dispatch(setCurrentStepState(currentStepState + 1));
+  const onSubmit = async (data: formDataType) => {
+    setApiErrorMessage("");
+    setPosting(true);
+    try {
+      await apiRegisterPhoneNumberVerifi(data);
+      dispatch(setCurrentStepState(currentStepState + 1));
+      dispatch(setSignUpForm(data));
+    } catch (error: any) {
+      let errorMessage = error.response.data;
+      if (errorMessage === "已註冊手機號碼") {
+        errorMessage = "手機號碼已被註冊過";
+      }
+      setApiErrorMessage(errorMessage);
+    }
+    setPosting(false);
   };
 
   return (
-    <div className="wrap h-screen bg-Neutral-99 pt-[60px] ">
+    <div className="wrap flex-grow bg-Neutral-99 pt-[60px] ">
       <div className="container layout-grid">
         <div className="col-span-6 col-start-4 ">
           <form
@@ -43,7 +62,9 @@ function EnterPhoneForm() {
             onSubmit={handleSubmit(onSubmit)}
           >
             <h2 className="text-sans-h5 mb-[50px]">
-              {identityState === "tenant" ? "建立租客帳號" : "建立房東帳號"}
+              {registerIdentityState === "tenant"
+                ? "建立租客帳號"
+                : "建立房東帳號"}
             </h2>
             {/* 輸入手機號碼 */}
             <div className="relative w-full">
@@ -71,7 +92,7 @@ function EnterPhoneForm() {
                 請以手機建立帳號
               </label>
             </div>
-            {/* 提示字 */}
+            {/* 錯誤提示字 */}
             <span
               className={`${
                 errors.telphone ? "text-Alert-50" : "text-black"
@@ -81,7 +102,11 @@ function EnterPhoneForm() {
                 ? errors.telphone.message
                 : "請填入真實手機，我們將驗證您的手機"}
             </span>
-
+            {apiErrorMessage ? (
+              <span className="text-Alert-50 inline-block pl-3 text-sans-caption mb-10">
+                {apiErrorMessage}
+              </span>
+            ) : null}
             <button
               type="submit"
               className={`filled-button-l w-full mb-3 ${
@@ -89,9 +114,20 @@ function EnterPhoneForm() {
                   ? "bg-Neutral-90 hover:bg-Neutral-90"
                   : ""
               }`}
-              disabled={Object.keys(errors).length > 0}
+              disabled={Object.keys(errors).length > 0 || isPosting}
             >
-              進行驗證
+              {isPosting ? (
+                <>
+                  <Spinner
+                    aria-label="Spinner button example"
+                    size="lg"
+                    className="mr-4"
+                  />
+                  驗證中請稍後...
+                </>
+              ) : (
+                "確認"
+              )}
             </button>
             <button className="p-2 text-sans-b-body1" onClick={cancelSignUp}>
               取消

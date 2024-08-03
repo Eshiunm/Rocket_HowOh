@@ -1,0 +1,34 @@
+.swiper-button-prev {
+  color: transparent !important; /* 下一張投影片的按鈕預設透明 */
+}
+.swiper:hover .swiper-button-prev {
+  color: gray !important; /* hover 時顯示 */
+}
+
+.swiper-button-next {
+  color: transparent !important; /* 上一張投影片的按鈕預設透明 */
+}
+.swiper:hover .swiper-button-next {
+  color: gray !important; /* hover 時顯示 */
+}
+
+/* 首圖的 hover 動畫 */
+.swiper-slide-active {
+  transition: linear;
+  transition-duration: 300ms;
+}
+.mainImgSwiper .swiper-slide-active:hover {
+  scale: 1.1;
+  transition: linear;
+  transition-duration: 300ms;
+}
+
+.swiper-pagination-bullet{
+  background-color: white !important;
+  opacity: 0.5 !important;
+}
+
+.swiper-pagination-bullet-active{
+  background-color: white !important;
+  opacity: 1  !important;
+}

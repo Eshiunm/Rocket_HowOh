@@ -1,23 +1,49 @@
 import { Avatar, Dropdown } from "flowbite-react";
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 function NavigationLogin() {
-  const identity = "tenant";
+  const navigate = useNavigate();
+  const [currentIdentity, setCurrentIdentity] = useState("");
+  const [userProfileUrl, setUserProfileUrl] = useState("");
+
+  const handleLogout = () => {
+    // localStorage.removeItem("authToken");
+    // localStorage.removeItem("currentIdentity");
+    // localStorage.removeItem("userProfile");
+    localStorage.clear();
+    navigate("/");
+  };
+
+  // 一直抓取當前登入身分，判斷 token 還在不在
+  useEffect(() => {
+    const currentIdentity =
+      localStorage.getItem("currentIdentity")?.toString() || "";
+    const userProfile = localStorage.getItem("userProfile")?.toString() || "";
+    setCurrentIdentity(currentIdentity);
+    setUserProfileUrl(userProfile);
+    // console.log(typeof userProfile);
+  });
+
   return (
     <>
       <ul className="flex gap-6 items-center">
         <li>
           <div
             className={
-              identity === "tenant"
+              currentIdentity === "tenant"
                 ? "flex gap-1 bg-Tenant-90 py-1 ps-1 pr-3 rounded-full"
                 : "flex gap-1 bg-Landlord-90 py-1 ps-1 pr-3 rounded-full"
             }
           >
             {/* 如果要放圖片，可以再參考一下 flowbite react ui component */}
-            {identity === "tenant" ? (
+            {currentIdentity === "tenant" ? (
               <>
-                <Avatar rounded size="sm" />
+                <Avatar
+                  rounded
+                  size="sm"
+                  img={userProfileUrl !== "null" ? userProfileUrl : ""}
+                />
                 <Dropdown
                   label=""
                   dismissOnClick={false}
@@ -26,30 +52,38 @@ function NavigationLogin() {
                   className="w-[240px] rounded-lg"
                 >
                   <Dropdown.Item>
-                    <Link to={"/"} className="w-full text-sans-b-body1">
-                      看房管理
+                    <Link
+                      to={"/tenant/houseViewingManagement/houseViewingList"}
+                      className="w-full text-sans-b-body1"
+                    >
+                      租屋管理
                     </Link>
                   </Dropdown.Item>
                   <Dropdown.Item>
-                    <Link to={"/login"} className="w-full text-sans-b-body1">
+                    <Link
+                      to={"/tenant/feedbackManagement/feedbackPendingList"}
+                      className="w-full text-sans-b-body1"
+                    >
                       評價管理
                     </Link>
                   </Dropdown.Item>
                   <Dropdown.Item>
-                    <Link to={"/login"} className="w-full text-sans-b-body1">
-                      設定
-                    </Link>
-                  </Dropdown.Item>
-                  <Dropdown.Item>
-                    <Link to={"/login"} className="w-full text-sans-b-body1">
+                    <span
+                      className="w-full text-sans-b-body1"
+                      onClick={handleLogout}
+                    >
                       登出
-                    </Link>
+                    </span>
                   </Dropdown.Item>
                 </Dropdown>
               </>
             ) : (
               <>
-                <Avatar rounded size="sm" />
+                <Avatar
+                  rounded
+                  size="sm"
+                  img={userProfileUrl !== "null" ? userProfileUrl : ""}
+                />
                 <Dropdown
                   label=""
                   dismissOnClick={false}
@@ -58,24 +92,12 @@ function NavigationLogin() {
                   className="w-[240px] rounded-lg"
                 >
                   <Dropdown.Item>
-                    <Link to={"/"} className="w-full text-sans-b-body1">
-                      看房管理
-                    </Link>
-                  </Dropdown.Item>
-                  <Dropdown.Item>
-                    <Link to={"/login"} className="w-full text-sans-b-body1">
-                      評價管理
-                    </Link>
-                  </Dropdown.Item>
-                  <Dropdown.Item>
-                    <Link to={"/login"} className="w-full text-sans-b-body1">
-                      設定
-                    </Link>
-                  </Dropdown.Item>
-                  <Dropdown.Item>
-                    <Link to={"/login"} className="w-full text-sans-b-body1">
+                    <span
+                      className="w-full text-sans-b-body1"
+                      onClick={handleLogout}
+                    >
                       登出
-                    </Link>
+                    </span>
                   </Dropdown.Item>
                 </Dropdown>
               </>

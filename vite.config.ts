@@ -5,4 +5,12 @@ import react from "@vitejs/plugin-react";
 export default defineConfig({
   // base: "/Rocket_HowOh/",
   plugins: [react()],
+  server: {
+    proxy: {
+      "/api": {
+        target: "https://howoh.rocket-coding.com",
+        changeOrigin: true,
+      },
+    },
+  },
 });

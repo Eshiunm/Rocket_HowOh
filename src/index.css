@@ -13,7 +13,7 @@
   }
   .layout-grid {
     /*以下為網格系統必要屬性*/
-    @apply grid grid-cols-12 gap-6;
+    @apply grid grid-cols-4 sm:grid-cols-12 gap-6;
   }
   label,
   input,
@@ -24,6 +24,16 @@
   input[type="number"]::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0;
+  }
+  /* For Webkit-based browsers (Chrome, Safari and Opera) */
+  .scrollbar-hide::-webkit-scrollbar {
+    @apply hidden
+  }
+
+  /* For IE, Edge and Firefox */
+  .scrollbar-hide {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
   }
 }
 
@@ -80,19 +90,19 @@
     @apply text-sans-b-body2 rounded-lg p-2 bg-Neutral-90 text-white;
   }
   .outline-button-l {
-    @apply text-sans-b-h6 border border-black rounded-lg px-20 py-3 bg-transparent text-black hover:bg-black hover:text-white disabled:bg-Neutral-90 disabled:text-white;
+    @apply text-sans-b-h6 border border-black rounded-lg px-20 py-3 bg-transparent text-black hover:bg-black hover:text-white disabled:bg-Neutral-90 disabled:text-white disabled:border-Neutral-90;
   }
   .outline-button-l-disable {
     @apply text-sans-b-h6 border border-Neutral-90 rounded-lg px-20 py-3 bg-Neutral-90 text-white;
   }
   .outline-button-m {
-    @apply text-sans-b-body1 border border-black rounded-lg p-2 bg-transparent text-black hover:bg-black hover:text-white disabled:bg-Neutral-90 disabled:text-white;
+    @apply text-sans-b-body1 border border-black rounded-lg p-2 bg-transparent text-black hover:bg-black hover:text-white disabled:bg-Neutral-90 disabled:text-white disabled:border-Neutral-90;
   }
   .outline-button-m-disable {
     @apply text-sans-b-body1 border border-Neutral-90 rounded-lg p-2 bg-Neutral-90 text-white;
   }
   .outline-button-s {
-    @apply text-sans-b-body2 border border-black rounded-lg p-2 bg-transparent text-black hover:bg-black hover:text-white disabled:bg-Neutral-90 disabled:text-white;
+    @apply text-sans-b-body2 border border-black rounded-lg p-2 bg-transparent text-black hover:bg-black hover:text-white disabled:bg-Neutral-90 disabled:text-white disabled:border-Neutral-90;
   }
   .outline-button-s-disable {
     @apply text-sans-b-body2 border border-Neutral-90 rounded-lg p-2 bg-Neutral-90 text-white;
@@ -129,8 +139,20 @@
   .letter-button-light {
     @apply py-1 flex items-center gap-[10px] text-sans-b-body1 text-black hover:text-Neutral-30 disabled:text-Neutral-90;
   }
+  .letter-button-dark {
+    @apply p-2 flex items-center gap-[10px] text-sans-b-body1 text-white hover:text-Neutral-80 disabled:text-Neutral-40;
+  }
   .confirm-data {
     @apply p-3 border-b border-Neutral-70;
+  }
+  .badge-m {
+    @apply px-2 py-1 text-sans-body2 text-black rounded-lg;
+  }
+  .badge-s {
+    @apply text-sans-caption flex px-2 py-0.5 rounded;
+  }
+  .checkBox-black {
+    @apply w-5 h-5 text-black focus:ring-transparent rounded-sm border-2 border-black cursor-pointer;
   }
   /* 首頁 Title 的打字效果 */
   .type-animation::after {
@@ -155,3 +177,4 @@
     }
   }
 }
+

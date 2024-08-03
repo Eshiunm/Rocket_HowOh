@@ -22,7 +22,7 @@ function PhoneValidation() {
 
   const cancelSignUp = () => {
     dispatch(setCurrentStepState(0));
-    navigate("/signUp");
+    navigate("/signup");
   };
 
   const onSubmit = () => {
@@ -30,7 +30,7 @@ function PhoneValidation() {
   };
   const [isSearchInputFocused, setIsSearchInputFocused] = useState(false); // 記錄搜尋框是否被 focused
   return (
-    <div className="wrap h-screen bg-Neutral-99 pt-[60px]">
+    <div className="wrap flex-grow bg-Neutral-99 pt-[60px]">
       <div className="container layout-grid">
         <div className="col-span-6 col-start-4 ">
           <form

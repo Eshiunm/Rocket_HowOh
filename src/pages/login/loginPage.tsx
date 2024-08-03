@@ -4,19 +4,24 @@ import LandLordLogin from "../../components/login/landLordLogin";
 import { RootState } from "../../../redux/store";
 
 function LoginPage() {
-  const identityState = useSelector((store: RootState) => store.identityState.identity);
-  console.log(identityState);
+  const registerIdentityState = useSelector(
+    (store: RootState) => store.registerIdentityState.registerIdentity
+  );
   return (
     <div
       className={
-        identityState === "tenant"
+        registerIdentityState === "landLord"
           ? "wrap h-screen bg-Neutral-99 bg-tenantLoginImg bg-contain bg-no-repeat"
-          : "wrap h-screen bg-Neutral-99 bg-landLordLoginImg bg-contain bg-no-repeat"
+          : "wrap flex-grow bg-Neutral-99 bg-landLordLoginImg bg-contain bg-no-repeat"
       }
     >
       <div className="container layout-grid pt-[170px]">
         <div className="col-span-5 col-start-7">
-          {identityState === "tenant" ? <TenantLogin /> : <LandLordLogin />}
+          {registerIdentityState === "landLord" ? (
+            <LandLordLogin />
+          ) : (
+            <TenantLogin />
+          )}
         </div>
       </div>
     </div>

@@ -22,7 +22,6 @@ export const signupFormSlice = createSlice({
   reducers: {
     setSignUpForm: (state, action) => {
       state.signUpFormData = { ...state.signUpFormData, ...action.payload };
-      console.log(state.signUpFormData);
     },
   },
 });

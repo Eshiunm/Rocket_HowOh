@@ -1,5 +1,4 @@
 import flow_bite from "flowbite-react/tailwind";
-import homeSearchImgUrl from "./src/assets/imgs/homePage/home_search_backgroundImg.png";
 
 /** @type {import('tailwindcss').Config} */
 export default {
@@ -69,7 +68,7 @@ export default {
           80: "#BAC6E6",
           90: "#D8E2FF",
           95: "#F4F6FF",
-          99: "#FBFCFF",
+          99: "#F6F8FE",
         },
         Alert: {
           10: "#410002",
@@ -263,13 +262,20 @@ export default {
         ],
       },
       backgroundImage: {
-        homeSearchImg:"url('/src/assets/imgs/homePage/home_search_backgroundImg.png')",
+        homeSearchImg:
+          "url('/src/assets/imgs/homePage/home_search_backgroundImg.jpg')",
         aboutMeImg_1: "url('/src/assets/imgs/homePage/aboutMe_bgImg_1.jpg')",
         aboutMeImg_2: "url('/src/assets/imgs/homePage/aboutMe_bgImg_2.jpg')",
         aboutMeImg_3: "url('/src/assets/imgs/homePage/aboutMe_bgImg_3.jpg')",
         tenantLoginImg: "url('/src/assets/imgs/login/tenantLoginImg.svg')",
         landLordLoginImg: "url('/src/assets/imgs/login/landLordLoginImg.svg')",
+        articleBannerImg_1: "url('/src/assets/imgs/article/bannerImg_1.jpg')",
       },
+      animation: {
+        'bounce-1': 'bounce 1s .1s infinite',
+        'bounce-2': 'bounce 1s .4s infinite',
+        'bounce-3': 'bounce 1s .7s infinite',
+      }
     },
   },
   plugins: [flow_bite.plugin()],

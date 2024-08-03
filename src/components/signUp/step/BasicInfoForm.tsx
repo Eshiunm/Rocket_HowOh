@@ -8,6 +8,7 @@ import { useState } from "react";
 import { occupations } from "../../../constants/occupations";
 import { Spinner } from "flowbite-react";
 import axios from "axios";
+import {apiRegisterSignUp} from "../../../apis/apis"
 import Modal from "../imgUpload/Modal";
 import PlaceholderIcon from "../imgUpload/PlaceholderIcon";
 interface formDataType {
@@ -23,14 +24,14 @@ interface formDataType {
 function BasicInfoForm() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const identityState = useSelector(
-    (store: RootState) => store.identityState.identity
+  const registerIdentityState = useSelector(
+    (store: RootState) => store.registerIdentityState.registerIdentity
   );
   const phoneNumber = useSelector(
     (store: RootState) => store.signupForm.signUpFormData.telphone
   );
   // 是否正在打 API
-  const [posting, setPosting] = useState(false);
+  const [isPosting, setPosting] = useState(false);
   // 控制 modal 開關
   const [modalOpen, setModalOpen] = useState(false);
   // 設定大頭貼 srcUrl
@@ -51,7 +52,7 @@ function BasicInfoForm() {
 
   const cancelSignUp = () => {
     dispatch(setCurrentStepState(0));
-    navigate("/signUp");
+    navigate("/signup");
   };
 
   const passwordConfirm = (value: string) => {
@@ -90,6 +91,7 @@ function BasicInfoForm() {
     }
   };
 
+  //提交表單，打註冊 API
   const onSubmit = async (formData: formDataType) => {
     const signUpFormData = {
       firstName: formData.firstName, //名字
@@ -97,12 +99,12 @@ function BasicInfoForm() {
       email: formData.email, //信箱
       password: formData.password, //密碼
       telphone: phoneNumber, //手機
-      role: `${identityState === "landlord" ? "房東" : "租客"}`, //房東or租客
+      role: `${registerIdentityState === "landLord" ? "房東" : "租客"}`, //房東or租客
       gender: formData.gender, //男or女
       job: Number(formData.career), //職業 （參考下表）
       photo: "", //照片網址
       userIntro: `${
-        identityState === "landlord"
+        registerIdentityState === "landlord"
           ? `您好，我是房東${formData.lastName}${
               formData.gender === "男" ? "先生" : "小姐"
             }，希望能找到合適的租客！ `
@@ -119,7 +121,7 @@ function BasicInfoForm() {
     }
     dispatch(setSignUpForm(signUpFormData));
     try {
-      await axios.post("http://98.70.102.116/api/signup", signUpFormData);
+      await apiRegisterSignUp(signUpFormData);
       dispatch(setCurrentStepState(currentStepState + 1));
     } catch (errors) {
       console.log(errors);
@@ -128,7 +130,7 @@ function BasicInfoForm() {
   };
 
   return (
-    <div className="wrap bg-Neutral-99 py-[60px]">
+    <div className="wrap flex-grow bg-Neutral-99 py-[60px]">
       <div className="container layout-grid">
         <div className="col-span-6 col-start-4 ">
           <form
@@ -448,12 +450,12 @@ function BasicInfoForm() {
             <button
               type="submit"
               className={`filled-button-l w-full mb-3 ${
-                Object.keys(errors).length > 0 || posting
+                Object.keys(errors).length > 0 || isPosting
                   ? "bg-Neutral-90 hover:bg-Neutral-90"
                   : ""
               }`}
             >
-              {posting ? (
+              {isPosting ? (
                 <>
                   <Spinner
                     aria-label="Spinner button example"

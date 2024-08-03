@@ -16,8 +16,9 @@ export const photosSlice = createSlice({
     setPhotos: (state, action: PayloadAction<photosDataType[]>) => {
       state.photos = [...action.payload];
     },
+    resetPhotos : () => initialState
   },
 });
 
-export const { setPhotos } = photosSlice.actions;
+export const { setPhotos, resetPhotos } = photosSlice.actions;
 export default photosSlice.reducer;

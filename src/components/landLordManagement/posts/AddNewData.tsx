@@ -5,13 +5,13 @@ import BasicInformation from "./procedures/BasicInformation";
 import Photos from "./procedures/Photos";
 import Facilities from "./procedures/Facilities";
 import Expenses from "./procedures/Expenses";
-import Introduction from "./procedures/Introduction";
+import Description from "./procedures/Description";
 import Restrictions from "./procedures/Restrictions";
 import Confirm from "./procedures/Confirm";
 
 export default function AddNewData() {
   const { procedure } = useContext(ProcedureContext);
-
+  
   // 確認目前所在步驟標題
   const { title } = procedure.filter(item => item.isActive)[0];
 
@@ -27,7 +27,7 @@ export default function AddNewData() {
       {title === "照片" && <Photos />}
       {title === "設備設施" && <Facilities />}
       {title === "費用" && <Expenses />}
-      {title === "介紹" && <Introduction />}
+      {title === "介紹" && <Description />}
       {title === "限制" && <Restrictions />}
       {title === "確認" && <Confirm />}
     </div>
