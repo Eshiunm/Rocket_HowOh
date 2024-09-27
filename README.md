@@ -3,7 +3,7 @@
 	&nbsp;HowOh｜租屋交易與評價系統平台
 </h1>
 <p align="center">
-  <a href="https://sun-live.vercel.app">
+  <a href="https://howoh.vercel.app/">
     <img width="1200" src ="https://github.com/Eshiunm/Rocket_HowOh/blob/dev/src/assets/imgs/Frame%201335.jpg">
   </a>
 </p>
